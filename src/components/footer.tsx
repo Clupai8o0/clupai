@@ -94,7 +94,7 @@ export default function Footer() {
               <span className="dot" />
               Accepting July 2026
             </span>
-            <span className="cp-chip">ABN 12 345 678 901</span>
+            <span className="cp-chip">ABN registered · Melbourne</span>
           </div>
         </div>
 
@@ -138,7 +138,7 @@ export default function Footer() {
         }}
       >
         <div className="cp-mono" style={{ fontSize: 10 }}>
-          © 2026 Samridh Limbu · trading as Clupai
+          © 2026 Sam Limbu · trading as Clupai
         </div>
         <div className="cp-mono" style={{ fontSize: 10 }}>
           v2.0 — Digital Obsidian · Assertive

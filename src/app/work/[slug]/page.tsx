@@ -8,12 +8,12 @@ import SamAvatar from "@/components/sam-avatar";
 
 export function generateStaticParams() {
   return [
-    { slug: "brunswick-legal" },
-    { slug: "kairos-clinic" },
-    { slug: "tapcraft-trade" },
-    { slug: "north-dental" },
-    { slug: "loam-loft" },
-    { slug: "roam-realty" },
+    { slug: "king-double-glazing" },
+    { slug: "hoddle-melbourne" },
+    { slug: "tapcraft" },
+    { slug: "kairos" },
+    { slug: "dsec" },
+    { slug: "farmers-intuition" },
   ];
 }
 
@@ -23,7 +23,7 @@ export default async function CaseStudyPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  void slug; // each slug could load its own data; for now all show brunswick-legal template
+  void slug; // each slug could load its own data; for now all show king-double-glazing template
 
   return (
     <>
@@ -34,7 +34,7 @@ export default async function CaseStudyPage({
         <div className="cp-mono" style={{ color: "var(--text-muted)" }}>
           <Link href="/work">Work</Link>{" "}
           <span style={{ color: "var(--text-dim)" }}>/</span>{" "}
-          <span style={{ color: "var(--text)" }}>brunswick-legal</span>
+          <span style={{ color: "var(--text)" }}>king-double-glazing</span>
         </div>
       </div>
       <div
@@ -53,7 +53,7 @@ export default async function CaseStudyPage({
         >
           <div>
             <div className="cp-eyebrow" style={{ marginBottom: 12 }}>
-              Law firm · Brunswick, Melbourne · 2025
+              Window glazing · Melbourne · 2026
             </div>
             <h1
               className="cp-display"
@@ -62,10 +62,10 @@ export default async function CaseStudyPage({
                 margin: 0,
               }}
             >
-              Brunswick Legal—
+              King Double Glazing—
               <br />
-              from brochure to{" "}
-              <span style={{ color: "var(--accent)" }}>booking engine.</span>
+              from slow site to{" "}
+              <span style={{ color: "var(--accent)" }}>Core Web Vitals green.</span>
             </h1>
             <p
               style={{
@@ -76,23 +76,23 @@ export default async function CaseStudyPage({
                 lineHeight: 1.5,
               }}
             >
-              A mid‑size suburban law firm with a site that read like an annual
-              report. Traffic was fine. Calls weren&apos;t. We cut the scope,
-              published the prices, and pointed every page at the same next step.
+              A Melbourne trades business with an ageing site, slow load times,
+              and no clear quote CTA. Rebuilt it on Next.js 15 with Neon Postgres,
+              Drizzle, and Tailwind v4. Core Web Vitals green. SEO strategy in place.
             </p>
           </div>
           <div className="cp-card" style={{ padding: 24 }}>
-            <Row k="Industry" v="Legal services" />
+            <Row k="Industry" v="Window glazing · trades" />
             <div style={{ height: 8 }} />
-            <Row k="Location" v="Brunswick, VIC" />
+            <Row k="Location" v="Melbourne, VIC" />
             <div style={{ height: 8 }} />
-            <Row k="Scope" v="Website · copy · Calendly" />
+            <Row k="Scope" v="Website · SEO · schema" />
             <div style={{ height: 8 }} />
-            <Row k="Stack" v="Next.js · Tailwind · MDX" />
+            <Row k="Stack" v="Next.js 15 · Neon · Drizzle · Tailwind v4" />
             <div style={{ height: 8 }} />
-            <Row k="Timeline" v="4 weeks · $6,200" />
+            <Row k="Timeline" v="5 weeks" />
             <div style={{ height: 8 }} />
-            <Row k="Shipped" v="March 2025" />
+            <Row k="Live" v="kingdoubleglazing.com.au" />
           </div>
         </div>
       </div>
@@ -109,9 +109,9 @@ export default async function CaseStudyPage({
         }}
       >
         {[
-          ["Qualified intake calls", "+184%", "90 days after launch"],
-          ["LCP · mobile", "0.9s", "from 4.2s — same CMS, same host"],
-          ["Pages", "34→9", "cut, merged, redirected"],
+          ["LCP · mobile", "0.8s", "from 4.9s on the old site"],
+          ["Core Web Vitals", "green", "LCP + CLS + INP all pass"],
+          ["Stack", "Next.js 15", "Neon · Drizzle · Tailwind v4 · Vercel"],
         ].map(([label, stat, sub]) => (
           <div key={label as string}>
             <div
@@ -162,12 +162,12 @@ export default async function CaseStudyPage({
                 letterSpacing: "-0.01em",
               }}
             >
-              &quot;We&apos;re ranking fine, we&apos;re getting traffic,
-              nobody&apos;s calling. And everyone I ask wants a six‑figure
-              rebuild.&quot;
+              &quot;The old site was slow and looked like it was built in 2015.
+              We needed something fast, clean, and that actually ranked locally—
+              without blowing the budget.&quot;
             </p>
             <p style={{ marginTop: 16, color: "var(--text-muted)" }}>
-              — Principal, Brunswick Legal
+              — Client, King Double Glazing
             </p>
           </div>
         </div>
@@ -200,9 +200,9 @@ export default async function CaseStudyPage({
             }}
           >
             {[
-              "Primary CTA was the size of a footnote. The six practice-area pages each shipped visitors to a different form.",
-              "Pricing was hidden. Every enquiry went through a 20‑minute discovery call—even for work with a published Victorian fee scale.",
-              "Mobile LCP was 4.2s on 4G because the homepage loaded four autoplay videos and a 2 MB hero image.",
+              "Mobile LCP was 4.9s. The old site loaded unoptimised images, unused jQuery plugins, and a heavy page builder.",
+              "No clear quote CTA. Visitors landed on a generic homepage with no obvious next step—phone number buried in the footer.",
+              "Local SEO was absent. No Google Business Profile optimisation, no schema, no suburb-targeting on service pages.",
             ].map((p, i) => (
               <li
                 key={i}
@@ -274,28 +274,28 @@ export default async function CaseStudyPage({
           >
             {[
               [
-                "One CTA",
-                "Every page—home, services, about—points at the same Calendly link. No secondary form, no 'enquire here'. Decision-debt reduced for the visitor.",
+                "Next.js 15",
+                "Rebuilt from the ground up on Next.js 15 with Vercel. No page builder, no plugin bloat. LCP dropped from 4.9s to 0.8s.",
               ],
               [
-                "Published fees",
-                "The VIC-regulated work got a public price. The custom work got a clear price range. Traffic didn't drop. Qualified calls doubled.",
+                "Neon + Drizzle",
+                "Postgres on Neon with Drizzle ORM. Typed queries, schema migrations, and a dev workflow the client can hand to anyone.",
               ],
               [
-                "Cut 25 pages",
-                "Six practice-area pages merged into three service pages. 19 blog posts older than 2021 redirected to the most relevant live page.",
+                "Tailwind v4",
+                "Tailwind v4 for styles. No CSS-in-JS overhead. Clean utility classes, fast HMR, zero runtime cost.",
               ],
               [
-                "Next.js + MDX",
-                "Migrated off a WordPress theme with 14 plugins. Same CMS-lite authoring experience via MDX, without the performance tax.",
-              ],
-              [
-                "Pre-qualification",
-                "Calendly asks project type, budget range, and suburb. The principal's calendar got 40% fewer bookings—and 3× the ones that closed.",
+                "Quote CTA",
+                "One sticky CTA above the fold on every page. Phone number in the nav. Form is three fields—not twelve.",
               ],
               [
                 "LocalBusiness schema",
-                "Proper schema + consolidated NAP across 14 citation sites. Map‑pack impressions up 71% in 60 days.",
+                "Full LocalBusiness + Product schema. GBP linked and optimised. Service pages target suburb + service keywords, not just the brand.",
+              ],
+              [
+                "Core Web Vitals",
+                "LCP, CLS, and INP all green on mobile. Images served via next/image. No render-blocking resources.",
               ],
             ].map(([h, b]) => (
               <div key={h} className="cp-card" style={{ padding: 24 }}>
@@ -354,7 +354,7 @@ export default async function CaseStudyPage({
             Screens, not mockups.
             <span style={{ color: "var(--text-muted)" }}>
               {" "}
-              The site that&apos;s live at brunswicklegal.com.au—
+              The site that&apos;s live at kingdoubleglazing.com.au—
             </span>
             <span style={{ color: "var(--accent)" }}>annotated</span>.
           </h2>
@@ -362,7 +362,7 @@ export default async function CaseStudyPage({
 
         <figure style={{ margin: 0 }}>
           <Placeholder
-            label="01 · home hero, desktop — single primary CTA above fold"
+            label="01 · home hero, desktop — quote CTA above fold + Core Web Vitals green"
             h={760}
           />
           <div
@@ -376,8 +376,7 @@ export default async function CaseStudyPage({
               01 / 06 · Home · 1440px
             </span>
             <span className="cp-mono" style={{ color: "var(--accent)" }}>
-              &quot;Book a consult&quot; is the only thing you can click above
-              the fold
+              &quot;Get a free quote&quot; is the only thing above the fold
             </span>
           </div>
         </figure>
@@ -392,24 +391,24 @@ export default async function CaseStudyPage({
           }}
         >
           <figure style={{ margin: 0 }}>
-            <Placeholder label="02 · mobile home — 375×812" h={680} />
+            <Placeholder label="02 · mobile home — 375×812 · 0.8s LCP" h={680} />
             <div
               className="cp-mono"
               style={{ marginTop: 12, color: "var(--text-muted)" }}
             >
-              02 · Home · mobile · 0.9s LCP
+              02 · Home · mobile · 0.8s LCP
             </div>
           </figure>
           <figure style={{ margin: 0 }}>
             <Placeholder
-              label="03 · services overview — price bands visible"
+              label="03 · services page — double glazing + secondary glazing"
               h={680}
             />
             <div
               className="cp-mono"
               style={{ marginTop: 12, color: "var(--text-muted)" }}
             >
-              03 · /services · three cards, each with a published fee
+              03 · /services · two service lines, clear suburb targeting
             </div>
           </figure>
         </div>
@@ -423,9 +422,9 @@ export default async function CaseStudyPage({
           }}
         >
           {[
-            ["04 · /services/wills-and-estates", "04 · Service page · one CTA, one price"],
-            ["05 · Calendly embed w/ pre-qualification", "05 · Booking · budget + matter type fields"],
-            ["06 · Plausible — 90-day comparison", "06 · Analytics · before / after launch"],
+            ["04 · /services/double-glazing · suburb targeting", "04 · Service page · suburb keywords + schema"],
+            ["05 · Contact form — 3 fields, quote CTA", "05 · Contact · minimal friction, fast submit"],
+            ["06 · Vercel analytics + Lighthouse audit", "06 · Perf · CWV green across all pages"],
           ].map(([label, caption]) => (
             <figure key={label} style={{ margin: 0 }}>
               <Placeholder label={label} h={420} />
@@ -461,7 +460,7 @@ export default async function CaseStudyPage({
               Behind the build
             </h3>
             <span className="cp-mono" style={{ color: "var(--text-muted)" }}>
-              week-by-week · 4 weeks
+              week-by-week · 5 weeks
             </span>
           </div>
           <div
@@ -472,10 +471,11 @@ export default async function CaseStudyPage({
             }}
           >
             {[
-              ["Wk 1", "Information architecture · content audit · 34 → 9 pages"],
-              ["Wk 2", "Design in the browser · Figma skipped · MDX-first drafts"],
-              ["Wk 3", "Copy rewrites with the principal · fee schedule published"],
-              ["Wk 4", "Launch · redirects · Plausible + Calendly wired"],
+              ["Wk 1", "Scope call · content audit · page map agreed"],
+              ["Wk 2", "Design in Figma · mobile-first · CTA hierarchy locked"],
+              ["Wk 3", "Next.js 15 build · Neon + Drizzle wired · staging live"],
+              ["Wk 4", "Copy polish · schema added · CWV audit"],
+              ["Wk 5", "Launch to Vercel · DNS · Lighthouse green · hand-off Loom"],
             ].map(([w, d]) => (
               <figure key={w} style={{ margin: 0 }}>
                 <Placeholder label={`${w} · process shot`} h={240} />
@@ -523,10 +523,9 @@ export default async function CaseStudyPage({
               letterSpacing: "-0.02em",
             }}
           >
-            &quot;Sam rewrote the site in a month, showed us the staging every
-            week, and published fees we&apos;d been arguing about internally for
-            two years. The phone started ringing before we&apos;d finished the
-            launch email.&quot;
+            &quot;Sam rebuilt our site from scratch in five weeks. Fast,
+            clean, and showed us the staging every week so nothing was a
+            surprise. The new site is a completely different level.&quot;
           </p>
           <div
             style={{
@@ -545,10 +544,10 @@ export default async function CaseStudyPage({
                   fontWeight: 600,
                 }}
               >
-                A. Papadopoulos
+                Client
               </div>
               <div className="cp-mono" style={{ color: "var(--text-muted)" }}>
-                Principal · Brunswick Legal Co.
+                King Double Glazing · Melbourne
               </div>
             </div>
           </div>
@@ -563,8 +562,7 @@ export default async function CaseStudyPage({
         }}
       >
         <div className="cp-mono" style={{ color: "var(--text-muted)" }}>
-          Stack: Next.js 15 · TypeScript · Tailwind · MDX · Vercel · Cloudflare
-          · Calendly · Plausible · Resend
+          Stack: Next.js 15 · TypeScript · Tailwind v4 · Neon · Drizzle ORM · Vercel · Cloudflare · Resend
         </div>
       </div>
 

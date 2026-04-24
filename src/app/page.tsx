@@ -9,7 +9,7 @@ import WordSwap from "@/components/word-swap";
 import Placeholder from "@/components/placeholder";
 import SamAvatar from "@/components/sam-avatar";
 
-const HERO_WORDS = ["customers", "bookings", "revenue", "pipeline", "jobs"];
+const HERO_WORDS = ["customers", "bookings", "revenue", "pipeline", "leads"];
 
 function HeroA() {
   return (
@@ -56,7 +56,7 @@ function HeroA() {
             className="cp-num"
             style={{ fontSize: 72, color: "var(--accent)", lineHeight: 0.9 }}
           >
-            24
+            10
           </div>
           <div className="cp-mono" style={{ fontSize: 10 }}>
             projects
@@ -325,30 +325,30 @@ function ServicesSection() {
 const cases = [
   {
     n: "01",
-    client: "Brunswick Legal Co.",
-    kind: "Law firm · Melbourne",
-    stat: "+184%",
-    sstat: "intake calls · 90 days",
-    desc: "Rewrote the site around a single qualified-call CTA. Pruned six dead pages. Rebuilt the contact flow with a budget-range dropdown. Paid search followed.",
-    href: "/work/brunswick-legal",
+    client: "King Double Glazing",
+    kind: "Window glazing · Melbourne",
+    stat: "4.9s→0.8s",
+    sstat: "LCP · Core Web Vitals",
+    desc: "Full Next.js 15 rebuild from an ageing site. Neon Postgres, Drizzle ORM, Tailwind v4, Vercel. Local schema, SEO strategy, Core Web Vitals green—delivered on scope.",
+    href: "/work/king-double-glazing",
   },
   {
     n: "02",
-    client: "Kairos Clinic",
-    kind: "Allied health · Carlton",
-    stat: "−62%",
-    sstat: "cost-per-booking",
-    desc: "One landing page per service. Real prices. Cal.com embed with pre-qualification. Killed three Ads campaigns that were burning budget on unqualified traffic.",
-    href: "/work/brunswick-legal",
+    client: "Hoddle Melbourne",
+    kind: "Mentorship platform · Carlton",
+    stat: "0→live",
+    sstat: "full platform · 6 weeks",
+    desc: "CTO and sole developer. Next.js + Supabase platform for mentor-student matching. Auth, booking flow, and a mentor marketplace—shipped from scratch.",
+    href: "/work/hoddle-melbourne",
   },
   {
     n: "03",
-    client: "TapCraft Trade",
-    kind: "Plumbing · inner-north",
-    stat: "+3.1x",
-    sstat: "jobs booked via site",
-    desc: "Mobile-first rebuild. GBP cleanup. Local schema. An automation that pipes every form into the existing SimPRO scheduler, no double entry.",
-    href: "/work/brunswick-legal",
+    client: "TapCraft Studio",
+    kind: "NFC products · Melbourne",
+    stat: "3D+shop",
+    sstat: "headless Shopify · React Three Fiber",
+    desc: "Co-founder and developer. Headless Shopify storefront with a React Three Fiber 3D product viewer. 3D-printed NFC keychains—spin the model, then checkout.",
+    href: "/work/tapcraft",
   },
 ];
 
@@ -617,14 +617,14 @@ function PricingStripSection() {
 }
 
 const logos = [
-  "Brunswick Legal",
-  "Kairos Clinic",
-  "TapCraft",
-  "Greenline Co.",
-  "North Dental",
-  "Fitzroy Films",
-  "Loam & Loft",
-  "Roam Realty",
+  "King Double Glazing",
+  "Hoddle Melbourne",
+  "TapCraft Studio",
+  "Kairos",
+  "DSEC",
+  "Deakin University",
+  "Hack48",
+  "GovChat",
 ];
 
 function TrustSection() {
@@ -645,9 +645,9 @@ function TrustSection() {
           marginBottom: 36,
         }}
       >
-        <div className="cp-eyebrow">Operators I&apos;ve built for</div>
+        <div className="cp-eyebrow">People and projects I&apos;ve shipped</div>
         <div className="cp-mono" style={{ color: "var(--text-muted)" }}>
-          Real client logos. Real contracts. Real metrics.
+          Clients, products, clubs, and hackathons.
         </div>
       </div>
       <Marquee speed={50}>
@@ -690,7 +690,7 @@ function AboutTeaser() {
             <span className="dot" />
             Accepting July 2026
           </span>
-          <span className="cp-chip">ABN 12 345 678 901</span>
+          <span className="cp-chip">ABN registered · Melbourne</span>
           <span className="cp-chip">Brunswick · Melbourne VIC</span>
         </div>
       </div>
@@ -729,10 +729,10 @@ function AboutTeaser() {
               lineHeight: 1.6,
             }}
           >
-            Ten years as a software engineer—startups, scaleups, one
-            unglamorous enterprise stint that taught me why agencies bill the
-            way they do. I run Clupai solo under my ABN in Melbourne. You
-            talk to me, every call, every email.
+            Started Clupai in 2024 under my ABN while studying CS at Deakin.
+            I&apos;ve since shipped platforms for startups, rebuilt a trades
+            business online, co-founded a product company, and built my own
+            scheduling API. I do the work—no handoffs, no account layer.
           </p>
           <p
             style={{
@@ -742,9 +742,9 @@ function AboutTeaser() {
               lineHeight: 1.6,
             }}
           >
-            I take on a small number of projects so they get properly
+            I take on a small number of projects so each gets properly
             shipped. Replies within one Australian business day—non-negotiable.
-            Portfolio and credentialing over at{" "}
+            Full portfolio and credentials at{" "}
             <span style={{ color: "var(--accent)" }}>samridhlimbu.com</span>.
           </p>
         </div>

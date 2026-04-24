@@ -6,58 +6,58 @@ import Placeholder from "@/components/placeholder";
 
 const cases = [
   {
-    slug: "brunswick-legal",
-    stat: "+184%",
-    sstat: "intake calls",
+    slug: "king-double-glazing",
+    stat: "4.9s→0.8s",
+    sstat: "LCP · Core Web Vitals",
     tag: "Websites",
-    client: "Brunswick Legal Co.",
-    kind: "Law firm · Brunswick, VIC",
-    year: "2025",
-  },
-  {
-    slug: "kairos-clinic",
-    stat: "−62%",
-    sstat: "cost per booking",
-    tag: "Ads · Websites",
-    client: "Kairos Clinic",
-    kind: "Allied health · Carlton",
-    year: "2025",
-  },
-  {
-    slug: "tapcraft-trade",
-    stat: "+3.1x",
-    sstat: "jobs booked via site",
-    tag: "Automation · SEO",
-    client: "TapCraft Trade",
-    kind: "Plumbing · inner-north",
+    client: "King Double Glazing",
+    kind: "Window glazing · Melbourne",
     year: "2026",
   },
   {
-    slug: "north-dental",
-    stat: "+310%",
-    sstat: "organic traffic",
-    tag: "SEO",
-    client: "North Dental",
-    kind: "Dental · Coburg",
+    slug: "hoddle-melbourne",
+    stat: "0→live",
+    sstat: "full platform · 6 weeks",
+    tag: "Websites",
+    client: "Hoddle Melbourne",
+    kind: "Mentorship platform · Carlton",
+    year: "2026",
+  },
+  {
+    slug: "tapcraft",
+    stat: "3D+shop",
+    sstat: "headless Shopify",
+    tag: "Websites",
+    client: "TapCraft Studio",
+    kind: "NFC products · Melbourne",
+    year: "2026",
+  },
+  {
+    slug: "kairos",
+    stat: "v2",
+    sstat: "scheduling API · plugin system",
+    tag: "Apps",
+    client: "Kairos",
+    kind: "Scheduling product · solo-founded",
     year: "2025",
   },
   {
-    slug: "loam-loft",
-    stat: "+52%",
-    sstat: "AOV",
+    slug: "dsec",
+    stat: "190+",
+    sstat: "club members",
     tag: "Websites",
-    client: "Loam & Loft",
-    kind: "Interiors retail · Fitzroy",
-    year: "2024",
+    client: "DSEC",
+    kind: "Software engineering club · Deakin",
+    year: "2025",
   },
   {
-    slug: "roam-realty",
-    stat: "4.2s→0.9s",
-    sstat: "LCP",
-    tag: "Websites",
-    client: "Roam Realty",
-    kind: "Real estate · Richmond",
-    year: "2024",
+    slug: "farmers-intuition",
+    stat: "24hr",
+    sstat: "Hack48 · Mar 2026",
+    tag: "Apps",
+    client: "Farmers Intuition",
+    kind: "Hackathon · FastAPI + Gemini",
+    year: "2026",
   },
 ];
 
@@ -89,7 +89,7 @@ export default function WorkPage() {
               className="cp-display"
               style={{ fontSize: "clamp(3rem, 6vw, 5.5rem)", margin: 0 }}
             >
-              Twenty‑four builds.
+              Ten builds.
               <br />
               <span style={{ color: "var(--accent)" }}>
                 Six worth showing.

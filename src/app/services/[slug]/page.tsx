@@ -333,7 +333,7 @@ export default async function ServiceDetailPage({
               {data.cs.body}
             </p>
             <Link
-              href="/work/brunswick-legal"
+              href="/work/king-double-glazing"
               style={{
                 marginTop: 20,
                 display: "inline-block",

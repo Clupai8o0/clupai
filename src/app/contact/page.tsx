@@ -274,7 +274,7 @@ export default function ContactPage() {
                   <Field label="Timeline" value="Next 2 months" />
                   <Field
                     label="Current site URL"
-                    value="brunswicklegal.com.au"
+                    value="kingdoubleglazing.com.au"
                   />
                 </div>
                 <button
@@ -313,12 +313,12 @@ export default function ContactPage() {
             style={{ display: "flex", flexDirection: "column", gap: 16 }}
           >
             {[
-              ["Your name", "A. Papadopoulos"],
-              ["Company", "Brunswick Legal"],
-              ["Email", "a@brunswicklegal.com.au"],
+              ["Your name", "Jane Smith"],
+              ["Company", "King Double Glazing"],
+              ["Email", "hello@kingdoubleglazing.com.au"],
               [
                 "What are you trying to sell?",
-                "Mid-sized law firm, new service launch. Need a page that actually books calls.",
+                "Window glazing in Melbourne. Old site is slow and nobody calls. Need a new one.",
               ],
             ].map(([l, placeholder], i) => (
               <div key={l}>
@@ -363,7 +363,7 @@ export default function ContactPage() {
             }}
           >
             <Fact2 k="Reply time" v="Under 1 AU business day — every time." />
-            <Fact2 k="Current availability" v="Two project slots for July 2026." />
+            <Fact2 k="Current availability" v="Two slots open · accepting July 2026." />
             <Fact2
               k="Not a fit for"
               v="Crypto, gambling, dropshipping, MLMs."

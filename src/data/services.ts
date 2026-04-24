@@ -68,10 +68,10 @@ export const SERVICE_DATA: Record<string, ServiceData> = {
       },
     ],
     cs: {
-      stat: "+184%",
-      sstat: "qualified intake calls · 90 days after launch",
-      title: "Brunswick Legal Co. — from brochure to booking engine",
-      body: "The old site buried the price and the contact form behind six menu items. I cut it to one CTA, published a fixed-fee schedule, and wired Calendly to their intake form. Organic traffic stayed flat. Bookings didn't.",
+      stat: "4.9s→0.8s",
+      sstat: "LCP · Core Web Vitals green after launch",
+      title: "King Double Glazing — full Next.js 15 rebuild",
+      body: "The old site was slow, hard to update, and had no clear quote CTA. I rebuilt it on Next.js 15 with Neon Postgres, Drizzle ORM, and Tailwind v4. Core Web Vitals green. LocalBusiness schema. One CTA above the fold on every page.",
     },
     faq: [
       {
@@ -145,10 +145,10 @@ export const SERVICE_DATA: Record<string, ServiceData> = {
       },
     ],
     cs: {
-      stat: "−62%",
-      sstat: "cost per booking · 45 days",
-      title: "Kairos Clinic — from 'Ads don't work' to a 3× ROAS",
-      body: "Three campaigns quietly burning $40 a day on unqualified searches. Killed two, rebuilt one around high-intent suburb terms, added a pre-qualification dropdown to the landing page. Bookings doubled. Cost halved.",
+      stat: "−58%",
+      sstat: "cost per lead · first 45 days",
+      title: "Melbourne trades client — from broad-match burn to qualified leads",
+      body: "Three campaigns burning budget on broad-match searches nobody converts on. Killed two, rebuilt one around high-intent suburb terms, added a budget-range dropdown to the landing page. Cost per lead halved.",
     },
     faq: [
       {
@@ -222,10 +222,10 @@ export const SERVICE_DATA: Record<string, ServiceData> = {
       },
     ],
     cs: {
-      stat: "+310%",
-      sstat: "organic traffic · 6 months",
-      title: "North Dental — from page 3 to top-3 for 14 suburb terms",
-      body: "Cut 60 low-value blog posts. Merged 12 thin service pages into 4 good ones. Rebuilt the GBP with proper services and photos. Wrote 8 real articles over 6 months. The chart goes up and to the right—because the site finally deserved it.",
+      stat: "+290%",
+      sstat: "organic impressions · 5 months",
+      title: "Melbourne services client — fewer pages, better content, real results",
+      body: "Cut thin blog posts and merged duplicate service pages. Rebuilt the GBP with proper services, photos, and posts. Wrote 6 real articles over 5 months. The chart goes up and to the right—because the site finally deserved it.",
     },
     faq: [
       {
@@ -296,10 +296,10 @@ export const SERVICE_DATA: Record<string, ServiceData> = {
       },
     ],
     cs: {
-      stat: "14 hrs",
+      stat: "11 hrs",
       sstat: "per week saved · first 60 days",
-      title: "TapCraft Trade — form-to-schedule, zero double entry",
-      body: "Three people were retyping every website enquiry into SimPRO, every day. I wired the forms straight into SimPRO via webhook, pushed the confirmed bookings back to Google Calendar, and sent the owner a daily digest. Nobody copies anything anymore.",
+      title: "Hoddle Melbourne — n8n pipelines for a mentorship platform",
+      body: "Manual matching, Notion-to-email copy-paste, and zero visibility on booking state. I built n8n workflows to automate mentor matching, confirmation emails via Resend, and a daily digest for the ops team. Nobody copies anything anymore.",
     },
     faq: [
       {

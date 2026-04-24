@@ -81,8 +81,9 @@ export default function AboutPage() {
               lineHeight: 1.5,
             }}
           >
-            Software engineer by training. One-person studio by choice. Based in
-            Brunswick, Melbourne, and running under my own ABN since 2024.
+            Full-stack developer and founder, based in Brunswick, Melbourne.
+            Running under my own ABN since 2024 while completing a BCS (IoT) at
+            Deakin—graduating mid-2027.
           </p>
           <div
             style={{
@@ -96,9 +97,9 @@ export default function AboutPage() {
               <span className="dot" />
               Accepting July 2026
             </span>
-            <span className="cp-chip">ABN 12 345 678 901</span>
+            <span className="cp-chip">ABN registered · Melbourne</span>
             <span className="cp-chip">Brunswick · VIC · AEST</span>
-            <span className="cp-chip">10+ yrs shipping software</span>
+            <span className="cp-chip">Deakin BCS · Jun 2027</span>
           </div>
         </div>
       </div>
@@ -154,11 +155,10 @@ export default function AboutPage() {
               margin: 0,
             }}
           >
-            Ten years shipping software—two startups, one scaleup, one
-            unglamorous enterprise stint that taught me exactly why agencies
-            bill the way they do. I left the enterprise job in late 2023,
-            freelanced for six months, and formally started Clupai as a solo
-            studio in early 2024.
+            Started freelancing in 2024 while studying BCS (IoT) at Deakin—
+            graduating mid-2027. Turns out shipping real things for real clients
+            teaches more than any lecture. Launched Clupai as a formal solo
+            studio under my ABN the same year.
           </p>
           <p
             style={{
@@ -168,9 +168,10 @@ export default function AboutPage() {
               marginTop: 14,
             }}
           >
-            Before Clupai I built internal tools, checkout flows, and one
-            genuinely interesting billing system. I have opinions about
-            TypeScript. I&apos;m trying to have fewer.
+            I&apos;m also CTO at Hoddle Melbourne, co-founder at TapCraft
+            Studio, and building Kairos—a scheduling API—as a solo product.
+            Stack: Next.js 15, TypeScript, Tailwind v4, FastAPI, Postgres, n8n.
+            No WordPress. Ever.
           </p>
         </div>
         <div>
@@ -198,8 +199,8 @@ export default function AboutPage() {
             }}
           >
             I think a one-person studio can do better on the projects that
-            actually suit it—$5k to $40k, operators in Melbourne, work that fits
-            in a small number of sprints. Past that, I&apos;ll refer you.
+            actually suit it—$3.9k to $40k, operators in Melbourne, work that
+            fits in a small number of sprints. Past that, I&apos;ll refer you.
           </p>
         </div>
       </div>
