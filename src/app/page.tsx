@@ -31,6 +31,7 @@ function HeroA() {
       >
         {/* left rail */}
         <div
+          className="cp-hero-rail"
           style={{
             borderRight: "1px solid var(--border)",
             paddingRight: 24,

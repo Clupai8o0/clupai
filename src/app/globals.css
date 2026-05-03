@@ -41,6 +41,8 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 a {
@@ -51,6 +53,12 @@ a {
 ::selection {
   background: var(--accent);
   color: var(--accent-ink);
+}
+
+img,
+svg,
+video {
+  max-width: 100%;
 }
 
 .cp-display {
@@ -188,5 +196,274 @@ a {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* === Mobile menu (used by Nav) — always defined === */
+.cp-nav-toggle {
+  display: none;
+  background: transparent;
+  border: 1px solid var(--border-2);
+  border-radius: var(--radius);
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  cursor: pointer;
+  padding: 0;
+}
+
+.cp-nav-toggle:hover {
+  border-color: var(--text);
+}
+
+.cp-mobile-menu {
+  display: none;
+  position: fixed;
+  inset: 64px 0 0 0;
+  background: rgba(5, 5, 5, 0.98);
+  backdrop-filter: blur(14px);
+  flex-direction: column;
+  padding: 24px 20px 40px;
+  gap: 6px;
+  z-index: 49;
+  border-top: 1px solid var(--border);
+  overflow-y: auto;
+}
+
+.cp-mobile-menu a {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 14px 4px;
+  font-family: var(--font-display), Manrope, ui-sans-serif, system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  letter-spacing: -0.01em;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+
+.cp-mobile-menu a .num {
+  font-family: var(--font-mono), "JetBrains Mono", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+}
+
+.cp-mobile-menu .cta {
+  margin-top: 18px;
+  border-bottom: none !important;
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  justify-content: center;
+}
+
+/* === Tablet & smaller — collapse 4-col grids to 2 === */
+@media (max-width: 900px) {
+  [style*="repeat(4, 1fr)"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* === Mobile === */
+@media (max-width: 768px) {
+  :root {
+    --fs-hero: clamp(2.25rem, 11vw, 4rem);
+    --fs-h2: clamp(1.625rem, 7vw, 2.5rem);
+    --fs-h3: 1.25rem;
+  }
+
+  body {
+    font-size: 15px;
+  }
+
+  /* Section padding (X 48px patterns) — reduce horizontal & vertical */
+  [style*="80px 48px"] {
+    padding: 56px 20px !important;
+  }
+  [style*="96px 48px"] {
+    padding: 64px 20px !important;
+  }
+  [style*="72px 48px"] {
+    padding: 48px 20px !important;
+  }
+  [style*="64px 48px"] {
+    padding: 48px 20px !important;
+  }
+  [style*="56px 48px"] {
+    padding: 40px 20px !important;
+  }
+  [style*="48px 48px"] {
+    padding: 36px 20px !important;
+  }
+  [style*="40px 48px"] {
+    padding: 32px 20px !important;
+  }
+  [style*="32px 48px"] {
+    padding: 24px 20px !important;
+  }
+  [style*="22px 48px"] {
+    padding: 14px 20px !important;
+  }
+
+  /* Grid collapses — match by column-list value */
+  [style*="repeat(5, 1fr)"],
+  [style*="repeat(4, 1fr)"],
+  [style*="repeat(3, 1fr)"],
+  [style*="repeat(2, 1fr)"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  [style*="1.3fr 1fr"],
+  [style*="2fr 1fr 1fr 1fr"],
+  [style*="420px 1fr"],
+  [style*="380px 1fr"],
+  [style*="360px 1fr"],
+  [style*="320px 1fr"],
+  [style*="280px 1fr"],
+  [style*="96px 1fr"],
+  [style*="1fr 360px"],
+  [style*="1fr 560px"],
+  [style*="1fr auto"],
+  [style*="80px 1fr 1fr 280px"],
+  [style*="72px 1.1fr 1.4fr 180px 140px 60px"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* "1fr 1fr" 2-column grids */
+  [style*="1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* gap reductions */
+  [style*="gap: 56px"],
+  [style*="gap:56px"] {
+    gap: 24px !important;
+  }
+  [style*="gap: 48px"],
+  [style*="gap:48px"] {
+    gap: 24px !important;
+  }
+  [style*="gap: 40px"],
+  [style*="gap:40px"] {
+    gap: 20px !important;
+  }
+  [style*="gap: 32px"],
+  [style*="gap:32px"] {
+    gap: 18px !important;
+  }
+  [style*="gap: 28px"],
+  [style*="gap:28px"] {
+    gap: 16px !important;
+  }
+  [style*="gap: 24px"],
+  [style*="gap:24px"] {
+    gap: 16px !important;
+  }
+
+  /* Hide vertical-rl sidebar text */
+  [style*="vertical-rl"] {
+    display: none !important;
+  }
+
+  /* Large buttons shrink */
+  .cp-btn-lg {
+    padding: 14px 18px;
+    font-size: 15px;
+    min-height: 48px;
+  }
+
+  /* Inline min-heights — drop on mobile */
+  [style*="min-height: 700"],
+  [style*="min-height:700"],
+  [style*="min-height: 440"],
+  [style*="min-height:440"],
+  [style*="min-height: 340"],
+  [style*="min-height:340"] {
+    min-height: 0 !important;
+  }
+
+  /* Mega stat numbers shrink */
+  [style*="font-size: 96"],
+  [style*="font-size:96"] {
+    font-size: 56px !important;
+  }
+  [style*="font-size: 72"],
+  [style*="font-size:72"] {
+    font-size: 48px !important;
+  }
+  [style*="font-size: 64"],
+  [style*="font-size:64"] {
+    font-size: 44px !important;
+  }
+  [style*="font-size: 22"],
+  [style*="font-size:22"] {
+    font-size: 16px !important;
+  }
+  [style*="font-size: 20"],
+  [style*="font-size:20"] {
+    font-size: 16px !important;
+  }
+  [style*="font-size: 18"],
+  [style*="font-size:18"] {
+    font-size: 15px !important;
+  }
+
+  /* Marquee/card min-widths */
+  [style*="min-width: 260"],
+  [style*="min-width:260"] {
+    min-width: 0 !important;
+  }
+
+  /* Right-aligned flex groups (button rows) — allow wrap */
+  [style*="flex-end"] {
+    justify-content: flex-start !important;
+    flex-wrap: wrap !important;
+  }
+
+  /* Any flex row with a gap should wrap (marquee uses inline-flex, unaffected) */
+  [style*="display:flex"][style*="gap:"],
+  [style*="display: flex"][style*="gap:"] {
+    flex-wrap: wrap !important;
+  }
+
+  /* Header rows: align-items:end + space-between → stack */
+  [style*="align-items: end"][style*="space-between"],
+  [style*="align-items:end"][style*="space-between"] {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 16px !important;
+  }
+
+  /* Absolute-positioned bottom strips — reflow */
+  [style*="position: absolute"][style*="bottom: 32"],
+  [style*="position:absolute"][style*="bottom:32"] {
+    position: static !important;
+    left: auto !important;
+    right: auto !important;
+    margin-top: 24px !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
+
+  /* Hide hero left rail on mobile */
+  .cp-hero-rail {
+    display: none !important;
+  }
+
+  /* Nav responsive */
+  .cp-nav-links,
+  .cp-nav-cta {
+    display: none !important;
+  }
+  .cp-nav-toggle {
+    display: inline-flex !important;
+  }
+  .cp-mobile-menu.open {
+    display: flex !important;
   }
 }
