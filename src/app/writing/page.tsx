@@ -8,7 +8,7 @@ const posts = [
     n: "11",
     slug: "agency-light-playbook",
     title: "The agency-light playbook",
-    dek: "What I learned running a one-person studio for eighteen months—and why it beats scaling a team.",
+    dek: "What we learned running a small studio for eighteen months—and why it beats scaling a team.",
     read: "12 min",
     date: "Apr 2026",
     tag: "Business",

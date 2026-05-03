@@ -20,7 +20,7 @@ export const SERVICE_DATA: Record<string, ServiceData> = {
     eyebrow: "Websites · Next.js · conversion-first",
     headline: ["Your site isn't broken.", "It just isn't selling."],
     problem:
-      "Most Melbourne business sites are brochures that forgot to ask for the sale. I rebuild them as one-person operators'—fast, honest, and pointed at a single qualified next step.",
+      "Most Melbourne business sites are brochures that forgot to ask for the sale. We rebuild them—fast, honest, and pointed at a single qualified next step.",
     price: "$3,950",
     priceSub: "from · fixed · GST exclusive",
     timeline: "3–5 weeks",

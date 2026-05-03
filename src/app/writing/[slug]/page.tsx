@@ -72,9 +72,9 @@ export default async function BlogPostPage({
             letterSpacing: "-0.01em",
           }}
         >
-          What I learned running a one-person studio for eighteen months—and why
-          it beats scaling a team, at least for the next three or four years of
-          work like mine.
+          What we learned running a small studio for eighteen months—and why it
+          beats scaling a team, at least for the next three or four years of
+          work like ours.
         </p>
         <div
           style={{

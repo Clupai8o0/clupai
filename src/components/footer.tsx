@@ -1,11 +1,12 @@
+import Image from "next/image";
 import Link from "next/link";
-import Logomark from "./logomark";
 
 const columns = [
   {
     h: "Services",
     items: [
       { label: "Websites", href: "/services/web" },
+      { label: "Mobile apps", href: "/services/mobile" },
       { label: "Google Ads", href: "/services/ads" },
       { label: "SEO", href: "/services/seo" },
       { label: "Automation", href: "/services/automation" },
@@ -25,8 +26,6 @@ const columns = [
     items: [
       { label: "hello@clupai.com", href: "mailto:hello@clupai.com" },
       { label: "Book a call", href: "/contact" },
-      { label: "Melbourne, VIC", href: "#" },
-      { label: "Replies within 1 AU business day", href: "#" },
     ],
   },
 ];
@@ -57,7 +56,13 @@ export default function Footer() {
               marginBottom: 16,
             }}
           >
-            <Logomark size={28} />
+            <Image
+              src="/logo.png"
+              alt="clupai"
+              width={28}
+              height={28}
+              style={{ display: "block", borderRadius: 4 }}
+            />
             <span
               style={{
                 fontFamily:
@@ -79,8 +84,9 @@ export default function Footer() {
               margin: 0,
             }}
           >
-            A one-person studio in Melbourne. Websites, ads, SEO and automation
-            for operators who want more customers—not more account managers.
+            A studio in Melbourne. Websites, mobile apps, ads, SEO and
+            automation for operators who want more customers—not more account
+            managers.
           </p>
           <div
             style={{
@@ -90,11 +96,7 @@ export default function Footer() {
               flexWrap: "wrap",
             }}
           >
-            <span className="cp-chip">
-              <span className="dot" />
-              Accepting July 2026
-            </span>
-            <span className="cp-chip">ABN registered · Melbourne</span>
+            <span className="cp-chip">ABN 56 228 849 452 · Melbourne</span>
           </div>
         </div>
 
@@ -141,7 +143,7 @@ export default function Footer() {
           © 2026 Sam Limbu · trading as Clupai
         </div>
         <div className="cp-mono" style={{ fontSize: 10 }}>
-          v2.0 — Digital Obsidian · Assertive
+          © 2026
         </div>
       </div>
     </footer>

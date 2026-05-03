@@ -2,14 +2,13 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import Logomark from "./logomark";
 
 const links = [
-  { n: "04", label: "Services", href: "/services" },
+  { n: "01", label: "Services", href: "/services" },
   { n: "02", label: "Work", href: "/work" },
   { n: "03", label: "Pricing", href: "/pricing" },
-  { n: "11", label: "Writing", href: "/writing" },
-  { n: "01", label: "About", href: "/about" },
+  { n: "04", label: "Writing", href: "/writing" },
+  { n: "05", label: "About", href: "/about" },
 ];
 
 export default function Nav({ page }: { page?: string }) {
@@ -44,7 +43,6 @@ export default function Nav({ page }: { page?: string }) {
           onClick={() => setOpen(false)}
           style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}
         >
-          <Logomark />
           <span
             style={{
               fontFamily:
@@ -55,9 +53,6 @@ export default function Nav({ page }: { page?: string }) {
             }}
           >
             clupai
-          </span>
-          <span className="cp-mono" style={{ marginLeft: 10, opacity: 0.7 }}>
-            MEL · AU
           </span>
         </Link>
 

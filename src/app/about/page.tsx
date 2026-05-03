@@ -198,9 +198,9 @@ export default function AboutPage() {
               marginTop: 14,
             }}
           >
-            I think a one-person studio can do better on the projects that
+            We think a small studio can do better on the projects that
             actually suit it—$3.9k to $40k, operators in Melbourne, work that
-            fits in a small number of sprints. Past that, I&apos;ll refer you.
+            fits in a small number of sprints. Past that, we&apos;ll refer you.
           </p>
         </div>
       </div>

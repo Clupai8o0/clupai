@@ -50,7 +50,7 @@ function HeroA() {
                 color: "var(--text-muted)",
               }}
             >
-              A one-person studio · est. 2024
+              A Melbourne studio · est. 2024
             </div>
           </div>
           <div
