@@ -73,7 +73,7 @@ function HeroA() {
         </div>
 
         {/* hero copy */}
-        <div style={{ position: "relative", paddingBottom: 80, paddingTop: 56 }}>
+        <div style={{ position: "relative", paddingBottom: 32, paddingTop: 56 }}>
           <div
             style={{
               display: "flex",
@@ -154,15 +154,14 @@ function HeroA() {
           </div>
           {/* footer ticker */}
           <div
+            className="cp-hero-ticker"
             style={{
-              marginTop: 40,
-              marginLeft: -40,
-              paddingLeft: 40,
-              paddingTop: 24,
-              borderTop: "1px solid var(--border)",
+              marginTop: 24,
+              paddingTop: 20,
               display: "flex",
               flexDirection: "column",
               gap: 12,
+              alignItems: "center",
             }}
           >
             <span className="cp-mono">Avg. reply · under 1 AU business day</span>
@@ -193,25 +192,25 @@ const services = [
   },
   {
     n: "02",
-    h: "Google Ads",
+    h: "Ads & SEO",
     k: [
-      "Search + Performance Max",
+      "Search, Perf Max + local SEO",
+      "GBP, schema, Core Web Vitals",
       "Landing pages that convert",
-      "Weekly tuning",
     ],
     tag: "from $1,500/mo",
     href: "/services/ads",
   },
   {
     n: "03",
-    h: "SEO",
+    h: "Mobile Apps",
     k: [
-      "Technical + local",
-      "GBP, schema, Core Web Vitals",
-      "Content that ranks",
+      "React Native · Expo",
+      "iOS & Android from one codebase",
+      "Ship in 6–10 weeks",
     ],
-    tag: "from $1,200/mo",
-    href: "/services/seo",
+    tag: "from $6,500",
+    href: "/services/mobile",
   },
   {
     n: "04",
@@ -228,7 +227,7 @@ const services = [
 
 function ServicesSection() {
   return (
-    <div style={{ background: "var(--bg)", padding: "80px 48px" }}>
+    <div style={{ background: "var(--bg)", padding: "120px 48px 80px" }}>
       <div
         style={{
           display: "flex",
@@ -248,15 +247,13 @@ function ServicesSection() {
             Four things. Done properly.
             <br />
             <span style={{ color: "var(--text-muted)" }}>
-              Not forty, done once.
+              Web, growth, mobile, automation.
             </span>
           </h2>
         </div>
-        <div className="cp-mono" style={{ color: "var(--text-muted)" }}>
-          § 01 / 07
-        </div>
       </div>
       <div
+        className="cp-services-grid"
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(4, 1fr)",

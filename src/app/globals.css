@@ -262,6 +262,20 @@ video {
   justify-content: center;
 }
 
+/* Hero ticker — full-viewport border line via pseudo-element */
+.cp-hero-ticker {
+  position: relative;
+}
+.cp-hero-ticker::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -40px; /* grid gap — meets rail right border exactly */
+  right: -48px; /* outer padding — reaches viewport right edge */
+  height: 1px;
+  background: var(--border);
+}
+
 /* === Tablet & smaller — collapse 4-col grids to 2 === */
 @media (max-width: 900px) {
   [style*="repeat(4, 1fr)"] {
@@ -375,6 +389,26 @@ video {
     padding: 14px 18px;
     font-size: 15px;
     min-height: 48px;
+  }
+
+  /* Hero ticker — full bleed on mobile */
+  .cp-hero-ticker {
+    margin-left: -48px !important;
+    margin-right: -48px !important;
+    padding-left: 48px !important;
+    padding-right: 48px !important;
+  }
+  .cp-hero-ticker {
+    border-top: 1px solid var(--border);
+  }
+  .cp-hero-ticker::before {
+    display: none;
+  }
+
+  /* Services cards — full border box when stacked */
+  .cp-services-grid > a {
+    border-right: 1px solid var(--border) !important;
+    border-left: 1px solid var(--border) !important;
   }
 
   /* Inline min-heights — drop on mobile */
