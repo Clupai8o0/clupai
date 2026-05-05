@@ -18,12 +18,7 @@ export default function FinalCTA() {
           marginBottom: 48,
         }}
       >
-        <span
-          className="cp-mono"
-          style={{ color: "rgba(5,5,5,0.7)" }}
-        >
-          § 07 · Final
-        </span>
+        <div />
         <span
           className="cp-mono"
           style={{ color: "rgba(5,5,5,0.7)" }}
@@ -68,6 +63,7 @@ export default function FinalCTA() {
           with a realistic estimate—or a reason I&apos;m not the right fit.
         </p>
         <div
+          className="cp-cta-buttons"
           style={{
             display: "flex",
             gap: 12,
@@ -113,7 +109,6 @@ export default function FinalCTA() {
         }}
       >
         <span>Replies within one AU business day</span>
-        <span>No waitlist · two slots open</span>
         <span>ABN · Melbourne · VIC</span>
       </div>
     </div>

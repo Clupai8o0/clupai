@@ -1,60 +1,7 @@
 import Link from "next/link";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
-
-const tiers = [
-  {
-    name: "Launch",
-    price: "$3,950",
-    sub: "one‑off · 3–5 weeks",
-    pitch: "The single-site build. Marketing site, copy, design, ship.",
-    who: "Operators with a site that looks okay and sells badly.",
-    accent: false,
-    bullets: [
-      "Up to 8 pages — home, services, about, contact, 3 content pages",
-      "Copy draft on the first call. You edit; I refine.",
-      "Next.js · Tailwind · MDX. You own the repo.",
-      "Schema, sitemap, analytics, OG images, favicon pack",
-      "2 rounds of revisions. Hand-off walkthrough.",
-      "One month of post-launch tweaks included.",
-    ],
-    out: "Ads, SEO, or ongoing work. Those are their own tiers.",
-  },
-  {
-    name: "Growth",
-    price: "$8,950",
-    sub: "one‑off · 6–8 weeks",
-    pitch: "Site + launch campaign + 90 days of SEO. The full zero-to-revenue.",
-    who: "A new service, new brand, or a business serious about the next 12 months.",
-    accent: true,
-    bullets: [
-      "Everything in Launch",
-      "Google Ads build — search + PMax, up to 3 campaigns",
-      "90 days of SEO — technical, local, content (4 posts)",
-      "Cal.com booking flow with budget-range qualification",
-      "CRM wire-up — HubSpot, Attio, Airtable, or your sheet",
-      "Weekly 20-minute check-ins for the first 90 days.",
-    ],
-    out: "Custom software, internal tools, complex integrations.",
-  },
-  {
-    name: "Operator",
-    price: "$2,500",
-    sub: "per month · rolling",
-    pitch: "I'm your marketing and engineering hire, for less than the equivalent salary.",
-    who: "Businesses past product-market-fit, compounding reach month over month.",
-    accent: false,
-    bullets: [
-      "Ads, SEO, automation — whatever moves the number",
-      "One priority per week. Shipped, not queued.",
-      "Monthly loom with the real numbers, no fluff deck",
-      "Shared Linear — you see the roadmap I'm working from",
-      "Direct line — Slack Connect or email, 1 AU biz day reply",
-      "Month-to-month. No 12-month lock. No setup fee.",
-    ],
-    out: "Anything outside marketing + ops. Book a call.",
-  },
-];
+import { TIERS } from "@/data/pricing";
 
 const smallPrint = [
   [
@@ -131,7 +78,7 @@ export default function PricingPage() {
             marginTop: 40,
           }}
         >
-          {tiers.map((t) => (
+          {TIERS.map((t) => (
             <div
               key={t.name}
               style={{

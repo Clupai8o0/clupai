@@ -2,29 +2,30 @@ import Link from "next/link";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
 import FinalCTA from "@/components/final-cta";
+import { SERVICE_PRICES, PACKAGES } from "@/data/pricing";
 
 const services = [
   {
     n: "01",
     slug: "web",
     h: "Websites",
-    price: "from $3,950",
+    price: SERVICE_PRICES.web.display,
     desc: "Next.js marketing sites that ask for the sale. 3–5 weeks, fixed price, you own the repo.",
     items: ["Copy + design + build", "Schema, analytics, CWV", "Cal.com / Calendly wired in"],
   },
   {
     n: "02",
-    slug: "ads",
-    h: "Google Ads",
-    price: "from $1,500/mo",
-    desc: "Search + PMax, built in week one, tuned every week. You keep the account.",
-    items: ["Audit + rebuild", "Weekly tuning", "Honest monthly reviews"],
+    slug: "apps",
+    h: "Applications",
+    price: SERVICE_PRICES.apps.display,
+    desc: "React Native for iOS and Android. Next.js for web apps. Scoped tightly, shipped in 6–10 weeks.",
+    items: ["Figma design + full build", "App Store + Play Store", "Supabase · TypeScript"],
   },
   {
     n: "03",
     slug: "seo",
     h: "SEO",
-    price: "from $1,200/mo",
+    price: SERVICE_PRICES.seo.display,
     desc: "Technical + local + a handful of posts worth reading. No doorway pages.",
     items: ["Core Web Vitals", "Google Business Profile", "2–4 posts/month"],
   },
@@ -32,16 +33,10 @@ const services = [
     n: "04",
     slug: "automation",
     h: "Automation",
-    price: "from $5,000",
+    price: SERVICE_PRICES.automation.display,
     desc: "Zapier, Make, n8n, internal tools. The plumbing nobody wants to do.",
     items: ["Process mapping", "Workflow build", "Internal dashboards"],
   },
-];
-
-const packages = [
-  ["Good", "$3,950", "Launch site. One job, done well."],
-  ["Better", "$8,950", "Site + 90 days ads + SEO. Zero to revenue."],
-  ["Best", "$2,500/mo", "Operator retainer. Compound over 12 months."],
 ];
 
 export default function ServicesPage() {
@@ -66,7 +61,7 @@ export default function ServicesPage() {
             maxWidth: 1200,
           }}
         >
-          Websites, ads, SEO, automation.
+          Websites, apps, SEO, automation.
           <br />
           <span style={{ color: "var(--accent)" }}>
             All me. All fixed price.
@@ -186,7 +181,7 @@ export default function ServicesPage() {
             gap: 24,
           }}
         >
-          {packages.map(([h, p, d]) => (
+          {PACKAGES.map(([h, p, d]) => (
             <div key={h} className="cp-card" style={{ padding: 28 }}>
               <div className="cp-mono" style={{ marginBottom: 12 }}>
                 {h.toUpperCase()}

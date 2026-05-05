@@ -169,6 +169,22 @@ video {
   border-radius: var(--radius-lg);
 }
 
+.cp-service-card {
+  transition: background 0.25s ease;
+}
+
+.cp-service-card:hover {
+  background: rgba(255, 255, 255, 0.022);
+}
+
+.cp-service-arrow {
+  transition: transform 0.25s ease;
+}
+
+.cp-service-card:hover .cp-service-arrow {
+  transform: translateX(5px);
+}
+
 .cp-hair {
   border-top: 1px solid var(--border);
 }
@@ -262,6 +278,37 @@ video {
   justify-content: center;
 }
 
+/* === Services grid === */
+.cp-services-grid {
+  border-top: 1px solid var(--border);
+}
+
+.cp-service-card {
+  border-bottom: 1px solid var(--border);
+}
+
+.cp-service-card:not(:last-child) {
+  border-right: 1px solid var(--border);
+}
+
+/* === Pricing grid === */
+.cp-pricing-grid {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.cp-pricing-card:not(:first-child) {
+  border-left: 1px solid var(--border);
+}
+
+.cp-pricing-card {
+  transition: background 0.15s;
+}
+
+.cp-pricing-card:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
 /* Hero ticker — full-viewport border line via pseudo-element */
 .cp-hero-ticker {
   position: relative;
@@ -276,11 +323,201 @@ video {
   background: var(--border);
 }
 
+/* === Work card interactions === */
+.cp-card {
+  transition: background 0.2s ease, border-color 0.2s ease;
+  cursor: pointer;
+}
+.cp-card:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--border-2);
+}
+.cp-card-arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+.cp-card:hover .cp-card-arrow {
+  transform: translateX(5px);
+}
+
+/* === "All case studies" link === */
+.cp-all-cases-link .cp-link-arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+.cp-all-cases-link:hover .cp-link-arrow {
+  transform: translateX(5px);
+}
+
+/* === Bento work grid === */
+.cp-work-bento {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.cp-bento-large {
+  grid-column: span 2;
+  min-height: 300px;
+}
+
+.cp-bento-small {
+  min-height: 380px;
+}
+
+.cp-bento-inner {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.cp-bento-stat-col {
+  flex: 0 0 44%;
+  padding-right: 28px;
+  border-right: 1px solid var(--border);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.cp-bento-info-col {
+  flex: 1;
+  padding-left: 28px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+@media (max-width: 1024px) {
+  .cp-work-bento {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .cp-bento-large {
+    grid-column: span 1;
+    min-height: 0;
+  }
+  .cp-bento-small {
+    min-height: 0;
+  }
+  .cp-bento-inner {
+    flex-direction: column;
+  }
+  .cp-bento-stat-col {
+    flex: unset;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding-right: 0;
+    padding-bottom: 20px;
+  }
+  .cp-bento-info-col {
+    padding-left: 0;
+    padding-top: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cp-work-bento {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* === Tablet & smaller — collapse 4-col grids to 2 === */
 @media (max-width: 900px) {
   [style*="repeat(4, 1fr)"] {
     grid-template-columns: repeat(2, 1fr) !important;
   }
+}
+
+/* === Tablet services + pricing — full border per card in 2×2 grid === */
+@media (min-width: 769px) and (max-width: 900px) {
+  .cp-services-grid {
+    border: 1px solid var(--border);
+    border-top-color: var(--border);
+  }
+
+  .cp-service-card {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* Last row: no bottom (container edge) */
+  .cp-service-card:nth-last-child(-n+2) {
+    border-bottom: none;
+  }
+
+  /* Left column (odd): add right divider */
+  .cp-service-card:nth-child(odd) {
+    border-right: 1px solid var(--border);
+  }
+
+  /* Pricing 2×2 — full outer border, internal dividers only */
+  .cp-pricing-grid {
+    border: 1px solid var(--border);
+  }
+
+  .cp-pricing-card:not(:first-child) {
+    border-left: none;
+  }
+
+  .cp-pricing-card {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cp-pricing-card:nth-last-child(-n+2) {
+    border-bottom: none;
+  }
+
+  .cp-pricing-card:nth-child(odd) {
+    border-right: 1px solid var(--border);
+  }
+}
+
+/* === iPad — layout fixes (769px–1024px) === */
+@media (min-width: 769px) and (max-width: 1024px) {
+  :root {
+    --fs-hero: clamp(2.75rem, 6.5vw, 5.5rem);
+  }
+
+  /* Reduce horizontal section padding */
+  [style*="120px 48px"] { padding: 80px 32px !important; }
+  [style*="80px 48px"]  { padding: 64px 32px !important; }
+  [style*="72px 48px"]  { padding: 56px 32px !important; }
+
+  /* Stat numbers: scale down for narrow card columns */
+  [style*="font-size: 96"],
+  [style*="font-size:96"] { font-size: 56px !important; }
+
+  /* Collapse fixed height so content drives the section height */
+  .cp-hero {
+    height: auto !important;
+    min-height: 0 !important;
+    padding-bottom: 56px;
+  }
+
+  /* Hero CTA: stack text + buttons */
+  .cp-hero-cta {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+    margin-top: 36px !important;
+  }
+
+  /* Button row: allow wrap */
+  .cp-hero-buttons {
+    flex-wrap: wrap;
+    gap: 10px !important;
+  }
+
+  /* Reduce hero ticker bleed offsets */
+  .cp-hero-ticker::before {
+    left: -24px !important;
+  }
+}
+
+/* === Narrow iPad portrait (769px–860px) — stack AboutTeaser === */
+@media (min-width: 769px) and (max-width: 860px) {
+  [style*="380px 1fr"] { grid-template-columns: 1fr !important; }
+  [style*="gap: 56px"]  { gap: 32px !important; }
 }
 
 /* === Mobile === */
@@ -482,6 +719,33 @@ video {
     margin-top: 24px !important;
     flex-wrap: wrap !important;
     gap: 8px !important;
+  }
+
+  /* Pricing grid — full borders, stacked on mobile */
+  .cp-pricing-grid {
+    border-top: none;
+    border-bottom: none;
+  }
+
+  .cp-pricing-card {
+    border: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+  }
+
+  .cp-pricing-card:not(:first-child) {
+    border-left: 1px solid var(--border);
+    border-top: none;
+  }
+
+  /* CTA buttons — full width, stacked on mobile */
+  .cp-cta-buttons {
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    width: 100%;
+  }
+  .cp-cta-buttons .cp-btn {
+    width: 100%;
+    justify-content: center;
   }
 
   /* Hide hero left rail on mobile */

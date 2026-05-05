@@ -5,7 +5,7 @@ import Footer from "@/components/footer";
 import FinalCTA from "@/components/final-cta";
 import Placeholder from "@/components/placeholder";
 import Row from "@/components/row";
-import { SERVICE_DATA, SERVICE_SLUGS } from "@/data/services";
+import { SERVICE_DATA, SERVICE_SLUGS, HIDDEN_SERVICE_SLUGS } from "@/data/services";
 
 export function generateStaticParams() {
   return SERVICE_SLUGS.map((slug) => ({ slug }));
@@ -17,6 +17,7 @@ export default async function ServiceDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  if (HIDDEN_SERVICE_SLUGS.includes(slug)) notFound();
   const data = SERVICE_DATA[slug];
   if (!data) notFound();
 

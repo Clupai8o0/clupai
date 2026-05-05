@@ -1,3 +1,5 @@
+import { SERVICE_PRICES } from "./pricing";
+
 export interface ServiceData {
   crumb: string;
   eyebrow: string;
@@ -21,8 +23,8 @@ export const SERVICE_DATA: Record<string, ServiceData> = {
     headline: ["Your site isn't broken.", "It just isn't selling."],
     problem:
       "Most Melbourne business sites are brochures that forgot to ask for the sale. We rebuild them—fast, honest, and pointed at a single qualified next step.",
-    price: "$3,950",
-    priceSub: "from · fixed · GST exclusive",
+    price: SERVICE_PRICES.web.amount,
+    priceSub: SERVICE_PRICES.web.sub,
     timeline: "3–5 weeks",
     deliverable: "Repo + deploy + docs",
     revisions: "2 rounds",
@@ -179,8 +181,8 @@ export const SERVICE_DATA: Record<string, ServiceData> = {
     headline: ["Ranking isn't magic.", "It's fewer, better pages."],
     problem:
       "Most SEO pitches are 40-suburb doorway pages and monthly 'content packages' that no one reads. That's not going to work in 2026. Fewer pages, written for a real reader, technically sharp—that does.",
-    price: "$1,200",
-    priceSub: "per month · 3-month minimum",
+    price: SERVICE_PRICES.seo.amount,
+    priceSub: SERVICE_PRICES.seo.sub,
     timeline: "2-week setup",
     deliverable: "Audit, tracker, monthly report",
     revisions: "Continuous",
@@ -247,14 +249,93 @@ export const SERVICE_DATA: Record<string, ServiceData> = {
       },
     ],
   },
+  apps: {
+    crumb: "Applications",
+    eyebrow: "Applications · React Native · Next.js · cross-platform",
+    headline: ["Your idea needs a real app.", "Not a mobile site."],
+    problem:
+      "A web page in a wrapper isn't an app. We build proper applications—React Native for iOS and Android, Next.js for the web—scoped tightly so you ship something real in weeks, not months.",
+    price: SERVICE_PRICES.apps.amount,
+    priceSub: SERVICE_PRICES.apps.sub,
+    timeline: "6–10 weeks",
+    deliverable: "Repo + App Store + Play Store",
+    revisions: "2 rounds",
+    included: [
+      "Discovery sprint — map the core user flow, nothing else",
+      "UI/UX in Figma — mobile and web, no hand-offs",
+      "React Native + Expo for iOS and Android",
+      "Next.js for web apps and admin dashboards",
+      "Supabase for auth, database, and storage",
+      "App Store and Google Play submission",
+      "Push notifications, deep linking, offline support",
+      "Analytics — PostHog or Mixpanel wired in",
+      "TypeScript end-to-end, tested and documented",
+      "One month of post-launch fixes included",
+    ],
+    process: [
+      {
+        h: "Scope",
+        d: "Week 0",
+        body: "One call. We cut the feature list to what ships in v1. Everything else is v2.",
+      },
+      {
+        h: "Design",
+        d: "Week 1",
+        body: "Core flows in Figma. Mobile-first. Approved before a line is written.",
+      },
+      {
+        h: "Build",
+        d: "Weeks 2–7",
+        body: "One working feature per week. Deployed to TestFlight and staging continuously.",
+      },
+      {
+        h: "Test",
+        d: "Week 8",
+        body: "Real devices, real data. Edge cases, not just the happy path.",
+      },
+      {
+        h: "Ship",
+        d: "Weeks 9–10",
+        body: "App Store submission, Play Store, production deploy. Walk-through recording for your team.",
+      },
+    ],
+    cs: {
+      stat: "0→live",
+      sstat: "full platform · 6 weeks",
+      title: "Hoddle Melbourne — mentor-student platform from scratch",
+      body: "Built as CTO and sole developer. Next.js + Supabase platform for mentor-student matching. Auth, booking flow, and a mentor marketplace—shipped from scratch in six weeks.",
+    },
+    faq: [
+      {
+        q: "Do I need both iOS and Android?",
+        a: "Not always. We'll scope iOS-first if that's where your users are and add Android in v2. React Native means we're not building twice.",
+      },
+      {
+        q: "What if I just need a web app?",
+        a: "Same process, shorter timeline. Next.js, Supabase, TypeScript. No mobile build means we ship in 4–6 weeks instead of 8–10.",
+      },
+      {
+        q: "Do I own the code?",
+        a: "Yes. Your repo, your accounts, your deploy. We're a collaborator; you're the owner. We can be removed on day one if you want.",
+      },
+      {
+        q: "What about ongoing maintenance?",
+        a: "One month of post-launch fixes is included. After that, the Operator retainer covers it if you need continuous work—otherwise pay-per-issue.",
+      },
+      {
+        q: "Can you take over an existing codebase?",
+        a: "Sometimes. We'll audit first. If it's salvageable, we'll quote a cleanup. If it's cheaper to rebuild, we'll tell you that too.",
+      },
+    ],
+  },
   automation: {
     crumb: "Automation",
     eyebrow: "Automation · internal tools · integrations",
     headline: ["The software's out there.", "It just isn't talking to itself."],
     problem:
       "Your team is copying things between five tools, and one of them is a spreadsheet named 'FINAL_v7'. I wire up what you already own—and build the small internal tools that remove the worst of the drudgery.",
-    price: "$5,000",
-    priceSub: "from · scoped per project",
+    price: SERVICE_PRICES.automation.amount,
+    priceSub: SERVICE_PRICES.automation.sub,
     timeline: "2–6 weeks",
     deliverable: "Running workflows + docs",
     revisions: "Built-in",
@@ -326,4 +407,7 @@ export const SERVICE_DATA: Record<string, ServiceData> = {
   },
 };
 
-export const SERVICE_SLUGS = Object.keys(SERVICE_DATA);
+export const HIDDEN_SERVICE_SLUGS: string[] = ["ads"];
+export const SERVICE_SLUGS = Object.keys(SERVICE_DATA).filter(
+  (s) => !HIDDEN_SERVICE_SLUGS.includes(s)
+);

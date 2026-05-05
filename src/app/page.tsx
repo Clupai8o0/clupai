@@ -9,12 +9,14 @@ import RotatingText from "@/components/rotating-text";
 import { motion } from "motion/react";
 import Placeholder from "@/components/placeholder";
 import SamAvatar from "@/components/sam-avatar";
+import { SERVICE_PRICES, PRICING_STRIP } from "@/data/pricing";
 
 const HERO_WORDS = ["customers", "bookings", "revenue", "pipeline", "leads"];
 
 function HeroA() {
   return (
     <div
+      className="cp-hero"
       style={{
         background: "var(--bg)",
         color: "var(--text)",
@@ -88,7 +90,7 @@ function HeroA() {
             className="cp-display"
             style={{ fontSize: "var(--fs-hero)", margin: 0, color: "var(--text)" }}
           >
-            Websites, ads,
+            Websites, apps,
             <br />
             and automation
             <br />
@@ -96,8 +98,8 @@ function HeroA() {
             <br />
             <RotatingText
               texts={HERO_WORDS}
-              mainClassName="inline-flex overflow-hidden pb-[0.2em]"
-              splitLevelClassName="overflow-hidden"
+              mainClassName="inline-flex overflow-hidden"
+              splitLevelClassName="overflow-hidden pb-[0.2em]"
               staggerFrom="last"
               initial={{ y: "100%" }}
               animate={{ y: 0 }}
@@ -110,6 +112,7 @@ function HeroA() {
             <span style={{ color: "var(--accent)" }}>.</span>
           </h1>
           <div
+            className="cp-hero-cta"
             style={{
               display: "grid",
               gridTemplateColumns: "1fr auto",
@@ -130,7 +133,7 @@ function HeroA() {
               We design, build, and grow digital products for Melbourne
               businesses—end‑to‑end, without the bloat.
             </p>
-            <div style={{ display: "flex", gap: 12, flexShrink: 0 }}>
+            <div className="cp-hero-buttons" style={{ display: "flex", gap: 12, flexShrink: 0 }}>
               <Link
                 href="/contact"
                 className="cp-btn cp-btn-primary cp-btn-lg"
@@ -187,30 +190,30 @@ const services = [
     n: "01",
     h: "Websites",
     k: ["Next.js · Tailwind", "Copy, design, build", "Launch in 3–5 weeks"],
-    tag: "from $3,950",
+    tag: SERVICE_PRICES.web.display,
     href: "/services/web",
   },
   {
     n: "02",
-    h: "Ads & SEO",
+    h: "Apps",
     k: [
-      "Search, Perf Max + local SEO",
-      "GBP, schema, Core Web Vitals",
-      "Landing pages that convert",
+      "React Native · Next.js",
+      "iOS, Android & web",
+      "Ship in 6–10 weeks",
     ],
-    tag: "from $1,500/mo",
-    href: "/services/ads",
+    tag: SERVICE_PRICES.apps.display,
+    href: "/services/apps",
   },
   {
     n: "03",
-    h: "Mobile Apps",
+    h: "SEO",
     k: [
-      "React Native · Expo",
-      "iOS & Android from one codebase",
-      "Ship in 6–10 weeks",
+      "Technical + local",
+      "GBP, schema, Core Web Vitals",
+      "Content that earns links",
     ],
-    tag: "from $6,500",
-    href: "/services/mobile",
+    tag: SERVICE_PRICES.seo.display,
+    href: "/services/seo",
   },
   {
     n: "04",
@@ -220,7 +223,7 @@ const services = [
       "Internal tools, dashboards",
       "Integrations that hold",
     ],
-    tag: "from $5,000",
+    tag: SERVICE_PRICES.automation.display,
     href: "/services/automation",
   },
 ];
@@ -257,17 +260,14 @@ function ServicesSection() {
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(4, 1fr)",
-          borderTop: "1px solid var(--border)",
         }}
       >
-        {services.map((s, i) => (
+        {services.map((s) => (
           <Link
             key={s.n}
             href={s.href}
+            className="cp-service-card"
             style={{
-              borderRight:
-                i === services.length - 1 ? "none" : "1px solid var(--border)",
-              borderBottom: "1px solid var(--border)",
               padding: "32px 28px",
               minHeight: 340,
               display: "flex",
@@ -330,6 +330,7 @@ function ServicesSection() {
                 {s.tag}
               </div>
               <svg
+                className="cp-service-arrow"
                 width="20"
                 height="20"
                 viewBox="0 0 20 20"
@@ -356,6 +357,7 @@ const cases = [
     sstat: "LCP · Core Web Vitals",
     desc: "Full Next.js 15 rebuild from an ageing site. Neon Postgres, Drizzle ORM, Tailwind v4, Vercel. Local schema, SEO strategy, Core Web Vitals green—delivered on scope.",
     href: "/work/king-double-glazing",
+    large: true,
   },
   {
     n: "02",
@@ -365,6 +367,7 @@ const cases = [
     sstat: "full platform · 6 weeks",
     desc: "CTO and sole developer. Next.js + Supabase platform for mentor-student matching. Auth, booking flow, and a mentor marketplace—shipped from scratch.",
     href: "/work/hoddle-melbourne",
+    large: false,
   },
   {
     n: "03",
@@ -374,17 +377,25 @@ const cases = [
     sstat: "headless Shopify · React Three Fiber",
     desc: "Co-founder and developer. Headless Shopify storefront with a React Three Fiber 3D product viewer. 3D-printed NFC keychains—spin the model, then checkout.",
     href: "/work/tapcraft",
+    large: false,
+  },
+  {
+    n: "04",
+    client: "Krishnaveni School",
+    kind: "Private school · Melbourne",
+    stat: "0→enrol",
+    sstat: "digital enrolment · 8 weeks",
+    desc: "Website redesign and end-to-end digital enrolment system for a growing Melbourne private school. Parents submit applications, upload documents, and track intake status online—cutting admin overhead and centralising the entire pipeline.",
+    href: "/work/krishnaveni-school",
+    large: true,
   },
 ];
 
+const DISPLAY_FONT = "var(--font-display), Manrope, ui-sans-serif, system-ui, sans-serif";
+
 function WorkSection() {
   return (
-    <div
-      style={{
-        background: "var(--surface)",
-        padding: "80px 48px",
-      }}
-    >
+    <div style={{ background: "var(--surface)", padding: "80px 48px" }}>
       <div
         style={{
           display: "flex",
@@ -397,11 +408,8 @@ function WorkSection() {
           <div className="cp-eyebrow" style={{ marginBottom: 12 }}>
             Recent work · real numbers
           </div>
-          <h2
-            className="cp-display"
-            style={{ fontSize: "var(--fs-h2)", margin: 0 }}
-          >
-            Three builds.
+          <h2 className="cp-display" style={{ fontSize: "var(--fs-h2)", margin: 0 }}>
+            Four builds.
             <br />
             <span style={{ color: "var(--text-muted)" }}>
               What changed in the first quarter.
@@ -410,118 +418,75 @@ function WorkSection() {
         </div>
         <Link
           href="/work"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
-            color: "var(--accent)",
-            fontFamily:
-              "var(--font-display), Manrope, ui-sans-serif, system-ui, sans-serif",
-            fontWeight: 500,
-          }}
+          className="cp-all-cases-link"
+          style={{ display: "flex", alignItems: "center", gap: 8, color: "var(--accent)", fontFamily: DISPLAY_FONT, fontWeight: 500 }}
         >
-          All case studies →
+          All case studies <span className="cp-link-arrow">→</span>
         </Link>
       </div>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          gap: 24,
-        }}
-      >
+
+      <div className="cp-work-bento">
         {cases.map((c) => (
           <Link
             key={c.n}
             href={c.href}
-            className="cp-card"
-            style={{
-              padding: 28,
-              display: "flex",
-              flexDirection: "column",
-              minHeight: 440,
-              position: "relative",
-              overflow: "hidden",
-            }}
+            className={`cp-card ${c.large ? "cp-bento-large" : "cp-bento-small"}`}
+            style={{ padding: 28, display: "flex", flexDirection: "column", position: "relative", overflow: "hidden" }}
           >
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: c.large ? 28 : 0 }}>
               <span className="cp-mono">case {c.n}</span>
               <span className="cp-mono">2025–26</span>
             </div>
-            <div
-              className="cp-num"
-              style={{
-                fontSize: 96,
-                color: "var(--accent)",
-                lineHeight: 0.9,
-                margin: "36px 0 8px",
-                letterSpacing: "-0.05em",
-              }}
-            >
-              {c.stat}
-            </div>
-            <div className="cp-mono" style={{ color: "var(--text-muted)" }}>
-              {c.sstat}
-            </div>
-            <div
-              style={{
-                marginTop: 28,
-                paddingTop: 20,
-                borderTop: "1px solid var(--border)",
-              }}
-            >
-              <div
-                style={{
-                  fontFamily:
-                    "var(--font-display), Manrope, ui-sans-serif, system-ui, sans-serif",
-                  fontWeight: 700,
-                  fontSize: 22,
-                  letterSpacing: "-0.02em",
-                }}
-              >
-                {c.client}
+
+            {c.large ? (
+              <div className="cp-bento-inner">
+                <div className="cp-bento-stat-col">
+                  <div className="cp-num" style={{ fontSize: 64, color: "var(--accent)", lineHeight: 0.9, letterSpacing: "-0.05em" }}>
+                    {c.stat}
+                  </div>
+                  <div className="cp-mono" style={{ color: "var(--text-muted)", marginTop: 14 }}>
+                    {c.sstat}
+                  </div>
+                </div>
+                <div className="cp-bento-info-col">
+                  <div style={{ fontFamily: DISPLAY_FONT, fontWeight: 700, fontSize: 22, letterSpacing: "-0.02em" }}>
+                    {c.client}
+                  </div>
+                  <div className="cp-mono" style={{ color: "var(--text-muted)", marginTop: 4 }}>
+                    {c.kind}
+                  </div>
+                  <p style={{ margin: "16px 0 0", color: "var(--text-muted)", fontSize: 14, lineHeight: 1.55, flex: 1 }}>
+                    {c.desc}
+                  </p>
+                  <div style={{ paddingTop: 20, marginTop: "auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <span style={{ color: "var(--accent)", fontFamily: DISPLAY_FONT, fontWeight: 500, fontSize: 14, display: "inline-flex", alignItems: "center", gap: 4 }}>
+                      Read the full story <span className="cp-card-arrow">→</span>
+                    </span>
+                    <span className="cp-mono" style={{ color: "var(--text-dim)" }}>4 min</span>
+                  </div>
+                </div>
               </div>
-              <div
-                className="cp-mono"
-                style={{ color: "var(--text-muted)", marginTop: 4 }}
-              >
-                {c.kind}
-              </div>
-            </div>
-            <p
-              style={{
-                marginTop: 16,
-                color: "var(--text-muted)",
-                fontSize: 14,
-                lineHeight: 1.55,
-              }}
-            >
-              {c.desc}
-            </p>
-            <div
-              style={{
-                marginTop: "auto",
-                paddingTop: 20,
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <span
-                style={{
-                  color: "var(--accent)",
-                  fontFamily:
-                    "var(--font-display), Manrope, ui-sans-serif, system-ui, sans-serif",
-                  fontWeight: 500,
-                  fontSize: 14,
-                }}
-              >
-                Read the full story →
-              </span>
-              <span className="cp-mono" style={{ color: "var(--text-dim)" }}>
-                4 min
-              </span>
-            </div>
+            ) : (
+              <>
+                <div className="cp-num" style={{ fontSize: 96, color: "var(--accent)", lineHeight: 0.9, margin: "36px 0 8px", letterSpacing: "-0.05em" }}>
+                  {c.stat}
+                </div>
+                <div className="cp-mono" style={{ color: "var(--text-muted)" }}>{c.sstat}</div>
+                <div style={{ marginTop: 28, paddingTop: 20, borderTop: "1px solid var(--border)" }}>
+                  <div style={{ fontFamily: DISPLAY_FONT, fontWeight: 700, fontSize: 22, letterSpacing: "-0.02em" }}>
+                    {c.client}
+                  </div>
+                  <div className="cp-mono" style={{ color: "var(--text-muted)", marginTop: 4 }}>{c.kind}</div>
+                </div>
+                <p style={{ marginTop: 16, color: "var(--text-muted)", fontSize: 14, lineHeight: 1.55 }}>{c.desc}</p>
+                <div style={{ marginTop: "auto", paddingTop: 20, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <span style={{ color: "var(--accent)", fontFamily: DISPLAY_FONT, fontWeight: 500, fontSize: 14, display: "inline-flex", alignItems: "center", gap: 4 }}>
+                    Read the full story <span className="cp-card-arrow">→</span>
+                  </span>
+                  <span className="cp-mono" style={{ color: "var(--text-dim)" }}>4 min</span>
+                </div>
+              </>
+            )}
           </Link>
         ))}
       </div>
@@ -569,26 +534,17 @@ function PricingStripSection() {
         </p>
       </div>
       <div
+        className="cp-pricing-grid"
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          borderTop: "1px solid var(--border)",
-          borderBottom: "1px solid var(--border)",
+          gridTemplateColumns: "repeat(4, 1fr)",
         }}
       >
-        {(
-          [
-            ["Launch", "$3,950", "one‑off", "Single-site build. 3–5 weeks. You own everything."],
-            ["Growth", "$8,950", "one‑off", "Site + launch campaign + 90 days of SEO."],
-            ["Operator", "$2,500", "per month", "Retained partner. Ads, SEO, automation, ship list."],
-          ] as const
-        ).map(([h, p, s, d], i) => (
+        {PRICING_STRIP.map(([h, p, s, d]) => (
           <div
             key={h}
-            style={{
-              padding: "40px 32px",
-              borderLeft: i === 0 ? "none" : "1px solid var(--border)",
-            }}
+            className="cp-pricing-card"
+            style={{ padding: "40px 32px" }}
           >
             <div className="cp-mono" style={{ marginBottom: 16 }}>
               {h.toUpperCase()}
@@ -711,10 +667,6 @@ function AboutTeaser() {
             gap: 8,
           }}
         >
-          <span className="cp-chip">
-            <span className="dot" />
-            Accepting July 2026
-          </span>
           <span className="cp-chip">ABN registered · Melbourne</span>
           <span className="cp-chip">Brunswick · Melbourne VIC</span>
         </div>
@@ -733,9 +685,7 @@ function AboutTeaser() {
           Clupai is me—Sam.
           <br />
           <span style={{ color: "var(--accent)" }}>
-            I don&apos;t hand you off to
-            <br />
-            account managers.
+            I don&apos;t hand you off to account managers.
           </span>
         </h2>
         <div
