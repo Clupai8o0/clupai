@@ -1,8 +1,8 @@
 import Link from "next/link";
+import Image from "next/image";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
 import FinalCTA from "@/components/final-cta";
-import SamAvatar from "@/components/sam-avatar";
 
 export function generateStaticParams() {
   return [
@@ -86,7 +86,13 @@ export default async function BlogPostPage({
             borderBottom: "1px solid var(--border)",
           }}
         >
-          <SamAvatar size={48} />
+          <Image
+            src="/sam-small.jpeg"
+            alt="Sam Limbu"
+            width={48}
+            height={48}
+            style={{ borderRadius: "50%", objectFit: "cover", flexShrink: 0 }}
+          />
           <div>
             <div
               style={{

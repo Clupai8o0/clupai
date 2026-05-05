@@ -50,9 +50,24 @@ a {
   text-decoration: none;
 }
 
+a:hover {
+  text-decoration-color: var(--text-muted);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: var(--radius);
+}
+
 ::selection {
   background: var(--accent);
   color: var(--accent-ink);
+}
+
+::placeholder {
+  color: var(--text-dim);
+  opacity: 1;
 }
 
 img,
@@ -124,6 +139,19 @@ video {
     0 12px 32px var(--accent-glow);
 }
 
+.cp-btn-primary:active {
+  transform: translateY(1px);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+.cp-btn svg {
+  transition: transform 0.2s ease;
+}
+
+.cp-btn-primary:hover svg {
+  transform: translateX(3px);
+}
+
 .cp-btn-ghost {
   background: transparent;
   color: var(--text);
@@ -131,7 +159,7 @@ video {
 }
 
 .cp-btn-ghost:hover {
-  border-color: var(--text);
+  border-color: var(--text-muted);
 }
 
 .cp-btn-lg {
@@ -167,14 +195,20 @@ video {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
+  transition: border-color 0.22s ease, transform 0.22s ease;
+}
+
+.cp-card:hover {
+  border-color: var(--border-2);
+  transform: translateY(-2px);
 }
 
 .cp-service-card {
-  transition: background 0.25s ease;
+  transition: background 0.22s ease;
 }
 
 .cp-service-card:hover {
-  background: rgba(255, 255, 255, 0.022);
+  background: rgba(255, 255, 255, 0.055);
 }
 
 .cp-service-arrow {
@@ -306,7 +340,7 @@ video {
 }
 
 .cp-pricing-card:hover {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.055);
 }
 
 /* Hero ticker — full-viewport border line via pseudo-element */
@@ -421,10 +455,16 @@ video {
   }
 }
 
-/* === Tablet & smaller — collapse 4-col grids to 2 === */
+/* === Tablet & smaller — collapse 4-col and 3-col grids to 2, stack fixed-col heroes === */
 @media (max-width: 900px) {
-  [style*="repeat(4, 1fr)"] {
+  [style*="repeat(4, 1fr)"],
+  [style*="repeat(3, 1fr)"] {
     grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* About hero: 420px fixed column is too wide at tablet — stack */
+  [style*="420px 1fr"] {
+    grid-template-columns: 1fr !important;
   }
 }
 
@@ -481,8 +521,23 @@ video {
 
   /* Reduce horizontal section padding */
   [style*="120px 48px"] { padding: 80px 32px !important; }
+  [style*="96px 48px"]  { padding: 64px 32px !important; }
   [style*="80px 48px"]  { padding: 64px 32px !important; }
   [style*="72px 48px"]  { padding: 56px 32px !important; }
+  [style*="64px 48px"]  { padding: 48px 32px !important; }
+  [style*="56px 48px"]  { padding: 40px 32px !important; }
+
+  /* Three-value padding patterns with 48px horizontal */
+  [style*="64px 48px 80px"] { padding: 48px 32px 56px !important; }
+  [style*="0 48px 80px"] { padding: 0 32px 64px !important; }
+  [style*="0 48px 64px"] { padding: 0 32px 48px !important; }
+  [style*="0 48px 48px"] { padding: 0 32px 40px !important; }
+
+  /* Service list rows — too narrow to read in 4-col at tablet width */
+  [style*="80px 1fr 1fr 280px"] {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
 
   /* Stat numbers: scale down for narrow card columns */
   [style*="font-size: 96"],
@@ -561,6 +616,17 @@ video {
     padding: 14px 20px !important;
   }
 
+  /* Three-value padding patterns with 48px horizontal */
+  [style*="0 48px 80px"] {
+    padding: 0 20px 56px !important;
+  }
+  [style*="0 48px 64px"] {
+    padding: 0 20px 48px !important;
+  }
+  [style*="0 48px 48px"] {
+    padding: 0 20px 36px !important;
+  }
+
   /* Grid collapses — match by column-list value */
   [style*="repeat(5, 1fr)"],
   [style*="repeat(4, 1fr)"],
@@ -628,12 +694,24 @@ video {
     min-height: 48px;
   }
 
-  /* Hero ticker — full bleed on mobile */
+  /* Hero inner grid — reduce horizontal padding to match all other sections */
+  .cp-hero-inner {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  /* Services section — three-value padding, 48px horizontal */
+  [style*="120px 48px"] {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  /* Hero ticker — full bleed on mobile (offset matches cp-hero-inner 20px) */
   .cp-hero-ticker {
-    margin-left: -48px !important;
-    margin-right: -48px !important;
-    padding-left: 48px !important;
-    padding-right: 48px !important;
+    margin-left: -20px !important;
+    margin-right: -20px !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
   }
   .cp-hero-ticker {
     border-top: 1px solid var(--border);
@@ -649,6 +727,8 @@ video {
   }
 
   /* Inline min-heights — drop on mobile */
+  [style*="min-height: 720"],
+  [style*="min-height:720"],
   [style*="min-height: 700"],
   [style*="min-height:700"],
   [style*="min-height: 440"],
@@ -763,5 +843,34 @@ video {
   }
   .cp-mobile-menu.open {
     display: flex !important;
+  }
+}
+
+/* === Cal booking calendar grid — stack on mobile === */
+@media (max-width: 768px) {
+  .cp-cal-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* === Contact page — stack at tablet === */
+@media (max-width: 1280px) {
+  .cp-contact-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .cp-contact-col-left {
+    border-right: none !important;
+    border-bottom: 1px solid var(--border) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

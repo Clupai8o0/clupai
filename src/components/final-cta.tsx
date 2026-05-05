@@ -11,29 +11,16 @@ export default function FinalCTA() {
         overflow: "hidden",
       }}
     >
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginBottom: 48,
-        }}
-      >
+      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 48 }}>
         <div />
-        <span
-          className="cp-mono"
-          style={{ color: "rgba(5,5,5,0.7)" }}
-        >
+        <span className="cp-mono" style={{ color: "rgba(5,5,5,0.7)" }}>
           clupai.com/contact
         </span>
       </div>
 
       <h2
         className="cp-display"
-        style={{
-          fontSize: "clamp(3rem, 7vw, 7rem)",
-          margin: 0,
-          color: "var(--accent-ink)",
-        }}
+        style={{ fontSize: "clamp(3rem, 7vw, 7rem)", margin: 0, color: "var(--accent-ink)" }}
       >
         Right. Shall
         <br />
@@ -58,34 +45,28 @@ export default function FinalCTA() {
             margin: 0,
           }}
         >
-          Twenty minutes. No slideshow. I&apos;ll ask what you sell, who&apos;s
+          Twenty minutes. No slideshow. We&apos;ll ask what you sell, who&apos;s
           buying, and where the site is getting in the way. You&apos;ll leave
-          with a realistic estimate—or a reason I&apos;m not the right fit.
+          with a realistic estimate—or a reason we&apos;re not the right fit.
         </p>
         <div
           className="cp-cta-buttons"
-          style={{
-            display: "flex",
-            gap: 12,
-            justifyContent: "flex-end",
-            flexWrap: "wrap",
-          }}
+          style={{ display: "flex", gap: 12, justifyContent: "flex-end", flexWrap: "wrap" }}
         >
           <Link
             href="/contact"
             className="cp-btn cp-btn-lg"
             style={{ background: "var(--bg)", color: "var(--accent)" }}
           >
-            Book a 20‑minute scope call →
+            Book a 20‑minute scope call
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M2 8h12M9 3l5 5-5 5" />
+            </svg>
           </Link>
           <a
             href="mailto:hello@clupai.com"
             className="cp-btn cp-btn-lg"
-            style={{
-              background: "transparent",
-              color: "var(--accent-ink)",
-              border: "1.5px solid var(--accent-ink)",
-            }}
+            style={{ background: "transparent", color: "var(--accent-ink)", border: "1.5px solid var(--accent-ink)" }}
           >
             Email hello@clupai.com
           </a>
@@ -100,8 +81,7 @@ export default function FinalCTA() {
           right: 48,
           display: "flex",
           justifyContent: "space-between",
-          fontFamily:
-            'var(--font-mono), "JetBrains Mono", ui-monospace, monospace',
+          fontFamily: 'var(--font-mono), "JetBrains Mono", ui-monospace, monospace',
           fontSize: 10,
           letterSpacing: "0.1em",
           textTransform: "uppercase",

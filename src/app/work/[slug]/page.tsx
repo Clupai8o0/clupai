@@ -1,10 +1,10 @@
 import Link from "next/link";
+import Image from "next/image";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
 import FinalCTA from "@/components/final-cta";
 import Placeholder from "@/components/placeholder";
 import Row from "@/components/row";
-import SamAvatar from "@/components/sam-avatar";
 
 export function generateStaticParams() {
   return [
@@ -535,7 +535,13 @@ export default async function CaseStudyPage({
               gap: 12,
             }}
           >
-            <Placeholder label="headshot" w={56} h={56} />
+            <Image
+              src="/sam-small.jpeg"
+              alt="Sam Limbu"
+              width={56}
+              height={56}
+              style={{ borderRadius: "50%", objectFit: "cover", flexShrink: 0 }}
+            />
             <div>
               <div
                 style={{

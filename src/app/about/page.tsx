@@ -1,8 +1,8 @@
 import Link from "next/link";
+import Image from "next/image";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
 import FinalCTA from "@/components/final-cta";
-import SamAvatar from "@/components/sam-avatar";
 
 const rules = [
   ["01", "Fixed price, firm scope", "Quotes are firm. If scope changes, I'll say so before I bill, not after."],
@@ -52,7 +52,13 @@ export default function AboutPage() {
         }}
       >
         <div>
-          <SamAvatar size={380} />
+          <Image
+            src="/sam.jpeg"
+            alt="Sam Limbu"
+            width={380}
+            height={380}
+            style={{ borderRadius: 4, objectFit: "cover", display: "block" }}
+          />
         </div>
         <div>
           <div className="cp-eyebrow" style={{ marginBottom: 12 }}>
@@ -82,8 +88,7 @@ export default function AboutPage() {
             }}
           >
             Full-stack developer and founder, based in Brunswick, Melbourne.
-            Running under my own ABN since 2024 while completing a BCS (IoT) at
-            Deakin—graduating mid-2027.
+            Running under my own ABN since 2024.
           </p>
           <div
             style={{
@@ -93,13 +98,8 @@ export default function AboutPage() {
               flexWrap: "wrap",
             }}
           >
-            <span className="cp-chip">
-              <span className="dot" />
-              Accepting July 2026
-            </span>
             <span className="cp-chip">ABN registered · Melbourne</span>
             <span className="cp-chip">Brunswick · VIC · AEST</span>
-            <span className="cp-chip">Deakin BCS · Jun 2027</span>
           </div>
         </div>
       </div>
@@ -155,10 +155,9 @@ export default function AboutPage() {
               margin: 0,
             }}
           >
-            Started freelancing in 2024 while studying BCS (IoT) at Deakin—
-            graduating mid-2027. Turns out shipping real things for real clients
-            teaches more than any lecture. Launched Clupai as a formal solo
-            studio under my ABN the same year.
+            Started freelancing in 2024, turning real client problems into
+            shipped products. Launched Clupai as a formal studio under my ABN
+            the same year.
           </p>
           <p
             style={{

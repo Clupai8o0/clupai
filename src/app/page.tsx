@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
 import FinalCTA from "@/components/final-cta";
@@ -8,7 +9,6 @@ import Marquee from "@/components/marquee";
 import RotatingText from "@/components/rotating-text";
 import { motion } from "motion/react";
 import Placeholder from "@/components/placeholder";
-import SamAvatar from "@/components/sam-avatar";
 import { SERVICE_PRICES, PRICING_STRIP } from "@/data/pricing";
 
 const HERO_WORDS = ["customers", "bookings", "revenue", "pipeline", "leads"];
@@ -27,6 +27,7 @@ function HeroA() {
       }}
     >
       <div
+        className="cp-hero-inner"
         style={{
           padding: "0 48px 0",
           display: "grid",
@@ -168,7 +169,12 @@ function HeroA() {
             }}
           >
             <span className="cp-mono">Avg. reply · under 1 AU business day</span>
-            <span className="cp-mono" style={{ alignSelf: "center", border: "1px solid var(--border)", borderRadius: 999, padding: "10px 24px", display: "inline-flex", alignItems: "center", gap: 8 }}>
+            <motion.span
+              className="cp-mono"
+              whileHover={{ scale: 1.04 }}
+              transition={{ type: "spring", stiffness: 400, damping: 25 }}
+              style={{ alignSelf: "center", border: "1px solid var(--border)", borderRadius: 999, padding: "10px 24px", display: "inline-flex", alignItems: "center", gap: 8, cursor: "default" }}
+            >
               Scroll
               <motion.span
                 animate={{ y: [0, 4, 0] }}
@@ -177,7 +183,7 @@ function HeroA() {
               >
                 ↓
               </motion.span>
-            </span>
+            </motion.span>
           </div>
         </div>
       </div>
@@ -528,7 +534,7 @@ function PricingStripSection() {
             margin: 0,
           }}
         >
-          Most agency sites bury the price. I don&apos;t—you shouldn&apos;t
+          Most agency sites bury the price. We don&apos;t—you shouldn&apos;t
           have to book a call to find out whether we&apos;re in the same
           ballpark.
         </p>
@@ -658,7 +664,13 @@ function AboutTeaser() {
       }}
     >
       <div>
-        <SamAvatar size={320} />
+        <Image
+          src="/sam.jpeg"
+          alt="Sam Limbu"
+          width={320}
+          height={320}
+          style={{ borderRadius: 4, objectFit: "cover", display: "block" }}
+        />
         <div
           style={{
             marginTop: 24,
