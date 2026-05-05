@@ -70,6 +70,13 @@ a:hover {
   opacity: 1;
 }
 
+.cp-slots-scroll {
+  scrollbar-width: none;
+}
+.cp-slots-scroll::-webkit-scrollbar {
+  display: none;
+}
+
 img,
 svg,
 video {
@@ -341,6 +348,26 @@ video {
 
 .cp-pricing-card:hover {
   background: rgba(255, 255, 255, 0.055);
+}
+
+/* Footer socials — mobile only */
+.cp-footer-socials {
+  display: none;
+}
+.cp-footer-copy-right {
+  display: block;
+}
+
+/* Hero rail social icon links */
+.cp-rail-social {
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.18s ease;
+}
+.cp-rail-social:hover {
+  color: var(--text);
 }
 
 /* Hero ticker — full-viewport border line via pseudo-element */
@@ -831,6 +858,16 @@ video {
   /* Hide hero left rail on mobile */
   .cp-hero-rail {
     display: none !important;
+  }
+
+  /* Show social icons in footer on mobile */
+  .cp-footer-socials {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .cp-footer-copy-right {
+    display: none;
   }
 
   /* Nav responsive */

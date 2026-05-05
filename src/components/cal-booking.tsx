@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
 const TZ = "Australia/Melbourne";
@@ -317,6 +317,19 @@ export default function CalBooking() {
   const canPrev = !(viewY === today.getFullYear() && viewM === today.getMonth() + 1);
   const dateSlots = selectedDate ? (slots[selectedDate] ?? []) : [];
 
+  const slotsScrollRef = useRef<HTMLDivElement>(null);
+  const [slotsOverflow, setSlotsOverflow] = useState(false);
+
+  useEffect(() => {
+    const el = slotsScrollRef.current;
+    if (!el) { setSlotsOverflow(false); return; }
+    const check = () => setSlotsOverflow(el.scrollHeight > el.clientHeight);
+    check();
+    const ro = new ResizeObserver(check);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [dateSlots]);
+
   // ─── Success state ──────────────────────────────────────────────────────────
 
   if (success) {
@@ -569,47 +582,62 @@ export default function CalBooking() {
                   {dateLabel(selectedDate)} · AEST
                 </div>
                 {dateSlots.length === 0 ? (
-                  <div
-                    className="cp-mono"
-                    style={{ color: "var(--text-dim)" }}
-                  >
+                  <div className="cp-mono" style={{ color: "var(--text-dim)" }}>
                     No slots available
                   </div>
                 ) : (
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: 6,
-                    }}
-                  >
-                    {dateSlots.map((slot) => {
-                      const isSel = selectedSlot === slot.time;
-                      return (
-                        <button
-                          key={slot.time}
-                          type="button"
-                          onClick={() => setSelectedSlot(slot.time)}
-                          style={{
-                            padding: "10px 14px",
-                            textAlign: "left",
-                            border: `1px solid ${isSel ? "var(--accent)" : "var(--border)"}`,
-                            background: isSel
-                              ? "rgba(77,163,255,0.08)"
-                              : "transparent",
-                            borderRadius: 3,
-                            color: isSel ? "var(--accent)" : "var(--text)",
-                            fontFamily: DISPLAY,
-                            fontWeight: 500,
-                            fontSize: 14,
-                            cursor: "pointer",
-                            transition: "border-color 0.12s, background 0.12s",
-                          }}
-                        >
-                          {timeLabel(slot.time)}
-                        </button>
-                      );
-                    })}
+                  <div style={{ position: "relative" }}>
+                    <div
+                      ref={slotsScrollRef}
+                      className="cp-slots-scroll"
+                      style={{
+                        maxHeight: 240,
+                        overflowY: "auto",
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 6,
+                      }}
+                    >
+                      {dateSlots.map((slot) => {
+                        const isSel = selectedSlot === slot.time;
+                        return (
+                          <button
+                            key={slot.time}
+                            type="button"
+                            onClick={() => setSelectedSlot(slot.time)}
+                            style={{
+                              padding: "10px 14px",
+                              textAlign: "left",
+                              flexShrink: 0,
+                              border: `1px solid ${isSel ? "var(--accent)" : "var(--border)"}`,
+                              background: isSel ? "rgba(77,163,255,0.08)" : "transparent",
+                              borderRadius: 3,
+                              color: isSel ? "var(--accent)" : "var(--text)",
+                              fontFamily: DISPLAY,
+                              fontWeight: 500,
+                              fontSize: 14,
+                              cursor: "pointer",
+                              transition: "border-color 0.12s, background 0.12s",
+                            }}
+                          >
+                            {timeLabel(slot.time)}
+                          </button>
+                        );
+                      })}
+                    </div>
+                    {slotsOverflow && (
+                      <div
+                        style={{
+                          position: "absolute",
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          height: 48,
+                          background: "linear-gradient(to bottom, transparent, var(--surface))",
+                          pointerEvents: "none",
+                        }}
+                      />
+                    )}
                   </div>
                 )}
               </>

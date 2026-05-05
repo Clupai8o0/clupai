@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import SocialLinks from "@/components/social-links";
 
 const columns = [
   {
@@ -142,7 +143,10 @@ export default function Footer() {
         <div className="cp-mono" style={{ fontSize: 10 }}>
           © 2026 Sam Limbu · trading as Clupai
         </div>
-        <div className="cp-mono" style={{ fontSize: 10 }}>
+        <div className="cp-footer-socials">
+          <SocialLinks gap={20} />
+        </div>
+        <div className="cp-mono cp-footer-copy-right" style={{ fontSize: 10 }}>
           © 2026
         </div>
       </div>

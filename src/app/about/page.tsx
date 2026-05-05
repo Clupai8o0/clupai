@@ -3,6 +3,7 @@ import Image from "next/image";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
 import FinalCTA from "@/components/final-cta";
+import SocialLinks from "@/components/social-links";
 
 const rules = [
   ["01", "Fixed price, firm scope", "Quotes are firm. If scope changes, I'll say so before I bill, not after."],
@@ -374,8 +375,16 @@ export default function AboutPage() {
           borderBottom: "1px solid var(--border)",
         }}
       >
-        <div className="cp-mono" style={{ marginBottom: 20 }}>
-          Elsewhere
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: 20,
+          }}
+        >
+          <div className="cp-mono">Elsewhere</div>
+          <SocialLinks gap={18} />
         </div>
         <div
           style={{

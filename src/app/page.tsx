@@ -9,6 +9,7 @@ import Marquee from "@/components/marquee";
 import RotatingText from "@/components/rotating-text";
 import { motion } from "motion/react";
 import Placeholder from "@/components/placeholder";
+import SocialLinks from "@/components/social-links";
 import { SERVICE_PRICES, PRICING_STRIP } from "@/data/pricing";
 
 const HERO_WORDS = ["customers", "bookings", "revenue", "pipeline", "leads"];
@@ -48,6 +49,7 @@ function HeroA() {
             flexDirection: "column",
             justifyContent: "space-between",
             paddingTop: 56,
+            paddingBottom: 40,
           }}
         >
           <div>
@@ -62,16 +64,23 @@ function HeroA() {
               A Melbourne studio · est. 2024
             </div>
           </div>
-          <div
-            className="cp-num"
-            style={{ fontSize: 40, color: "var(--accent)", lineHeight: 0.9 }}
-          >
-            10
-          </div>
-          <div className="cp-mono" style={{ fontSize: 10 }}>
-            projects
-            <br />
-            shipped
+
+          {/* social icons */}
+          <SocialLinks gap={18} direction="column" />
+
+          {/* project count */}
+          <div>
+            <div
+              className="cp-num"
+              style={{ fontSize: 40, color: "var(--accent)", lineHeight: 0.9 }}
+            >
+              24
+            </div>
+            <div className="cp-mono" style={{ fontSize: 10, marginTop: 8 }}>
+              projects
+              <br />
+              shipped
+            </div>
           </div>
         </div>
 
@@ -236,7 +245,7 @@ const services = [
 
 function ServicesSection() {
   return (
-    <div style={{ background: "var(--bg)", padding: "120px 48px 80px" }}>
+    <div style={{ background: "var(--bg)", padding: "64px 48px 80px" }}>
       <div
         style={{
           display: "flex",

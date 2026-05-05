@@ -2,6 +2,7 @@ import Nav from "@/components/nav";
 import Footer from "@/components/footer";
 import CalBooking from "@/components/cal-booking";
 import ContactForm from "@/components/contact-form";
+import SocialLinks from "@/components/social-links";
 
 function Fact({ k, v }: { k: string; v: string }) {
   return (
@@ -103,6 +104,10 @@ export default function ContactPage() {
           >
             <Fact k="Reply time" v="Under 1 AU business day — every time." />
             <Fact k="Office" v="Melbourne VIC" />
+            <div>
+              <div className="cp-mono" style={{ marginBottom: 12 }}>Follow</div>
+              <SocialLinks gap={16} />
+            </div>
           </div>
         </div>
       </div>
