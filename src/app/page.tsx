@@ -19,7 +19,9 @@ function HeroA() {
         background: "var(--bg)",
         color: "var(--text)",
         position: "relative",
-        overflow: "hidden",
+        height: "calc(100dvh - 65px)",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       <div
@@ -28,6 +30,8 @@ function HeroA() {
           display: "grid",
           gridTemplateColumns: "96px 1fr",
           gap: 40,
+          flex: 1,
+          minHeight: 0,
         }}
       >
         {/* left rail */}
@@ -36,7 +40,7 @@ function HeroA() {
           style={{
             borderRight: "1px solid var(--border)",
             paddingRight: 24,
-            minHeight: 700,
+            height: "100%",
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
@@ -57,7 +61,7 @@ function HeroA() {
           </div>
           <div
             className="cp-num"
-            style={{ fontSize: 72, color: "var(--accent)", lineHeight: 0.9 }}
+            style={{ fontSize: 40, color: "var(--accent)", lineHeight: 0.9 }}
           >
             10
           </div>
@@ -152,6 +156,8 @@ function HeroA() {
           <div
             style={{
               marginTop: 40,
+              marginLeft: -40,
+              paddingLeft: 40,
               paddingTop: 24,
               borderTop: "1px solid var(--border)",
               display: "flex",
