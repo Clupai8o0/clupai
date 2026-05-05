@@ -32,6 +32,7 @@ function HeroA() {
           gap: 40,
           flex: 1,
           minHeight: 0,
+          alignContent: "start",
         }}
       >
         {/* left rail */}
@@ -40,7 +41,6 @@ function HeroA() {
           style={{
             borderRight: "1px solid var(--border)",
             paddingRight: 24,
-            height: "100%",
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
@@ -96,7 +96,7 @@ function HeroA() {
             <br />
             <RotatingText
               texts={HERO_WORDS}
-              mainClassName="inline-flex overflow-hidden"
+              mainClassName="inline-flex overflow-hidden pb-[0.2em]"
               splitLevelClassName="overflow-hidden"
               staggerFrom="last"
               initial={{ y: "100%" }}
