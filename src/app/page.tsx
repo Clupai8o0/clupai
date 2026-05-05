@@ -5,7 +5,7 @@ import Nav from "@/components/nav";
 import Footer from "@/components/footer";
 import FinalCTA from "@/components/final-cta";
 import Marquee from "@/components/marquee";
-import WordSwap from "@/components/word-swap";
+import RotatingText from "@/components/rotating-text";
 import Placeholder from "@/components/placeholder";
 import SamAvatar from "@/components/sam-avatar";
 
@@ -75,7 +75,7 @@ function HeroA() {
               marginBottom: 36,
             }}
           >
-            <span className="cp-eyebrow">Melbourne · VIC · AU</span>
+            <span className="cp-eyebrow">Web · Apps · Automation</span>
             <span className="cp-mono">CLUPAI.COM</span>
           </div>
           <h1
@@ -86,8 +86,21 @@ function HeroA() {
             <br />
             and automation
             <br />
-            that ship more{" "}
-            <WordSwap words={HERO_WORDS} style={{ color: "var(--accent)" }} />
+            that ship more
+            <br />
+            <RotatingText
+              texts={HERO_WORDS}
+              mainClassName="inline-flex overflow-hidden"
+              splitLevelClassName="overflow-hidden"
+              staggerFrom="last"
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "-120%" }}
+              staggerDuration={0.025}
+              transition={{ type: "spring", damping: 30, stiffness: 400 }}
+              rotationInterval={2000}
+              style={{ color: "var(--accent)" }}
+            />
             <span style={{ color: "var(--accent)" }}>.</span>
           </h1>
           <div
@@ -108,8 +121,8 @@ function HeroA() {
                 lineHeight: 1.5,
               }}
             >
-              I&apos;m Sam—I build, rank, and scale sites for Melbourne
-              operators, end‑to‑end, without the agency overhead.
+              We design, build, and grow digital products for Melbourne
+              businesses—end‑to‑end, without the bloat.
             </p>
             <div style={{ display: "flex", gap: 12, flexShrink: 0 }}>
               <Link
@@ -137,18 +150,15 @@ function HeroA() {
           <div
             style={{
               marginTop: 40,
-              display: "flex",
-              justifyContent: "space-between",
               paddingTop: 24,
               borderTop: "1px solid var(--border)",
+              display: "flex",
+              flexDirection: "column",
+              gap: 12,
             }}
           >
-            <span className="cp-chip">
-              <span className="dot" />
-              Two slots left · Q3
-            </span>
-            <span className="cp-mono">Scroll ↓</span>
             <span className="cp-mono">Avg. reply · under 1 AU business day</span>
+            <span className="cp-mono" style={{ alignSelf: "center", border: "1px solid var(--border)", borderRadius: 999, padding: "6px 16px" }}>Scroll ↓</span>
           </div>
         </div>
       </div>
