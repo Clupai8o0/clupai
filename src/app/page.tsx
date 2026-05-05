@@ -6,6 +6,7 @@ import Footer from "@/components/footer";
 import FinalCTA from "@/components/final-cta";
 import Marquee from "@/components/marquee";
 import RotatingText from "@/components/rotating-text";
+import { motion } from "motion/react";
 import Placeholder from "@/components/placeholder";
 import SamAvatar from "@/components/sam-avatar";
 
@@ -23,7 +24,7 @@ function HeroA() {
     >
       <div
         style={{
-          padding: "56px 48px 0",
+          padding: "0 48px 0",
           display: "grid",
           gridTemplateColumns: "96px 1fr",
           gap: 40,
@@ -39,6 +40,7 @@ function HeroA() {
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
+            paddingTop: 56,
           }}
         >
           <div>
@@ -67,7 +69,7 @@ function HeroA() {
         </div>
 
         {/* hero copy */}
-        <div style={{ position: "relative", paddingBottom: 80 }}>
+        <div style={{ position: "relative", paddingBottom: 80, paddingTop: 56 }}>
           <div
             style={{
               display: "flex",
@@ -158,7 +160,16 @@ function HeroA() {
             }}
           >
             <span className="cp-mono">Avg. reply · under 1 AU business day</span>
-            <span className="cp-mono" style={{ alignSelf: "center", border: "1px solid var(--border)", borderRadius: 999, padding: "6px 16px" }}>Scroll ↓</span>
+            <span className="cp-mono" style={{ alignSelf: "center", border: "1px solid var(--border)", borderRadius: 999, padding: "10px 24px", display: "inline-flex", alignItems: "center", gap: 8 }}>
+              Scroll
+              <motion.span
+                animate={{ y: [0, 4, 0] }}
+                transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
+                style={{ display: "inline-block", lineHeight: 1 }}
+              >
+                ↓
+              </motion.span>
+            </span>
           </div>
         </div>
       </div>
