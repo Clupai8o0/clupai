@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Manrope, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import ClickSpark from "@/components/click-spark";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -36,7 +37,11 @@ export default function RootLayout({
       lang="en"
       className={`${manrope.variable} ${inter.variable} ${jetbrainsMono.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        <ClickSpark sparkColor="#ffffff" sparkSize={10} sparkRadius={20} sparkCount={8} duration={400}>
+          {children}
+        </ClickSpark>
+      </body>
     </html>
   );
 }

@@ -11,6 +11,7 @@ import { motion } from "motion/react";
 import Placeholder from "@/components/placeholder";
 import SocialLinks from "@/components/social-links";
 import { SERVICE_PRICES, PRICING_STRIP } from "@/data/pricing";
+import { featuredKits } from "@/lib/kits";
 
 const HERO_WORDS = ["customers", "bookings", "revenue", "pipeline", "leads"];
 
@@ -408,6 +409,7 @@ const cases = [
 
 const DISPLAY_FONT = "var(--font-display), Manrope, ui-sans-serif, system-ui, sans-serif";
 
+
 function WorkSection() {
   return (
     <div style={{ background: "var(--surface)", padding: "80px 48px" }}>
@@ -759,6 +761,206 @@ function AboutTeaser() {
   );
 }
 
+function KitsSection() {
+  return (
+    <div
+      style={{
+        background: "var(--bg)",
+        borderTop: "1px solid var(--border)",
+      }}
+    >
+      {/* Header */}
+      <div
+        className="cp-kits-header"
+        style={{
+          padding: "56px 48px 48px",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-end",
+          gap: 32,
+        }}
+      >
+        <div>
+          <div className="cp-eyebrow" style={{ marginBottom: 16 }}>
+            Apps · Productised kits · Self-serve
+          </div>
+          <h2
+            className="cp-display"
+            style={{ fontSize: "var(--fs-h2)", margin: 0 }}
+          >
+            Small tools.
+            <br />
+            <span style={{ color: "var(--accent)" }}>
+              Buy once, ship today.
+            </span>
+          </h2>
+        </div>
+        <div className="cp-kits-mrr" style={{ textAlign: "right", flexShrink: 0 }}>
+          <div className="cp-mono" style={{ marginBottom: 6 }}>
+            Last 30 days · MRR
+          </div>
+          <div
+            className="cp-num"
+            style={{
+              fontSize: 48,
+              color: "var(--accent)",
+              letterSpacing: "-0.04em",
+              lineHeight: 1,
+            }}
+          >
+            $1,437
+          </div>
+          <div className="cp-mono" style={{ marginTop: 6 }}>
+            Transparent · Public
+          </div>
+        </div>
+      </div>
+
+      {/* Cards */}
+      <div
+        className="cp-kits-grid"
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(3, 1fr)",
+          borderTop: "1px solid var(--border)",
+          borderBottom: "1px solid var(--border)",
+        }}
+      >
+        {featuredKits.map((kit) => (
+          <div
+            key={kit.n}
+            className="cp-kit-card"
+            style={{
+              padding: "32px 28px",
+              borderRight: "1px solid var(--border)",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: 24,
+              }}
+            >
+              <span className="cp-mono" style={{ color: "var(--accent)" }}>
+                {kit.n}
+              </span>
+              <span
+                className="cp-chip"
+                style={{
+                  color: "var(--accent)",
+                  borderColor: "var(--accent)",
+                  background: "rgba(77,163,255,0.08)",
+                }}
+              >
+                <span className="dot" />
+                Live
+              </span>
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                alignItems: "baseline",
+                gap: 8,
+                marginBottom: 8,
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: DISPLAY_FONT,
+                  fontWeight: 700,
+                  fontSize: 22,
+                  letterSpacing: "-0.025em",
+                }}
+              >
+                {kit.name}
+              </span>
+              <span className="cp-mono">{kit.tag}</span>
+            </div>
+
+            <div className="cp-mono" style={{ marginBottom: 16 }}>
+              {kit.tech}
+            </div>
+
+            <p
+              style={{
+                margin: 0,
+                color: "var(--text-muted)",
+                fontSize: 14,
+                lineHeight: 1.6,
+                flex: 1,
+              }}
+            >
+              {kit.desc}
+            </p>
+
+            <div
+              style={{
+                marginTop: 28,
+                paddingTop: 20,
+                borderTop: "1px dashed var(--border-2)",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "flex-end",
+              }}
+            >
+              <div>
+                <div
+                  className="cp-num"
+                  style={{
+                    fontSize: 28,
+                    color: "var(--accent)",
+                    letterSpacing: "-0.03em",
+                  }}
+                >
+                  {kit.price}
+                </div>
+                <div
+                  className="cp-mono"
+                  style={{ color: "var(--text-dim)", marginTop: 4 }}
+                >
+                  {kit.mrrLabel}
+                </div>
+              </div>
+              <Link
+                href={`/apps#${kit.slug}`}
+                className="cp-btn cp-btn-ghost cp-kit-buy"
+                style={{ padding: "8px 14px", fontSize: 13, minHeight: 0 }}
+              >
+                Buy →
+              </Link>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Footer strip */}
+      <div
+        className="cp-kits-bottom"
+        style={{
+          padding: "28px 48px",
+          display: "flex",
+          justifyContent: "flex-end",
+          alignItems: "center",
+          gap: 24,
+          borderTop: "1px solid var(--border)",
+        }}
+      >
+        <span className="cp-mono" style={{ color: "var(--text-dim)" }}>
+          Free local-schema tool · No signup
+        </span>
+        <Link href="/apps" className="cp-btn cp-btn-primary cp-kits-cta">
+          See all kits →
+        </Link>
+      </div>
+    </div>
+  );
+}
+
 export default function Home() {
   return (
     <>
@@ -769,6 +971,7 @@ export default function Home() {
       <PricingStripSection />
       <TrustSection />
       <AboutTeaser />
+      <KitsSection />
       <FinalCTA />
       <Footer />
     </>

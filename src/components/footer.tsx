@@ -17,6 +17,7 @@ const columns = [
     h: "Studio",
     items: [
       { label: "Work", href: "/work" },
+      { label: "Apps", href: "/apps" },
       { label: "Pricing", href: "/pricing" },
       { label: "Writing", href: "/writing" },
       { label: "About", href: "/about" },
@@ -120,6 +121,7 @@ export default function Footer() {
                 <li key={item.label}>
                   <Link
                     href={item.href}
+                    className="cp-footer-link"
                     style={{ color: "var(--text-muted)", fontSize: 14 }}
                   >
                     {item.label}

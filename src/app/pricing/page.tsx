@@ -198,7 +198,7 @@ export default function PricingPage() {
                     >
                       ✓
                     </span>
-                    {b}
+                    <span style={{ flex: 1, minWidth: 0 }}>{b}</span>
                   </li>
                 ))}
               </ul>
@@ -231,8 +231,9 @@ export default function PricingPage() {
       </div>
 
       {/* Outside the tiers */}
-      <div style={{ padding: "0 48px 64px" }}>
+      <div className="cp-custom-tier-wrap" style={{ padding: "0 48px 64px" }}>
         <div
+          className="cp-custom-tier-card"
           style={{
             background: "var(--surface)",
             border: "1px solid var(--border)",

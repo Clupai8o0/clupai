@@ -8,7 +8,8 @@ const links = [
   { n: "02", label: "Work", href: "/work" },
   { n: "03", label: "Pricing", href: "/pricing" },
   { n: "04", label: "Writing", href: "/writing" },
-  { n: "05", label: "About", href: "/about" },
+  { n: "05", label: "Apps", href: "/apps" },
+  { n: "06", label: "About", href: "/about" },
 ];
 
 export default function Nav({ page }: { page?: string }) {
@@ -79,6 +80,7 @@ export default function Nav({ page }: { page?: string }) {
               </span>
               <Link
                 href={l.href}
+                className="cp-nav-link"
                 style={{
                   fontFamily:
                     "var(--font-display), Manrope, ui-sans-serif, system-ui, sans-serif",

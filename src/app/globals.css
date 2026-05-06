@@ -263,6 +263,156 @@ video {
   letter-spacing: -0.04em;
 }
 
+/* Kit cards — homepage */
+.cp-kit-card {
+  transition: background 0.2s ease, border-color 0.2s ease;
+  position: relative;
+}
+
+.cp-kit-card:hover {
+  background: var(--surface);
+}
+
+.cp-kit-buy {
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease !important;
+}
+
+.cp-kit-card:hover .cp-kit-buy {
+  border-color: var(--accent) !important;
+  color: var(--accent) !important;
+}
+
+/* See all kits CTA */
+.cp-kits-cta {
+  font-size: 15px !important;
+  padding: 12px 24px !important;
+  min-height: 44px !important;
+}
+
+/* Apps page row hover */
+.cp-apps-row {
+  transition: background 0.18s ease;
+}
+
+.cp-apps-row:hover {
+  background: var(--surface);
+  border-radius: 4px;
+}
+
+/* Tablet: kits grid — 3rd card full width */
+@media (max-width: 900px) {
+  .cp-kits-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    padding: 48px 32px 40px;
+  }
+  .cp-kits-mrr {
+    text-align: left !important;
+  }
+  .cp-kits-bottom {
+    padding: 24px 32px !important;
+    flex-wrap: wrap;
+    justify-content: flex-end !important;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 900px) {
+  /* 2-col kit grid on tablet */
+  .cp-kits-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+  .cp-kit-card:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 600px) {
+  .cp-kits-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Decisions section — work case study */
+.decisions-section {
+  padding: 80px 48px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.decisions-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 56px;
+}
+
+.decisions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 900px) {
+  .decisions-section {
+    padding: 56px 32px;
+  }
+  .decisions-layout {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .decisions-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 560px) {
+  .decisions-section {
+    padding: 48px 24px;
+  }
+  .decisions-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Result band — work case study */
+.result-band {
+  padding: 72px 48px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+.result-stat {
+  font-size: 96px;
+  letter-spacing: -0.05em;
+  line-height: 1.1;
+  padding-bottom: 8px;
+}
+
+@media (max-width: 900px) {
+  .result-band {
+    grid-template-columns: 1fr;
+    gap: 48px;
+    padding: 56px 32px;
+  }
+  .result-stat {
+    font-size: clamp(56px, 16vw, 84px);
+  }
+}
+
+@media (max-width: 480px) {
+  .result-band {
+    padding: 48px 24px;
+    gap: 40px;
+  }
+  .result-stat {
+    font-size: clamp(48px, 18vw, 72px);
+  }
+}
+
 @keyframes cp-marquee {
   from {
     transform: translateX(0);
@@ -461,6 +611,193 @@ video {
 }
 .cp-card:hover .cp-card-arrow {
   transform: translateX(5px);
+}
+
+/* === Work page grid === */
+.cp-work-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: stretch;
+}
+
+/* 3-col desktop: no right border on every 3rd card */
+.cp-work-grid .cp-work-card:nth-child(3n) {
+  border-right: none;
+}
+
+/* Tablet: 2-col */
+@media (max-width: 1024px) {
+  .cp-work-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Restore 3rd-position border (it now falls in col 1 of row 2) */
+  .cp-work-grid .cp-work-card:nth-child(3n) {
+    border-right: 1px solid var(--border);
+  }
+  /* Remove border on every 2nd card (right column) */
+  .cp-work-grid .cp-work-card:nth-child(2n) {
+    border-right: none;
+  }
+}
+
+/* Mobile: 1-col */
+@media (max-width: 768px) {
+  .cp-work-grid {
+    grid-template-columns: 1fr;
+  }
+  .cp-work-grid .cp-work-card {
+    border-right: none !important;
+  }
+}
+
+/* === Work page card (full-page grid) === */
+.cp-work-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 420px;
+  height: 100%;
+  padding: 40px 48px;
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.22s ease;
+  box-sizing: border-box;
+}
+
+.cp-work-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), rgba(77, 163, 255, 0.15));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.44s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.cp-work-card:hover {
+  background: rgba(255, 255, 255, 0.022);
+}
+
+.cp-work-card:hover::after {
+  transform: scaleX(1);
+}
+
+/* Arrow in CTA text */
+.cp-work-arrow {
+  display: inline-block;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cp-work-card:hover .cp-work-arrow {
+  transform: translateX(6px);
+}
+
+/* Stat number lifts on hover */
+.cp-work-stat {
+  transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cp-work-card:hover .cp-work-stat {
+  transform: translateY(-4px);
+}
+
+/* Filter button (replaces cp-chip span for interactivity) */
+.cp-filter-btn {
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-family: var(--font-mono), "JetBrains Mono", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid var(--border-2);
+  color: var(--text-muted);
+  transition: color 0.15s, border-color 0.15s, background 0.15s, transform 0.1s ease;
+  user-select: none;
+}
+
+.cp-filter-btn:hover {
+  border-color: var(--text-muted);
+  color: var(--text);
+}
+
+.cp-filter-btn:active {
+  transform: scale(0.93);
+}
+
+/* Card stagger entry animation */
+@keyframes cp-work-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.cp-work-card-in {
+  animation: cp-work-in 0.38s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* === Nav link hover micro-interaction === */
+.cp-nav-link {
+  position: relative;
+  transition: color 0.18s ease;
+}
+
+.cp-nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cp-nav-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* === Footer link hover micro-interaction === */
+.cp-footer-link {
+  position: relative;
+  transition: color 0.18s ease;
+}
+
+.cp-footer-link::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--text-muted);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cp-footer-link:hover {
+  color: var(--text) !important;
+}
+
+.cp-footer-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
 }
 
 /* === "All case studies" link === */
@@ -861,6 +1198,12 @@ video {
     border-left: 1px solid var(--border) !important;
   }
 
+  /* Work page card — no min-height on mobile */
+  .cp-work-card {
+    min-height: 0;
+    padding: 28px 20px !important;
+  }
+
   /* Inline min-heights — drop on mobile */
   [style*="min-height: 720"],
   [style*="min-height:720"],
@@ -1010,6 +1353,14 @@ video {
   .cp-svc-stat {
     font-size: clamp(2.5rem, 12vw, 4rem) !important;
   }
+
+  /* Custom pricing section — equal horizontal padding on mobile */
+  .cp-custom-tier-wrap {
+    padding: 0 20px 48px !important;
+  }
+  .cp-custom-tier-card {
+    padding: 28px 24px !important;
+  }
 }
 
 /* === Nav — collapse to hamburger at tablet === */
@@ -1074,6 +1425,51 @@ video {
   .cp-contact-col-left {
     border-right: none !important;
     border-bottom: 1px solid var(--border) !important;
+  }
+}
+
+/* === Kits section (homepage teaser) === */
+.cp-kit-card {
+  transition: background 0.18s ease;
+}
+
+.cp-kit-card:last-child {
+  border-right: none !important;
+}
+
+.cp-kit-card:hover {
+  background: rgba(255, 255, 255, 0.025);
+}
+
+@media (max-width: 900px) {
+  .cp-kit-card:nth-child(2n) {
+    border-right: none;
+  }
+  .cp-kit-card:nth-child(-n+2) {
+    border-bottom: 1px solid var(--border);
+  }
+}
+
+@media (max-width: 768px) {
+  .cp-kit-card {
+    border-right: none !important;
+    border-bottom: 1px solid var(--border) !important;
+  }
+  .cp-kit-card:last-child {
+    border-bottom: none !important;
+  }
+  .cp-kits-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 24px !important;
+  }
+  .cp-kits-mrr {
+    text-align: left !important;
+  }
+  .cp-kits-bottom {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 20px !important;
   }
 }
 

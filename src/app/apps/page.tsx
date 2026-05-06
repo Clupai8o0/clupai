@@ -2,74 +2,12 @@ import Link from "next/link";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
 import FinalCTA from "@/components/final-cta";
-
-const apps = [
-  {
-    slug: "scopekit",
-    name: "ScopeKit",
-    tag: "v2.1",
-    price: "$149",
-    mrr: "$840/mo",
-    desc: "Notion template + Airtable base for scoping fixed-price web projects. The exact system I use.",
-    tech: "Notion · Airtable",
-    status: "Live",
-  },
-  {
-    slug: "leadform",
-    name: "LeadForm AU",
-    tag: "v1.4",
-    price: "$49",
-    mrr: "$312/mo",
-    desc: "Next.js lead form with budget-range qualification, honeypot, Resend email, and GA4 events wired up.",
-    tech: "Next.js · Resend",
-    status: "Live",
-  },
-  {
-    slug: "cwv-audit",
-    name: "CWV Audit Kit",
-    tag: "v1.0",
-    price: "$99",
-    mrr: "$198/mo",
-    desc: "Playwright + Lighthouse CI recipe that audits 20 URLs nightly and posts to Slack. Set-and-forget.",
-    tech: "Playwright · CI",
-    status: "Live",
-  },
-  {
-    slug: "ads-autopilot",
-    name: "Ads Autopilot",
-    tag: "v0.9",
-    price: "$399",
-    mrr: "—",
-    desc: "n8n workflow that sweeps Google Ads search terms weekly, adds negatives, and reports in Slack.",
-    tech: "n8n · Google Ads",
-    status: "Beta",
-  },
-  {
-    slug: "brief-to-quote",
-    name: "Brief-to-Quote",
-    tag: "v1.2",
-    price: "$29",
-    mrr: "$87/mo",
-    desc: "A single Notion page that turns a discovery-call transcript into a fixed-price quote in under 20 minutes.",
-    tech: "Notion",
-    status: "Live",
-  },
-  {
-    slug: "local-schema",
-    name: "Local Schema Generator",
-    tag: "v1.1",
-    price: "Free",
-    mrr: "—",
-    desc: "Paste your GBP details, get LocalBusiness + Service schema JSON-LD. No sign-up. No email capture.",
-    tech: "Web app",
-    status: "Live",
-  },
-];
+import { kits } from "@/lib/kits";
 
 export default function AppsPage() {
   return (
     <>
-      <Nav />
+      <Nav page="apps" />
 
       <div
         style={{
@@ -136,9 +74,11 @@ export default function AppsPage() {
 
       {/* Product list */}
       <div style={{ padding: "0 48px" }}>
-        {apps.map((a) => (
+        {kits.map((a) => (
           <div
             key={a.slug}
+            id={a.slug}
+            className="cp-apps-row"
             style={{
               display: "grid",
               gridTemplateColumns: "72px 1.1fr 1.4fr 180px 140px 60px",
@@ -226,6 +166,7 @@ export default function AppsPage() {
                   {a.mrr} MRR
                 </div>
               )}
+
             </div>
             <div>
               <span
