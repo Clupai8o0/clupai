@@ -37,7 +37,7 @@ export async function GET(request: NextRequest) {
   if (apiKey) headers["Authorization"] = `Bearer ${apiKey}`;
 
   try {
-    const res = await fetch(url.toString(), { headers, next: { revalidate: 300 } });
+    const res = await fetch(url.toString(), { headers, next: { revalidate: 60 } });
 
     if (!res.ok) {
       const err = await res.text();

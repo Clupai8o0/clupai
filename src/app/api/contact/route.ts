@@ -4,7 +4,7 @@ import { type NextRequest, NextResponse } from "next/server";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 const TO = "hello@clupai.com";
-const FROM = "clupai contact <onboarding@resend.dev>"; // swap for your verified domain later
+const FROM = "clupai <hello@clupai.com>";
 
 export async function POST(request: NextRequest) {
   if (!process.env.RESEND_API_KEY) {
@@ -63,6 +63,28 @@ export async function POST(request: NextRequest) {
   </p>
 </div>`;
 
+  const confirmHtml = `
+<div style="font-family: system-ui, sans-serif; max-width: 600px; color: #111;">
+  <p style="margin:0 0 24px; font-size:13px; color:#666; text-transform:uppercase; letter-spacing:0.08em;">
+    clupai.com
+  </p>
+  <p style="font-size:16px; font-weight:600; margin:0 0 12px;">
+    Got it, ${escHtml(name)}.
+  </p>
+  <p style="font-size:15px; color:#444; line-height:1.6; margin:0 0 24px;">
+    We received your message and will reply within one AU business day.
+    If it's urgent, email us directly at
+    <a href="mailto:hello@clupai.com" style="color:#4da3ff;">hello@clupai.com</a>.
+  </p>
+  <div style="background:#f9f9f9; border-left:3px solid #4da3ff; padding:16px 20px; border-radius:2px; margin-bottom:24px;">
+    <p style="margin:0 0 8px; font-size:11px; color:#999; text-transform:uppercase; letter-spacing:0.08em;">Your message</p>
+    <p style="margin:0; font-size:14px; line-height:1.6; color:#555; white-space:pre-wrap;">${escHtml(message)}</p>
+  </div>
+  <p style="margin:0; font-size:12px; color:#aaa;">
+    — clupai · Melbourne VIC
+  </p>
+</div>`;
+
   const { error } = await resend.emails.send({
     from: FROM,
     to: TO,
@@ -73,8 +95,19 @@ export async function POST(request: NextRequest) {
 
   if (error) {
     console.error("Resend error:", error);
-    return NextResponse.json({ error: error.message }, { status: 502 });
+    return NextResponse.json({ error: (error as { message?: string }).message ?? "Email failed" }, { status: 502 });
   }
+
+  // Confirmation to sender — best-effort; fails silently when FROM is unverified
+  resend.emails
+    .send({
+      from: FROM,
+      to: email,
+      replyTo: TO,
+      subject: `We got your message${company ? ` · ${escHtml(company)}` : ""}`,
+      html: confirmHtml,
+    })
+    .catch((err) => console.warn("Confirmation email skipped:", err));
 
   return NextResponse.json({ ok: true });
 }

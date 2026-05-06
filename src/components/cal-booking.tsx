@@ -315,7 +315,12 @@ export default function CalBooking() {
     Object.keys(slots).filter((d) => (slots[d]?.length ?? 0) > 0)
   );
   const canPrev = !(viewY === today.getFullYear() && viewM === today.getMonth() + 1);
-  const dateSlots = selectedDate ? (slots[selectedDate] ?? []) : [];
+  const MIN_NOTICE_MS = (4 * 60 + 10) * 60 * 1000; // 4h10m: 4h minimum + buffer for cache + form fill
+  const dateSlots = selectedDate
+    ? (slots[selectedDate] ?? []).filter(
+        (slot) => new Date(slot.time).getTime() > Date.now() + MIN_NOTICE_MS
+      )
+    : [];
 
   const slotsScrollRef = useRef<HTMLDivElement>(null);
   const [slotsOverflow, setSlotsOverflow] = useState(false);
@@ -374,7 +379,7 @@ export default function CalBooking() {
               marginBottom: 8,
             }}
           >
-            You&apos;re booked in.
+            Request received.
           </div>
           <div style={{ color: "var(--text-muted)", fontSize: 15, lineHeight: 1.5 }}>
             {selectedDate && selectedSlot && (
@@ -383,8 +388,8 @@ export default function CalBooking() {
           </div>
         </div>
         <p style={{ color: "var(--text-muted)", fontSize: 14, maxWidth: 300, margin: 0, lineHeight: 1.6 }}>
-          Calendar invite sent to {form.email}. I&apos;ll have context from your
-          answers before we speak.
+          We&apos;ll confirm your slot shortly. Check {form.email} for the
+          calendar invite once confirmed.
         </p>
         <div className="cp-mono" style={{ color: "var(--text-dim)" }}>
           ref: {bookedRef}
