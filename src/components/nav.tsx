@@ -122,6 +122,7 @@ export default function Nav({ page }: { page?: string }) {
           onClick={() => setOpen((v) => !v)}
         >
           <svg
+            key={open ? "x" : "menu"}
             width="18"
             height="18"
             viewBox="0 0 18 18"
@@ -149,12 +150,18 @@ export default function Nav({ page }: { page?: string }) {
                 page === l.label.toLowerCase() ? "var(--accent)" : "var(--text)",
             }}
           >
-            <span className="num">({l.n})</span>
-            {l.label}
+            <span className="cp-num-mask">
+              <span className="cp-num-slide num">({l.n})</span>
+            </span>
+            <span className="cp-link-mask">
+              <span className="cp-link-slide">{l.label}</span>
+            </span>
           </Link>
         ))}
         <Link href="/contact" onClick={() => setOpen(false)} className="cta">
-          Book a call →
+          <span className="cp-link-mask">
+            <span className="cp-link-slide">Book a call →</span>
+          </span>
         </Link>
       </div>
     </>

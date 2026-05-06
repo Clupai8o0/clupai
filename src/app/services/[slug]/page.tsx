@@ -41,6 +41,7 @@ export default async function ServiceDetailPage({
         }}
       >
         <div
+          className="cp-svc-hero-grid"
           style={{
             display: "grid",
             gridTemplateColumns: "1fr 360px",
@@ -149,6 +150,7 @@ export default async function ServiceDetailPage({
             </h2>
           </div>
           <ul
+            className="cp-svc-items-grid"
             style={{
               listStyle: "none",
               padding: 0,
@@ -170,7 +172,7 @@ export default async function ServiceDetailPage({
               >
                 <span
                   className="cp-mono"
-                  style={{ color: "var(--text-dim)", minWidth: 26 }}
+                  style={{ color: "var(--text-dim)", minWidth: 26, flexShrink: 0 }}
                 >
                   ({String(i + 1).padStart(2, "0")})
                 </span>
@@ -179,6 +181,8 @@ export default async function ServiceDetailPage({
                     color: "var(--text)",
                     fontSize: 15,
                     lineHeight: 1.55,
+                    flex: 1,
+                    minWidth: 0,
                   }}
                 >
                   {it}
@@ -212,6 +216,7 @@ export default async function ServiceDetailPage({
           <span style={{ color: "var(--accent)" }}>On purpose.</span>
         </h2>
         <div
+          className="cp-svc-process-grid"
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(5, 1fr)",
@@ -221,6 +226,7 @@ export default async function ServiceDetailPage({
           {data.process.map((p, i) => (
             <div
               key={i}
+              className="cp-svc-step"
               style={{
                 padding: "24px 24px 28px",
                 borderLeft:
@@ -282,6 +288,7 @@ export default async function ServiceDetailPage({
         }}
       >
         <div
+          className="cp-svc-cs-grid"
           style={{
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
@@ -294,7 +301,7 @@ export default async function ServiceDetailPage({
               § 03 · Recent {data.crumb.toLowerCase()} build
             </div>
             <div
-              className="cp-num"
+              className="cp-num cp-svc-stat"
               style={{
                 fontSize: 120,
                 color: "var(--accent)",

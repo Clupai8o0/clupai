@@ -211,15 +211,42 @@ video {
 }
 
 .cp-service-card {
-  transition: background 0.22s ease;
+  position: relative;
+  transition: background 0.18s ease;
+}
+
+.cp-service-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--accent);
+  opacity: 0;
+  transition: opacity 0.18s ease;
+  pointer-events: none;
 }
 
 .cp-service-card:hover {
-  background: rgba(255, 255, 255, 0.055);
+  background: var(--surface);
+}
+
+.cp-service-card:hover::before {
+  opacity: 1;
+}
+
+.cp-service-card:hover .cp-service-num {
+  color: var(--text-muted);
+}
+
+.cp-service-num {
+  transition: color 0.18s ease;
 }
 
 .cp-service-arrow {
-  transition: transform 0.25s ease;
+  display: inline-block;
+  transition: transform 0.22s ease;
 }
 
 .cp-service-card:hover .cp-service-arrow {
@@ -269,10 +296,20 @@ video {
   color: var(--text);
   cursor: pointer;
   padding: 0;
+  transition: border-color 0.2s;
 }
 
 .cp-nav-toggle:hover {
   border-color: var(--text);
+}
+
+@keyframes cp-icon-pop {
+  from { opacity: 0; transform: scale(0.7) rotate(-15deg); }
+  to   { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+.cp-nav-toggle svg {
+  animation: cp-icon-pop 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .cp-mobile-menu {
@@ -287,11 +324,12 @@ video {
   z-index: 49;
   border-top: 1px solid var(--border);
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .cp-mobile-menu a {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 10px;
   padding: 14px 4px;
   font-family: var(--font-display), Manrope, ui-sans-serif, system-ui, sans-serif;
@@ -307,6 +345,7 @@ video {
   font-size: 11px;
   letter-spacing: 0.08em;
   color: var(--text-dim);
+  flex-shrink: 0;
 }
 
 .cp-mobile-menu .cta {
@@ -317,6 +356,29 @@ video {
   border-radius: var(--radius);
   padding: 14px 18px;
   justify-content: center;
+}
+
+/* Overflow-hidden text masks for staggered reveal */
+.cp-link-mask,
+.cp-num-mask {
+  overflow: hidden;
+  display: inline-block;
+  line-height: 1.15;
+  vertical-align: middle;
+}
+
+/* Label slides up from below */
+.cp-link-slide {
+  display: block;
+  transform: translateY(110%);
+  transition: transform 0.56s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Number slides down from above (opposite direction) */
+.cp-num-slide {
+  display: block;
+  transform: translateY(-110%);
+  transition: transform 0.56s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* === Services grid === */
@@ -482,8 +544,9 @@ video {
   }
 }
 
-/* === Tablet & smaller — collapse 4-col and 3-col grids to 2, stack fixed-col heroes === */
+/* === Tablet & smaller — collapse 5/4/3-col grids to 2, stack fixed-col heroes === */
 @media (max-width: 900px) {
+  [style*="repeat(5, 1fr)"],
   [style*="repeat(4, 1fr)"],
   [style*="repeat(3, 1fr)"] {
     grid-template-columns: repeat(2, 1fr) !important;
@@ -594,6 +657,47 @@ video {
   .cp-hero-ticker::before {
     left: -24px !important;
   }
+
+  /* Service detail hero — stack price card at tablet */
+  .cp-svc-hero-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+
+  /* Stack 320px sidebar + content grids (included, FAQ) at tablet */
+  [style*="320px 1fr"] {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+
+  /* Service detail hero 3-value padding */
+  [style*="32px 48px 72px"] {
+    padding: 32px 32px 56px !important;
+  }
+
+  /* Service detail process — 3-col at tablet */
+  .cp-svc-process-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+  /* Remove border-left from col-1 items (1st and 4th) in 3-col layout */
+  .cp-svc-process-grid > .cp-svc-step:nth-child(3n+1) {
+    border-left: none !important;
+  }
+  /* Horizontal divider between row 1 and row 2 */
+  .cp-svc-process-grid > .cp-svc-step:nth-child(n+4) {
+    border-top: 1px solid var(--border-2);
+  }
+
+  /* Case study: stack at tablet */
+  .cp-svc-cs-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+
+  /* Scale down the big stat at tablet */
+  .cp-svc-stat {
+    font-size: 80px !important;
+  }
 }
 
 /* === Narrow iPad portrait (769px–860px) — stack AboutTeaser === */
@@ -635,6 +739,10 @@ video {
   }
   [style*="40px 48px"] {
     padding: 32px 20px !important;
+  }
+  /* Service detail hero: 3-value 32px 48px 72px */
+  [style*="32px 48px 72px"] {
+    padding: 24px 20px 48px !important;
   }
   [style*="32px 48px"] {
     padding: 24px 20px !important;
@@ -870,7 +978,42 @@ video {
     display: none;
   }
 
-  /* Nav responsive */
+  /* Nav responsive — handled separately below */
+
+  /* === Service detail page — mobile === */
+
+  /* Items included grid: single column */
+  .cp-svc-items-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
+  }
+
+  /* Process: single column, no side borders, no min-height */
+  .cp-svc-process-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .cp-svc-step {
+    border-left: none !important;
+    min-height: 0 !important;
+  }
+  .cp-svc-step + .cp-svc-step {
+    border-top: 1px solid var(--border-2);
+  }
+
+  /* Case study: stack */
+  .cp-svc-cs-grid {
+    grid-template-columns: 1fr !important;
+    gap: 28px !important;
+  }
+
+  /* Scale down the giant stat so it doesn't overflow viewport */
+  .cp-svc-stat {
+    font-size: clamp(2.5rem, 12vw, 4rem) !important;
+  }
+}
+
+/* === Nav — collapse to hamburger at tablet === */
+@media (max-width: 1024px) {
   .cp-nav-links,
   .cp-nav-cta {
     display: none !important;
@@ -878,9 +1021,42 @@ video {
   .cp-nav-toggle {
     display: inline-flex !important;
   }
-  .cp-mobile-menu.open {
-    display: flex !important;
+
+  /* Panel: clip-path wipe from top to bottom on open */
+  .cp-mobile-menu {
+    display: flex;
+    clip-path: inset(0 0 100% 0);
+    visibility: hidden;
+    pointer-events: none;
+    /* close: fast snap, then hide */
+    transition:
+      clip-path 0.2s ease-in,
+      visibility 0s linear 0.2s;
   }
+
+  .cp-mobile-menu.open {
+    clip-path: inset(0 0 0% 0);
+    visibility: visible;
+    pointer-events: auto;
+    /* open: spring curtain drop, show immediately */
+    transition:
+      clip-path 0.44s cubic-bezier(0.16, 1, 0.3, 1),
+      visibility 0s linear;
+  }
+
+  /* Staggered reveal: label up, number down */
+  .cp-mobile-menu.open a:nth-child(1) .cp-link-slide,
+  .cp-mobile-menu.open a:nth-child(1) .cp-num-slide { transform: translateY(0); transition-delay: 0.07s; }
+  .cp-mobile-menu.open a:nth-child(2) .cp-link-slide,
+  .cp-mobile-menu.open a:nth-child(2) .cp-num-slide { transform: translateY(0); transition-delay: 0.13s; }
+  .cp-mobile-menu.open a:nth-child(3) .cp-link-slide,
+  .cp-mobile-menu.open a:nth-child(3) .cp-num-slide { transform: translateY(0); transition-delay: 0.19s; }
+  .cp-mobile-menu.open a:nth-child(4) .cp-link-slide,
+  .cp-mobile-menu.open a:nth-child(4) .cp-num-slide { transform: translateY(0); transition-delay: 0.25s; }
+  .cp-mobile-menu.open a:nth-child(5) .cp-link-slide,
+  .cp-mobile-menu.open a:nth-child(5) .cp-num-slide { transform: translateY(0); transition-delay: 0.31s; }
+  .cp-mobile-menu.open a:nth-child(6) .cp-link-slide,
+  .cp-mobile-menu.open a:nth-child(6) .cp-num-slide { transform: translateY(0); transition-delay: 0.37s; }
 }
 
 /* === Cal booking calendar grid — stack on mobile === */

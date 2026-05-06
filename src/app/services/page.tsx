@@ -64,7 +64,7 @@ export default function ServicesPage() {
           Websites, apps, SEO, automation.
           <br />
           <span style={{ color: "var(--accent)" }}>
-            All me. All fixed price.
+            All in. All fixed price.
           </span>
         </h1>
         <p
@@ -76,28 +76,29 @@ export default function ServicesPage() {
             lineHeight: 1.5,
           }}
         >
-          Pick one. Pick all four. I run them the same way either way—one
-          operator, one Slack channel, one invoice.
+          Pick one. Pick all four. We run them the same way either way—one
+          team, one Slack channel, one invoice.
         </p>
       </div>
 
-      <div style={{ padding: "0 48px 48px" }}>
+      <div style={{ padding: "0 0 48px" }}>
         {services.map((s) => (
           <Link
             key={s.n}
             href={`/services/${s.slug}`}
+            className="cp-service-card"
             style={{
               display: "grid",
               gridTemplateColumns: "80px 1fr 1fr 280px",
               gap: 32,
-              padding: "40px 0",
+              padding: "40px 48px",
               borderBottom: "1px solid var(--border)",
               alignItems: "start",
               cursor: "pointer",
             }}
           >
             <div
-              className="cp-num"
+              className="cp-num cp-service-num"
               style={{
                 fontSize: 48,
                 color: "var(--accent)",
@@ -156,7 +157,8 @@ export default function ServicesPage() {
                   fontSize: 14,
                 }}
               >
-                Open /services/{s.slug} →
+                Open /services/{s.slug}{" "}
+                <span className="cp-service-arrow">→</span>
               </div>
             </div>
           </Link>
@@ -182,7 +184,12 @@ export default function ServicesPage() {
           }}
         >
           {PACKAGES.map(([h, p, d]) => (
-            <div key={h} className="cp-card" style={{ padding: 28 }}>
+            <Link
+              key={h}
+              href="/pricing"
+              className="cp-card"
+              style={{ padding: 28, display: "block", textDecoration: "none" }}
+            >
               <div className="cp-mono" style={{ marginBottom: 12 }}>
                 {h.toUpperCase()}
               </div>
@@ -205,8 +212,7 @@ export default function ServicesPage() {
               >
                 {d}
               </p>
-              <Link
-                href="/pricing"
+              <span
                 style={{
                   marginTop: 20,
                   display: "inline-block",
@@ -217,8 +223,8 @@ export default function ServicesPage() {
                 }}
               >
                 See pricing →
-              </Link>
-            </div>
+              </span>
+            </Link>
           ))}
         </div>
       </div>
