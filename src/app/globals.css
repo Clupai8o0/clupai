@@ -333,6 +333,56 @@ video {
   }
 }
 
+/* Breadcrumb link hover */
+.cp-breadcrumb-link {
+  color: var(--text-muted);
+  transition: color 0.15s ease;
+}
+.cp-breadcrumb-link:hover {
+  color: var(--text);
+}
+
+/* Writing page — responsive post grid */
+.writing-posts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.writing-posts-grid .writing-card {
+  border-right: 1px solid var(--border);
+}
+
+.writing-posts-grid .writing-card:nth-child(3n) {
+  border-right: none;
+}
+
+@media (max-width: 1023px) and (min-width: 640px) {
+  .writing-posts-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .writing-posts-grid .writing-card {
+    border-right: 1px solid var(--border);
+  }
+  .writing-posts-grid .writing-card:nth-child(2n) {
+    border-right: none;
+  }
+  .writing-posts-grid .writing-card:nth-child(3n) {
+    border-right: 1px solid var(--border);
+  }
+  .writing-posts-grid .writing-card:nth-child(2n):last-child {
+    border-right: none;
+  }
+}
+
+@media (max-width: 639px) {
+  .writing-posts-grid {
+    grid-template-columns: 1fr;
+  }
+  .writing-posts-grid .writing-card {
+    border-right: none !important;
+  }
+}
+
 /* Decisions section — work case study */
 .decisions-section {
   padding: 80px 48px;
