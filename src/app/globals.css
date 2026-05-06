@@ -333,6 +333,14 @@ video {
   }
 }
 
+/* Writing post body — list markers */
+.writing-body ul li::marker,
+.writing-body ol li::marker {
+  color: var(--accent);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.8em;
+}
+
 /* Breadcrumb link hover */
 .cp-breadcrumb-link {
   color: var(--text-muted);

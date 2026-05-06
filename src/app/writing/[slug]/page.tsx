@@ -52,11 +52,22 @@ function renderBlock(block: ContentBlock, i: number) {
       );
     case "ul":
       return (
-        <ul key={i} style={{ paddingLeft: 20, margin: "0 0 20px" }}>
+        <ul
+          key={i}
+          style={{
+            paddingLeft: 24,
+            margin: "0 0 20px",
+            listStyleType: "disc",
+          }}
+        >
           {block.items.map((item, j) => (
             <li
               key={j}
-              style={{ marginBottom: 10, lineHeight: 1.65 }}
+              style={{
+                marginBottom: 10,
+                lineHeight: 1.65,
+                paddingLeft: 6,
+              }}
               dangerouslySetInnerHTML={{ __html: item }}
             />
           ))}
@@ -64,11 +75,22 @@ function renderBlock(block: ContentBlock, i: number) {
       );
     case "ol":
       return (
-        <ol key={i} style={{ paddingLeft: 20, margin: "0 0 20px" }}>
+        <ol
+          key={i}
+          style={{
+            paddingLeft: 24,
+            margin: "0 0 20px",
+            listStyleType: "decimal",
+          }}
+        >
           {block.items.map((item, j) => (
             <li
               key={j}
-              style={{ marginBottom: 12, lineHeight: 1.65 }}
+              style={{
+                marginBottom: 12,
+                lineHeight: 1.65,
+                paddingLeft: 6,
+              }}
               dangerouslySetInnerHTML={{ __html: item }}
             />
           ))}
@@ -206,7 +228,7 @@ export default async function BlogPostPage({
 
       {/* Body */}
       <div
-        className="px-6 md:px-12 pb-20"
+        className="writing-body px-6 md:px-12 pb-20"
         style={{
           maxWidth: 760,
           margin: "0 auto",
