@@ -368,12 +368,13 @@ const cases = [
   {
     n: "01",
     client: "King Double Glazing",
-    kind: "Window glazing · Melbourne",
-    stat: "4.9s→0.8s",
-    sstat: "LCP · Core Web Vitals",
-    desc: "Full Next.js 15 rebuild from an ageing site. Neon Postgres, Drizzle ORM, Tailwind v4, Vercel. Local schema, SEO strategy, Core Web Vitals green—delivered on scope.",
+    kind: "Retrofit glazing · Melbourne",
+    stat: "75→99",
+    sstat: "Performance · desktop · Lighthouse",
+    desc: "Rebrand and full rebuild from The Glass Discounters (57 mobile, 13.1s LCP). Next.js 16, TinaCMS, Neon, Drizzle, Resend. Instant Estimate Tool that surfaces price before lead capture. Desktop 99 · SEO 100.",
     href: "/work/king-double-glazing",
     large: true,
+    cover: "/work/kdg/homepage.webp",
   },
   {
     n: "02",
@@ -456,6 +457,14 @@ function WorkSection() {
             </div>
 
             {c.large ? (
+              <>
+                {'cover' in c && c.cover && (
+                  <img
+                    src={c.cover as string}
+                    alt={c.client}
+                    style={{ display: "block", width: "calc(100% + 56px)", marginLeft: -28, marginTop: -28, height: 180, objectFit: "cover", marginBottom: 28 }}
+                  />
+                )}
               <div className="cp-bento-inner">
                 <div className="cp-bento-stat-col">
                   <div className="cp-num" style={{ fontSize: 64, color: "var(--accent)", lineHeight: 0.9, letterSpacing: "-0.05em" }}>
@@ -483,6 +492,7 @@ function WorkSection() {
                   </div>
                 </div>
               </div>
+              </>
             ) : (
               <>
                 <div className="cp-num" style={{ fontSize: 96, color: "var(--accent)", lineHeight: 0.9, margin: "36px 0 8px", letterSpacing: "-0.05em" }}>

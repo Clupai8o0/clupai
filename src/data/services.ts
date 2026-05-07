@@ -12,7 +12,7 @@ export interface ServiceData {
   revisions: string;
   included: string[];
   process: { h: string; d: string; body: string }[];
-  cs: { stat: string; sstat: string; title: string; body: string };
+  cs: { stat: string; sstat: string; title: string; body: string; cover?: string };
   faq: { q: string; a: string }[];
 }
 
@@ -70,10 +70,11 @@ export const SERVICE_DATA: Record<string, ServiceData> = {
       },
     ],
     cs: {
-      stat: "4.9s→0.8s",
-      sstat: "LCP · Core Web Vitals green after launch",
-      title: "King Double Glazing — full Next.js 15 rebuild",
-      body: "The old site was slow, hard to update, and had no clear quote CTA. I rebuilt it on Next.js 15 with Neon Postgres, Drizzle ORM, and Tailwind v4. Core Web Vitals green. LocalBusiness schema. One CTA above the fold on every page.",
+      stat: "75→99",
+      sstat: "Performance · desktop · Lighthouse",
+      title: "King Double Glazing — rebrand, rebuild, conversion funnel",
+      body: "Full rebrand from The Glass Discounters (57 mobile Lighthouse, 13.1s LCP) to King Double Glazing. Next.js 16, TinaCMS, Neon, Drizzle, Resend, Tailwind v4. Instant Estimate Tool that surfaces price before lead capture. Desktop 99 · SEO 100 · Best Practices 100.",
+      cover: "/work/kdg/homepage.webp",
     },
     faq: [
       {

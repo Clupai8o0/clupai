@@ -44,7 +44,7 @@ export default function WorkPage() {
               Ten builds.
               <br />
               <span style={{ color: "var(--accent)" }}>
-                Six worth showing.
+                Seven worth showing.
               </span>
             </h1>
           </div>
@@ -82,11 +82,18 @@ export default function WorkPage() {
               <span className="cp-mono">{c.tag}</span>
               <span className="cp-mono">{c.year}</span>
             </div>
-            <Placeholder
-              label={`${c.client} hero`}
-              h={160}
-              style={{ marginTop: 20 }}
-            />
+            {(() => {
+              const src = c.thumbnail ?? c.media?.find(m => m.type === "image")?.src;
+              return src ? (
+                <img
+                  src={src}
+                  alt={c.client}
+                  style={{ width: "100%", height: 160, objectFit: "cover", display: "block", marginTop: 20 }}
+                />
+              ) : (
+                <Placeholder label={`${c.client} hero`} h={160} style={{ marginTop: 20 }} />
+              );
+            })()}
             <div
               className="cp-num cp-work-stat"
               style={{

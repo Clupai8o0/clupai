@@ -3,8 +3,8 @@ import Link from "next/link";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
 import FinalCTA from "@/components/final-cta";
-import Placeholder from "@/components/placeholder";
 import Row from "@/components/row";
+import { CaseGallery } from "@/components/case-gallery";
 import { cases, getCaseBySlug } from "@/data/cases";
 
 export function generateStaticParams() {
@@ -278,73 +278,7 @@ export default async function CaseStudyPage({
           </h2>
         </div>
 
-        <figure style={{ margin: 0 }}>
-          <Placeholder label={`${c.client} · hero · desktop`} h={760} />
-          <div
-            style={{
-              marginTop: 12,
-              display: "flex",
-              justifyContent: "space-between",
-            }}
-          >
-            <span className="cp-mono" style={{ color: "var(--text-muted)" }}>
-              01 / 06 · Home · 1440px
-            </span>
-            <span className="cp-mono" style={{ color: "var(--accent)" }}>
-              {c.results[0][0]}: {c.results[0][1]}
-            </span>
-          </div>
-        </figure>
-
-        <div
-          style={{
-            marginTop: 48,
-            display: "grid",
-            gridTemplateColumns: "360px 1fr",
-            gap: 24,
-            alignItems: "start",
-          }}
-        >
-          <figure style={{ margin: 0 }}>
-            <Placeholder label={`${c.client} · mobile · 375px`} h={680} />
-            <div
-              className="cp-mono"
-              style={{ marginTop: 12, color: "var(--text-muted)" }}
-            >
-              02 · Mobile · 375px
-            </div>
-          </figure>
-          <figure style={{ margin: 0 }}>
-            <Placeholder label={`${c.client} · key flow`} h={680} />
-            <div
-              className="cp-mono"
-              style={{ marginTop: 12, color: "var(--text-muted)" }}
-            >
-              03 · Key flow
-            </div>
-          </figure>
-        </div>
-
-        <div
-          style={{
-            marginTop: 48,
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: 24,
-          }}
-        >
-          {(["04", "05", "06"] as const).map((n) => (
-            <figure key={n} style={{ margin: 0 }}>
-              <Placeholder label={`${c.client} · screen ${n}`} h={420} />
-              <div
-                className="cp-mono"
-                style={{ marginTop: 12, color: "var(--text-muted)" }}
-              >
-                {n}
-              </div>
-            </figure>
-          ))}
-        </div>
+        <CaseGallery media={c.media} results={c.results} client={c.client} />
       </div>
 
       {/* Testimonial */}

@@ -354,7 +354,15 @@ export default async function ServiceDetailPage({
               Read the full case study →
             </Link>
           </div>
-          <Placeholder label="case study screenshot" h={420} />
+          {data.cs.cover ? (
+            <img
+              src={data.cs.cover}
+              alt={data.cs.title}
+              style={{ width: "100%", height: 420, objectFit: "cover", display: "block" }}
+            />
+          ) : (
+            <Placeholder label="case study screenshot" h={420} />
+          )}
         </div>
       </div>
 

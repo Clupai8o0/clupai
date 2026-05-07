@@ -2,6 +2,7 @@ export type CaseMeta = { k: string; v: string };
 export type ResultCell = [label: string, stat: string, sub: string];
 export type Decision = [heading: string, body: string];
 export type Problem = string;
+export type MediaItem = { src: string; type: "image" | "video"; label: string };
 
 export type CaseStudy = {
   slug: string;
@@ -21,77 +22,88 @@ export type CaseStudy = {
   problems: Problem[];
   decisions: Decision[];
   testimonial?: { quote: string; name: string; role: string };
+  thumbnail?: string;
+  media?: MediaItem[];
 };
 
 export const cases: CaseStudy[] = [
   {
     slug: "king-double-glazing",
-    stat: "4.9s→0.8s",
-    sstat: "LCP · Core Web Vitals",
+    thumbnail: "/work/kdg/homepage.webp",
+    stat: "75→99",
+    sstat: "Performance · desktop · Lighthouse",
     tag: "Websites",
     client: "King Double Glazing",
-    kind: "Window glazing · Melbourne",
+    kind: "Retrofit glazing · Melbourne",
     year: "2026",
-    eyebrow: "Window glazing · Melbourne · 2026",
-    headline: "King Double Glazing—\nfrom slow site to",
-    headlineAccent: "Core Web Vitals green.",
+    eyebrow: "Retrofit glazing · Melbourne · 2026",
+    headline: "King Double Glazing—\nrebrand, rebuild,",
+    headlineAccent: "conversion funnel.",
     description:
-      "A Melbourne trades business with an ageing site, slow load times, and no clear quote CTA. Rebuilt on Next.js 15 with Neon Postgres, Drizzle, and Tailwind v4. Core Web Vitals green. Local SEO strategy in place.",
+      "Melbourne retrofit double glazing business. Previous brand (The Glass Discounters) had a 57 Lighthouse score and 13.1s mobile LCP. Rebuilt from scratch under a new brand — conversion-first architecture, self-serve Instant Estimate Tool, and a perfect 100 SEO score out of the gate.",
     meta: [
-      { k: "Industry", v: "Window glazing · trades" },
+      { k: "Industry", v: "Retrofit double glazing · trades" },
       { k: "Location", v: "Melbourne, VIC" },
-      { k: "Scope", v: "Website · SEO · schema" },
-      { k: "Stack", v: "Next.js 15 · Neon · Drizzle · Tailwind v4" },
+      { k: "Scope", v: "Rebrand · website · conversion funnel" },
+      { k: "Stack", v: "Next.js 16 · TinaCMS · Neon · Drizzle · Resend · Tailwind v4" },
       { k: "Timeline", v: "5 weeks" },
       { k: "Live", v: "kingdoubleglazing.com.au" },
     ],
     results: [
-      ["LCP · mobile", "0.8s", "from 4.9s on the old site"],
-      ["Core Web Vitals", "green", "LCP + CLS + INP all pass"],
-      ["Stack", "Next.js 15", "Neon · Drizzle · Tailwind v4 · Vercel"],
+      ["Desktop performance", "99", "from 75 on the old Glass Discounters site"],
+      ["Mobile performance", "85", "from 57 · LCP 4.4s · TBT 20ms · CLS 0"],
+      ["SEO score", "100", "Lighthouse · Best Practices 100 · schema complete"],
     ],
     brief: {
       quote:
-        "\"The old site was slow and looked like it was built in 2015. We needed something fast, clean, and that actually ranked locally—without blowing the budget.\"",
+        "\"The old site was slow, the brand felt dated, and we had no way to give customers a price before they called. We needed a full restart — new name, new site, something that filters serious buyers before they ring my phone.\"",
       attribution: "Client, King Double Glazing",
     },
     problems: [
-      "Mobile LCP was 4.9s. The old site loaded unoptimised images, unused jQuery plugins, and a heavy page builder.",
-      "No clear quote CTA. Visitors landed on a generic homepage with no obvious next step—phone number buried in the footer.",
-      "Local SEO was absent. No Google Business Profile optimisation, no schema, no suburb-targeting on service pages.",
+      "The Glass Discounters (prior brand) had a Lighthouse Performance score of 57 on mobile — 13.1s LCP and 370ms total blocking time. Customers bounced before the page loaded.",
+      "No way for customers to self-serve a price estimate. Every enquiry went straight to the phone — including price-shoppers and tyre-kickers with no intent to buy.",
+      "A full rebrand to King Double Glazing needed a clean break: new positioning, new brand voice, and a site built from scratch rather than patching the old WordPress stack.",
     ],
     decisions: [
       [
-        "Next.js 15",
-        "Rebuilt from the ground up on Next.js 15 with Vercel. No page builder, no plugin bloat. LCP dropped from 4.9s to 0.8s.",
+        "Next.js 16 + Vercel",
+        "Rebuilt from scratch on Next.js 16 App Router. No plugin bloat, no page builder. Desktop LCP 1.0s, mobile LCP 4.4s. TBT 20ms across both — down from 370ms on the old site.",
+      ],
+      [
+        "Instant Estimate Tool",
+        "Multi-step calculator that produces a price range before asking for contact details. Reverses the standard trades lead-gen pattern — qualify first, capture second. Reduces junk enquiries before they reach the phone.",
+      ],
+      [
+        "5-page conversion funnel",
+        "Original plan was a 27-route SEO content cluster. Mid-project pivot to a tight 5-page funnel pointing every visitor to one action: the estimate tool. SEO infrastructure (schema, sitemap, suburb page template) is in place for future expansion without a rebuild.",
+      ],
+      [
+        "TinaCMS (git-based)",
+        "Content stored as JSON in the repo — no external CMS database. Visual editor via Tina Cloud. Client can edit pages without touching code or needing a developer.",
       ],
       [
         "Neon + Drizzle",
-        "Postgres on Neon with Drizzle ORM. Typed queries, schema migrations, and a dev workflow the client can hand to anyone.",
+        "Postgres on Neon with Drizzle ORM. All quote and lead submissions stored here. Token-based email confirmation flow — only confirmed quote requests get flagged as hot leads.",
       ],
       [
-        "Tailwind v4",
-        "Tailwind v4 for styles. No CSS-in-JS overhead. Clean utility classes, fast HMR, zero runtime cost.",
-      ],
-      [
-        "Quote CTA",
-        "One sticky CTA above the fold on every page. Phone number in the nav. Form is three fields—not twelve.",
-      ],
-      [
-        "LocalBusiness schema",
-        "Full LocalBusiness + Product schema. GBP linked and optimised. Service pages target suburb + service keywords, not just the brand.",
-      ],
-      [
-        "Core Web Vitals",
-        "LCP, CLS, and INP all green on mobile. Images served via next/image. No render-blocking resources.",
+        "Resend + React Email",
+        "Transactional email pipeline with DKIM/SPF/DMARC configured. Two-step quote confirmation: customer clicks a token link before KDG receives the lead notification. Filters junk at the email layer.",
       ],
     ],
     testimonial: {
       quote:
-        "\"Sam rebuilt our site from scratch in five weeks. Fast, clean, and showed us the staging every week so nothing was a surprise. The new site is a completely different level.\"",
-      name: "Client",
+        "\"The calculator came out exactly how I had it in my head. Sam showed me every update as he built it — I could see the changes straight away and tell him what I wanted. I felt in control the whole way through.\"",
+      name: "Tas",
       role: "King Double Glazing · Melbourne",
     },
+    media: [
+      { src: "/work/kdg/homepage.mp4", type: "video", label: "Home · 1440px" },
+      { src: "/work/kdg/mobile.webp", type: "image", label: "Mobile · 375px" },
+      { src: "/work/kdg/quote.mp4", type: "video", label: "Instant Estimate Tool" },
+      { src: "/work/kdg/services.mp4", type: "video", label: "Services · full scroll" },
+      { src: "/work/kdg/gallery.webp", type: "image", label: "Gallery" },
+      { src: "/work/kdg/about.webp", type: "image", label: "About" },
+    ],
   },
   {
     slug: "hoddle-melbourne",
@@ -346,6 +358,76 @@ export const cases: CaseStudy[] = [
         "Dark mode default",
         "Design system built dark-first. Looks native to the tools students already use—VS Code, GitHub, Discord. Not a corporate site.",
       ],
+    ],
+  },
+  {
+    slug: "krishnaveni-school",
+    stat: "0 calls",
+    sstat: "runtime CMS calls · content baked at build",
+    tag: "Websites",
+    client: "Krishnaveni School",
+    kind: "School marketing website · India",
+    year: "2026",
+    eyebrow: "School website · India · 2026",
+    headline: "Krishnaveni—\na school site with a CMS",
+    headlineAccent: "staff can actually use.",
+    description:
+      "Indian school stuck on a static HTML site — any content change meant emailing a developer. Delivered a full Next.js 15 marketing website with 13 section types, a Sanity v5 CMS, and a custom content pipeline. Staff now manage all pages, posts, and facilities independently.",
+    meta: [
+      { k: "Industry", v: "Education · K-12 school" },
+      { k: "Location", v: "India" },
+      { k: "Scope", v: "Marketing website · headless CMS · handover" },
+      { k: "Stack", v: "Next.js 15 · Sanity v5 · Tailwind v4 · GSAP · Radix UI · Vercel" },
+      { k: "Delivered", v: "May 2026" },
+      { k: "Live", v: "krishnavenischool.co.in" },
+    ],
+    results: [
+      ["SEO score", "92", "Lighthouse · sitemap, robots, per-page metadata, semantic HTML"],
+      ["Best Practices", "100", "Lighthouse · desktop and mobile · HTTPS, no console errors"],
+      ["Dev touch post-handover", "0", "staff manage all content through Sanity Studio independently"],
+    ],
+    brief: {
+      quote:
+        "\"Any time we needed to update a page or post an announcement, we had to email a developer and wait. We needed to be able to do it ourselves.\"",
+      attribution: "Client, Krishnaveni School",
+    },
+    problems: [
+      "The school was running on a static HTML site. Every content change — a new gallery post, updated facilities list, announcement — required a developer. Staff had no autonomy.",
+      "A standard CMS would still break if staff accidentally edited the wrong field or reordered sections. The system needed to be opinionated enough to protect the layout.",
+      "Handover was a hard requirement. The school couldn't rely on ongoing developer availability — staff had to be self-sufficient from day one.",
+    ],
+    decisions: [
+      [
+        "Sanity v5",
+        "Schema-first CMS with typed GROQ queries. Studio is clean and opinionated — staff adopted it without training docs. Validates all content before it reaches the frontend. Custom document types for posts, facilities, and page sections.",
+      ],
+      [
+        "Polymorphic section architecture",
+        "Page body is an array of typed section objects. SectionRenderer maps each _type to its React component. Any page layout can be assembled in Studio by reordering or adding sections — no code change, no redeploy. 13 section types at handover.",
+      ],
+      [
+        "Static data pipeline",
+        "fetch-sanity.mjs pulls a CMS snapshot → generate-data.mjs converts it into a typed TypeScript file baked into the bundle. Site runs with zero runtime CMS dependency. Trade-off: requires a script re-run and redeploy to pick up content changes, but keeps the production site fast and independent.",
+      ],
+      [
+        "GSAP + Radix UI",
+        "GSAP for scroll-driven animations. Radix UI Dialog for the video testimonial lightbox and post media gallery with keyboard navigation (Escape, arrow keys). Radix Accordion for FAQ sections. Scoped JS — no heavy framework overhead on pages that don't need interactivity.",
+      ],
+    ],
+    testimonial: {
+      quote:
+        "\"We're not a technical team — we gave Samridh the brief and he handled everything else. What we asked for, he delivered. Then he delivered more.\"",
+      name: "Krishnaveni School",
+      role: "India",
+    },
+    thumbnail: "/work/krishnaveni/homepage.webp",
+    media: [
+      { src: "/work/krishnaveni/homepage.mp4", type: "video", label: "Home · desktop · 1440px" },
+      { src: "/work/krishnaveni/mobile.webp", type: "image", label: "Mobile · 375px" },
+      { src: "/work/krishnaveni/achievements_updates_via_sanity.mp4", type: "video", label: "Achievements · live Sanity update" },
+      { src: "/work/krishnaveni/facilities.mp4", type: "video", label: "Facilities · full scroll" },
+      { src: "/work/krishnaveni/about.mp4", type: "video", label: "About · full scroll" },
+      { src: "/work/krishnaveni/contact.webp", type: "image", label: "Contact page" },
     ],
   },
   {
