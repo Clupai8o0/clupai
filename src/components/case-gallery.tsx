@@ -1,9 +1,71 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, useRef } from "react"
 import type { MediaItem, ResultCell } from "@/data/cases"
 
 const MONO = '"JetBrains Mono", var(--font-mono), monospace'
+
+function VideoSlot({ src }: { src: string }) {
+  const ref = useRef<HTMLVideoElement>(null)
+  const [playing, setPlaying] = useState(false)
+
+  const toggle = () => {
+    const v = ref.current
+    if (!v) return
+    if (playing) { v.pause(); setPlaying(false) }
+    else { v.play(); setPlaying(true) }
+  }
+
+  return (
+    <div style={{ position: "relative", width: "100%" }}>
+      <video
+        ref={ref}
+        muted
+        loop
+        playsInline
+        src={src}
+        style={{ width: "100%", display: "block" }}
+      />
+      <button
+        onClick={toggle}
+        aria-label={playing ? "Pause video" : "Play video"}
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          background: playing ? "transparent" : "rgba(0,0,0,0.28)",
+          border: "none",
+          cursor: "pointer",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          transition: "background 0.25s",
+          padding: 0,
+        }}
+      >
+        {!playing && (
+          <div
+            style={{
+              width: 60,
+              height: 60,
+              borderRadius: "50%",
+              background: "rgba(255,255,255,0.96)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              boxShadow: "0 4px 24px rgba(0,0,0,0.28)",
+            }}
+          >
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <polygon points="7,4 17,10 7,16" fill="#050505" />
+            </svg>
+          </div>
+        )}
+      </button>
+    </div>
+  )
+}
 
 function Slot({
   item,
@@ -35,23 +97,15 @@ function Slot({
     )
   }
 
-  const base: React.CSSProperties = { width: "100%", display: "block", cursor: "zoom-in" }
+  if (item.type === "video") {
+    return <VideoSlot src={item.src} />
+  }
 
-  return item.type === "video" ? (
-    <video
-      autoPlay
-      muted
-      loop
-      playsInline
-      src={item.src}
-      style={base}
-      onClick={onClick}
-    />
-  ) : (
+  return (
     <img
       src={item.src}
       alt={item.label}
-      style={{ ...base, height: h, objectFit: "cover" }}
+      style={{ width: "100%", display: "block", cursor: "zoom-in", height: h, objectFit: "cover" }}
       onClick={onClick}
     />
   )
@@ -144,7 +198,6 @@ export function CaseGallery({
           <div onClick={(e) => e.stopPropagation()} style={{ position: "relative", maxWidth: "90vw" }}>
             {active.type === "video" ? (
               <video
-                autoPlay
                 muted
                 loop
                 playsInline
