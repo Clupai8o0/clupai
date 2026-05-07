@@ -6,7 +6,7 @@ import Nav from "@/components/nav";
 import Footer from "@/components/footer";
 import FinalCTA from "@/components/final-cta";
 import Placeholder from "@/components/placeholder";
-import { cases } from "@/data/cases";
+import { visibleCases as cases } from "@/data/cases";
 
 const filters = ["All", "Websites", "Apps", "SEO", "Automation"];
 

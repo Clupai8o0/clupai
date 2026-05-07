@@ -5,7 +5,7 @@ import Footer from "@/components/footer";
 import FinalCTA from "@/components/final-cta";
 import Row from "@/components/row";
 import { CaseGallery } from "@/components/case-gallery";
-import { cases, getCaseBySlug } from "@/data/cases";
+import { visibleCases as cases, getCaseBySlug } from "@/data/cases";
 
 export function generateStaticParams() {
   return cases.map((c) => ({ slug: c.slug }));

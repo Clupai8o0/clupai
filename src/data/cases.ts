@@ -6,6 +6,7 @@ export type MediaItem = { src: string; type: "image" | "video"; label: string };
 
 export type CaseStudy = {
   slug: string;
+  hidden?: boolean;
   stat: string;
   sstat: string;
   tag: string;
@@ -185,6 +186,7 @@ export const cases: CaseStudy[] = [
   },
   {
     slug: "tapcraft",
+    hidden: true,
     stat: "3D+shop",
     sstat: "headless Shopify",
     tag: "Websites",
@@ -251,6 +253,7 @@ export const cases: CaseStudy[] = [
   },
   {
     slug: "kairos",
+    hidden: true,
     stat: "v2",
     sstat: "scheduling API · plugin system",
     tag: "Apps",
@@ -314,6 +317,7 @@ export const cases: CaseStudy[] = [
   },
   {
     slug: "dsec",
+    hidden: true,
     stat: "190+",
     sstat: "club members",
     tag: "Websites",
@@ -447,6 +451,7 @@ export const cases: CaseStudy[] = [
   },
   {
     slug: "farmers-intuition",
+    hidden: true,
     stat: "24hr",
     sstat: "Hack48 · Mar 2026",
     tag: "Apps",
@@ -510,6 +515,8 @@ export const cases: CaseStudy[] = [
   },
 ];
 
+export const visibleCases = cases.filter((c) => !c.hidden);
+
 export function getCaseBySlug(slug: string): CaseStudy | undefined {
-  return cases.find((c) => c.slug === slug);
+  return visibleCases.find((c) => c.slug === slug);
 }

@@ -388,16 +388,6 @@ const cases = [
   },
   {
     n: "03",
-    client: "TapCraft Studio",
-    kind: "NFC products · Melbourne",
-    stat: "3D+shop",
-    sstat: "headless Shopify · React Three Fiber",
-    desc: "Co-founder and developer. Headless Shopify storefront with a React Three Fiber 3D product viewer. 3D-printed NFC keychains—spin the model, then checkout.",
-    href: "/work/tapcraft",
-    large: false,
-  },
-  {
-    n: "04",
     client: "Krishnaveni School",
     kind: "Private school · Melbourne",
     stat: "0→enrol",
