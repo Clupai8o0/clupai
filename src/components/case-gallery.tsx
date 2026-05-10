@@ -5,7 +5,7 @@ import type { MediaItem, ResultCell } from "@/data/cases"
 
 const MONO = '"JetBrains Mono", var(--font-mono), monospace'
 
-function VideoSlot({ src }: { src: string }) {
+function VideoSlot({ src, ratio = "16/9" }: { src: string; ratio?: string }) {
   const ref = useRef<HTMLVideoElement>(null)
   const [playing, setPlaying] = useState(false)
 
@@ -17,14 +17,14 @@ function VideoSlot({ src }: { src: string }) {
   }
 
   return (
-    <div style={{ position: "relative", width: "100%" }}>
+    <div style={{ position: "relative", width: "100%", aspectRatio: ratio, overflow: "hidden" }}>
       <video
         ref={ref}
         muted
         loop
         playsInline
         src={src}
-        style={{ width: "100%", display: "block" }}
+        style={{ width: "100%", height: "100%", display: "block", objectFit: "cover" }}
       />
       <button
         onClick={toggle}
@@ -69,20 +69,20 @@ function VideoSlot({ src }: { src: string }) {
 
 function Slot({
   item,
-  h,
   fallback,
+  ratio = "16/9",
   onClick,
 }: {
   item?: MediaItem
-  h: number
   fallback: string
+  ratio?: string
   onClick: () => void
 }) {
   if (!item) {
     return (
       <div
         style={{
-          height: h,
+          aspectRatio: ratio,
           background: "var(--surface)",
           border: "1px solid var(--border)",
           display: "flex",
@@ -98,14 +98,14 @@ function Slot({
   }
 
   if (item.type === "video") {
-    return <VideoSlot src={item.src} />
+    return <VideoSlot src={item.src} ratio={ratio} />
   }
 
   return (
     <img
       src={item.src}
       alt={item.label}
-      style={{ width: "100%", display: "block", cursor: "zoom-in", height: h, objectFit: "cover" }}
+      style={{ width: "100%", display: "block", cursor: "zoom-in", aspectRatio: ratio, objectFit: "cover" }}
       onClick={onClick}
     />
   )
@@ -140,7 +140,7 @@ export function CaseGallery({
     <>
       {/* Slot 01 — full width */}
       <figure style={{ margin: 0 }}>
-        <Slot item={media?.[0]} h={760} fallback={`${client} · hero · desktop`} onClick={() => open(media?.[0])} />
+        <Slot item={media?.[0]} fallback={`${client} · hero · desktop`} onClick={() => open(media?.[0])} />
         <div style={{ marginTop: 12, display: "flex", justifyContent: "space-between" }}>
           <span className="cp-mono" style={{ color: "var(--text-muted)" }}>
             01 / 06 · {media?.[0]?.label ?? "Home · 1440px"}
@@ -154,13 +154,13 @@ export function CaseGallery({
       {/* Slots 02 + 03 — two column */}
       <div style={{ marginTop: 48, display: "grid", gridTemplateColumns: "360px 1fr", gap: 24, alignItems: "start" }}>
         <figure style={{ margin: 0 }}>
-          <Slot item={media?.[1]} h={680} fallback={`${client} · mobile · 375px`} onClick={() => open(media?.[1])} />
+          <Slot item={media?.[1]} ratio="9/16" fallback={`${client} · mobile · 375px`} onClick={() => open(media?.[1])} />
           <div className="cp-mono" style={{ marginTop: 12, color: "var(--text-muted)" }}>
             02 · {media?.[1]?.label ?? "Mobile · 375px"}
           </div>
         </figure>
         <figure style={{ margin: 0 }}>
-          <Slot item={media?.[2]} h={680} fallback={`${client} · key flow`} onClick={() => open(media?.[2])} />
+          <Slot item={media?.[2]} fallback={`${client} · key flow`} onClick={() => open(media?.[2])} />
           <div className="cp-mono" style={{ marginTop: 12, color: "var(--text-muted)" }}>
             03 · {media?.[2]?.label ?? "Key flow"}
           </div>
@@ -171,7 +171,7 @@ export function CaseGallery({
       <div style={{ marginTop: 48, display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
         {([3, 4, 5] as const).map((idx) => (
           <figure key={idx} style={{ margin: 0 }}>
-            <Slot item={media?.[idx]} h={420} fallback={`${client} · screen 0${idx + 1}`} onClick={() => open(media?.[idx])} />
+            <Slot item={media?.[idx]} fallback={`${client} · screen 0${idx + 1}`} onClick={() => open(media?.[idx])} />
             <div className="cp-mono" style={{ marginTop: 12, color: "var(--text-muted)" }}>
               0{idx + 1} · {media?.[idx]?.label ?? ""}
             </div>
