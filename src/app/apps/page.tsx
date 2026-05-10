@@ -3,6 +3,7 @@ import Nav from "@/components/nav";
 import Footer from "@/components/footer";
 import FinalCTA from "@/components/final-cta";
 import { kits } from "@/lib/kits";
+import type { Kit } from "@/lib/kits";
 
 export default function AppsPage() {
   return (
@@ -49,7 +50,7 @@ export default function AppsPage() {
           </div>
           <div className="cp-card" style={{ padding: "20px 24px", minWidth: 260 }}>
             <div className="cp-mono" style={{ marginBottom: 6 }}>
-              Last 30 days · MRR
+              Status · free beta
             </div>
             <div
               className="cp-num"
@@ -60,13 +61,13 @@ export default function AppsPage() {
                 lineHeight: 1,
               }}
             >
-              $1,437
+              Live
             </div>
             <div
               className="cp-mono"
               style={{ color: "var(--text-muted)", marginTop: 6 }}
             >
-              six products · transparent
+              kairos.clupai.com
             </div>
           </div>
         </div>
@@ -74,8 +75,13 @@ export default function AppsPage() {
 
       {/* Product list */}
       <div style={{ padding: "0 48px" }}>
-        {kits.map((a) => (
-          <div
+        {kits.map((a) => {
+          const Tag = a.href ? "a" : "div";
+          const linkProps = a.href
+            ? { href: a.href, target: "_blank", rel: "noopener noreferrer" }
+            : {};
+          return (
+          <Tag
             key={a.slug}
             id={a.slug}
             className="cp-apps-row"
@@ -87,7 +93,10 @@ export default function AppsPage() {
               borderBottom: "1px solid var(--border)",
               alignItems: "center",
               cursor: "pointer",
+              textDecoration: "none",
+              color: "inherit",
             }}
+            {...(linkProps as Record<string, string>)}
           >
             <div
               style={{
@@ -196,8 +205,9 @@ export default function AppsPage() {
             >
               <path d="M7 5l5 5-5 5" />
             </svg>
-          </div>
-        ))}
+          </Tag>
+          );
+        })}
       </div>
 
       {/* Why this page */}

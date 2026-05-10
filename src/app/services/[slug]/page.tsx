@@ -5,6 +5,7 @@ import Footer from "@/components/footer";
 import FinalCTA from "@/components/final-cta";
 import Placeholder from "@/components/placeholder";
 import Row from "@/components/row";
+import CaseStudySection from "@/components/case-study-section";
 import { SERVICE_DATA, SERVICE_SLUGS, HIDDEN_SERVICE_SLUGS } from "@/data/services";
 
 export function generateStaticParams() {
@@ -281,90 +282,16 @@ export default async function ServiceDetailPage({
       </div>
 
       {/* Case study */}
-      <div
-        style={{
-          padding: "80px 48px",
-          borderBottom: "1px solid var(--border)",
-        }}
-      >
-        <div
-          className="cp-svc-cs-grid"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: 56,
-            alignItems: "center",
-          }}
-        >
-          <div>
-            <div className="cp-mono" style={{ marginBottom: 12 }}>
-              § 03 · Recent {data.crumb.toLowerCase()} build
-            </div>
-            <div
-              className="cp-num cp-svc-stat"
-              style={{
-                fontSize: 120,
-                color: "var(--accent)",
-                letterSpacing: "-0.05em",
-                lineHeight: 0.9,
-              }}
-            >
-              {data.cs.stat}
-            </div>
-            <div
-              className="cp-mono"
-              style={{ color: "var(--text-muted)", marginTop: 4 }}
-            >
-              {data.cs.sstat}
-            </div>
-            <div
-              style={{
-                fontFamily:
-                  "var(--font-display), Manrope, ui-sans-serif, system-ui, sans-serif",
-                fontWeight: 700,
-                fontSize: 28,
-                letterSpacing: "-0.02em",
-                marginTop: 32,
-              }}
-            >
-              {data.cs.title}
-            </div>
-            <p
-              style={{
-                marginTop: 12,
-                color: "var(--text-muted)",
-                fontSize: 16,
-                lineHeight: 1.6,
-                maxWidth: 520,
-              }}
-            >
-              {data.cs.body}
-            </p>
-            <Link
-              href="/work/king-double-glazing"
-              style={{
-                marginTop: 20,
-                display: "inline-block",
-                color: "var(--accent)",
-                fontFamily:
-                  "var(--font-display), Manrope, ui-sans-serif, system-ui, sans-serif",
-                fontWeight: 500,
-              }}
-            >
-              Read the full case study →
-            </Link>
-          </div>
-          {data.cs.cover ? (
-            <img
-              src={data.cs.cover}
-              alt={data.cs.title}
-              style={{ width: "100%", height: 420, objectFit: "cover", display: "block" }}
-            />
-          ) : (
-            <Placeholder label="case study screenshot" h={420} />
-          )}
-        </div>
-      </div>
+      <CaseStudySection
+        eyebrow={`§ 03 · Recent ${data.crumb.toLowerCase()} build`}
+        stat={data.cs.stat}
+        sstat={data.cs.sstat}
+        title={data.cs.title}
+        body={data.cs.body}
+        caseHref={data.cs.href ?? "/work/king-double-glazing"}
+        cover={data.cs.cover}
+        coverAlt={data.cs.title}
+      />
 
       {/* FAQ */}
       <div

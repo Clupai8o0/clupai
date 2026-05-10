@@ -374,7 +374,6 @@ const cases = [
     desc: "Rebrand and full rebuild from The Glass Discounters (57 mobile, 13.1s LCP). Next.js 16, TinaCMS, Neon, Drizzle, Resend. Instant Estimate Tool that surfaces price before lead capture. Desktop 99 · SEO 100.",
     href: "/work/king-double-glazing",
     large: true,
-    cover: "/work/kdg/homepage.webp",
   },
   {
     n: "02",
@@ -388,6 +387,16 @@ const cases = [
   },
   {
     n: "03",
+    client: "Kairos",
+    kind: "AI scheduling app · solo-built",
+    stat: "1–3 s",
+    sstat: "task-to-calendar · schedule-on-write",
+    desc: "Paste unstructured notes. Kairos extracts tasks via LLM and places them into Google Calendar automatically — deadlines, dependencies, and working hours respected. No drag and drop. No manual time-blocking.",
+    href: "/work/kairos",
+    large: false,
+  },
+  {
+    n: "04",
     client: "Krishnaveni School",
     kind: "Private school · Melbourne",
     stat: "0→enrol",
@@ -485,6 +494,13 @@ function WorkSection() {
               </>
             ) : (
               <>
+                {'heroPlaceholder' in c && c.heroPlaceholder && (
+                  <Placeholder
+                    label={c.heroPlaceholder as string}
+                    h={160}
+                    style={{ width: "calc(100% + 56px)", marginLeft: -28, marginTop: -28, marginBottom: 0 }}
+                  />
+                )}
                 <div className="cp-num" style={{ fontSize: 96, color: "var(--accent)", lineHeight: 0.9, margin: "36px 0 8px", letterSpacing: "-0.05em" }}>
                   {c.stat}
                 </div>

@@ -78,7 +78,7 @@ export default async function CaseStudyPage({
           <div className="cp-card" style={{ padding: 24 }}>
             {c.meta.map((m, i) => (
               <div key={m.k}>
-                {i > 0 && <div style={{ height: 1, background: "var(--border)", margin: "14px 0" }} />}
+                {i > 0 && <div style={{ height: 8 }} />}
                 <Row k={m.k} v={m.v} />
               </div>
             ))}

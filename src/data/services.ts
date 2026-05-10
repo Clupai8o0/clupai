@@ -12,7 +12,7 @@ export interface ServiceData {
   revisions: string;
   included: string[];
   process: { h: string; d: string; body: string }[];
-  cs: { stat: string; sstat: string; title: string; body: string; cover?: string };
+  cs: { stat: string; sstat: string; title: string; body: string; cover?: string; href?: string };
   faq: { q: string; a: string }[];
 }
 
@@ -75,6 +75,7 @@ export const SERVICE_DATA: Record<string, ServiceData> = {
       title: "King Double Glazing — rebrand, rebuild, conversion funnel",
       body: "Full rebrand from The Glass Discounters (57 mobile Lighthouse, 13.1s LCP) to King Double Glazing. Next.js 16, TinaCMS, Neon, Drizzle, Resend, Tailwind v4. Instant Estimate Tool that surfaces price before lead capture. Desktop 99 · SEO 100 · Best Practices 100.",
       cover: "/work/kdg/homepage.webp",
+      href: "/work/king-double-glazing",
     },
     faq: [
       {
