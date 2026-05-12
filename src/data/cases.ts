@@ -458,6 +458,218 @@ export const cases: CaseStudy[] = [
     ],
   },
   {
+    slug: "nmmun",
+    stat: "500+",
+    sstat: "delegates served · live MUN conference",
+    tag: "Websites",
+    client: "NMMUN",
+    kind: "Model UN conference · NMS Dwarka",
+    year: "2023",
+    eyebrow: "School MUN conference · New Delhi · 2023",
+    headline: "NMMUN—\na conference site",
+    headlineAccent: "shipped at fifteen.",
+    description:
+      "A full conference website for the New Millennium Model United Nations — councils, schedules, registration funnel, team profiles, gallery. Originally built at fifteen as Head of IT for the 2023 batch, then forked by the 2024-25 batch on the same codebase. 500+ delegates used it across two consecutive conferences.",
+    meta: [
+      { k: "Event", v: "New Millennium Model UN · NMS Dwarka" },
+      { k: "Role", v: "Head of IT · 2023 · solo build" },
+      { k: "Scope", v: "Conference website · councils · registration · gallery" },
+      { k: "Stack", v: "Next.js 14 · Tailwind · shadcn/ui · Framer Motion · Embla" },
+      { k: "Reuse", v: "Forked for NMMUN 2024-25 by the next batch" },
+      { k: "Repo", v: "github.com/Clupai8o0/nmmun" },
+    ],
+    results: [
+      ["Delegates served", "500+", "across two consecutive conference years"],
+      ["Codebase reuse", "2 yrs", "forked by the 2024-25 batch on the same architecture"],
+      ["Pages shipped", "8", "home, councils, council/[id], info, register, team, gallery, contact"],
+    ],
+    brief: {
+      quote:
+        "\"We needed a conference site that could carry the prestige of an international MUN — councils, chairs, schedules, registration — and still be maintainable by next year's IT lead. No CMS budget, no dev team, just one student.\"",
+      attribution: "NMMUN'23 · New Millennium School Dwarka",
+    },
+    problems: [
+      "Most school MUN sites are static HTML or a one-page Wix build. NMMUN'23 needed councils with per-committee detail pages, chair profiles, schedules, dress code, rules of procedure, and a registration funnel — all polished enough to represent the school internationally.",
+      "Built solo as a Year 10 student before any commercial experience. Every architectural choice had to be defensible for the next batch's IT lead to inherit, not just functional for one event weekend.",
+      "Content had to be event-aware. The hero, countdown, and CTAs needed to behave differently before, during, and after the conference without a manual swap on event day.",
+    ],
+    decisions: [
+      [
+        "Data-driven content layer",
+        "All councils, teams, table-of-content blocks, and navigation pulled from lib/links.ts; hero copy, event timing, itineraries, and dress code from lib/config.ts. Next year's IT lead edits two files to roll the site forward — no hunting through JSX.",
+      ],
+      [
+        "Event-aware UI via useTime",
+        "Hero countdown, CTA states, and banners derive from eventDate/eventEndDate through a single useTime hook. Pre-event, day-of, and post-event states render automatically — no scheduled deploys on conference morning.",
+      ],
+      [
+        "Per-council dynamic routes",
+        "/council/[id] renders a detail page per committee — topic, background guide, chair bios — from the same data source as the council listing. Adding a new committee is one entry in the array; route, listing, and detail page all update together.",
+      ],
+      [
+        "shadcn/ui + Framer Motion",
+        "Radix primitives via shadcn/ui for accessible accordions, dialogs, and sidebars. Framer Motion for page transitions and entrance animations. Embla carousel for the hero. Production-grade UI without rolling components from scratch.",
+      ],
+      [
+        "Centralised SEO metadata",
+        "lib/metadata.ts generates Open Graph and Twitter tags per route. Councils, registration, gallery — each gets its own preview card when shared across Instagram, WhatsApp, and email, which is where 90% of delegate traffic actually came from.",
+      ],
+      [
+        "Designed for handover from day one",
+        "TODO.md, stable naming conventions, and a clear separation between content (lib/) and components carried the codebase from the 2023 batch to the 2024-25 batch without a rewrite. Still on the same architecture two years later.",
+      ],
+    ],
+    thumbnail: "/work/nmmun/homepage.webp",
+    media: [
+      { src: "/work/nmmun/home.mp4", type: "video", label: "Home · hero carousel · countdown" },
+      { src: "/work/nmmun/mobile.webp", type: "image", label: "Mobile · 375px" },
+      { src: "/work/nmmun/councils.mp4", type: "video", label: "Councils · per-committee detail" },
+      { src: "/work/nmmun/information.mp4", type: "video", label: "Info · itinerary + dress code" },
+      { src: "/work/nmmun/gallery.mp4", type: "video", label: "Gallery" },
+      { src: "/work/nmmun/team.mp4", type: "video", label: "Team page" },
+    ],
+  },
+  {
+    slug: "cuts-and-shavez",
+    stat: "0 deps",
+    sstat: "hand-coded HTML/CSS/JS · designed solo at fifteen",
+    tag: "Websites",
+    client: "Cuts & Shavez Salon",
+    kind: "Barbershop · Manama, Bahrain",
+    year: "2023",
+    eyebrow: "Self-initiated design + build · Bahrain · 2023",
+    headline: "Cuts & Shavez—\na Bahrain barbershop,",
+    headlineAccent: "designed and shipped solo.",
+    description:
+      "A self-initiated design-and-build for Cuts & Shavez Salon, a real barbershop in Manama, Bahrain. Designed end-to-end in Figma at fifteen, then hand-coded in raw HTML, CSS, and vanilla JavaScript — no framework, no CMS, no build step. Not a paid engagement — a real shop, a real address, real services and pricing used as design constraints. Still hosted on Vercel three years later, unchanged.",
+    meta: [
+      { k: "Industry", v: "Hair salon · barbershop" },
+      { k: "Location", v: "Manama, Bahrain" },
+      { k: "Scope", v: "Brand · UI design · static website" },
+      { k: "Stack", v: "Figma · HTML · CSS · vanilla JS · Vercel" },
+      { k: "Timeline", v: "2023 · solo at fifteen" },
+      { k: "Live", v: "barbershop-design.vercel.app" },
+    ],
+    results: [
+      ["Designed and shipped at", "15", "first full marketing site we ever shipped end-to-end"],
+      ["Dependencies", "0", "hand-coded HTML, CSS, vanilla JS · no framework, no build step"],
+      ["Still live", "3 yrs", "running unchanged on Vercel since 2023"],
+    ],
+    brief: {
+      quote:
+        "\"Most barbershop sites look like Wix templates — stock photos, beige palette, generic copy. I wanted to design something that looked like a real boutique business, using a real shop in Bahrain as the brief.\"",
+      attribution: "Self-initiated · age 15 · 2023",
+    },
+    problems: [
+      "Most barbershop sites in the region looked like directory listings — stock imagery, default templates, no point of view. The brief we set ourselves was the opposite: make it look like a boutique business worth visiting, not a listing entry.",
+      "No framework experience yet. Every interaction — the nav, the gallery, the scroll behaviour — had to be hand-rolled in vanilla JavaScript. No React, no Next.js, no component library to lean on.",
+      "Designing end-to-end for the first time. Hero, services, gallery, reviews, contact — each section had its own visual conventions to learn before we could put a personal stamp on them.",
+    ],
+    decisions: [
+      [
+        "Figma-first design system",
+        "Built the entire visual system in Figma before writing a line of code. Components for buttons, cards, section headers, pricing rows. Forced the design to think about reuse before commit, not after — a habit that still runs the studio today.",
+      ],
+      [
+        "Real shop as design brief",
+        "Picked a real barbershop in Manama with a real address, real services, real BD pricing. Designing against actual constraints — three services, a tight price list, an exact location — produces a different result to lorem ipsum and stock prices.",
+      ],
+      [
+        "Raw HTML, CSS, vanilla JS",
+        "No framework, no build step, no dependencies. Three years before adopting Next.js. Every animation, every interaction, every layout shift hand-rolled in plain HTML/CSS/JS. Forced a deep understanding of the platform before reaching for abstractions.",
+      ],
+      [
+        "Tailwind for utility-first layout",
+        "First project using Tailwind. Skipped the BEM-vs-OOCSS debate entirely and learned the utility-first model from scratch — a pattern that's stayed in every project since.",
+      ],
+      [
+        "Vercel from day one",
+        "Static deploy on Vercel — same platform the studio still uses in 2026. The original 2023 build is still live at barbershop-design.vercel.app, untouched, as a fixed point against the rest of the portfolio.",
+      ],
+    ],
+    thumbnail: "/work/cuts-and-shavez/homepage.webp",
+    media: [
+      { src: "/work/cuts-and-shavez/scroll.mp4", type: "video", label: "Full site scroll · desktop" },
+      { src: "/work/cuts-and-shavez/homepage.webp", type: "image", label: "Home · desktop · 1440px" },
+      { src: "/work/cuts-and-shavez/mobile.webp", type: "image", label: "Mobile · 375px" },
+      { src: "/work/cuts-and-shavez/figma-overview.webp", type: "image", label: "Figma frames · design source" },
+      { src: "/work/cuts-and-shavez/services.webp", type: "image", label: "Services & pricing" },
+      { src: "/work/cuts-and-shavez/gallery.webp", type: "image", label: "Gallery" },
+    ],
+  },
+  {
+    slug: "thurman",
+    stat: "5 pages",
+    sstat: "events marketing site · solo build · 2023",
+    tag: "Websites",
+    client: "Thurman Events Management",
+    kind: "Events management · marketing site",
+    year: "2023",
+    eyebrow: "Events startup · marketing site · 2023",
+    headline: "Thurman Events—\na startup marketing site",
+    headlineAccent: "shipped at fifteen.",
+    description:
+      "A five-page marketing site for Thurman Events Management — home, services, team, gallery, contact. Built solo in 2023 on Next.js 13 with Tailwind, Framer Motion page transitions, and a Nodemailer-backed contact pipeline that drops leads straight into the team's inbox. No CMS, no third-party form provider, no monthly bill.",
+    meta: [
+      { k: "Industry", v: "Events management · startup" },
+      { k: "Scope", v: "Marketing website · gallery · contact funnel" },
+      { k: "Stack", v: "Next.js 13 · React 18 · Tailwind · Framer Motion · Nodemailer" },
+      { k: "Timeline", v: "2023 · solo build at fifteen" },
+      { k: "Live", v: "thurman.vercel.app" },
+      { k: "Repo", v: "github.com/Clupai8o0/thurman" },
+    ],
+    results: [
+      ["Pages shipped", "5", "home, services, team, gallery, contact"],
+      ["Contact funnel", "Nodemailer", "API route → Gmail transport → direct-to-inbox leads"],
+      ["Still live", "3 yrs", "deployed on Vercel since 2023, archived but online"],
+    ],
+    brief: {
+      quote:
+        "\"We needed a site that could carry an events brand — services, team, gallery, a contact form that actually worked — without the cost of a full agency engagement.\"",
+      attribution: "Thurman Events Management · 2023",
+    },
+    problems: [
+      "Most events-management sites split into two camps: bloated agency builds or template Wix pages with no point of view. Thurman needed something in between — premium feel, real content, but cheap enough for a launching startup to actually ship.",
+      "The contact form had to work end-to-end on day one. No external CRM, no Calendly redirect — every enquiry had to land directly in the team's inbox the moment a visitor hit send.",
+      "Events photography arrives in mixed aspect ratios and irregular volume. A rigid CSS grid would crop awkwardly and look amateur — the gallery needed to scale gracefully as more shoots came in.",
+    ],
+    decisions: [
+      [
+        "Next.js 13 pages router",
+        "File-based routes per section, wrapped in a shared Layout with nav, footer, and a page-transition overlay. Copy and section data live in /config — pages stay thin and content is editable without touching JSX.",
+      ],
+      [
+        "Nodemailer + Gmail transport",
+        "/api/send-email is a Next.js API route that sends through a Gmail app password. Submissions trigger react-toastify feedback on the client and arrive directly in the team's inbox. No third-party form provider, no monthly fee, no data sitting in someone else's database.",
+      ],
+      [
+        "Responsive masonry galleries",
+        "react-responsive-masonry handles the events gallery — drops mixed-aspect images into a balanced multi-column layout that reflows at every breakpoint. CTA links out to the full Google Drive album for visitors who want more.",
+      ],
+      [
+        "Framer Motion page transitions",
+        "Each route mount runs a custom transition overlay. nextjs-toploader handles the top progress bar between pages. Small motion polish that lifts the site above the template tier without dragging in a heavy animation framework.",
+      ],
+      [
+        "next-sitemap in postbuild",
+        "Sitemap and robots.txt regenerate automatically on every build via the postbuild script. SEO basics handled at deploy time, no manual maintenance, no forgotten updates after a content change.",
+      ],
+      [
+        "Built for handover",
+        "Most content lives in /config and reusable /components — route files stay thin. Whoever picked the codebase up next could update copy, swap imagery, or add a section without learning the framework. Same handover pattern still used today.",
+      ],
+    ],
+    thumbnail: "/work/thurman/homepage.webp",
+    media: [
+      { src: "/work/thurman/homepage.webp", type: "image", label: "Home · desktop · 1440px" },
+      { src: "/work/thurman/mobile.webp", type: "image", label: "Mobile · 375px" },
+      { src: "/work/thurman/services.webp", type: "image", label: "Services" },
+      { src: "/work/thurman/gallery.webp", type: "image", label: "Gallery · masonry" },
+      { src: "/work/thurman/team.webp", type: "image", label: "Team" },
+      { src: "/work/thurman/contact.webp", type: "image", label: "Contact · Nodemailer form" },
+    ],
+  },
+  {
     slug: "farmers-intuition",
     hidden: true,
     stat: "24hr",

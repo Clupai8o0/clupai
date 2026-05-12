@@ -41,10 +41,10 @@ export default function WorkPage() {
               className="cp-display"
               style={{ fontSize: "clamp(3rem, 6vw, 5.5rem)", margin: 0 }}
             >
-              Ten builds.
+              Shipped. Scored.
               <br />
               <span style={{ color: "var(--accent)" }}>
-                Seven worth showing.
+                In the wild.
               </span>
             </h1>
           </div>
