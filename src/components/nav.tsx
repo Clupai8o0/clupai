@@ -8,7 +8,7 @@ const links = [
   { n: "02", label: "Work", href: "/work" },
   { n: "03", label: "Pricing", href: "/pricing" },
   { n: "04", label: "Writing", href: "/writing" },
-  { n: "05", label: "Apps", href: "/apps" },
+  { n: "05", label: "Kits", href: "/apps" },
   { n: "06", label: "About", href: "/about" },
 ];
 

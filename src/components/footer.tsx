@@ -7,8 +7,6 @@ const columns = [
     h: "Services",
     items: [
       { label: "Websites", href: "/services/web" },
-      { label: "Mobile apps", href: "/services/mobile" },
-      { label: "Google Ads", href: "/services/ads" },
       { label: "SEO", href: "/services/seo" },
       { label: "Automation", href: "/services/automation" },
     ],
@@ -86,9 +84,8 @@ export default function Footer() {
               margin: 0,
             }}
           >
-            A studio in Melbourne. Websites, mobile apps, ads, SEO and
-            automation for operators who want more customers—not more account
-            managers.
+            A studio in Melbourne. Websites, SEO and automation for operators
+            who want more customers — not more account managers.
           </p>
           <div
             style={{

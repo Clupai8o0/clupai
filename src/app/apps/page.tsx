@@ -8,7 +8,7 @@ import type { Kit } from "@/lib/kits";
 export default function AppsPage() {
   return (
     <>
-      <Nav page="apps" />
+      <Nav page="kits" />
 
       <div
         style={{
@@ -25,7 +25,7 @@ export default function AppsPage() {
         >
           <div>
             <div className="cp-eyebrow" style={{ marginBottom: 12 }}>
-              Apps · productised kits · self-serve
+              Kits · productised · self-serve
             </div>
             <h1
               className="cp-display"

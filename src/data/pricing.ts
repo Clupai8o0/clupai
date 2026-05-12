@@ -4,8 +4,7 @@
 
 export const SERVICE_PRICES = {
   web:        { amount: "$3,950",  display: "from $3,950",    sub: "from · fixed · GST exclusive" },
-  apps:       { amount: "$4,500",  display: "from $4,500",    sub: "from · fixed · GST exclusive" },
-  seo:        { amount: "$1,200",  display: "from $1,200/mo", sub: "per month · 3-month minimum" },
+  seo:        { amount: "$1,500",  display: "from $1,500/mo", sub: "per month · 3-month minimum" },
   automation: { amount: "$5,000",  display: "from $5,000",    sub: "from · scoped per project" },
 } as const;
 
@@ -44,28 +43,28 @@ export const TIERS: Tier[] = [
     name: "Growth",
     price: "$8,950",
     sub: "one‑off · 6–8 weeks",
-    pitch: "Site + application + 90 days of SEO. The full zero-to-revenue.",
+    pitch: "Site + advanced feature + 90 days of SEO. The full zero-to-revenue.",
     who: "A new service, new brand, or a business serious about the next 12 months.",
     accent: true,
     bullets: [
       "Everything in Launch",
-      "Application build — web app or mobile, scoped in sprint 0",
+      "Advanced feature module — booking system, customer portal, quote calculator, or chatbot CMS (scoped in sprint 0)",
       "90 days of SEO — technical, local, content (4 posts)",
       "Cal.com booking flow with budget-range qualification",
       "CRM wire-up — HubSpot, Attio, Airtable, or your sheet",
       "Weekly 20-minute check-ins for the first 90 days.",
     ],
-    out: "Ongoing ads management, complex integrations.",
+    out: "Native mobile apps, ongoing ads management, complex integrations.",
   },
   {
     name: "Operator",
-    price: "$2,500",
+    price: "$3,500",
     sub: "per month · rolling",
     pitch: "I'm your product and engineering hire, for less than the equivalent salary.",
     who: "Businesses past product-market-fit, compounding reach month over month.",
     accent: false,
     bullets: [
-      "Apps, SEO, automation — whatever moves the number",
+      "Sites, SEO, automation — whatever moves the number",
       "One priority per week. Shipped, not queued.",
       "Monthly loom with the real numbers, no fluff deck",
       "Shared Linear — you see the roadmap I'm working from",
@@ -81,9 +80,8 @@ export const TIERS: Tier[] = [
 
 export const PRICING_STRIP = [
   [TIERS[0].name, TIERS[0].price, "one‑off",   "Single-site build. 3–5 weeks. You own everything."],
-  [TIERS[1].name, TIERS[1].price, "one‑off",   "Site + application + 90 days of SEO."],
-  [TIERS[2].name, TIERS[2].price, "per month", "Retained partner. Apps, SEO, automation, ship list."],
-  ["Apps",        SERVICE_PRICES.apps.amount,   "from",  "Web and mobile applications. Fixed scope, you own the code."],
+  [TIERS[1].name, TIERS[1].price, "one‑off",   "Site + advanced feature + 90 days of SEO."],
+  [TIERS[2].name, TIERS[2].price, "per month", "Retained partner. Sites, SEO, automation, ship list."],
 ] as const;
 
 // ─── Services page Good / Better / Best strip ─────────────────────────────────

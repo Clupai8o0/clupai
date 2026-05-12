@@ -110,7 +110,7 @@ export default function PricingPage() {
                     textTransform: "uppercase",
                   }}
                 >
-                  Most chosen
+                  Best value
                 </div>
               )}
               <div

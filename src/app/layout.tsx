@@ -22,9 +22,9 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "clupai — Websites, Mobile, Ads, SEO & Automation · Melbourne",
+  title: "clupai — Websites, SEO & Automation · Melbourne",
   description:
-    "A studio in Melbourne. Websites, mobile apps, ads, SEO and automation for operators who want more customers—not more account managers.",
+    "A studio in Melbourne. Websites, SEO and automation for operators who want more customers — not more account managers.",
 };
 
 export default function RootLayout({

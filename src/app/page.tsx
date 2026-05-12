@@ -94,14 +94,14 @@ function HeroA() {
               marginBottom: 36,
             }}
           >
-            <span className="cp-eyebrow">Web · Apps · Automation</span>
+            <span className="cp-eyebrow">Web · SEO · Automation</span>
             <span className="cp-mono">CLUPAI.COM</span>
           </div>
           <h1
             className="cp-display"
             style={{ fontSize: "var(--fs-hero)", margin: 0, color: "var(--text)" }}
           >
-            Websites, apps,
+            Websites, SEO,
             <br />
             and automation
             <br />
@@ -211,17 +211,6 @@ const services = [
   },
   {
     n: "02",
-    h: "Apps",
-    k: [
-      "React Native · Next.js",
-      "iOS, Android & web",
-      "Ship in 6–10 weeks",
-    ],
-    tag: SERVICE_PRICES.apps.display,
-    href: "/services/apps",
-  },
-  {
-    n: "03",
     h: "SEO",
     k: [
       "Technical + local",
@@ -232,7 +221,7 @@ const services = [
     href: "/services/seo",
   },
   {
-    n: "04",
+    n: "03",
     h: "Automation",
     k: [
       "Zapier · n8n · Make",
@@ -257,16 +246,16 @@ function ServicesSection() {
       >
         <div>
           <div className="cp-eyebrow" style={{ marginBottom: 12 }}>
-            04 services · one operator · end‑to‑end
+            03 services · one operator · end‑to‑end
           </div>
           <h2
             className="cp-display"
             style={{ fontSize: "var(--fs-h2)", margin: 0 }}
           >
-            Four things. Done properly.
+            Three things. Done properly.
             <br />
             <span style={{ color: "var(--text-muted)" }}>
-              Web, growth, mobile, automation.
+              Web, SEO, automation.
             </span>
           </h2>
         </div>
@@ -275,7 +264,7 @@ function ServicesSection() {
         className="cp-services-grid"
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(4, 1fr)",
+          gridTemplateColumns: "repeat(3, 1fr)",
         }}
       >
         {services.map((s) => (
@@ -570,7 +559,7 @@ function PricingStripSection() {
         className="cp-pricing-grid"
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(4, 1fr)",
+          gridTemplateColumns: "repeat(3, 1fr)",
         }}
       >
         {PRICING_STRIP.map(([h, p, s, d]) => (
@@ -798,7 +787,7 @@ function KitsSection() {
       >
         <div>
           <div className="cp-eyebrow" style={{ marginBottom: 16 }}>
-            Apps · Productised kits · Self-serve
+            Kits · Productised · Self-serve
           </div>
           <h2
             className="cp-display"
@@ -813,7 +802,7 @@ function KitsSection() {
         </div>
         <div className="cp-kits-mrr" style={{ textAlign: "right", flexShrink: 0 }}>
           <div className="cp-mono" style={{ marginBottom: 6 }}>
-            Last 30 days · MRR
+            Status
           </div>
           <div
             className="cp-num"
@@ -824,10 +813,10 @@ function KitsSection() {
               lineHeight: 1,
             }}
           >
-            $1,437
+            Live
           </div>
           <div className="cp-mono" style={{ marginTop: 6 }}>
-            Transparent · Public
+            1 kit shipped · more in progress
           </div>
         </div>
       </div>

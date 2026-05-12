@@ -257,8 +257,8 @@ export const SERVICE_DATA: Record<string, ServiceData> = {
     headline: ["Your idea needs a real app.", "Not a mobile site."],
     problem:
       "A web page in a wrapper isn't an app. We build proper applications—React Native for iOS and Android, Next.js for the web—scoped tightly so you ship something real in weeks, not months.",
-    price: SERVICE_PRICES.apps.amount,
-    priceSub: SERVICE_PRICES.apps.sub,
+    price: "$4,500",
+    priceSub: "from · fixed · GST exclusive",
     timeline: "6–10 weeks",
     deliverable: "Repo + App Store + Play Store",
     revisions: "2 rounds",
@@ -409,7 +409,7 @@ export const SERVICE_DATA: Record<string, ServiceData> = {
   },
 };
 
-export const HIDDEN_SERVICE_SLUGS: string[] = ["ads"];
+export const HIDDEN_SERVICE_SLUGS: string[] = ["ads", "apps"];
 export const SERVICE_SLUGS = Object.keys(SERVICE_DATA).filter(
   (s) => !HIDDEN_SERVICE_SLUGS.includes(s)
 );

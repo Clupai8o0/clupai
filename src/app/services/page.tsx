@@ -15,14 +15,6 @@ const services = [
   },
   {
     n: "02",
-    slug: "apps",
-    h: "Applications",
-    price: SERVICE_PRICES.apps.display,
-    desc: "React Native for iOS and Android. Next.js for web apps. Scoped tightly, shipped in 6–10 weeks.",
-    items: ["Figma design + full build", "App Store + Play Store", "Supabase · TypeScript"],
-  },
-  {
-    n: "03",
     slug: "seo",
     h: "SEO",
     price: SERVICE_PRICES.seo.display,
@@ -30,7 +22,7 @@ const services = [
     items: ["Core Web Vitals", "Google Business Profile", "2–4 posts/month"],
   },
   {
-    n: "04",
+    n: "03",
     slug: "automation",
     h: "Automation",
     price: SERVICE_PRICES.automation.display,
@@ -51,7 +43,7 @@ export default function ServicesPage() {
         }}
       >
         <div className="cp-eyebrow" style={{ marginBottom: 12 }}>
-          Services · four things, done end‑to‑end
+          Services · three things, done end‑to‑end
         </div>
         <h1
           className="cp-display"
@@ -61,7 +53,7 @@ export default function ServicesPage() {
             maxWidth: 1200,
           }}
         >
-          Websites, apps, SEO, automation.
+          Websites, SEO, automation.
           <br />
           <span style={{ color: "var(--accent)" }}>
             All in. All fixed price.
@@ -76,8 +68,8 @@ export default function ServicesPage() {
             lineHeight: 1.5,
           }}
         >
-          Pick one. Pick all four. We run them the same way either way—one
-          team, one Slack channel, one invoice.
+          Pick one. Pick all three. Same process either way — one Slack
+          channel, one invoice.
         </p>
       </div>
 
