@@ -519,6 +519,12 @@ export const cases: CaseStudy[] = [
         "TODO.md, stable naming conventions, and a clear separation between content (lib/) and components carried the codebase from the 2023 batch to the 2024-25 batch without a rewrite. Still on the same architecture two years later.",
       ],
     ],
+    testimonial: {
+      quote:
+        "\"Samridh took over the role and immediately delivered something well beyond what any of us expected. We'd never had a proper conference website before — this year we have one we're genuinely proud to send out.\"",
+      name: "Head Organiser",
+      role: "NMMUN'23 · NMS Dwarka",
+    },
     thumbnail: "/work/nmmun/homepage.webp",
     media: [
       { src: "/work/nmmun/home.mp4", type: "video", label: "Home · hero carousel · countdown" },
