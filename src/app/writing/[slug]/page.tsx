@@ -1,10 +1,37 @@
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
 import FinalCTA from "@/components/final-cta";
 import { getPostBySlug, posts, type ContentBlock } from "@/data/writing";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const post = getPostBySlug(slug);
+  if (!post) return {};
+
+  return {
+    title: `${post.title} · clupai`,
+    description: post.dek,
+    alternates: {
+      canonical: `/writing/${slug}`,
+    },
+    openGraph: {
+      title: post.title,
+      description: post.dek,
+      type: "article",
+      publishedTime: post.date,
+      authors: ["Sam Limbu"],
+      tags: post.tags,
+    },
+  };
+}
 
 export function generateStaticParams() {
   return posts.map((p) => ({ slug: p.slug }));
@@ -133,9 +160,46 @@ export default async function BlogPostPage({
     .map((s) => posts.find((p) => p.slug === s))
     .filter(Boolean);
 
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": post.title,
+    "description": post.dek,
+    "datePublished": post.date,
+    "dateModified": post.date,
+    "author": {
+      "@type": "Person",
+      "name": "Sam Limbu",
+      "url": "https://samridhlimbu.com",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "clupai",
+        "url": "https://clupai.com",
+      },
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "clupai",
+      "url": "https://clupai.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://clupai.com/logo.png",
+      },
+    },
+    "url": `https://clupai.com/writing/${post.slug}`,
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `https://clupai.com/writing/${post.slug}`,
+    },
+  };
+
   return (
     <>
       <Nav page="writing" />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
 
       {/* Breadcrumb */}
       <div className="px-6 md:px-12 pt-12 pb-0">

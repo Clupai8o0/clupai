@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
-import { motion, useInView, animate } from "motion/react";
+import { useRef, useState } from "react";
+import { motion, useInView } from "motion/react";
 import Link from "next/link";
 import Placeholder from "@/components/placeholder";
 
@@ -22,29 +22,14 @@ interface Props {
 function AnimatedStat({ value }: { value: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
-  const [displayed, setDisplayed] = useState("0");
-
-  useEffect(() => {
-    if (!inView) return;
-    const numeric = value.replace(/[^\d→]/g, "");
-    const parts = value.split("→");
-    if (parts.length === 2) {
-      const from = parseInt(parts[0]) || 0;
-      const to = parseInt(parts[1]) || 0;
-      const controls = animate(from, to, {
-        duration: 1.2,
-        ease: [0.16, 1, 0.3, 1],
-        onUpdate: (v) => setDisplayed(`${Math.round(from + (v - from))}→${to}`),
-      });
-      return () => controls.stop();
-    }
-    setDisplayed(value);
-  }, [inView, value]);
 
   return (
-    <div
+    <motion.div
       ref={ref}
       className="cp-num cp-svc-stat"
+      initial={{ opacity: 0, y: 8 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       style={{
         fontSize: 120,
         color: "var(--accent)",
@@ -52,8 +37,8 @@ function AnimatedStat({ value }: { value: string }) {
         lineHeight: 0.9,
       }}
     >
-      {inView && displayed !== "0" ? displayed : value}
-    </div>
+      {value}
+    </motion.div>
   );
 }
 

@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import type { Metadata } from "next";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
 import FinalCTA from "@/components/final-cta";
@@ -7,6 +8,44 @@ import Placeholder from "@/components/placeholder";
 import Row from "@/components/row";
 import CaseStudySection from "@/components/case-study-section";
 import { SERVICE_DATA, SERVICE_SLUGS, HIDDEN_SERVICE_SLUGS } from "@/data/services";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const data = SERVICE_DATA[slug];
+  if (!data) return {};
+
+  const titles: Record<string, string> = {
+    web: "Web Design Melbourne — Next.js Websites · clupai",
+    seo: "SEO Melbourne — Technical & Local SEO · clupai",
+    automation: "Business Automation Melbourne — Zapier, n8n, Make · clupai",
+    ads: "Google Ads Melbourne · clupai",
+    apps: "App Development Melbourne · clupai",
+  };
+
+  const descriptions: Record<string, string> = {
+    web: "Melbourne web design studio. We build fast, conversion-focused Next.js websites for Australian businesses. From $3,500. Owned by you, built to last.",
+    seo: "SEO consultant Melbourne. Technical + local SEO for Melbourne service businesses. Google Business Profile, schema, Core Web Vitals, and content that earns links.",
+    automation: "Business automation Melbourne. Zapier, n8n, and Make integrations for Melbourne SMBs. Stop copying data between tools. From $1,800.",
+    ads: "Google Ads management Melbourne. Search and Performance Max campaigns for Melbourne service businesses. No lock-in.",
+    apps: "App development Melbourne. React Native and Next.js applications for startups and growing businesses. From $4,500.",
+  };
+
+  return {
+    title: titles[slug] ?? `${data.crumb} · clupai`,
+    description: descriptions[slug] ?? data.problem,
+    alternates: {
+      canonical: `/services/${slug}`,
+    },
+    openGraph: {
+      title: titles[slug] ?? data.crumb,
+      description: descriptions[slug] ?? data.problem,
+    },
+  };
+}
 
 export function generateStaticParams() {
   return SERVICE_SLUGS.map((slug) => ({ slug }));
@@ -22,9 +61,36 @@ export default async function ServiceDetailPage({
   const data = SERVICE_DATA[slug];
   if (!data) notFound();
 
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": data.crumb,
+    "description": data.problem,
+    "provider": {
+      "@type": "ProfessionalService",
+      "name": "clupai",
+      "url": "https://clupai.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Brunswick",
+        "addressRegion": "VIC",
+        "addressCountry": "AU",
+      },
+    },
+    "areaServed": {
+      "@type": "City",
+      "name": "Melbourne",
+    },
+    "url": `https://clupai.com/services/${slug}`,
+  };
+
   return (
     <>
       <Nav page="services" />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
 
       <div style={{ padding: "48px 48px 0" }}>
         <div className="cp-mono" style={{ color: "var(--text-muted)" }}>
@@ -120,6 +186,31 @@ export default async function ServiceDetailPage({
           </div>
         </div>
       </div>
+
+      {/* Melbourne local strip */}
+      {(slug === "web" || slug === "seo" || slug === "automation") && (
+        <div
+          style={{
+            padding: "20px 48px",
+            background: "var(--surface)",
+            borderBottom: "1px solid var(--border)",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <div className="cp-mono" style={{ color: "var(--text-muted)" }}>
+            Based in Melbourne · serving Brunswick, Carlton, Richmond, Fitzroy, and beyond
+          </div>
+          <Link
+            href={`/services/${slug}/melbourne`}
+            className="cp-btn cp-btn-ghost"
+            style={{ padding: "8px 16px", fontSize: 13, minHeight: 0 }}
+          >
+            Melbourne-specific page →
+          </Link>
+        </div>
+      )}
 
       {/* Included */}
       <div

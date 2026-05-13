@@ -974,7 +974,7 @@ export default function Home() {
       <ServicesSection />
       <WorkSection />
       <PricingStripSection />
-      <TrustSection />
+      {/* <TrustSection /> */}
       <AboutTeaser />
       <KitsSection />
       <FinalCTA />

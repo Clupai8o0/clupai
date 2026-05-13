@@ -9,6 +9,8 @@ const columns = [
       { label: "Websites", href: "/services/web" },
       { label: "SEO", href: "/services/seo" },
       { label: "Automation", href: "/services/automation" },
+      { label: "Web — Melbourne", href: "/services/web/melbourne" },
+      { label: "SEO — Melbourne", href: "/services/seo/melbourne" },
     ],
   },
   {
@@ -19,6 +21,16 @@ const columns = [
       { label: "Pricing", href: "/pricing" },
       { label: "Writing", href: "/writing" },
       { label: "About", href: "/about" },
+    ],
+  },
+  {
+    h: "Tools & Guides",
+    items: [
+      { label: "Schema generator", href: "/free-tools/local-schema-generator" },
+      { label: "CWV audit (free)", href: "/free-tools/core-web-vitals-audit" },
+      { label: "WP vs Next.js", href: "/compare/wordpress-vs-nextjs" },
+      { label: "Webflow vs Next.js", href: "/compare/webflow-vs-nextjs" },
+      { label: "Squarespace vs custom", href: "/compare/squarespace-vs-custom" },
     ],
   },
   {
@@ -42,7 +54,7 @@ export default function Footer() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "2fr 1fr 1fr 1fr",
+          gridTemplateColumns: "2fr 1fr 1fr 1fr 1fr",
           gap: 48,
           marginBottom: 48,
         }}
