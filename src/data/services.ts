@@ -226,10 +226,11 @@ export const SERVICE_DATA: Record<string, ServiceData> = {
       },
     ],
     cs: {
-      stat: "+290%",
-      sstat: "organic impressions · 5 months",
-      title: "Melbourne services client — fewer pages, better content, real results",
-      body: "Cut thin blog posts and merged duplicate service pages. Rebuilt the GBP with proper services, photos, and posts. Wrote 6 real articles over 5 months. The chart goes up and to the right—because the site finally deserved it.",
+      stat: "+2,000%",
+      sstat: "organic click growth · 6 months",
+      title: "nmmun — zero to 19,000 organic clicks",
+      body: "New domain, no authority, competitive niche. We mapped real search intent, wrote 10 focused articles, fixed the technical baseline, and built internal links that reinforced the right pages. Six months in: 19k monthly organic clicks and no doorway page exposure to write off.",
+      cover: "/work/nmmun/homepage.webp",
     },
     faq: [
       {
@@ -379,10 +380,12 @@ export const SERVICE_DATA: Record<string, ServiceData> = {
       },
     ],
     cs: {
-      stat: "11 hrs",
-      sstat: "per week saved · first 60 days",
-      title: "Hoddle Melbourne — n8n pipelines for a mentorship platform",
-      body: "Manual matching, Notion-to-email copy-paste, and zero visibility on booking state. I built n8n workflows to automate mentor matching, confirmation emails via Resend, and a daily digest for the ops team. Nobody copies anything anymore.",
+      stat: "< 2min",
+      sstat: "from inputs to ballpark price · no sales call",
+      title: "King Double Glazing — Instant Estimate calculator that quotes before the form",
+      body: "Visitors landed, saw no price, and left. We built a multi-step calculator — window type, number of panes, rough size — that generates a ballpark estimate inline before asking for contact details. Leads arrive with a number, have fewer objections, and close faster. No manual quoting for standard jobs.",
+      cover: "/work/kdg/homepage.webp",
+      href: "/work/king-double-glazing",
     },
     faq: [
       {
