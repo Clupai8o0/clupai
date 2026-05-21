@@ -1,9 +1,14 @@
 import Link from "next/link";
+import Image from "next/image";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
 import FinalCTA from "@/components/final-cta";
 import { kits } from "@/lib/kits";
 import type { Kit } from "@/lib/kits";
+
+const KIT_ICONS: Record<string, string> = {
+  "acknowledgement-force": "/kit-acknowledgement-force.png",
+};
 
 export default function AppsPage() {
   return (
@@ -103,7 +108,9 @@ export default function AppsPage() {
                 width: 72,
                 height: 72,
                 borderRadius: 12,
-                background: `linear-gradient(135deg, var(--accent), rgba(77,163,255,0.3))`,
+                background: KIT_ICONS[a.slug]
+                  ? "#ffffff"
+                  : `linear-gradient(135deg, var(--accent), rgba(77,163,255,0.3))`,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -113,9 +120,20 @@ export default function AppsPage() {
                 fontWeight: 800,
                 fontSize: 28,
                 letterSpacing: "-0.03em",
+                overflow: "hidden",
               }}
             >
-              {a.name.charAt(0)}
+              {KIT_ICONS[a.slug] ? (
+                <Image
+                  src={KIT_ICONS[a.slug]}
+                  alt={a.name}
+                  width={56}
+                  height={56}
+                  style={{ objectFit: "contain" }}
+                />
+              ) : (
+                a.name.charAt(0)
+              )}
             </div>
             <div>
               <div

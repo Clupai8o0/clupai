@@ -73,7 +73,7 @@ Highest-ROI moves. Blogs come second.
 - [x] `metadata` exports per page — all new pages have titles + descriptions; `layout.tsx` has `title.template: "%s · clupai"`
 - [x] Canonical URLs — added to all pages (Melbourne service pages, industries, compare, free tools, suburb dynamic route)
 - [x] 301 map — no URLs changed, nothing to redirect
-- [ ] Verify in Google Search Console + Bing Webmaster — **manual step**: submit `https://clupai.com/sitemap.xml`
+- [x] Verify in Google Search Console + Bing Webmaster — **manual step**: submit `https://clupai.com/sitemap.xml`
 - [x] Vercel Analytics — `@vercel/analytics` installed, `<Analytics />` added to layout
 - [x] CWV tracking — `@vercel/speed-insights` installed, `<SpeedInsights />` added to layout
 
@@ -119,15 +119,41 @@ We have 9 posts. The existing posts are unusually high quality — **don't rush 
 
 ---
 
-## 7. Local / GBP
+## 7. Local / GBP + citations
 
 Fastest channel.
 
-- Claim/optimise Google Business Profile — Brunswick address, primary cat = **Website Designer**, secondary = **Marketing Agency** + **Software Company**
+### Google Business Profile
+- Claim/optimise GBP — Brunswick address, primary cat = **Website Designer**, secondary = **Marketing Agency** + **Software Company**
 - 20+ photos, refreshed quarterly (workspace, shipped sites, calls)
 - Target **2 new reviews/month** — ask every client at handover with the GBP review link in the closeout email
 - Respond to every review within 48h
 - Weekly GBP updates (project shipped, blog post, tool launch) — free local ranking signals
+
+### Other search/maps (do once, takes 30 min)
+- **Bing Places** — syncs to Apple Maps via Yelp; don't skip it
+- **Apple Maps Connect** — iOS users, voice search
+- **Yellow Pages AU** (yellowpages.com.au) — old but Google still checks NAP consistency against it
+
+### Agency directories (highest ROI — clients actually search here)
+These have DA 50–70+ and provide backlinks. Priority order:
+
+| Directory | Why | Action |
+|---|---|---|
+| **Clutch.co** | DA 70+, #1 agency review site globally, clients use it to shortlist | Create profile, list services (web, SEO, automation), ask 2–3 past clients for reviews |
+| **GoodFirms** | DA 65+, Australian clients search here | Profile + 1–2 reviews |
+| **DesignRush** | DA 60+, curated agency lists | Submit to Melbourne web design list |
+| **Sortlist** | Growing in AU, matches clients to agencies | Profile + answer incoming briefs |
+| **The Manifest** | Clutch's sister site — auto-populates from Clutch | Nothing extra needed once Clutch is live |
+
+### NAP consistency rule
+Every listing must use exactly:
+- **Name**: clupai
+- **Address**: Brunswick, VIC 3056, Australia *(or the specific street address once confirmed — don't mix formats)*
+- **Phone**: same number across all listings
+- **Website**: https://clupai.com
+
+Inconsistent NAP is a local ranking penalty. Lock the format and use it everywhere.
 
 ---
 
