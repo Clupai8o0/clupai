@@ -38,16 +38,19 @@ export default function Image() {
             flex: 1,
           }}
         >
-          <span
-            style={{
-              color: "#4DA3FF",
-              fontSize: 22,
-              fontWeight: 700,
-              letterSpacing: "-0.02em",
-            }}
-          >
-            clupai
-          </span>
+          <div style={{ display: "flex", alignItems: "baseline" }}>
+            <span
+              style={{
+                color: "#ffffff",
+                fontSize: 34,
+                fontWeight: 800,
+                letterSpacing: "-0.03em",
+              }}
+            >
+              clup
+            </span>
+            <span style={{ color: "#4DA3FF", fontSize: 34, fontWeight: 800 }}>ai</span>
+          </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             <div
               style={{

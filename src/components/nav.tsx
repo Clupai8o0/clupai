@@ -46,14 +46,13 @@ export default function Nav({ page }: { page?: string }) {
         >
           <span
             style={{
-              fontFamily:
-                "var(--font-display), Manrope, ui-sans-serif, system-ui, sans-serif",
+              fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
               fontWeight: 700,
               fontSize: 18,
               letterSpacing: "-0.02em",
             }}
           >
-            clupai
+            clup<span style={{ color: "var(--accent)" }}>ai</span>
           </span>
         </Link>
 

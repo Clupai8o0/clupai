@@ -69,7 +69,7 @@ export default function Footer() {
             }}
           >
             <Image
-              src="/logo.png"
+              src="/logo-light.png"
               alt="clupai"
               width={28}
               height={28}
@@ -77,14 +77,13 @@ export default function Footer() {
             />
             <span
               style={{
-                fontFamily:
-                  "var(--font-display), Manrope, ui-sans-serif, system-ui, sans-serif",
+                fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
                 fontWeight: 700,
                 fontSize: 22,
                 letterSpacing: "-0.02em",
               }}
             >
-              clupai
+              clup<span style={{ color: "var(--accent)" }}>ai</span>
             </span>
           </div>
           <p
