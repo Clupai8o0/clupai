@@ -8,7 +8,7 @@ import Row from "@/components/row";
 export const metadata: Metadata = {
   title: "Web Designer Melbourne · clupai — web, SEO & automation studio",
   description:
-    "Melbourne web design and Next.js development for small businesses and service operators. Fast, conversion-first builds — from $3,950, delivered in 3–5 weeks. No account managers, no lock-in.",
+    "Melbourne web design and Next.js development for small businesses and service operators. Fast, conversion-first builds, delivered in 3–5 weeks. No account managers, no lock-in.",
   alternates: {
     canonical: "https://clupai.com/services/web/melbourne",
   },
@@ -80,7 +80,7 @@ const faqs = [
   },
   {
     q: "What's a realistic budget for a Melbourne small business?",
-    a: "The Launch build starts at $3,950 and covers up to eight pages — enough for most service businesses. If you need a booking system, customer portal, or quote calculator, that's the Growth tier at $8,950. If you're not sure, book the scope call and we'll tell you plainly which one fits.",
+    a: "The Launch build covers up to eight pages — enough for most service businesses. If you need a booking system, customer portal, or quote calculator, that's the Growth tier. Rather than throw a number at you blind, we scope it on a 20-minute call and come back with a fixed quote — so you only pay for what you actually need.",
   },
   {
     q: "Do you do Shopify for Melbourne ecommerce?",
@@ -168,24 +168,26 @@ export default function WebMelbournePage() {
           </div>
           <div className="cp-card" style={{ padding: 24 }}>
             <div className="cp-mono" style={{ marginBottom: 16 }}>
-              Starts at
+              Pricing
             </div>
             <div
-              className="cp-num"
               style={{
-                fontSize: 60,
+                fontFamily:
+                  "var(--font-display), Manrope, ui-sans-serif, system-ui, sans-serif",
+                fontWeight: 700,
+                fontSize: 36,
                 color: "var(--accent)",
-                letterSpacing: "-0.04em",
+                letterSpacing: "-0.02em",
                 lineHeight: 1,
               }}
             >
-              $3,950
+              Custom quote
             </div>
             <div
               className="cp-mono"
-              style={{ marginTop: 6, color: "var(--text-muted)" }}
+              style={{ marginTop: 8, color: "var(--text-muted)" }}
             >
-              from · fixed · GST exclusive
+              Fixed · scoped to your brief
             </div>
             <div
               style={{

@@ -10,7 +10,7 @@ import RotatingText from "@/components/rotating-text";
 import { motion } from "motion/react";
 import Placeholder from "@/components/placeholder";
 import SocialLinks from "@/components/social-links";
-import { SERVICE_PRICES, PRICING_STRIP } from "@/data/pricing";
+import { PRICING_STRIP } from "@/data/pricing";
 import { featuredKits } from "@/lib/kits";
 
 const HERO_WORDS = ["customers", "bookings", "revenue", "pipeline", "leads"];
@@ -206,7 +206,7 @@ const services = [
     n: "01",
     h: "Websites",
     k: ["Next.js · Tailwind", "Copy, design, build", "Launch in 3–5 weeks"],
-    tag: SERVICE_PRICES.web.display,
+    tag: "Custom quote",
     href: "/services/web",
   },
   {
@@ -217,7 +217,7 @@ const services = [
       "GBP, schema, Core Web Vitals",
       "Content that earns links",
     ],
-    tag: SERVICE_PRICES.seo.display,
+    tag: "Custom quote",
     href: "/services/seo",
   },
   {
@@ -228,7 +228,7 @@ const services = [
       "Internal tools, dashboards",
       "Integrations that hold",
     ],
-    tag: SERVICE_PRICES.automation.display,
+    tag: "Custom quote",
     href: "/services/automation",
   },
 ];
@@ -529,16 +529,16 @@ function PricingStripSection() {
       >
         <div>
           <div className="cp-eyebrow" style={{ marginBottom: 12 }}>
-            Pricing · no discovery-call gatekeeping
+            Pricing · scoped to the project
           </div>
           <h2
             className="cp-display"
             style={{ fontSize: "var(--fs-h2)", margin: 0 }}
           >
-            Real numbers.
+            Priced to the project.
             <br />
             <span style={{ color: "var(--accent)" }}>
-              Published, not pitched.
+              Not the template.
             </span>
           </h2>
         </div>
@@ -550,9 +550,9 @@ function PricingStripSection() {
             margin: 0,
           }}
         >
-          Most agency sites bury the price. We don&apos;t—you shouldn&apos;t
-          have to book a call to find out whether we&apos;re in the same
-          ballpark.
+          Every engagement is scoped and quoted up front—fixed, in writing, no
+          surprise invoices. Tell us what you&apos;re building and we&apos;ll
+          come back with a real number.
         </p>
       </div>
       <div
@@ -562,30 +562,25 @@ function PricingStripSection() {
           gridTemplateColumns: "repeat(3, 1fr)",
         }}
       >
-        {PRICING_STRIP.map(([h, p, s, d]) => (
+        {PRICING_STRIP.map(([h, , s, d]) => (
           <div
             key={h}
             className="cp-pricing-card"
-            style={{ padding: "40px 32px" }}
+            style={{ padding: "40px 32px", display: "flex", flexDirection: "column" }}
           >
-            <div className="cp-mono" style={{ marginBottom: 16 }}>
-              {h.toUpperCase()}
-            </div>
             <div
-              style={{ display: "flex", alignItems: "baseline", gap: 10 }}
+              style={{
+                fontFamily: DISPLAY_FONT,
+                fontWeight: 700,
+                fontSize: 40,
+                letterSpacing: "-0.03em",
+                lineHeight: 1,
+              }}
             >
-              <div
-                className="cp-num"
-                style={{
-                  fontSize: 72,
-                  color: "var(--text)",
-                  letterSpacing: "-0.04em",
-                  lineHeight: 1,
-                }}
-              >
-                {p}
-              </div>
-              <div className="cp-mono">{s}</div>
+              {h}
+            </div>
+            <div className="cp-mono" style={{ marginTop: 10, color: "var(--text-muted)" }}>
+              {s}
             </div>
             <p
               style={{
@@ -593,10 +588,27 @@ function PricingStripSection() {
                 color: "var(--text-muted)",
                 fontSize: 14,
                 lineHeight: 1.55,
+                flex: 1,
               }}
             >
               {d}
             </p>
+            <Link
+              href="/contact"
+              style={{
+                marginTop: 24,
+                color: "var(--accent)",
+                fontFamily: DISPLAY_FONT,
+                fontWeight: 500,
+                fontSize: 14,
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
+                alignSelf: "flex-start",
+              }}
+            >
+              Book a call →
+            </Link>
           </div>
         ))}
       </div>
@@ -609,10 +621,10 @@ function PricingStripSection() {
         }}
       >
         <div className="cp-mono" style={{ color: "var(--text-muted)" }}>
-          All pricing in AUD · GST exclusive · no hidden retainers
+          Fixed quotes · GST exclusive · no hidden retainers
         </div>
         <Link href="/pricing" className="cp-btn cp-btn-ghost">
-          See the full breakdown →
+          How we scope &amp; price →
         </Link>
       </div>
     </div>

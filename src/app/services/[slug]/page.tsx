@@ -27,11 +27,11 @@ export async function generateMetadata({
   };
 
   const descriptions: Record<string, string> = {
-    web: "Melbourne web design studio. We build fast, conversion-focused Next.js websites for Australian businesses. From $3,500. Owned by you, built to last.",
+    web: "Melbourne web design studio. We build fast, conversion-focused Next.js websites for Australian businesses. Owned by you, built to last.",
     seo: "SEO consultant Melbourne. Technical + local SEO for Melbourne service businesses. Google Business Profile, schema, Core Web Vitals, and content that earns links.",
-    automation: "Business automation Melbourne. Zapier, n8n, and Make integrations for Melbourne SMBs. Stop copying data between tools. From $1,800.",
+    automation: "Business automation Melbourne. Zapier, n8n, and Make integrations for Melbourne SMBs. Stop copying data between tools.",
     ads: "Google Ads management Melbourne. Search and Performance Max campaigns for Melbourne service businesses. No lock-in.",
-    apps: "App development Melbourne. React Native and Next.js applications for startups and growing businesses. From $4,500.",
+    apps: "App development Melbourne. React Native and Next.js applications for startups and growing businesses.",
   };
 
   return {
@@ -150,24 +150,26 @@ export default async function ServiceDetailPage({
           </div>
           <div className="cp-card" style={{ padding: 24 }}>
             <div className="cp-mono" style={{ marginBottom: 16 }}>
-              Starts at
+              Pricing
             </div>
             <div
-              className="cp-num"
               style={{
-                fontSize: 60,
+                fontFamily:
+                  "var(--font-display), Manrope, ui-sans-serif, system-ui, sans-serif",
+                fontWeight: 700,
+                fontSize: 36,
                 color: "var(--accent)",
-                letterSpacing: "-0.04em",
+                letterSpacing: "-0.02em",
                 lineHeight: 1,
               }}
             >
-              {data.price}
+              Custom quote
             </div>
             <div
               className="cp-mono"
-              style={{ marginTop: 6, color: "var(--text-muted)" }}
+              style={{ marginTop: 8, color: "var(--text-muted)" }}
             >
-              {data.priceSub}
+              Fixed · scoped to your brief
             </div>
             <div
               style={{

@@ -36,7 +36,7 @@ const faqs = [
   },
   {
     q: "What's the actual pricing difference?",
-    a: "Webflow charges per site on an ongoing basis — plans start around $23/month for a CMS site, $39/month for an e-commerce site. You also pay for agency or freelancer time to build it. A Next.js site has a higher one-time build cost but near-zero ongoing platform fees (Vercel's free tier covers most small business sites). Over three years, the total cost is often similar or lower for custom.",
+    a: "Webflow charges per site on an ongoing basis — a recurring monthly platform fee, plus agency or freelancer time to build it. A Next.js site has a higher one-time build cost but near-zero ongoing platform fees (Vercel's free tier covers most small business sites). Over three years, the total cost is often similar or lower for custom. Book a call and we'll put a real number on your specific build.",
   },
   {
     q: "What about Webflow's editor for content teams?",
@@ -382,92 +382,6 @@ export default function WebflowVsNextjsPage() {
         </div>
       </div>
 
-      {/* Pricing */}
-      <div
-        style={{
-          padding: "80px 48px",
-          background: "var(--surface)",
-          borderBottom: "1px solid var(--border)",
-        }}
-      >
-        <div className="cp-mono" style={{ marginBottom: 20 }}>
-          § 05 · Pricing reality
-        </div>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: 32,
-          }}
-        >
-          <div className="cp-card" style={{ padding: 28 }}>
-            <div
-              className="cp-mono"
-              style={{ marginBottom: 16, color: "var(--text-muted)" }}
-            >
-              Webflow
-            </div>
-            {[
-              ["Platform fee", "$23–$39/month ongoing"],
-              ["Agency/freelancer build", "One-time project cost"],
-              ["CMS seats", "Limits at lower tiers"],
-              ["Bandwidth", "Limits at lower tiers"],
-              ["3-year platform cost", "$828–$1,404"],
-            ].map(([k, v]) => (
-              <div
-                key={k}
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  paddingTop: 12,
-                  paddingBottom: 12,
-                  borderTop: "1px solid var(--border)",
-                  fontSize: 14,
-                  color: "var(--text-muted)",
-                }}
-              >
-                <span className="cp-mono">{k}</span>
-                <span style={{ textAlign: "right", maxWidth: 200 }}>{v}</span>
-              </div>
-            ))}
-          </div>
-          <div
-            className="cp-card"
-            style={{ padding: 28, borderColor: "var(--accent)" }}
-          >
-            <div
-              className="cp-mono"
-              style={{ marginBottom: 16, color: "var(--accent)" }}
-            >
-              Next.js
-            </div>
-            {[
-              ["Build (one-time)", "$3,900–10,000"],
-              ["Hosting (Vercel)", "$0 for most small sites"],
-              ["CMS", "$0 (TinaCMS) to ~$99/month (Sanity)"],
-              ["Bandwidth", "Generous free tier"],
-              ["3-year platform cost", "$0–$3,564"],
-            ].map(([k, v]) => (
-              <div
-                key={k}
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  paddingTop: 12,
-                  paddingBottom: 12,
-                  borderTop: "1px solid var(--border)",
-                  fontSize: 14,
-                  color: "var(--text-muted)",
-                }}
-              >
-                <span className="cp-mono">{k}</span>
-                <span style={{ textAlign: "right", maxWidth: 200 }}>{v}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
       {/* Lock-in */}
       <div
         style={{
@@ -476,7 +390,7 @@ export default function WebflowVsNextjsPage() {
         }}
       >
         <div className="cp-mono" style={{ marginBottom: 20 }}>
-          § 06 · The lock-in question
+          § 05 · The lock-in question
         </div>
         <div
           style={{
@@ -522,7 +436,7 @@ export default function WebflowVsNextjsPage() {
         }}
       >
         <div className="cp-mono" style={{ marginBottom: 20 }}>
-          § 07 · Decision guide
+          § 06 · Decision guide
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
           {decisionTree.map((item, i) => (
@@ -590,7 +504,7 @@ export default function WebflowVsNextjsPage() {
         >
           <div>
             <div className="cp-mono" style={{ marginBottom: 12 }}>
-              § 08 · FAQ
+              § 07 · FAQ
             </div>
             <h2
               className="cp-display"

@@ -2,14 +2,17 @@ import Link from "next/link";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
 import FinalCTA from "@/components/final-cta";
-import { SERVICE_PRICES, PACKAGES } from "@/data/pricing";
+import { PACKAGES } from "@/data/pricing";
+
+const DISPLAY =
+  "var(--font-display), Manrope, ui-sans-serif, system-ui, sans-serif";
 
 const services = [
   {
     n: "01",
     slug: "web",
     h: "Websites",
-    price: SERVICE_PRICES.web.display,
+    price: "Custom quote",
     desc: "Next.js marketing sites that ask for the sale. 3–5 weeks, fixed price, you own the repo.",
     items: ["Copy + design + build", "Schema, analytics, CWV", "Cal.com / Calendly wired in"],
   },
@@ -17,7 +20,7 @@ const services = [
     n: "02",
     slug: "seo",
     h: "SEO",
-    price: SERVICE_PRICES.seo.display,
+    price: "Custom quote",
     desc: "Technical + local + a handful of posts worth reading. No doorway pages.",
     items: ["Core Web Vitals", "Google Business Profile", "2–4 posts/month"],
   },
@@ -25,7 +28,7 @@ const services = [
     n: "03",
     slug: "automation",
     h: "Automation",
-    price: SERVICE_PRICES.automation.display,
+    price: "Custom quote",
     desc: "Zapier, Make, n8n, internal tools. The plumbing nobody wants to do.",
     items: ["Process mapping", "Workflow build", "Internal dashboards"],
   },
@@ -175,7 +178,7 @@ export default function ServicesPage() {
             gap: 24,
           }}
         >
-          {PACKAGES.map(([h, p, d]) => (
+          {PACKAGES.map(([h, , d]) => (
             <Link
               key={h}
               href="/pricing"
@@ -186,14 +189,15 @@ export default function ServicesPage() {
                 {h.toUpperCase()}
               </div>
               <div
-                className="cp-num"
                 style={{
-                  fontSize: 54,
-                  letterSpacing: "-0.04em",
+                  fontFamily: DISPLAY,
+                  fontWeight: 700,
+                  fontSize: 30,
+                  letterSpacing: "-0.02em",
                   color: "var(--text)",
                 }}
               >
-                {p}
+                Custom quote
               </div>
               <p
                 style={{
@@ -209,12 +213,11 @@ export default function ServicesPage() {
                   marginTop: 20,
                   display: "inline-block",
                   color: "var(--accent)",
-                  fontFamily:
-                    "var(--font-display), Manrope, ui-sans-serif, system-ui, sans-serif",
+                  fontFamily: DISPLAY,
                   fontWeight: 500,
                 }}
               >
-                See pricing →
+                See the tiers →
               </span>
             </Link>
           ))}

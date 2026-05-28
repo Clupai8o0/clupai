@@ -199,8 +199,8 @@ export default function AboutPage() {
             }}
           >
             We think a small studio can do better on the projects that
-            actually suit it—$3.9k to $40k, operators in Melbourne, work that
-            fits in a small number of sprints. Past that, we&apos;ll refer you.
+            actually suit it—operators in Melbourne, work that fits in a small
+            number of sprints. Past that, we&apos;ll refer you.
           </p>
         </div>
       </div>

@@ -126,21 +126,23 @@ export default async function SuburbPage({
           {/* Price signal card */}
           <div className="cp-card" style={{ padding: 28 }}>
             <div className="cp-mono" style={{ marginBottom: 14 }}>
-              Websites from
+              Pricing
             </div>
             <div
-              className="cp-num"
               style={{
-                fontSize: 56,
+                fontFamily:
+                  "var(--font-display), Manrope, ui-sans-serif, system-ui, sans-serif",
+                fontWeight: 700,
+                fontSize: 36,
                 color: "var(--accent)",
-                letterSpacing: "-0.04em",
+                letterSpacing: "-0.02em",
                 lineHeight: 1,
               }}
             >
-              $3,500
+              Custom quote
             </div>
-            <div className="cp-mono" style={{ marginTop: 6, color: "var(--text-muted)" }}>
-              fixed · GST exclusive
+            <div className="cp-mono" style={{ marginTop: 8, color: "var(--text-muted)" }}>
+              Fixed · scoped to your brief
             </div>
             <div
               style={{

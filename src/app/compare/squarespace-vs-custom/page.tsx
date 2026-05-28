@@ -7,7 +7,7 @@ import FinalCTA from "@/components/final-cta";
 export const metadata: Metadata = {
   title: "Squarespace vs Custom Website 2026 · clupai",
   description:
-    "When Squarespace is fine, and when it's costing you customers. An honest look at the performance gap, SEO ceiling, and 3-year cost comparison for Australian small businesses.",
+    "When Squarespace is fine, and when it's costing you customers. An honest look at the performance gap, the SEO ceiling, and total cost of ownership for Australian small businesses.",
   alternates: { canonical: "/compare/squarespace-vs-custom" },
 };
 
@@ -68,7 +68,7 @@ const faqs = [
   },
   {
     q: "What's the actual cost difference?",
-    a: "Squarespace runs $23–$65/month depending on your plan. Over three years, that's $828–$2,340 in platform fees alone — before any designer or developer costs. A custom Next.js build has a higher upfront cost but near-zero ongoing platform fees. By year three or four, the custom build is typically cheaper in total.",
+    a: "Squarespace charges an ongoing monthly platform fee — so over three years you're paying in subscription fees alone, before any designer or developer costs. A custom Next.js build has a higher upfront cost but near-zero ongoing platform fees. By year three or four, the custom build is typically cheaper in total.",
   },
   {
     q: "How bad are the Lighthouse scores really?",
@@ -365,106 +365,6 @@ export default function SquarespaceVsCustomPage() {
         </div>
       </div>
 
-      {/* Cost comparison */}
-      <div
-        style={{
-          padding: "80px 48px",
-          borderBottom: "1px solid var(--border)",
-        }}
-      >
-        <div className="cp-mono" style={{ marginBottom: 20 }}>
-          § 04 · The real cost comparison (3 years)
-        </div>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: 32,
-          }}
-        >
-          <div className="cp-card" style={{ padding: 28 }}>
-            <div
-              className="cp-mono"
-              style={{ marginBottom: 16, color: "var(--text-muted)" }}
-            >
-              Squarespace · 3 years
-            </div>
-            {[
-              ["Personal plan", "$23/month"],
-              ["Business plan", "$36/month"],
-              ["Commerce plan", "$65/month"],
-              ["3-year total (business)", "$1,296"],
-              ["Designer/template", "$0–$500 one-time"],
-              ["Custom domain", "$20–$50/year"],
-              ["3-year total estimate", "$1,400–$2,500"],
-            ].map(([k, v]) => (
-              <div
-                key={k}
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  paddingTop: 12,
-                  paddingBottom: 12,
-                  borderTop: "1px solid var(--border)",
-                  fontSize: 14,
-                  color: "var(--text-muted)",
-                }}
-              >
-                <span className="cp-mono">{k}</span>
-                <span>{v}</span>
-              </div>
-            ))}
-          </div>
-          <div
-            className="cp-card"
-            style={{ padding: 28, borderColor: "var(--accent)" }}
-          >
-            <div
-              className="cp-mono"
-              style={{ marginBottom: 16, color: "var(--accent)" }}
-            >
-              Custom Next.js · 3 years
-            </div>
-            {[
-              ["Build (one-time)", "$3,900–10,000"],
-              ["Hosting (Vercel)", "$0 for most small sites"],
-              ["Domain", "$20–$50/year"],
-              ["CMS (TinaCMS)", "$0"],
-              ["Ongoing maintenance", "Minimal — code you own"],
-              ["3-year total estimate", "$4,000–$10,500"],
-            ].map(([k, v]) => (
-              <div
-                key={k}
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  paddingTop: 12,
-                  paddingBottom: 12,
-                  borderTop: "1px solid var(--border)",
-                  fontSize: 14,
-                  color: "var(--text-muted)",
-                }}
-              >
-                <span className="cp-mono">{k}</span>
-                <span style={{ textAlign: "right", maxWidth: 200 }}>{v}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-        <p
-          style={{
-            marginTop: 16,
-            fontSize: 13,
-            color: "var(--text-dim)",
-            lineHeight: 1.5,
-          }}
-        >
-          The upfront gap is real. But over 3–5 years, a custom site is often
-          cheaper — and it&apos;s doing SEO work throughout that time that
-          Squarespace isn&apos;t capable of.
-        </p>
-      </div>
-
       {/* Performance comparison */}
       <div
         style={{
@@ -474,7 +374,7 @@ export default function SquarespaceVsCustomPage() {
         }}
       >
         <div className="cp-mono" style={{ marginBottom: 20 }}>
-          § 05 · Performance comparison
+          § 04 · Performance comparison
         </div>
         <div
           style={{
@@ -553,7 +453,7 @@ export default function SquarespaceVsCustomPage() {
         >
           <div>
             <div className="cp-mono" style={{ marginBottom: 12 }}>
-              § 06 · FAQ
+              § 05 · FAQ
             </div>
             <h2
               className="cp-display"

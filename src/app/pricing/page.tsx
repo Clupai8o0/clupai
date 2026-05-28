@@ -14,11 +14,11 @@ const smallPrint = [
   ],
   [
     "Real reply times",
-    "Under one Australian business day, every time. If I'm offline for leave, you'll know before you book.",
+    "Under one Australian business day, every time. If we're offline for leave, you'll know before you book.",
   ],
   [
     "Fixed, not time-and-materials",
-    "Quotes are firm. If the scope changes, I'll say so before I bill—not after.",
+    "Quotes are firm. If the scope changes, we'll say so before we bill—not after.",
   ],
 ];
 
@@ -41,17 +41,17 @@ export default function PricingPage() {
             marginBottom: 28,
           }}
         >
-          <span className="cp-eyebrow">Pricing · transparent by default</span>
+          <span className="cp-eyebrow">Pricing · scoped to the project</span>
           <span className="cp-mono">clupai.com/pricing</span>
         </div>
         <h1
           className="cp-display"
           style={{ fontSize: "clamp(3rem, 6vw, 5.5rem)", margin: 0, maxWidth: 1100 }}
         >
-          Three tiers. Real prices.
+          Three ways to work with us.
           <br />
           <span style={{ color: "var(--accent)" }}>
-            Everything outside them—book a call.
+            Quoted once we know the brief.
           </span>
         </h1>
         <p
@@ -63,8 +63,10 @@ export default function PricingPage() {
             lineHeight: 1.5,
           }}
         >
-          Most agency sites bury the price. I don&apos;t. Here&apos;s what each
-          tier costs, what&apos;s in it, and—honestly—who it isn&apos;t for.
+          Here&apos;s how each engagement is shaped, what&apos;s in it,
+          and—honestly—who it isn&apos;t for. We quote a fixed number once we
+          understand the brief, so book a call and we&apos;ll tell you where you
+          land.
         </p>
       </div>
 
@@ -122,8 +124,17 @@ export default function PricingPage() {
               >
                 {t.name.toUpperCase()}
               </div>
-              <div className="cp-num" style={{ fontSize: 72, letterSpacing: "-0.04em", lineHeight: 1 }}>
-                {t.price}
+              <div
+                style={{
+                  fontFamily:
+                    "var(--font-display), Manrope, ui-sans-serif, system-ui, sans-serif",
+                  fontWeight: 700,
+                  fontSize: 34,
+                  letterSpacing: "-0.02em",
+                  lineHeight: 1.05,
+                }}
+              >
+                {t.sub.includes("per month") ? "Monthly retainer" : "Fixed-price build"}
               </div>
               <div
                 className="cp-mono"
@@ -263,9 +274,9 @@ export default function PricingPage() {
                 margin: "12px 0 0",
               }}
             >
-              I do a lot of these. They&apos;re quoted per project because they
-              should be. Typical range: $8k–$40k, two to eight weeks. If
-              that&apos;s you, skip the tier grid and book a call.
+              We do a lot of these. They&apos;re quoted per project because they
+              should be—usually two to eight weeks of work. If that&apos;s you,
+              skip the tier grid and book a call.
             </p>
           </div>
           <Link href="/contact" className="cp-btn cp-btn-ghost cp-btn-lg">

@@ -96,7 +96,7 @@ export const SERVICE_DATA: Record<string, ServiceData> = {
       },
       {
         q: "Do you offer payment plans?",
-        a: "Fifty percent to start, fifty percent at launch. For Growth and Operator, monthly is fine. No deposits below $1k.",
+        a: "Fifty percent to start, fifty percent at launch. For Growth and Operator, monthly is fine.",
       },
     ],
   },

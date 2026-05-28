@@ -4,14 +4,12 @@ import Nav from "@/components/nav";
 import Footer from "@/components/footer";
 import CalBooking from "@/components/cal-booking";
 import AuditForm from "./audit-form";
-
-const DISPLAY =
-  "var(--font-display), Manrope, ui-sans-serif, system-ui, sans-serif";
+import Funnel from "./funnel";
 
 export const metadata: Metadata = {
   title: { absolute: "Start — Clupai Melbourne Web Studio" },
   description:
-    "Book a free scope call with the studio behind Clupai. Melbourne websites, SEO and automation — transparent pricing, no account managers.",
+    "Book a free scope call with the studio behind Clupai. Melbourne websites, SEO and automation — fixed-price quotes, no account managers.",
   robots: { index: false, follow: false },
 };
 
@@ -24,40 +22,8 @@ const arrow = (
 const proof = [
   "Melbourne-based",
   "ABN registered",
-  "Transparent pricing",
+  "Fixed-price quotes",
   "Replies within 1 business day",
-];
-
-const services = [
-  {
-    label: "Websites",
-    line: "Custom Next.js builds, WordPress rebuilds, Core Web Vitals.",
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="4" width="18" height="16" rx="2" />
-        <path d="M3 9h18M7 6.5h.01M10 6.5h.01" />
-      </svg>
-    ),
-  },
-  {
-    label: "SEO",
-    line: "Local Melbourne SEO, GBP setup, on-page + technical.",
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="11" cy="11" r="7" />
-        <path d="M16 16l5 5" />
-      </svg>
-    ),
-  },
-  {
-    label: "Automation",
-    line: "n8n, internal tools, booking flows, client portals.",
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z" />
-      </svg>
-    ),
-  },
 ];
 
 function fadeUp(delay: number): React.CSSProperties {
@@ -99,15 +65,15 @@ export default function StartPage() {
               ...fadeUp(0.12),
             }}
           >
-            I&apos;m Sam — transparent pricing, no account managers.
+            I&apos;m Sam — fixed-price quotes, no account managers.
           </p>
 
           <div
             className="cp-cta-buttons"
             style={{ display: "flex", gap: 12, marginTop: 32, flexWrap: "wrap", ...fadeUp(0.18) }}
           >
-            <a href="#book" className="cp-btn cp-btn-primary cp-btn-lg">
-              Book a call
+            <a href="#funnel" className="cp-btn cp-btn-primary cp-btn-lg">
+              Find your fit
               {arrow}
             </a>
             <Link href="/work" className="cp-btn cp-btn-ghost cp-btn-lg">
@@ -135,54 +101,24 @@ export default function StartPage() {
               {p}
             </span>
           ))}
-          {[0, 1].map((i) => (
-            <span
-              key={i}
-              className="cp-mono"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                padding: "6px 14px",
-                border: "1px dashed var(--border-2)",
-                borderRadius: "var(--radius)",
-                color: "var(--text-dim)",
-              }}
-            >
-              [Client logo]
-            </span>
-          ))}
         </div>
       </section>
 
-      {/* What I do */}
-      <section style={{ padding: "72px 48px" }}>
-        <div className="cp-eyebrow" style={{ marginBottom: 24 }}>
-          What I do
+      {/* Funnel — problem → solution → contact → pricing */}
+      <section id="funnel" style={{ padding: "72px 48px", scrollMarginTop: 80 }}>
+        <div style={{ maxWidth: 820, margin: "0 auto 36px", textAlign: "center" }}>
+          <div className="cp-eyebrow" style={{ marginBottom: 12 }}>
+            Find your fit
+          </div>
+          <h2 className="cp-display" style={{ fontSize: "var(--fs-h2)", margin: 0 }}>
+            Tell us the problem.
+            <br />
+            <span style={{ color: "var(--accent)" }}>
+              Get your pricing in 30 seconds.
+            </span>
+          </h2>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
-          {services.map((s) => (
-            <div
-              key={s.label}
-              className="cp-card"
-              style={{ padding: "28px 24px", display: "flex", flexDirection: "column", gap: 14 }}
-            >
-              <span style={{ color: "var(--accent)" }}>{s.icon}</span>
-              <div
-                style={{
-                  fontFamily: DISPLAY,
-                  fontWeight: 700,
-                  fontSize: 20,
-                  letterSpacing: "-0.02em",
-                }}
-              >
-                {s.label}
-              </div>
-              <p style={{ color: "var(--text-muted)", fontSize: 15, lineHeight: 1.55, margin: 0 }}>
-                {s.line}
-              </p>
-            </div>
-          ))}
-        </div>
+        <Funnel />
       </section>
 
       {/* Book — live Cal.com */}

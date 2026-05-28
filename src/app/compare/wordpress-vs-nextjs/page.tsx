@@ -73,7 +73,7 @@ const faqs = [
   },
   {
     q: "What's the actual cost difference?",
-    a: "WordPress is cheaper to start: hosting is $10–30/month, themes are $50–200 one-time, and plugins vary. But factor in 2–3 hours of maintenance per month (security updates, plugin checks, backups), the occasional emergency (a plugin breaks something after an update), and the cost of a developer when things go wrong — and the 3-year cost is often comparable to a well-built Next.js site. Over 5 years, custom is usually cheaper.",
+    a: "WordPress is cheaper to start: low monthly hosting, an inexpensive theme, and plugins that vary. But factor in a few hours of maintenance per month (security updates, plugin checks, backups), the occasional emergency (a plugin breaks something after an update), and the cost of a developer when things go wrong — and the 3-year cost is often comparable to a well-built Next.js site. Over 5 years, custom is usually cheaper.",
   },
   {
     q: "Do you ever recommend WordPress?",
@@ -443,107 +443,6 @@ export default function WordPressVsNextjsPage() {
         </div>
       </div>
 
-      {/* Cost comparison */}
-      <div
-        style={{
-          padding: "80px 48px",
-          background: "var(--surface)",
-          borderBottom: "1px solid var(--border)",
-        }}
-      >
-        <div className="cp-mono" style={{ marginBottom: 20 }}>
-          § 05 · Cost comparison (3-year view)
-        </div>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: 32,
-          }}
-        >
-          <div className="cp-card" style={{ padding: 28 }}>
-            <div
-              className="cp-mono"
-              style={{ marginBottom: 16, color: "var(--text-muted)" }}
-            >
-              WordPress · 3 years
-            </div>
-            {[
-              ["Hosting", "$15–40/month"],
-              ["Theme", "$0–200 once"],
-              ["Premium plugins", "$200–600/year"],
-              ["Developer maintenance", "$100–300/month"],
-              ["Emergency fixes", "Variable"],
-              ["3-year total", "$5,000–15,000+"],
-            ].map(([k, v]) => (
-              <div
-                key={k}
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  paddingTop: 12,
-                  paddingBottom: 12,
-                  borderTop: "1px solid var(--border)",
-                  fontSize: 14,
-                  color: "var(--text-muted)",
-                }}
-              >
-                <span className="cp-mono">{k}</span>
-                <span>{v}</span>
-              </div>
-            ))}
-          </div>
-          <div
-            className="cp-card"
-            style={{ padding: 28, borderColor: "var(--accent)" }}
-          >
-            <div
-              className="cp-mono"
-              style={{ marginBottom: 16, color: "var(--accent)" }}
-            >
-              Next.js · 3 years
-            </div>
-            {[
-              ["Build (one-time)", "$3,900–10,000"],
-              ["Hosting", "$0–30/month (Vercel free tier)"],
-              ["CMS", "$0 (TinaCMS open-source)"],
-              ["Ongoing maintenance", "Minimal"],
-              ["Developer contact", "As needed"],
-              ["3-year total", "$4,000–13,000"],
-            ].map(([k, v]) => (
-              <div
-                key={k}
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  paddingTop: 12,
-                  paddingBottom: 12,
-                  borderTop: "1px solid var(--border)",
-                  fontSize: 14,
-                  color: "var(--text-muted)",
-                }}
-              >
-                <span className="cp-mono">{k}</span>
-                <span>{v}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-        <p
-          style={{
-            marginTop: 16,
-            fontSize: 13,
-            color: "var(--text-dim)",
-            lineHeight: 1.5,
-          }}
-        >
-          These are estimates, not quotes. Your actual costs depend on your
-          requirements. The point is that the &ldquo;WordPress is cheaper&rdquo;
-          argument is usually a comparison of upfront costs, not total cost of
-          ownership.
-        </p>
-      </div>
-
       {/* Decision tree */}
       <div
         style={{
@@ -552,7 +451,7 @@ export default function WordPressVsNextjsPage() {
         }}
       >
         <div className="cp-mono" style={{ marginBottom: 20 }}>
-          § 06 · Who should use which
+          § 05 · Who should use which
         </div>
         <div
           style={{
@@ -630,7 +529,7 @@ export default function WordPressVsNextjsPage() {
         >
           <div>
             <div className="cp-mono" style={{ marginBottom: 12 }}>
-              § 07 · FAQ
+              § 06 · FAQ
             </div>
             <h2
               className="cp-display"

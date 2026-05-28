@@ -8,14 +8,14 @@ import Row from "@/components/row";
 export const metadata: Metadata = {
   title: "Automation Consultant Melbourne · clupai — web, SEO & automation studio",
   description:
-    "Zapier, n8n and Make consultants in Melbourne. We wire up the tools you already own and build the internal tools that remove manual drudgery. From $5,000, fixed scope.",
+    "Zapier, n8n and Make consultants in Melbourne. We wire up the tools you already own and build the internal tools that remove manual drudgery. Fixed scope, scoped per project.",
   alternates: {
     canonical: "https://clupai.com/services/automation/melbourne",
   },
   openGraph: {
     title: "Automation Consultant Melbourne · clupai",
     description:
-      "Zapier, n8n & Make for Melbourne SMBs. Fixed scope, honest docs, and no silent failures. From $5,000.",
+      "Zapier, n8n & Make for Melbourne SMBs. Fixed scope, honest docs, and no silent failures.",
     url: "https://clupai.com/services/automation/melbourne",
   },
 };
@@ -149,24 +149,26 @@ export default function AutomationMelbournePage() {
           </div>
           <div className="cp-card" style={{ padding: 24 }}>
             <div className="cp-mono" style={{ marginBottom: 16 }}>
-              Starts at
+              Pricing
             </div>
             <div
-              className="cp-num"
               style={{
-                fontSize: 60,
+                fontFamily:
+                  "var(--font-display), Manrope, ui-sans-serif, system-ui, sans-serif",
+                fontWeight: 700,
+                fontSize: 36,
                 color: "var(--accent)",
-                letterSpacing: "-0.04em",
+                letterSpacing: "-0.02em",
                 lineHeight: 1,
               }}
             >
-              $5,000
+              Custom quote
             </div>
             <div
               className="cp-mono"
-              style={{ marginTop: 6, color: "var(--text-muted)" }}
+              style={{ marginTop: 8, color: "var(--text-muted)" }}
             >
-              from · scoped per project
+              Fixed · scoped per project
             </div>
             <div
               style={{

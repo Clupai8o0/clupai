@@ -8,14 +8,14 @@ import Row from "@/components/row";
 export const metadata: Metadata = {
   title: "SEO Consultant Melbourne · clupai — web, SEO & automation studio",
   description:
-    "Technical and local SEO for Melbourne service businesses. No doorway pages, no link packages — just fewer, better pages and a technical foundation that holds. From $1,500/month.",
+    "Technical and local SEO for Melbourne service businesses. No doorway pages, no link packages — just fewer, better pages and a technical foundation that holds.",
   alternates: {
     canonical: "https://clupai.com/services/seo/melbourne",
   },
   openGraph: {
     title: "SEO Consultant Melbourne · clupai",
     description:
-      "Local SEO and technical SEO for Melbourne businesses. Honest, no-doorway-page approach. From $1,500/month.",
+      "Local SEO and technical SEO for Melbourne businesses. Honest, no-doorway-page approach.",
     url: "https://clupai.com/services/seo/melbourne",
   },
 };
@@ -156,24 +156,26 @@ export default function SEOMelbournePage() {
           </div>
           <div className="cp-card" style={{ padding: 24 }}>
             <div className="cp-mono" style={{ marginBottom: 16 }}>
-              Starts at
+              Pricing
             </div>
             <div
-              className="cp-num"
               style={{
-                fontSize: 60,
+                fontFamily:
+                  "var(--font-display), Manrope, ui-sans-serif, system-ui, sans-serif",
+                fontWeight: 700,
+                fontSize: 36,
                 color: "var(--accent)",
-                letterSpacing: "-0.04em",
+                letterSpacing: "-0.02em",
                 lineHeight: 1,
               }}
             >
-              $1,500
+              Custom quote
             </div>
             <div
               className="cp-mono"
-              style={{ marginTop: 6, color: "var(--text-muted)" }}
+              style={{ marginTop: 8, color: "var(--text-muted)" }}
             >
-              per month · 3-month minimum
+              Monthly retainer · 3-month minimum
             </div>
             <div
               style={{
