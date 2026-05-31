@@ -41,6 +41,8 @@ contact confirmation in `src/app/api/contact/route.ts`.
 
 **Rules:**
 - Escape ALL dynamic content with `escHtml()`. Never interpolate raw user input.
+- **No em dashes (`—` / `&mdash;`).** They read as unprofessional / AI-written. Use a full stop, comma, "and", or a colon instead. En dashes (`–`) in number/price ranges ("$3k – $8k", "1–3 months") are fine and correct.
+- Every customer-facing email MUST include a deliverability disclaimer near the footer, e.g. `Can't find this in your inbox? Please check your spam or junk folder and mark us as "not spam" so our replies always reach you.` (mono-muted, `#6b6b6b`, ~13px).
 - Any "Book a call" CTA must use `bookingUrl()` from `@/lib/booking-link` so the booking form arrives prefilled.
 - Follow the Voice & copy rules above ("we", never solo framing).
-- The internal *notification* email (to `hello@clupai.com`) can stay the simple light table — the dark theme is for emails sent to **leads/customers**.
+- The internal *notification* email (to `hello@clupai.com`) can stay the simple light table. The dark theme is for emails sent to **leads/customers**.

@@ -17,11 +17,11 @@ const GOAL: Record<string, string> = {
 };
 const SITUATION: Record<string, string> = {
   scratch: "Starting from scratch",
-  underperforming: "Has something — it underperforms",
+  underperforming: "Has something, but it underperforms",
   grow: "Solid base, wants to grow",
 };
 const TIMELINE: Record<string, string> = {
-  asap: "ASAP — urgent",
+  asap: "ASAP, it's urgent",
   soon: "Next 1–3 months",
   exploring: "Just exploring",
 };
@@ -187,6 +187,12 @@ export async function POST(request: NextRequest) {
           </p>
         </td></tr>
 
+        <tr><td style="padding:18px 36px 0;">
+          <p style="margin:0;font-size:13px;line-height:1.65;color:#6b6b6b;">
+            Can't find this in your inbox? Please check your spam or junk folder and mark us as "not spam" so our replies always reach you.
+          </p>
+        </td></tr>
+
         <tr><td style="padding:28px 36px 32px;">
           <div style="border-top:1px solid #1f1f1f;padding-top:18px;">
             <p style="margin:0;font-size:13px;color:#e5e5e5;font-weight:600;">clupai</p>
@@ -297,10 +303,10 @@ export async function POST(request: NextRequest) {
 
         <tr><td style="padding:18px 36px 0;">
           <p style="margin:0 0 16px;font-size:15px;line-height:1.72;color:#c9c9c9;">
-            Within one Australian business day you'll get a short Loom &mdash; us walking through ${website ? `<span style="color:#e5e5e5;">${escHtml(website)}</span>` : "your site"} and pointing at the biggest things costing you conversions and speed. No pitch, no slideshow. Just the findings, in plain English.
+            Within one Australian business day you'll get a short Loom of us walking through ${website ? `<span style="color:#e5e5e5;">${escHtml(website)}</span>` : "your site"} and pointing at the biggest things costing you conversions and speed. No pitch, no slideshow. Just the findings, in plain English.
           </p>
           <p style="margin:0 0 22px;font-size:15px;line-height:1.72;color:#c9c9c9;">
-            Want to talk it through instead of waiting? Grab a time below &mdash; it's twenty minutes and your details are already filled in.
+            Want to talk it through instead of waiting? Grab a time below. It's twenty minutes, and your details are already filled in.
           </p>
         </td></tr>
 
@@ -320,6 +326,12 @@ ${website ? `
         <tr><td style="padding:22px 36px 0;">
           <p style="margin:0;font-size:14px;line-height:1.7;color:#9a9a9a;">
             Prefer to write first? Just reply to this email, it lands straight with us. Or reach us any time at <a href="mailto:hello@clupai.com" style="color:#4da3ff;text-decoration:none;">hello@clupai.com</a>.
+          </p>
+        </td></tr>
+
+        <tr><td style="padding:18px 36px 0;">
+          <p style="margin:0;font-size:13px;line-height:1.65;color:#6b6b6b;">
+            Can't find this in your inbox? Please check your spam or junk folder and mark us as "not spam" so our replies always reach you.
           </p>
         </td></tr>
 

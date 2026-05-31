@@ -91,10 +91,10 @@ export async function POST(request: NextRequest) {
 
         <tr><td style="padding:18px 36px 0;">
           <p style="margin:0 0 16px;font-size:15px;line-height:1.72;color:#c9c9c9;">
-            Thanks for reaching out. Your message landed with us and a real human will reply within one Australian business day &mdash; no autoresponder loop, no queue.
+            Thanks for reaching out. Your message landed with us, and a real human will reply within one Australian business day. No autoresponder loop, no queue.
           </p>
           <p style="margin:0 0 22px;font-size:15px;line-height:1.72;color:#c9c9c9;">
-            If you'd rather just talk it through, grab a time below. It's twenty minutes, no slideshow, no pressure &mdash; we'll hear what you're after and tell you straight whether we're the right fit.
+            If you'd rather just talk it through, grab a time below. It's twenty minutes, with no slideshow and no pressure. We'll hear what you're after and tell you straight whether we're the right fit.
           </p>
         </td></tr>
 
@@ -114,6 +114,12 @@ export async function POST(request: NextRequest) {
         <tr><td style="padding:22px 36px 0;">
           <p style="margin:0;font-size:14px;line-height:1.7;color:#9a9a9a;">
             Prefer to write more? Just reply to this email, it lands straight with us. Or reach us any time at <a href="mailto:hello@clupai.com" style="color:#4da3ff;text-decoration:none;">hello@clupai.com</a>.
+          </p>
+        </td></tr>
+
+        <tr><td style="padding:18px 36px 0;">
+          <p style="margin:0;font-size:13px;line-height:1.65;color:#6b6b6b;">
+            Can't find this in your inbox? Please check your spam or junk folder and mark us as "not spam" so our replies always reach you.
           </p>
         </td></tr>
 
