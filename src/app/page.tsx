@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Nav from "@/components/nav";
@@ -10,12 +11,13 @@ import RotatingText from "@/components/rotating-text";
 import { motion } from "motion/react";
 import Placeholder from "@/components/placeholder";
 import SocialLinks from "@/components/social-links";
+import FunnelModal from "@/components/funnel-modal";
 import { PRICING_STRIP } from "@/data/pricing";
 import { featuredKits } from "@/lib/kits";
 
 const HERO_WORDS = ["customers", "bookings", "revenue", "pipeline", "leads"];
 
-function HeroA() {
+function HeroA({ onOpenFunnel }: { onOpenFunnel: () => void }) {
   return (
     <div
       className="cp-hero"
@@ -23,7 +25,7 @@ function HeroA() {
         background: "var(--bg)",
         color: "var(--text)",
         position: "relative",
-        height: "calc(100dvh - 65px)",
+        minHeight: "calc(100dvh - 65px)",
         display: "flex",
         flexDirection: "column",
       }}
@@ -125,31 +127,18 @@ function HeroA() {
           <div
             className="cp-hero-cta"
             style={{
-              display: "grid",
-              gridTemplateColumns: "1fr auto",
-              alignItems: "end",
-              gap: 48,
+              display: "flex",
+              justifyContent: "flex-end",
               marginTop: 56,
             }}
           >
-            <p
-              style={{
-                fontSize: 20,
-                color: "var(--text-muted)",
-                maxWidth: 560,
-                margin: 0,
-                lineHeight: 1.5,
-              }}
-            >
-              We design, build, and grow digital products for Melbourne
-              businesses—end‑to‑end, without the bloat.
-            </p>
-            <div className="cp-hero-buttons" style={{ display: "flex", gap: 12, flexShrink: 0 }}>
-              <Link
-                href="/contact"
+            <div className="cp-hero-buttons" style={{ display: "flex", gap: 12, flexShrink: 0, flexWrap: "wrap" }}>
+              <button
+                type="button"
+                onClick={onOpenFunnel}
                 className="cp-btn cp-btn-primary cp-btn-lg"
               >
-                Book a 20‑minute scope call
+                Find your fit
                 <svg
                   width="16"
                   height="16"
@@ -160,7 +149,7 @@ function HeroA() {
                 >
                   <path d="M2 8h12M9 3l5 5-5 5" />
                 </svg>
-              </Link>
+              </button>
               <Link href="/work" className="cp-btn cp-btn-ghost cp-btn-lg">
                 See recent work
               </Link>
@@ -979,10 +968,11 @@ function KitsSection() {
 }
 
 export default function Home() {
+  const [funnelOpen, setFunnelOpen] = useState(false);
   return (
     <>
       <Nav page="home" />
-      <HeroA />
+      <HeroA onOpenFunnel={() => setFunnelOpen(true)} />
       <ServicesSection />
       <WorkSection />
       <PricingStripSection />
@@ -991,6 +981,7 @@ export default function Home() {
       <KitsSection />
       <FinalCTA />
       <Footer />
+      {funnelOpen && <FunnelModal onClose={() => setFunnelOpen(false)} />}
     </>
   );
 }

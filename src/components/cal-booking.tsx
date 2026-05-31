@@ -214,9 +214,29 @@ interface Form {
   currentSite: string;
 }
 
+type Prefill = Partial<Form>;
+
 // ─── Main component ────────────────────────────────────────────────────────────
 
-export default function CalBooking() {
+export default function CalBooking({
+  prefill,
+  embedded = false,
+}: {
+  /** Seed the booking form from details already collected (e.g. the funnel). */
+  prefill?: Prefill;
+  /** Drop the outer card chrome so it nests cleanly inside another surface. */
+  embedded?: boolean;
+} = {}) {
+  // When embedded, sit on surface-2 as a panel instead of a standalone card.
+  const shellClass = embedded ? undefined : "cp-card";
+  const shellExtra: React.CSSProperties = embedded
+    ? {
+        border: "1px solid var(--border)",
+        borderRadius: "var(--radius-lg)",
+        background: "var(--surface-2)",
+      }
+    : {};
+
   const today = new Date();
   const todayStr = toDateStr(today.getFullYear(), today.getMonth() + 1, today.getDate());
 
@@ -230,12 +250,12 @@ export default function CalBooking() {
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
 
   const [form, setForm] = useState<Form>({
-    name: "",
-    email: "",
-    projectType: "",
-    budget: "",
-    timeline: "",
-    currentSite: "",
+    name: prefill?.name ?? "",
+    email: prefill?.email ?? "",
+    projectType: prefill?.projectType ?? "",
+    budget: prefill?.budget ?? "",
+    timeline: prefill?.timeline ?? "",
+    currentSite: prefill?.currentSite ?? "",
   });
   const [submitting, setSubmitting] = useState(false);
   const [submitErr, setSubmitErr] = useState<string | null>(null);
@@ -340,7 +360,7 @@ export default function CalBooking() {
   if (success) {
     return (
       <div
-        className="cp-card"
+        className={shellClass}
         style={{
           padding: "48px 32px",
           display: "flex",
@@ -350,6 +370,7 @@ export default function CalBooking() {
           gap: 20,
           minHeight: 320,
           justifyContent: "center",
+          ...shellExtra,
         }}
       >
         <div
@@ -401,7 +422,7 @@ export default function CalBooking() {
   // ─── Calendar + booking form ────────────────────────────────────────────────
 
   return (
-    <div className="cp-card" style={{ padding: 0, overflow: "hidden" }}>
+    <div className={shellClass} style={{ padding: 0, overflow: "hidden", ...shellExtra }}>
       {/* Header */}
       <div
         style={{
@@ -435,6 +456,30 @@ export default function CalBooking() {
           cal.com/clupai/clupai-consultation
         </div>
       </div>
+
+      {/* Prefilled? Reassure them up-front — the form fields only reveal after
+          a slot is picked, so without this it reads as "nothing autofilled". */}
+      {(prefill?.name || prefill?.email) && (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+            padding: "12px 24px",
+            borderBottom: "1px solid var(--border)",
+            background: "rgba(77,163,255,0.06)",
+          }}
+        >
+          <span style={{ color: "var(--accent)", flexShrink: 0, display: "flex" }}>
+            <svg width="15" height="15" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M2 7l4 4 6-7" />
+            </svg>
+          </span>
+          <span className="cp-mono" style={{ color: "var(--text-muted)", lineHeight: 1.5 }}>
+            Your details are filled in{form.name ? `, ${form.name.split(" ")[0]}` : ""} — just pick a time below.
+          </span>
+        </div>
+      )}
 
       {/* Calendar body */}
       <div style={{ padding: "28px 24px" }}>

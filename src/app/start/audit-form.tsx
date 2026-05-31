@@ -10,7 +10,9 @@ type State = "idle" | "sending" | "sent" | "error";
 
 export default function AuditForm() {
   const [email, setEmail] = useState("");
+  const [website, setWebsite] = useState("");
   const [focused, setFocused] = useState(false);
+  const [webFocused, setWebFocused] = useState(false);
   const [state, setState] = useState<State>("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -23,7 +25,7 @@ export default function AuditForm() {
       const res = await fetch("/api/start-capture", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, website }),
       });
       const data = await res.json();
 
@@ -80,6 +82,29 @@ export default function AuditForm() {
 
   return (
     <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+      <input
+        type="text"
+        inputMode="url"
+        disabled={sending}
+        value={website}
+        onChange={(e) => setWebsite(e.target.value)}
+        placeholder="yourwebsite.com.au — the site you want audited"
+        aria-label="Your website"
+        onFocus={() => setWebFocused(true)}
+        onBlur={() => setWebFocused(false)}
+        style={{
+          width: "100%",
+          background: "var(--bg)",
+          border: `1px solid ${webFocused ? "var(--accent)" : "var(--border-2)"}`,
+          padding: "14px 16px",
+          color: "var(--text)",
+          fontFamily: BODY,
+          fontSize: 15,
+          borderRadius: "var(--radius)",
+          outline: "none",
+          transition: "border-color 0.15s",
+        }}
+      />
       <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
         <input
           type="email"

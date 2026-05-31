@@ -55,22 +55,9 @@ export default function StartPage() {
             <span style={{ color: "var(--accent)" }}>SEO + automation.</span>
           </h1>
 
-          <p
-            style={{
-              color: "var(--text-muted)",
-              fontSize: 18,
-              lineHeight: 1.5,
-              margin: "20px 0 0",
-              maxWidth: 520,
-              ...fadeUp(0.12),
-            }}
-          >
-            I&apos;m Sam — fixed-price quotes, no account managers.
-          </p>
-
           <div
             className="cp-cta-buttons"
-            style={{ display: "flex", gap: 12, marginTop: 32, flexWrap: "wrap", ...fadeUp(0.18) }}
+            style={{ display: "flex", gap: 12, marginTop: 32, flexWrap: "wrap", ...fadeUp(0.12) }}
           >
             <a href="#funnel" className="cp-btn cp-btn-primary cp-btn-lg">
               Find your fit

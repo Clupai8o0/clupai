@@ -25,7 +25,23 @@ function Fact({ k, v }: { k: string; v: string }) {
   );
 }
 
-export default function ContactPage() {
+export default async function ContactPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const sp = await searchParams;
+  const one = (v: string | string[] | undefined) =>
+    (Array.isArray(v) ? v[0] : v) ?? "";
+  const prefill = {
+    name: one(sp.name),
+    email: one(sp.email),
+    projectType: one(sp.type),
+    budget: one(sp.budget),
+    timeline: one(sp.timeline),
+    currentSite: one(sp.site),
+  };
+
   return (
     <>
       <Nav page="contact" />
@@ -70,7 +86,7 @@ export default function ContactPage() {
           <div className="cp-mono" style={{ marginBottom: 20 }}>
             § 01 · Book a 20‑minute scope call
           </div>
-          <CalBooking />
+          <CalBooking prefill={prefill} />
           <div
             className="cp-mono"
             style={{ marginTop: 20, color: "var(--text-muted)" }}

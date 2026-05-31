@@ -1,9 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import {
+  Globe, TrendingUp, Zap, Handshake, Wrench,
+  Rocket, Settings, Sprout,
+  Flame, CalendarDays, Eye,
+  Banknote, Wallet, Gem, Trophy, HelpCircle,
+} from "lucide-react";
 import { TIERS, SERVICE_PRICES } from "@/data/pricing";
 import { SERVICE_DATA } from "@/data/services";
+import CalBooking from "@/components/cal-booking";
 
 const DISPLAY =
   "var(--font-display), Manrope, ui-sans-serif, system-ui, sans-serif";
@@ -21,8 +27,10 @@ type QuizStep = {
   key: keyof Answers;
   eyebrow: string;
   title: string;
-  options: { id: string; label: string; hint?: string }[];
+  options: { id: string; icon: React.ReactNode; label: string; hint?: string }[];
 };
+
+const ic = (C: React.ElementType) => <C size={18} strokeWidth={1.5} />;
 
 const QUIZ: QuizStep[] = [
   {
@@ -30,11 +38,11 @@ const QUIZ: QuizStep[] = [
     eyebrow: "01 · What brings you here",
     title: "What do you need most right now?",
     options: [
-      { id: "web", label: "More customers from my website", hint: "A new site or a rebuild that actually converts" },
-      { id: "seo", label: "Show up higher on Google", hint: "Local + technical SEO, content that ranks" },
-      { id: "automation", label: "Automate the manual work", hint: "Connect my tools, kill the copy-paste" },
-      { id: "operator", label: "An ongoing partner across all of it", hint: "Web, SEO + automation, month to month" },
-      { id: "custom", label: "Something custom", hint: "App, platform, internal tool, integration" },
+      { id: "web",        icon: ic(Globe),       label: "More customers from my website" },
+      { id: "seo",        icon: ic(TrendingUp),   label: "Show up higher on Google" },
+      { id: "automation", icon: ic(Zap),          label: "Automate the manual work" },
+      { id: "operator",   icon: ic(Handshake),    label: "One solution for all" },
+      { id: "custom",     icon: ic(Wrench),       label: "Something custom" },
     ],
   },
   {
@@ -42,9 +50,9 @@ const QUIZ: QuizStep[] = [
     eyebrow: "02 · Where you're at",
     title: "What's the situation today?",
     options: [
-      { id: "scratch", label: "Starting from scratch", hint: "Nothing live yet" },
-      { id: "underperforming", label: "I have something — it underperforms", hint: "Live, but not pulling its weight" },
-      { id: "grow", label: "Solid base, want to grow", hint: "Working — I want more out of it" },
+      { id: "scratch",        icon: ic(Rocket),   label: "Starting from scratch" },
+      { id: "underperforming", icon: ic(Settings), label: "I have something — it underperforms" },
+      { id: "grow",           icon: ic(Sprout),   label: "Solid base, want to grow" },
     ],
   },
   {
@@ -52,9 +60,9 @@ const QUIZ: QuizStep[] = [
     eyebrow: "03 · Timing",
     title: "When do you want this moving?",
     options: [
-      { id: "asap", label: "ASAP — it's urgent", hint: "Ready to start now" },
-      { id: "soon", label: "Next 1–3 months", hint: "Planning ahead" },
-      { id: "exploring", label: "Just exploring", hint: "Scoping options" },
+      { id: "asap",      icon: ic(Flame),        label: "ASAP — it's urgent" },
+      { id: "soon",      icon: ic(CalendarDays), label: "Next 1–3 months" },
+      { id: "exploring", icon: ic(Eye),          label: "Just exploring" },
     ],
   },
   {
@@ -62,11 +70,11 @@ const QUIZ: QuizStep[] = [
     eyebrow: "04 · Budget",
     title: "Roughly what budget are you working with?",
     options: [
-      { id: "u3", label: "Under $3k" },
-      { id: "3-8", label: "$3k – $8k" },
-      { id: "8-20", label: "$8k – $20k" },
-      { id: "20+", label: "$20k+" },
-      { id: "unsure", label: "Not sure yet", hint: "We'll help you figure it out" },
+      { id: "u3",    icon: ic(Banknote),   label: "Under $3k" },
+      { id: "3-8",   icon: ic(Wallet),     label: "$3k – $8k" },
+      { id: "8-20",  icon: ic(Gem),        label: "$8k – $20k" },
+      { id: "20+",   icon: ic(Trophy),     label: "$20k+" },
+      { id: "unsure", icon: ic(HelpCircle), label: "Not sure yet" },
     ],
   },
 ];
@@ -153,6 +161,40 @@ function recommend(a: Answers): Reco {
 const SOLUTION = QUIZ.length; // 4
 const CONTACT = QUIZ.length + 1; // 5
 const PRICING = QUIZ.length + 2; // 6
+const BOOKING = QUIZ.length + 3; // 7 — inline Cal.com booking, prefilled from answers
+
+// Map quiz answers onto the booking form's exact option strings so the
+// prefilled <select>s show as selected (must match CalBooking's options).
+const BOOKING_BUDGET: Record<string, string> = {
+  u3: "Under $3k",
+  "3-8": "$3k – $8k",
+  "8-20": "$8k – $20k",
+  "20+": "$20k+",
+  unsure: "Not sure yet",
+};
+const BOOKING_TIMELINE: Record<string, string> = {
+  asap: "ASAP — it's urgent",
+  soon: "Next 1–3 months",
+  exploring: "Just exploring",
+};
+
+function bookingProjectType(a: Answers): string {
+  switch (a.goal) {
+    case "web":
+      return a.situation === "scratch" ? "New website" : "Website rebuild";
+    case "seo":
+      return "SEO";
+    case "automation":
+      return "Automation";
+    default:
+      return "Not sure"; // operator / custom — scope on the call
+  }
+}
+
+// Temporary: skip the contact-capture step while we iterate on pricing + conversion,
+// so there's no email to re-enter on every test pass. Flip to false to re-enable
+// lead capture and the confirmation email.
+const SKIP_CONTACT = false;
 
 const arrow = (
   <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2">
@@ -342,31 +384,22 @@ export default function Funnel() {
                     transition: "border-color 0.15s, background 0.15s",
                   }}
                 >
-                  <span style={{ minWidth: 0 }}>
-                    <span
-                      style={{
-                        display: "block",
-                        fontFamily: DISPLAY,
-                        fontWeight: 600,
-                        fontSize: 16,
-                        letterSpacing: "-0.01em",
-                        color: "var(--text)",
-                      }}
-                    >
-                      {o.label}
-                    </span>
-                    {o.hint && (
+                  <span style={{ display: "flex", alignItems: "center", gap: 14, minWidth: 0 }}>
+                    <span style={{ color: "var(--text-muted)", flexShrink: 0, display: "flex" }}>{o.icon}</span>
+                    <span style={{ minWidth: 0 }}>
                       <span
                         style={{
                           display: "block",
-                          marginTop: 3,
-                          fontSize: 13,
-                          color: "var(--text-muted)",
+                          fontFamily: DISPLAY,
+                          fontWeight: 600,
+                          fontSize: 16,
+                          letterSpacing: "-0.01em",
+                          color: "var(--text)",
                         }}
                       >
-                        {o.hint}
+                        {o.label}
                       </span>
-                    )}
+                    </span>
                   </span>
                   <span style={{ color: "var(--accent)", flexShrink: 0 }}>{arrow}</span>
                 </button>
@@ -431,7 +464,7 @@ export default function Funnel() {
           <div style={{ display: "flex", gap: 12, marginTop: 28, flexWrap: "wrap", alignItems: "center" }}>
             <button
               type="button"
-              onClick={() => setStep(CONTACT)}
+              onClick={() => setStep(SKIP_CONTACT ? PRICING : CONTACT)}
               className="cp-btn cp-btn-primary cp-btn-lg"
             >
               See my pricing {arrow}
@@ -446,7 +479,9 @@ export default function Funnel() {
             </button>
           </div>
           <p className="cp-mono" style={{ marginTop: 16, color: "var(--text-dim)" }}>
-            Pricing&apos;s on the next screen — we just need a way to send it to you.
+            {SKIP_CONTACT
+              ? "No email needed. Your pricing's on the next screen."
+              : "Pricing's on the next screen — we just need a way to send it to you."}
           </p>
         </div>
       )}
@@ -562,7 +597,9 @@ export default function Funnel() {
               </svg>
             </span>
             <span style={{ fontFamily: DISPLAY, fontWeight: 600, fontSize: 15 }}>
-              Thanks{contact.name ? `, ${contact.name.split(" ")[0]}` : ""} — your details are in. Here&apos;s where you&apos;d land.
+              {SKIP_CONTACT
+                ? "Based on your answers, here's where you'd land."
+                : `Thanks${contact.name ? `, ${contact.name.split(" ")[0]}` : ""} — your details are in. Here's where you'd land.`}
             </span>
           </div>
 
@@ -587,8 +624,9 @@ export default function Funnel() {
             <p style={{ marginTop: 18, fontSize: 15, lineHeight: 1.5, fontFamily: DISPLAY, fontWeight: 500, maxWidth: 560 }}>
               {reco.pitch}
             </p>
-            <Link
-              href="#book"
+            <button
+              type="button"
+              onClick={() => setStep(BOOKING)}
               className="cp-btn cp-btn-lg"
               style={{
                 marginTop: 20,
@@ -596,45 +634,103 @@ export default function Funnel() {
                 color: "var(--accent)",
                 justifyContent: "center",
                 display: "inline-flex",
+                cursor: "pointer",
               }}
             >
               Book a call to lock the scope {arrow}
-            </Link>
+            </button>
           </div>
 
-          {/* Full range */}
-          <div className="cp-mono" style={{ margin: "32px 0 16px", color: "var(--text-muted)" }}>
-            Or compare the full range
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12 }}>
-            {TIERS.map((t) => {
-              const hot = reco.highlight === t.name;
-              return (
-                <div
-                  key={t.name}
-                  style={{
-                    background: "var(--surface-2)",
-                    border: `1px solid ${hot ? "var(--accent)" : "var(--border)"}`,
-                    borderRadius: "var(--radius)",
-                    padding: "20px 18px",
-                  }}
-                >
-                  <div className="cp-mono" style={{ color: "var(--text-muted)", marginBottom: 8 }}>
-                    {t.name.toUpperCase()}
-                  </div>
-                  <div className="cp-num" style={{ fontSize: 34, letterSpacing: "-0.03em", lineHeight: 1 }}>
-                    {t.price}
-                  </div>
-                  <div className="cp-mono" style={{ color: "var(--text-dim)", marginTop: 6 }}>
-                    {t.sub}
-                  </div>
-                </div>
-              );
-            })}
+          {/* Doesn't fit / too expensive → scope something custom on a call */}
+          <div
+            style={{
+              marginTop: 28,
+              padding: "24px 26px",
+              background: "var(--surface-2)",
+              border: "1px solid var(--border)",
+              borderRadius: "var(--radius)",
+            }}
+          >
+            <div
+              style={{
+                fontFamily: DISPLAY,
+                fontWeight: 600,
+                fontSize: 17,
+                letterSpacing: "-0.01em",
+                color: "var(--text)",
+              }}
+            >
+              Too expensive, or not quite the right fit?
+            </div>
+            <p
+              style={{
+                color: "var(--text-muted)",
+                fontSize: 14.5,
+                lineHeight: 1.6,
+                margin: "8px 0 18px",
+                maxWidth: 540,
+              }}
+            >
+              That&apos;s normal. A number on a screen can&apos;t see your whole
+              picture. Book a quick call and we&apos;ll scope something that fits
+              your budget and the problem you&apos;re actually trying to solve.
+            </p>
+            <button
+              type="button"
+              onClick={() => setStep(BOOKING)}
+              className="cp-btn cp-btn-ghost"
+              style={{ display: "inline-flex", cursor: "pointer" }}
+            >
+              Book a call to lock in a custom scope {arrow}
+            </button>
           </div>
           <p className="cp-mono" style={{ marginTop: 20, color: "var(--text-dim)", lineHeight: 1.6 }}>
             All prices AUD · GST exclusive · fixed quote confirmed before any work starts. Custom builds quoted per project.
           </p>
+        </div>
+      )}
+
+      {/* Inline booking — prefilled from everything they already told us */}
+      {step === BOOKING && (
+        <div style={{ animation: "cp-fade-up 0.45s cubic-bezier(0.16,1,0.3,1) both" }}>
+          <div className="cp-eyebrow" style={{ marginBottom: 12 }}>
+            Final step · book your call
+          </div>
+          <h2
+            className="cp-display"
+            style={{ fontSize: "clamp(1.7rem, 3.6vw, 2.6rem)", margin: "0 0 8px", letterSpacing: "-0.02em" }}
+          >
+            Pick a time{contact.name ? `, ${contact.name.split(" ")[0]}` : ""}.
+          </h2>
+          <p style={{ color: "var(--text-muted)", fontSize: 15, lineHeight: 1.55, margin: "0 0 24px", maxWidth: 560 }}>
+            Your details are already filled in — just choose a slot that works.
+            You&apos;ll get a calendar invite by email straight away.
+          </p>
+          <CalBooking
+            embedded
+            prefill={{
+              name: contact.name,
+              email: contact.email,
+              projectType: bookingProjectType(answers),
+              budget: answers.budget ? BOOKING_BUDGET[answers.budget] ?? "" : "",
+              timeline: answers.timeline ? BOOKING_TIMELINE[answers.timeline] ?? "" : "",
+            }}
+          />
+          <button
+            type="button"
+            onClick={() => setStep(PRICING)}
+            className="cp-mono"
+            style={{
+              marginTop: 20,
+              background: "none",
+              border: "none",
+              color: "var(--text-muted)",
+              cursor: "pointer",
+              padding: 0,
+            }}
+          >
+            ← Back to pricing
+          </button>
         </div>
       )}
     </div>

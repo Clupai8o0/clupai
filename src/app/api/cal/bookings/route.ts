@@ -1,5 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { resolveEventTypeId } from "../_resolve";
+import { notifyTelegram, tgEsc } from "@/lib/notify";
 
 export async function POST(request: NextRequest) {
   const apiKey = process.env.CAL_API_KEY;
@@ -61,6 +62,33 @@ export async function POST(request: NextRequest) {
       const msg = data?.error?.message ?? data?.message ?? "Booking failed";
       return NextResponse.json({ error: msg }, { status: res.status });
     }
+
+    // Instant phone ping — a booked call is the highest-value event.
+    let startFmt = start;
+    try {
+      startFmt = new Intl.DateTimeFormat("en-AU", {
+        dateStyle: "full",
+        timeStyle: "short",
+        timeZone: "Australia/Melbourne",
+      }).format(new Date(start));
+    } catch {
+      /* fall back to the raw ISO string */
+    }
+    await notifyTelegram(
+      [
+        "📅 <b>New call booked</b>",
+        "",
+        `👤 ${tgEsc(name)}`,
+        `✉️ ${tgEsc(email)}`,
+        `🗓️ ${tgEsc(startFmt)} · Melbourne`,
+        projectType ? `🔧 ${tgEsc(projectType)}` : null,
+        budget ? `💰 ${tgEsc(budget)}` : null,
+        timeline ? `⏱️ ${tgEsc(timeline)}` : null,
+        currentSite ? `🌐 ${tgEsc(currentSite)}` : null,
+      ]
+        .filter(Boolean)
+        .join("\n")
+    );
 
     return NextResponse.json(data);
   } catch (err) {
