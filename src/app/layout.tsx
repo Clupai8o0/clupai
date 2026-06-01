@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Manrope, Inter, JetBrains_Mono } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import ClickSpark from "@/components/click-spark";
 import { Analytics } from "@vercel/analytics/react";
@@ -80,6 +81,8 @@ const jsonLd = {
   ],
 };
 
+const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID?.trim();
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -91,12 +94,31 @@ export default function RootLayout({
       className={`${manrope.variable} ${inter.variable} ${jetbrainsMono.variable}`}
     >
       <head>
+        {GTM_ID ? (
+          <Script id="google-tag-manager" strategy="afterInteractive">
+            {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','${GTM_ID}');`}
+          </Script>
+        ) : null}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
       <body>
+        {GTM_ID ? (
+          <noscript>
+            <iframe
+              src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+              height="0"
+              width="0"
+              style={{ display: "none", visibility: "hidden" }}
+            />
+          </noscript>
+        ) : null}
         <ClickSpark sparkColor="#ffffff" sparkSize={10} sparkRadius={20} sparkCount={8} duration={400}>
           {children}
         </ClickSpark>
