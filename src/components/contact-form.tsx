@@ -1,6 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
+
+const SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "";
 
 const DISPLAY = "var(--font-display), Manrope, ui-sans-serif, system-ui, sans-serif";
 const BODY = "var(--font-body), Inter, ui-sans-serif, system-ui, sans-serif";
@@ -36,13 +39,21 @@ function fieldStyle(focused: boolean): React.CSSProperties {
 type State = "idle" | "sending" | "sent" | "error";
 
 export default function ContactForm() {
+  const formLoadedAt = useRef(Date.now());
   const [name, setName] = useState("");
   const [company, setCompany] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [website, setWebsite] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const turnstileRef = useRef<TurnstileInstance>(null);
   const [focused, setFocused] = useState<string | null>(null);
   const [state, setState] = useState<State>("idle");
   const [errorMsg, setErrorMsg] = useState("");
+
+  useEffect(() => {
+    formLoadedAt.current = Date.now();
+  }, []);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -53,7 +64,15 @@ export default function ContactForm() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, company, email, message }),
+        body: JSON.stringify({
+          name,
+          company,
+          email,
+          message,
+          website,
+          formLoadedAt: formLoadedAt.current,
+          ...(SITE_KEY ? { turnstileToken } : {}),
+        }),
       });
       const data = await res.json();
 
@@ -62,10 +81,14 @@ export default function ContactForm() {
       } else {
         setErrorMsg(data.error ?? "Something went wrong — please email hello@clupai.com");
         setState("error");
+        turnstileRef.current?.reset();
+        setTurnstileToken("");
       }
     } catch {
       setErrorMsg("Network error — please try again or email hello@clupai.com");
       setState("error");
+      turnstileRef.current?.reset();
+      setTurnstileToken("");
     }
   }
 
@@ -126,6 +149,29 @@ export default function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+      {/* Honeypot — leave empty */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          left: "-9999px",
+          width: 1,
+          height: 1,
+          overflow: "hidden",
+        }}
+      >
+        <label htmlFor="cf-website">Website</label>
+        <input
+          id="cf-website"
+          type="text"
+          name="website"
+          tabIndex={-1}
+          autoComplete="off"
+          value={website}
+          onChange={(e) => setWebsite(e.target.value)}
+        />
+      </div>
+
       <div>
         <label style={labelStyle} htmlFor="cf-name">
           Your name<span style={{ color: "var(--accent)", marginLeft: 3 }}>*</span>
@@ -213,14 +259,24 @@ export default function ContactForm() {
         </div>
       )}
 
+      {SITE_KEY && (
+        <Turnstile
+          ref={turnstileRef}
+          siteKey={SITE_KEY}
+          onSuccess={setTurnstileToken}
+          onExpire={() => setTurnstileToken("")}
+          options={{ theme: "dark" }}
+        />
+      )}
+
       <button
         type="submit"
-        disabled={sending}
+        disabled={sending || (!!SITE_KEY && !turnstileToken)}
         className="cp-btn cp-btn-primary cp-btn-lg"
         style={{
           justifyContent: "center",
-          opacity: sending ? 0.6 : 1,
-          cursor: sending ? "not-allowed" : "pointer",
+          opacity: sending || (!!SITE_KEY && !turnstileToken) ? 0.6 : 1,
+          cursor: sending || (!!SITE_KEY && !turnstileToken) ? "not-allowed" : "pointer",
         }}
       >
         {sending ? "Sending..." : "Send →"}

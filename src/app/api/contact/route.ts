@@ -1,7 +1,19 @@
 import { Resend } from "resend";
 import { type NextRequest, NextResponse } from "next/server";
+import { Ratelimit } from "@upstash/ratelimit";
+import { Redis } from "@upstash/redis";
 import { notifyTelegram, tgEsc } from "@/lib/notify";
 import { bookingUrl } from "@/lib/booking-link";
+import { assessContactSpamWithCaptcha } from "@/lib/form-spam";
+
+const ratelimiter =
+  process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
+    ? new Ratelimit({
+        redis: Redis.fromEnv(),
+        limiter: Ratelimit.slidingWindow(5, "1 h"),
+        prefix: "contact:",
+      })
+    : null;
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -9,6 +21,21 @@ const TO = "hello@clupai.com";
 const FROM = "clupai <hello@clupai.com>";
 
 export async function POST(request: NextRequest) {
+  const remoteIp =
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+    request.headers.get("x-real-ip") ??
+    undefined;
+
+  if (ratelimiter) {
+    const { success } = await ratelimiter.limit(remoteIp ?? "unknown");
+    if (!success) {
+      return NextResponse.json(
+        { error: "Too many requests. Please try again later." },
+        { status: 429 }
+      );
+    }
+  }
+
   if (!process.env.RESEND_API_KEY) {
     return NextResponse.json(
       { error: "RESEND_API_KEY is not set" },
@@ -23,13 +50,42 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
-  const { name, company, email, message } = body;
+  const name = body.name?.trim() ?? "";
+  const company = body.company?.trim() ?? "";
+  const email = body.email?.trim() ?? "";
+  const message = body.message?.trim() ?? "";
 
   if (!name || !email || !message) {
     return NextResponse.json(
       { error: "name, email, and message are required" },
       { status: 400 }
     );
+  }
+
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  if (!emailOk) {
+    return NextResponse.json({ error: "Invalid email" }, { status: 400 });
+  }
+
+  const formLoadedAt =
+    body.formLoadedAt != null ? Number(body.formLoadedAt) : undefined;
+
+  const spamVerdict = await assessContactSpamWithCaptcha(
+    {
+      name,
+      company,
+      email,
+      message,
+      website: body.website,
+      formLoadedAt,
+      turnstileToken: body.turnstileToken,
+    },
+    remoteIp
+  );
+
+  if (spamVerdict.spam) {
+    console.warn("[contact] blocked spam:", spamVerdict.reason);
+    return NextResponse.json({ ok: true });
   }
 
   const subject = company
