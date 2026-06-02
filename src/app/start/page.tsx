@@ -39,25 +39,34 @@ export default function StartPage() {
       <Nav />
 
       {/* Hero */}
-      <section style={{ padding: "64px 48px 48px" }}>
-        <div style={{ maxWidth: 760 }}>
-          <span className="cp-chip" style={fadeUp(0)}>
-            <span className="dot" />
-            Melbourne · web studio
-          </span>
-
+      <section style={{ padding: "40px 48px 32px" }}>
+        <div style={{ maxWidth: 900 }}>
           <h1
             className="cp-display"
-            style={{ fontSize: "var(--fs-hero)", margin: "22px 0 0", ...fadeUp(0.06) }}
+            style={{ fontSize: "var(--fs-h2)", margin: "22px 0 0", ...fadeUp(0.06) }}
           >
-            Melbourne websites,
+            Your website should be
             <br />
-            <span style={{ color: "var(--accent)" }}>SEO + automation.</span>
+            <span style={{ color: "var(--accent)" }}>winning customers.</span>
           </h1>
+
+          <p
+            style={{
+              color: "var(--text-muted)",
+              fontSize: 17,
+              lineHeight: 1.65,
+              margin: "18px 0 0",
+              maxWidth: 560,
+              ...fadeUp(0.09),
+            }}
+          >
+            We design, build, and grow websites for Melbourne businesses — so you
+            rank higher, convert more visitors, and stop leaving revenue on the table.
+          </p>
 
           <div
             className="cp-cta-buttons"
-            style={{ display: "flex", gap: 12, marginTop: 32, flexWrap: "wrap", ...fadeUp(0.12) }}
+            style={{ display: "flex", gap: 12, marginTop: 32, flexWrap: "wrap", ...fadeUp(0.14) }}
           >
             <a href="#funnel" className="cp-btn cp-btn-primary cp-btn-lg">
               Find your fit
@@ -125,7 +134,7 @@ export default function StartPage() {
           className="cp-display"
           style={{ fontSize: "var(--fs-h2)", margin: "0 0 28px", maxWidth: 620 }}
         >
-          Pick a time. I&apos;ll tell you if I can help.
+          Pick a time. We&apos;ll tell you if we can help.
         </h2>
         <CalBooking />
         <div className="cp-mono" style={{ marginTop: 20, color: "var(--text-muted)" }}>
@@ -150,7 +159,7 @@ export default function StartPage() {
             Get a free 10-minute site audit.
           </h2>
           <p style={{ color: "var(--text-muted)", fontSize: 16, lineHeight: 1.55, margin: "0 0 28px" }}>
-            I&apos;ll record a Loom walking through your biggest conversion and
+            We&apos;ll record a Loom walking through your biggest conversion and
             speed issues. No pitch — just the findings.
           </p>
           <AuditForm />
