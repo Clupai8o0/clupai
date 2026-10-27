@@ -1,0 +1,100 @@
+[
+  {
+    "id": "tradies",
+    "aspect": "16:9",
+    "scene": "A tradesperson's white ute parked at the kerb outside a single-fronted Victorian terrace house in an inner-north Melbourne street at night. An aluminium ladder is strapped to the roof racks. A phone on the dashboard glows blue and lights the empty cab. Wet bitumen reflects the blue glow; a timber picket fence and a street tree are silhouetted. The ute sits in the right half of the frame; the left half is quiet dark street."
+  },
+  {
+    "id": "web",
+    "aspect": "16:9",
+    "scene": "A small corner shopfront on a quiet Melbourne street at night, closed for the day. Its large display window glows with cool blue light that spills across the footpath. A bicycle leans on a verandah post; cast-iron lacework trims the verandah overhead. The shopfront sits right of centre; the rest of the street is in deep shadow."
+  },
+  {
+    "id": "schools",
+    "scene": "An empty classroom in an old red-brick school building at dusk: rows of timber desks and chairs, tall sash windows, a laptop left open on the teacher's desk casting cool blue light across the room and onto a blank blackboard, long soft shadows. The desks fill the right two-thirds of the frame; the left third is dark wall."
+  },
+  {
+    "id": "professional",
+    "scene": "A small upper-floor office in a Victorian-era building in central Melbourne at night: a timber desk with a closed folder, a fountain pen and a ceramic cup, a laptop glowing blue, and a tall arched window behind it showing dark city towers with a few softly lit windows. The desk sits right of centre; the left side is quiet shadow."
+  },
+  {
+    "id": "seo",
+    "scene": "A narrow bluestone laneway in Melbourne at night, wet cobblestones and plain old brick walls, a row of closed doorways in shadow, and one doorway halfway down glowing blue and spilling light onto the cobbles. A single figure, seen from behind, walks toward it. Viewpoint from the laneway entrance."
+  },
+  {
+    "id": "automation",
+    "scene": "A dark home kitchen late at night: a phone lying face up on a timber bench lights up with a soft blue glow as a message arrives, a set of work keys and folded work gloves beside it, and a window behind showing a quiet suburban street with a parked ute. Nobody is in the room. The bench and phone sit in the right half of the frame."
+  },
+  {
+    "id": "web-melbourne",
+    "scene": "The domed facade of Flinders Street Station in Melbourne at night, seen from across the intersection, a tram passing in the foreground with gentle motion blur, the station's arches glowing softly blue. The clock faces have no numerals."
+  },
+  {
+    "id": "seo-melbourne",
+    "scene": "A Melbourne CBD laneway cafe strip at night, like Degraves Street: closed cafe umbrellas, stacked chairs, shutters down, and one small cafe window still glowing blue, its light reflected in the wet paving."
+  },
+  {
+    "id": "automation-melbourne",
+    "scene": "A converted red-brick warehouse workshop in Collingwood, Melbourne, after hours: workbenches with tools, a roller door half open to the dark street, and a laptop on one bench glowing blue as the only light in the room."
+  },
+  {
+    "id": "brunswick",
+    "scene": "Sydney Road, Brunswick, Melbourne at night: two-storey Victorian shopfronts with verandahs and parapets line the street, a Melbourne tram glides past with its windows glowing blue, overhead tram wires fade into the dark, and the wet road reflects the light."
+  },
+  {
+    "id": "carlton",
+    "scene": "The dome of the Royal Exhibition Building in Carlton Gardens, Melbourne at night, seen down an avenue of old elm trees, blue moonlight on the dome, a quiet gravel path leading toward it."
+  },
+  {
+    "id": "richmond",
+    "scene": "Swan Street, Richmond, Melbourne at night after a match: the tall light towers of the Melbourne Cricket Ground glow blue in the distance above the rooftops, a row of low shopfronts and an empty tram stop in the foreground."
+  },
+  {
+    "id": "fitzroy",
+    "scene": "A row of ornate two-storey Victorian terrace houses with cast-iron lace balconies on a Fitzroy street in Melbourne at night, a bluestone kerb, a bicycle locked to a pole, and one first-floor window glowing blue."
+  },
+  {
+    "id": "collingwood",
+    "scene": "Collingwood, Melbourne at night: old red-brick warehouses and a sawtooth-roof factory converted into studios, a tall brick chimney stack silhouetted against the sky, and one big steel-framed studio window glowing blue."
+  },
+  {
+    "id": "northcote",
+    "scene": "High Street, Northcote, Melbourne at night: the Art Deco facade of an old picture theatre with a tall vertical fin (no lettering anywhere), a row of shopfronts, a tram passing, and the theatre's fin glowing blue."
+  },
+  {
+    "id": "coburg",
+    "scene": "Sydney Road, Coburg, Melbourne at night: the clock tower of the old Coburg Town Hall rises above a row of shopfronts (the clock face has no numerals), a quiet multicultural food strip with shutters down, and one grocer's awning lit blue."
+  },
+  {
+    "id": "case-kdg",
+    "scene": "The front of a single-fronted Victorian weatherboard house in Melbourne on a rainy night: one tall timber sash window, newly retrofitted with double glazing, glows blue from within, raindrops bead on the outside of the glass, and the rest of the house is in darkness. The window sits right of centre."
+  },
+  {
+    "id": "case-hoddle",
+    "scene": "Aerial view looking straight down on the Melbourne CBD street grid (the Hoddle Grid) at night: rectangular blocks of dark towers, the streets between them glowing as soft rivers of blue light, and the Yarra River curving along the bottom edge of the frame."
+  },
+  {
+    "id": "case-kairos",
+    "scene": "A quiet bedroom desk just before dawn: a closed laptop, an open paper notebook, a phone glowing blue with a soft notification, and a cup of tea; through the window, the first blue light of morning rises over terrace-house rooftops."
+  },
+  {
+    "id": "case-krishnaveni",
+    "scene": "A K-12 school campus in India at dusk: a two-storey cream-painted building with arched verandah corridors around a courtyard, a large neem tree in the courtyard, a row of bicycles, and one classroom window glowing blue."
+  },
+  {
+    "id": "case-nmmun",
+    "scene": "A school auditorium in New Delhi set up for a Model United Nations session, seen from the back of the hall: a horseshoe of desks with blank placards and gooseneck microphones, rows of empty chairs, and the stage softly lit blue."
+  },
+  {
+    "id": "case-cuts",
+    "scene": "An empty barbershop in Manama, Bahrain after closing: a classic leather barber chair faces a large mirror that glows with blue light, clippers and combs rest on the counter, and a tall date palm is silhouetted through the front window."
+  },
+  {
+    "id": "case-thurman",
+    "scene": "An event venue the night before an event: round banquet tables dressed with cloths and chairs, a long stage at the far end, strings of small cool-blue lights overhead, the hall otherwise dark and waiting."
+  },
+  {
+    "id": "studio",
+    "scene": "A small design studio in a converted Brunswick warehouse in Melbourne at night: a long timber desk with two monitors glowing blue, a pot plant, a bicycle hung on the brick wall, and tall steel-framed windows showing the dark street outside. Nobody is there."
+  }
+]

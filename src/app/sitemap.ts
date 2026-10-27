@@ -68,5 +68,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Free tools
     { url: `${BASE_URL}/free-tools/local-schema-generator`, lastModified, changeFrequency: "monthly", priority: 0.7 },
     { url: `${BASE_URL}/free-tools/core-web-vitals-audit`, lastModified, changeFrequency: "monthly", priority: 0.7 },
+
+    // Legal
+    { url: `${BASE_URL}/privacy`, lastModified, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${BASE_URL}/terms`, lastModified, changeFrequency: "yearly", priority: 0.3 },
   ];
 }

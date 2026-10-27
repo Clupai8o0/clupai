@@ -59,7 +59,7 @@ export default function CaseStudySection({
 
   return (
     <div
-      style={{ padding: "80px 48px", borderBottom: "1px solid var(--border)" }}
+      style={{ padding: "80px 48px" }}
     >
       <div
         ref={sectionRef}

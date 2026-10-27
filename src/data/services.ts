@@ -46,12 +46,12 @@ export const SERVICE_DATA: Record<string, ServiceData> = {
       {
         h: "Scope",
         d: "Week 0",
-        body: "One 90-minute call. I leave with a brief. You leave with a fixed price.",
+        body: "One 90-minute call. We leave with a brief. You leave with a fixed price.",
       },
       {
         h: "Copy",
         d: "Week 1",
-        body: "I write the first draft. You react. We settle the voice before a pixel moves.",
+        body: "We write the first draft. You react. We settle the voice before a pixel moves.",
       },
       {
         h: "Design",
@@ -61,7 +61,7 @@ export const SERVICE_DATA: Record<string, ServiceData> = {
       {
         h: "Build",
         d: "Weeks 3–4",
-        body: "Next.js on Vercel. I ship to staging daily—you can watch it come together.",
+        body: "Next.js on Vercel. We ship to staging daily, so you can watch it come together.",
       },
       {
         h: "Launch",
@@ -80,19 +80,19 @@ export const SERVICE_DATA: Record<string, ServiceData> = {
     faq: [
       {
         q: "Do I own the site at the end?",
-        a: "Yes. The repo, the Vercel project, the domain, the analytics—all in your accounts from day one. I'm listed as a collaborator; you're the owner.",
+        a: "Yes. The repo, the Vercel project, the domain and the analytics are all in your accounts from day one. We're listed as collaborators; you're the owner.",
       },
       {
         q: "What if I already have a designer?",
-        a: "Fine—bring them. I'll build to Figma, and the scope drops by about 25%. Tell me upfront so we skip the design phase in the quote.",
+        a: "Fine, bring them. We'll build to their Figma files, and the scope drops by about 25%. Tell us upfront so we skip the design phase in the quote.",
       },
       {
         q: "Can you work with WordPress / Shopify / Webflow?",
-        a: "Webflow and Shopify, yes. WordPress, no—I stopped taking WP work in 2023 and won't be talked back in. If you're on WP and want to stay, I'll refer you to someone good.",
+        a: "Webflow and Shopify, yes. WordPress, no: we don't take on WordPress work. If you're on WP and want to stay, we'll refer you to someone good.",
       },
       {
         q: "What happens if the scope grows?",
-        a: "We have a short conversation, I send a firm add-on quote, you say yes or no. No time-and-materials surprises at invoice time.",
+        a: "We have a short conversation, we send a firm add-on quote, you say yes or no. No time-and-materials surprises at invoice time.",
       },
       {
         q: "Do you offer payment plans?",
@@ -105,7 +105,7 @@ export const SERVICE_DATA: Record<string, ServiceData> = {
     eyebrow: "Google Ads · search + PMax · Melbourne-first",
     headline: ["Ads that pay for themselves.", "Or they stop running."],
     problem:
-      "Most small-business Ads accounts are leaking 30–60% of budget on broad match, auto-applied recommendations, and campaigns no one has touched in a year. I fix that, then I grow what's left.",
+      "Most small-business Ads accounts are leaking 30–60% of budget on broad match, auto-applied recommendations, and campaigns no one has touched in a year. We fix that, then grow what's left.",
     price: "$1,500",
     priceSub: "per month · 2-month minimum",
     timeline: "10-day build",
@@ -115,7 +115,7 @@ export const SERVICE_DATA: Record<string, ServiceData> = {
       "Account audit — what to kill, what to keep",
       "Keyword + negative keyword build — exact and phrase only",
       "Up to 3 campaigns — Search + one Performance Max asset group",
-      "Landing-page review — I'll fix the copy if it's the bottleneck",
+      "Landing-page review: we'll fix the copy if it's the bottleneck",
       "Conversion tracking — GA4, enhanced conversions, offline upload",
       "Weekly 20-minute Loom with the numbers",
       "Monthly call — strategy, not reporting theatre",
@@ -125,7 +125,7 @@ export const SERVICE_DATA: Record<string, ServiceData> = {
       {
         h: "Audit",
         d: "Days 1–3",
-        body: "I read your account, not a template. You get a 2-page memo with what I'd kill today.",
+        body: "We read your account, not a template. You get a 2-page memo with what we'd kill today.",
       },
       {
         h: "Plan",
@@ -157,7 +157,7 @@ export const SERVICE_DATA: Record<string, ServiceData> = {
     faq: [
       {
         q: "Do you need me to sign over the account?",
-        a: "No. You stay the owner; I'm a manager-level user. Fire me Friday, you still have the account Monday.",
+        a: "No. You stay the owner; we're a manager-level user. Fire us on Friday, you still have the account on Monday.",
       },
       {
         q: "What budget should I bring?",
@@ -165,15 +165,15 @@ export const SERVICE_DATA: Record<string, ServiceData> = {
       },
       {
         q: "Will you use AI-generated ads?",
-        a: "I'll draft with an LLM to save time, then rewrite. Google's auto-apply suggestions stay off. Responsive search ads yes, 'AI Max' no—at least until it stops lighting money on fire.",
+        a: "We draft with an LLM to save time, then rewrite. Google's auto-apply suggestions stay off. Responsive search ads yes, 'AI Max' no, at least until it stops lighting money on fire.",
       },
       {
         q: "What about Meta / TikTok / LinkedIn?",
-        a: "I don't run them. I know people who do, and I'll introduce you if that's where your customers actually are. Pretending to be a generalist helps no one.",
+        a: "We don't run them. We know people who do, and we'll introduce you if that's where your customers actually are. Pretending to be a generalist helps no one.",
       },
       {
         q: "Two-month minimum—why?",
-        a: "Month one is almost always a loss while I clean up. I don't want to charge you for that and walk.",
+        a: "Month one is almost always a loss while we clean up. We don't want to charge you for that and walk.",
       },
     ],
   },
@@ -195,7 +195,7 @@ export const SERVICE_DATA: Record<string, ServiceData> = {
       "Content plan — 2 to 4 real posts per month",
       "On-page fixes, monthly — titles, meta, internal links, schema",
       "Backlinks — earned, not bought. No PBNs, no link packages.",
-      "Tracker — your rankings, plus the ones I'll admit to missing",
+      "Tracker: your rankings, including the ones we're still missing",
       "Monthly strategy call — 30 minutes, no dashboard cosplay",
     ],
     process: [
@@ -207,12 +207,12 @@ export const SERVICE_DATA: Record<string, ServiceData> = {
       {
         h: "Fix",
         d: "Week 2",
-        body: "I ship the technical wins first. Redirects, schema, speed, internal links.",
+        body: "We ship the technical wins first. Redirects, schema, speed, internal links.",
       },
       {
         h: "Write",
         d: "Monthly",
-        body: "2–4 posts. I draft, you approve, a subject-matter editor polishes.",
+        body: "2–4 posts. We draft, you approve, a subject-matter editor polishes.",
       },
       {
         h: "Earn",
@@ -239,16 +239,16 @@ export const SERVICE_DATA: Record<string, ServiceData> = {
       },
       {
         q: "Are you going to make me 40 suburb pages?",
-        a: "No. Programmatic doorway pages have never aged well, and they age worse under the 2024+ spam updates. I'll build 4–8 excellent local pages.",
+        a: "No. Programmatic doorway pages have never aged well, and they age worse under the 2024+ spam updates. We'll build 4–8 excellent local pages.",
       },
       { q: "Do you guarantee rankings?", a: "No. Anyone who does is either lying or about to be." },
       {
         q: "Can you do the writing too?",
-        a: "Yes—drafts in my voice or yours, edited by a subject-matter person. If I'm learning your field, I'll tell you.",
+        a: "Yes: drafts in our voice or yours, edited by a subject-matter person. If we're learning your field, we'll tell you.",
       },
       {
         q: "Do you use AI content?",
-        a: "For drafts and research, yes. For publishing, only after a full human rewrite. Pure AI content is not ranking in 2026; I'm not about to gamble your site on it.",
+        a: "For drafts and research, yes. For publishing, only after a full human rewrite. Pure AI content is not ranking in 2026, and we won't gamble your site on it.",
       },
     ],
   },
@@ -336,7 +336,7 @@ export const SERVICE_DATA: Record<string, ServiceData> = {
     eyebrow: "Automation · internal tools · integrations",
     headline: ["The software's out there.", "It just isn't talking to itself."],
     problem:
-      "Your team is copying things between five tools, and one of them is a spreadsheet named 'FINAL_v7'. I wire up what you already own—and build the small internal tools that remove the worst of the drudgery.",
+      "Your team is copying things between five tools, and one of them is a spreadsheet named 'FINAL_v7'. We wire up what you already own, and build the small internal tools that remove the worst of the drudgery.",
     price: SERVICE_PRICES.automation.amount,
     priceSub: SERVICE_PRICES.automation.sub,
     timeline: "2–6 weeks",
@@ -356,7 +356,7 @@ export const SERVICE_DATA: Record<string, ServiceData> = {
       {
         h: "Map",
         d: "Days 1–5",
-        body: "One session per team. I come back with a diagram and the top 5 wins.",
+        body: "One session per team. We come back with a diagram and the top 5 wins.",
       },
       {
         h: "Pick",
@@ -371,7 +371,7 @@ export const SERVICE_DATA: Record<string, ServiceData> = {
       {
         h: "Hand over",
         d: "Week 5",
-        body: "Docs, Loom walk-throughs, access handed off. You can fire me.",
+        body: "Docs, Loom walk-throughs, access handed off. You can fire us.",
       },
       {
         h: "Tune",
@@ -390,19 +390,19 @@ export const SERVICE_DATA: Record<string, ServiceData> = {
     faq: [
       {
         q: "Zapier vs Make vs n8n—which?",
-        a: "Zapier for teams without an ops engineer. Make when the logic gets branchy. n8n if you want self-hosted and have someone to babysit it. I'll recommend, not push.",
+        a: "Zapier for teams without an ops engineer. Make when the logic gets branchy. n8n if you want self-hosted and have someone to babysit it. We'll recommend, not push.",
       },
       {
         q: "Will this survive when the tools change?",
-        a: "Nothing survives forever. I document every workflow, alert on failures, and review what's still useful each month if you're on Operator.",
+        a: "Nothing survives forever. We document every workflow, alert on failures, and review what's still useful each month if you're on Operator.",
       },
       {
         q: "Do you replace our SaaS?",
-        a: "Rarely. Most teams have the right tools; they're just not connected. I only build custom software when the off-the-shelf option genuinely doesn't exist.",
+        a: "Rarely. Most teams have the right tools; they're just not connected. We only build custom software when the off-the-shelf option genuinely doesn't exist.",
       },
       {
         q: "Security?",
-        a: "Least-privilege creds, secrets in a vault, SSO where your plan supports it. For anything touching PII, I'll scope to your risk tolerance before we start.",
+        a: "Least-privilege creds, secrets in a vault, SSO where your plan supports it. For anything touching PII, we'll scope to your risk tolerance before we start.",
       },
       {
         q: "AI agents?",

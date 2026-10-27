@@ -4,9 +4,26 @@ import type { Metadata } from "next";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
 import FinalCTA from "@/components/final-cta";
+import SceneBand from "@/components/scene-band";
 import Placeholder from "@/components/placeholder";
 import Row from "@/components/row";
 import CaseStudySection from "@/components/case-study-section";
+
+// One illustration per public service page, shown under the hero
+const SCENES: Record<string, { src: string; alt: string }> = {
+  web: {
+    src: "/illustrations/services/web.webp",
+    alt: "Illustration: a Victorian corner shop at night, its window lit.",
+  },
+  seo: {
+    src: "/illustrations/services/seo.webp",
+    alt: "Illustration: someone walking down a Melbourne laneway towards the one lit doorway.",
+  },
+  automation: {
+    src: "/illustrations/services/automation.webp",
+    alt: "Illustration: a phone lighting up on a kitchen bench beside work gloves and keys.",
+  },
+};
 import { SERVICE_DATA, SERVICE_SLUGS, HIDDEN_SERVICE_SLUGS } from "@/data/services";
 
 export async function generateMetadata({
@@ -19,11 +36,11 @@ export async function generateMetadata({
   if (!data) return {};
 
   const titles: Record<string, string> = {
-    web: "Web Design Melbourne — Next.js Websites · clupai",
-    seo: "SEO Melbourne — Technical & Local SEO · clupai",
-    automation: "Business Automation Melbourne — Zapier, n8n, Make · clupai",
-    ads: "Google Ads Melbourne · clupai",
-    apps: "App Development Melbourne · clupai",
+    web: "Web Design Melbourne: Next.js Websites",
+    seo: "SEO Melbourne: Technical and Local SEO",
+    automation: "Business Automation Melbourne: Zapier, n8n, Make",
+    ads: "Google Ads Melbourne",
+    apps: "App Development Melbourne",
   };
 
   const descriptions: Record<string, string> = {
@@ -35,7 +52,7 @@ export async function generateMetadata({
   };
 
   return {
-    title: titles[slug] ?? `${data.crumb} · clupai`,
+    title: titles[slug] ?? data.crumb,
     description: descriptions[slug] ?? data.problem,
     alternates: {
       canonical: `/services/${slug}`,
@@ -60,6 +77,7 @@ export default async function ServiceDetailPage({
   if (HIDDEN_SERVICE_SLUGS.includes(slug)) notFound();
   const data = SERVICE_DATA[slug];
   if (!data) notFound();
+  const scene = SCENES[slug];
 
   const serviceSchema = {
     "@context": "https://schema.org",
@@ -104,7 +122,6 @@ export default async function ServiceDetailPage({
       <div
         style={{
           padding: "32px 48px 72px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -126,7 +143,7 @@ export default async function ServiceDetailPage({
             >
               {data.headline[0]}
               <br />
-              <span style={{ color: "var(--accent)" }}>{data.headline[1]}</span>
+              <span style={{ color: "var(--text-muted)" }}>{data.headline[1]}</span>
             </h1>
             <p
               style={{
@@ -175,7 +192,6 @@ export default async function ServiceDetailPage({
               style={{
                 marginTop: 20,
                 paddingTop: 16,
-                borderTop: "1px solid var(--border)",
                 display: "flex",
                 flexDirection: "column",
                 gap: 8,
@@ -189,13 +205,14 @@ export default async function ServiceDetailPage({
         </div>
       </div>
 
+      {scene && <SceneBand src={scene.src} alt={scene.alt} />}
+
       {/* Melbourne local strip */}
       {(slug === "web" || slug === "seo" || slug === "automation") && (
         <div
           style={{
             padding: "20px 48px",
             background: "var(--surface)",
-            borderBottom: "1px solid var(--border)",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
@@ -218,7 +235,6 @@ export default async function ServiceDetailPage({
       <div
         style={{
           padding: "80px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -230,7 +246,7 @@ export default async function ServiceDetailPage({
         >
           <div>
             <div className="cp-mono" style={{ marginBottom: 12 }}>
-              § 01 · What&apos;s included
+              What&apos;s included
             </div>
             <h2
               className="cp-display"
@@ -261,7 +277,6 @@ export default async function ServiceDetailPage({
                   display: "flex",
                   gap: 14,
                   paddingTop: 14,
-                  borderTop: "1px solid var(--border)",
                 }}
               >
                 <span
@@ -292,11 +307,10 @@ export default async function ServiceDetailPage({
         style={{
           padding: "80px 48px",
           background: "var(--surface)",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div className="cp-mono" style={{ marginBottom: 12 }}>
-          § 02 · How it actually runs
+          How it actually runs
         </div>
         <h2
           className="cp-display"
@@ -307,14 +321,14 @@ export default async function ServiceDetailPage({
           }}
         >
           Five steps. Boring.{" "}
-          <span style={{ color: "var(--accent)" }}>On purpose.</span>
+          <span style={{ color: "var(--text-muted)" }}>On purpose.</span>
         </h2>
         <div
           className="cp-svc-process-grid"
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(5, 1fr)",
-            borderTop: "1px solid var(--border-2)",
+            gap: 32,
           }}
         >
           {data.process.map((p, i) => (
@@ -322,9 +336,7 @@ export default async function ServiceDetailPage({
               key={i}
               className="cp-svc-step"
               style={{
-                padding: "24px 24px 28px",
-                borderLeft:
-                  i === 0 ? "none" : "1px solid var(--border-2)",
+                padding: "24px 0 28px",
                 display: "flex",
                 flexDirection: "column",
                 minHeight: 260,
@@ -376,7 +388,7 @@ export default async function ServiceDetailPage({
 
       {/* Case study */}
       <CaseStudySection
-        eyebrow={`§ 03 · Recent ${data.crumb.toLowerCase()} build`}
+        eyebrow={`Recent ${data.crumb.toLowerCase()} build`}
         stat={data.cs.stat}
         sstat={data.cs.sstat}
         title={data.cs.title}
@@ -390,7 +402,6 @@ export default async function ServiceDetailPage({
       <div
         style={{
           padding: "80px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -402,13 +413,13 @@ export default async function ServiceDetailPage({
         >
           <div>
             <div className="cp-mono" style={{ marginBottom: 12 }}>
-              § 04 · FAQ
+              FAQ
             </div>
             <h2
               className="cp-display"
               style={{ fontSize: "var(--fs-h2)", margin: 0 }}
             >
-              Things I get asked.
+              Things we get asked.
               <br />
               <span style={{ color: "var(--text-muted)" }}>
                 Answered plainly.
@@ -421,8 +432,8 @@ export default async function ServiceDetailPage({
                 fontSize: 13,
               }}
             >
-              No FAQPage schema. On purpose. Google&apos;s been penalising it
-              since 2023.
+              No FAQPage schema, on purpose. Google stopped showing FAQ results
+              for most sites in 2023.
             </p>
           </div>
           <div>
@@ -430,7 +441,6 @@ export default async function ServiceDetailPage({
               <details
                 key={i}
                 style={{
-                  borderTop: "1px solid var(--border)",
                   padding: "20px 0",
                 }}
                 open={i === 0}

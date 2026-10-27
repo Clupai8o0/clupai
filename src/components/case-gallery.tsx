@@ -1,11 +1,11 @@
 "use client"
 
 import { useState, useEffect, useCallback, useRef } from "react"
-import type { MediaItem, ResultCell } from "@/data/cases"
+import Image from "next/image"
+import { X } from "lucide-react"
+import type { MediaItem } from "@/data/cases"
 
-const MONO = '"JetBrains Mono", var(--font-mono), monospace'
-
-function VideoSlot({ src, ratio = "16/9" }: { src: string; ratio?: string }) {
+function VideoSlot({ item, ratio }: { item: MediaItem; ratio: string }) {
   const ref = useRef<HTMLVideoElement>(null)
   const [playing, setPlaying] = useState(false)
 
@@ -17,50 +17,29 @@ function VideoSlot({ src, ratio = "16/9" }: { src: string; ratio?: string }) {
   }
 
   return (
-    <div style={{ position: "relative", width: "100%", aspectRatio: ratio, overflow: "hidden" }}>
+    <div className="cg-frame" style={{ aspectRatio: ratio }}>
       <video
         ref={ref}
         muted
         loop
         playsInline
-        src={src}
+        preload="metadata"
+        // #t= makes Safari paint the first frame before playback
+        src={`${item.src}#t=0.1`}
         style={{ width: "100%", height: "100%", display: "block", objectFit: "cover" }}
       />
       <button
+        type="button"
         onClick={toggle}
-        aria-label={playing ? "Pause video" : "Play video"}
-        style={{
-          position: "absolute",
-          inset: 0,
-          width: "100%",
-          height: "100%",
-          background: playing ? "transparent" : "rgba(0,0,0,0.28)",
-          border: "none",
-          cursor: "pointer",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          transition: "background 0.25s",
-          padding: 0,
-        }}
+        aria-label={playing ? `Pause: ${item.label}` : `Play: ${item.label}`}
+        className={`cg-play${playing ? " cg-play-on" : ""}`}
       >
         {!playing && (
-          <div
-            style={{
-              width: 60,
-              height: 60,
-              borderRadius: "50%",
-              background: "rgba(255,255,255,0.96)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              boxShadow: "0 4px 24px rgba(0,0,0,0.28)",
-            }}
-          >
+          <span className="cg-play-dot" aria-hidden="true">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
               <polygon points="7,4 17,10 7,16" fill="#050505" />
             </svg>
-          </div>
+          </span>
         )}
       </button>
     </div>
@@ -69,179 +48,139 @@ function VideoSlot({ src, ratio = "16/9" }: { src: string; ratio?: string }) {
 
 function Slot({
   item,
-  fallback,
   ratio = "16/9",
-  onClick,
+  sizes,
+  onOpen,
 }: {
-  item?: MediaItem
-  fallback: string
+  item: MediaItem
   ratio?: string
-  onClick: () => void
+  sizes: string
+  onOpen: (item: MediaItem) => void
 }) {
-  if (!item) {
-    return (
-      <div
-        style={{
-          aspectRatio: ratio,
-          background: "var(--surface)",
-          border: "1px solid var(--border)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <span style={{ fontFamily: MONO, fontSize: 10, color: "var(--text-dim)" }}>
-          {fallback}
-        </span>
-      </div>
-    )
-  }
-
   if (item.type === "video") {
-    return <VideoSlot src={item.src} ratio={ratio} />
+    return <VideoSlot item={item} ratio={ratio} />
   }
 
   return (
-    <img
-      src={item.src}
-      alt={item.label}
-      style={{ width: "100%", display: "block", cursor: "zoom-in", aspectRatio: ratio, objectFit: "cover" }}
-      onClick={onClick}
-    />
+    <button
+      type="button"
+      className="cg-frame cg-image"
+      style={{ aspectRatio: ratio }}
+      onClick={() => onOpen(item)}
+      aria-label={`Enlarge: ${item.label}`}
+    >
+      <Image src={item.src} alt={item.label} fill sizes={sizes} />
+    </button>
+  )
+}
+
+function Shot({
+  item,
+  ratio,
+  sizes,
+  onOpen,
+}: {
+  item?: MediaItem
+  ratio?: string
+  sizes: string
+  onOpen: (item: MediaItem) => void
+}) {
+  if (!item) return null
+  return (
+    <figure className="cg-figure">
+      <Slot item={item} ratio={ratio} sizes={sizes} onOpen={onOpen} />
+      <figcaption className="cg-cap">{item.label}</figcaption>
+    </figure>
   )
 }
 
 export function CaseGallery({
   media,
-  results,
   client,
 }: {
   media?: MediaItem[]
-  results: ResultCell[]
   client: string
 }) {
   const [active, setActive] = useState<MediaItem | null>(null)
+  const closeRef = useRef<HTMLButtonElement>(null)
+  const openerRef = useRef<HTMLElement | null>(null)
 
-  const open = useCallback((item?: MediaItem) => { if (item) setActive(item) }, [])
+  const open = useCallback((item: MediaItem) => {
+    openerRef.current = document.activeElement as HTMLElement | null
+    setActive(item)
+  }, [])
   const close = useCallback(() => setActive(null), [])
 
   useEffect(() => {
     if (!active) return
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") close() }
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") close()
+      // The close button is the dialog's only control, so Tab stays on it
+      if (e.key === "Tab") { e.preventDefault(); closeRef.current?.focus() }
+    }
     document.addEventListener("keydown", onKey)
     document.body.style.overflow = "hidden"
+    closeRef.current?.focus()
+    const opener = openerRef.current
     return () => {
       document.removeEventListener("keydown", onKey)
       document.body.style.overflow = ""
+      opener?.focus()
     }
   }, [active, close])
 
+  if (!media?.length) return null
+
   return (
-    <>
-      {/* Slot 01 — full width */}
-      <figure style={{ margin: 0 }}>
-        <Slot item={media?.[0]} fallback={`${client} · hero · desktop`} onClick={() => open(media?.[0])} />
-        <div style={{ marginTop: 12, display: "flex", justifyContent: "space-between" }}>
-          <span className="cp-mono" style={{ color: "var(--text-muted)" }}>
-            01 / 06 · {media?.[0]?.label ?? "Home · 1440px"}
-          </span>
-          <span className="cp-mono" style={{ color: "var(--accent)" }}>
-            {results[0][0]}: {results[0][1]}
-          </span>
+    <div className="cg">
+      {/* Lead: the main flow, full width */}
+      <Shot item={media[0]} sizes="(max-width: 768px) 100vw, 1344px" onOpen={open} />
+
+      {/* Phone beside a key flow */}
+      {(media[1] || media[2]) && (
+        <div className="cg-pair">
+          <Shot item={media[1]} ratio="9/16" sizes="(max-width: 768px) 70vw, 360px" onOpen={open} />
+          <Shot item={media[2]} sizes="(max-width: 768px) 100vw, 900px" onOpen={open} />
         </div>
-      </figure>
+      )}
 
-      {/* Slots 02 + 03 — two column */}
-      <div style={{ marginTop: 48, display: "grid", gridTemplateColumns: "360px 1fr", gap: 24, alignItems: "start" }}>
-        <figure style={{ margin: 0 }}>
-          <Slot item={media?.[1]} ratio="9/16" fallback={`${client} · mobile · 375px`} onClick={() => open(media?.[1])} />
-          <div className="cp-mono" style={{ marginTop: 12, color: "var(--text-muted)" }}>
-            02 · {media?.[1]?.label ?? "Mobile · 375px"}
-          </div>
-        </figure>
-        <figure style={{ margin: 0 }}>
-          <Slot item={media?.[2]} fallback={`${client} · key flow`} onClick={() => open(media?.[2])} />
-          <div className="cp-mono" style={{ marginTop: 12, color: "var(--text-muted)" }}>
-            03 · {media?.[2]?.label ?? "Key flow"}
-          </div>
-        </figure>
-      </div>
-
-      {/* Slots 04–06 — three column */}
-      <div style={{ marginTop: 48, display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
-        {([3, 4, 5] as const).map((idx) => (
-          <figure key={idx} style={{ margin: 0 }}>
-            <Slot item={media?.[idx]} fallback={`${client} · screen 0${idx + 1}`} onClick={() => open(media?.[idx])} />
-            <div className="cp-mono" style={{ marginTop: 12, color: "var(--text-muted)" }}>
-              0{idx + 1} · {media?.[idx]?.label ?? ""}
-            </div>
-          </figure>
-        ))}
-      </div>
+      {/* The rest, three across */}
+      {media.length > 3 && (
+        <div className="cg-trio">
+          {media.slice(3, 6).map((item) => (
+            <Shot
+              key={item.src}
+              item={item}
+              sizes="(max-width: 900px) 100vw, 440px"
+              onOpen={open}
+            />
+          ))}
+        </div>
+      )}
 
       {/* Lightbox */}
       {active && (
         <div
+          className="cg-lightbox"
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${client}: ${active.label}`}
           onClick={close}
-          style={{
-            position: "fixed",
-            inset: 0,
-            background: "rgba(0,0,0,0.92)",
-            zIndex: 200,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: 32,
-          }}
         >
           {/* stop clicks on the media from closing */}
-          <div onClick={(e) => e.stopPropagation()} style={{ position: "relative", maxWidth: "90vw" }}>
-            {active.type === "video" ? (
-              <video
-                muted
-                loop
-                playsInline
-                controls
-                src={active.src}
-                style={{ maxWidth: "90vw", maxHeight: "85vh", display: "block" }}
-              />
-            ) : (
-              <img
-                src={active.src}
-                alt={active.label}
-                style={{ maxWidth: "90vw", maxHeight: "85vh", display: "block", objectFit: "contain" }}
-              />
-            )}
-            <div style={{ marginTop: 10, display: "flex", justifyContent: "space-between" }}>
-              <span style={{ fontFamily: MONO, fontSize: 10, color: "rgba(255,255,255,0.45)" }}>
-                {active.label}
-              </span>
-              <span style={{ fontFamily: MONO, fontSize: 10, color: "rgba(255,255,255,0.25)" }}>
-                esc to close
-              </span>
-            </div>
-          </div>
-
-          <button
-            onClick={close}
-            style={{
-              position: "absolute",
-              top: 20,
-              right: 20,
-              background: "none",
-              border: "1px solid rgba(255,255,255,0.15)",
-              color: "rgba(255,255,255,0.6)",
-              fontFamily: MONO,
-              fontSize: 11,
-              padding: "5px 12px",
-              cursor: "pointer",
-              letterSpacing: "0.05em",
-            }}
-          >
-            × close
+          <figure className="cg-lightbox-inner" onClick={(e) => e.stopPropagation()}>
+            {/* eslint-disable-next-line @next/next/no-img-element -- full-size original at its natural ratio */}
+            <img src={active.src} alt={active.label} />
+            <figcaption>
+              <span>{active.label}</span>
+              <span>Esc to close</span>
+            </figcaption>
+          </figure>
+          <button ref={closeRef} type="button" className="cg-close" onClick={close} aria-label="Close">
+            <X size={18} strokeWidth={1.75} aria-hidden="true" />
           </button>
         </div>
       )}
-    </>
+    </div>
   )
 }

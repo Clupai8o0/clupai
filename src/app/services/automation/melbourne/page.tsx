@@ -3,10 +3,11 @@ import Link from "next/link";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
 import FinalCTA from "@/components/final-cta";
+import SceneBand from "@/components/scene-band";
 import Row from "@/components/row";
 
 export const metadata: Metadata = {
-  title: "Automation Consultant Melbourne · clupai — web, SEO & automation studio",
+  title: "Automation Consultant Melbourne",
   description:
     "Zapier, n8n and Make consultants in Melbourne. We wire up the tools you already own and build the internal tools that remove manual drudgery. Fixed scope, scoped per project.",
   alternates: {
@@ -97,7 +98,6 @@ export default function AutomationMelbournePage() {
       <div
         style={{
           padding: "32px 48px 72px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -119,7 +119,7 @@ export default function AutomationMelbournePage() {
             >
               Your tools are talking.
               <br />
-              <span style={{ color: "var(--accent)" }}>
+              <span style={{ color: "var(--text-muted)" }}>
                 Just not to each other.
               </span>
             </h1>
@@ -174,7 +174,6 @@ export default function AutomationMelbournePage() {
               style={{
                 marginTop: 20,
                 paddingTop: 16,
-                borderTop: "1px solid var(--border)",
                 display: "flex",
                 flexDirection: "column",
                 gap: 8,
@@ -189,16 +188,20 @@ export default function AutomationMelbournePage() {
         </div>
       </div>
 
+      <SceneBand
+        src="/illustrations/services/automation-melbourne.webp"
+        alt="Illustration: a warehouse workshop after hours, a laptop open on the workbench."
+      />
+
       {/* Why us vs Melbourne agencies */}
       <div
         style={{
           padding: "80px 48px",
           background: "var(--surface)",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div className="cp-mono" style={{ marginBottom: 12 }}>
-          § 01 · Why clupai vs Melbourne automation consultants
+          Why clupai vs Melbourne automation consultants
         </div>
         <h2
           className="cp-display"
@@ -209,7 +212,7 @@ export default function AutomationMelbournePage() {
           }}
         >
           Most consultants build it and leave.{" "}
-          <span style={{ color: "var(--accent)" }}>We build it and document it.</span>
+          <span style={{ color: "var(--text-muted)" }}>We build it and document it.</span>
         </h2>
         <div
           style={{
@@ -258,7 +261,6 @@ export default function AutomationMelbournePage() {
       <div
         style={{
           padding: "80px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -270,7 +272,7 @@ export default function AutomationMelbournePage() {
         >
           <div>
             <div className="cp-mono" style={{ marginBottom: 12 }}>
-              § 02 · What&apos;s included
+              What&apos;s included
             </div>
             <h2
               className="cp-display"
@@ -317,7 +319,6 @@ export default function AutomationMelbournePage() {
                   display: "flex",
                   gap: 14,
                   paddingTop: 14,
-                  borderTop: "1px solid var(--border)",
                 }}
               >
                 <span
@@ -351,7 +352,6 @@ export default function AutomationMelbournePage() {
       <div
         style={{
           padding: "80px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -364,14 +364,14 @@ export default function AutomationMelbournePage() {
         >
           <div>
             <div className="cp-mono" style={{ marginBottom: 12 }}>
-              § 03 · Melbourne context
+              Melbourne context
             </div>
             <h2
               className="cp-display"
               style={{ fontSize: "var(--fs-h2)", margin: "0 0 24px" }}
             >
               Built for Melbourne&apos;s{" "}
-              <span style={{ color: "var(--accent)" }}>
+              <span style={{ color: "var(--text-muted)" }}>
                 operator economy.
               </span>
             </h2>
@@ -496,7 +496,6 @@ export default function AutomationMelbournePage() {
       <div
         style={{
           padding: "80px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -508,7 +507,7 @@ export default function AutomationMelbournePage() {
         >
           <div>
             <div className="cp-mono" style={{ marginBottom: 12 }}>
-              § 04 · FAQ
+              FAQ
             </div>
             <h2
               className="cp-display"
@@ -526,7 +525,6 @@ export default function AutomationMelbournePage() {
               <details
                 key={i}
                 style={{
-                  borderTop: "1px solid var(--border)",
                   padding: "20px 0",
                 }}
                 open={i === 0}
@@ -564,7 +562,6 @@ export default function AutomationMelbournePage() {
             ))}
             <div
               style={{
-                borderTop: "1px solid var(--border)",
                 paddingTop: 28,
                 marginTop: 4,
               }}

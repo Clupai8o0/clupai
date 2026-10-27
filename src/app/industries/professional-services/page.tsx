@@ -3,9 +3,10 @@ import Link from "next/link";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
 import FinalCTA from "@/components/final-cta";
+import SceneBand from "@/components/scene-band";
 
 export const metadata: Metadata = {
-  title: "Professional Services Websites Melbourne · clupai",
+  title: "Professional Services Websites Melbourne",
   description:
     "Credibility-first website design for Melbourne law firms, accountants, consultants, and professional services. We build sites that establish trust before the first meeting — and rank for local search.",
   alternates: { canonical: "/industries/professional-services" },
@@ -88,7 +89,6 @@ export default function ProfessionalServicesPage() {
       <div
         style={{
           padding: "32px 48px 80px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -109,7 +109,7 @@ export default function ProfessionalServicesPage() {
             >
               Professional services websites Melbourne.
               <br />
-              <span style={{ color: "var(--accent)" }}>
+              <span style={{ color: "var(--text-muted)" }}>
                 Credibility first.
               </span>
             </h1>
@@ -156,7 +156,6 @@ export default function ProfessionalServicesPage() {
                     fontSize: 13,
                     color: "var(--text-muted)",
                     paddingBottom: 14,
-                    borderBottom: "1px solid var(--border)",
                   }}
                 >
                   <span className="cp-mono">{k}</span>
@@ -168,16 +167,20 @@ export default function ProfessionalServicesPage() {
         </div>
       </div>
 
+      <SceneBand
+        src="/illustrations/industries/professional-services.webp"
+        alt="Illustration: a small office desk at night beside an arched window onto the city."
+      />
+
       {/* Who this is for */}
       <div
         style={{
           padding: "72px 48px",
-          borderBottom: "1px solid var(--border)",
           background: "var(--surface)",
         }}
       >
         <div className="cp-mono" style={{ marginBottom: 20 }}>
-          § 01 · Who this is for
+          Who this is for
         </div>
         <div
           style={{
@@ -236,7 +239,6 @@ export default function ProfessionalServicesPage() {
       <div
         style={{
           padding: "80px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -248,7 +250,7 @@ export default function ProfessionalServicesPage() {
         >
           <div>
             <div className="cp-mono" style={{ marginBottom: 12 }}>
-              § 02 · Problems we solve
+              Problems we solve
             </div>
             <h2
               className="cp-display"
@@ -275,7 +277,6 @@ export default function ProfessionalServicesPage() {
                   gap: 24,
                   paddingTop: 24,
                   paddingBottom: 24,
-                  borderTop: "1px solid var(--border)",
                   alignItems: "start",
                 }}
               >
@@ -323,7 +324,6 @@ export default function ProfessionalServicesPage() {
         style={{
           padding: "80px 48px",
           background: "var(--surface)",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -335,7 +335,7 @@ export default function ProfessionalServicesPage() {
         >
           <div>
             <div className="cp-mono" style={{ marginBottom: 12 }}>
-              § 03 · What&apos;s included
+              What&apos;s included
             </div>
             <h2
               className="cp-display"
@@ -365,7 +365,6 @@ export default function ProfessionalServicesPage() {
                   display: "flex",
                   gap: 14,
                   paddingTop: 14,
-                  borderTop: "1px solid var(--border)",
                 }}
               >
                 <span
@@ -393,11 +392,10 @@ export default function ProfessionalServicesPage() {
       <div
         style={{
           padding: "72px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div className="cp-mono" style={{ marginBottom: 20 }}>
-          § 04 · How we deliver it
+          How we deliver it
         </div>
         <div
           style={{
@@ -492,7 +490,6 @@ export default function ProfessionalServicesPage() {
       <div
         style={{
           padding: "80px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -504,7 +501,7 @@ export default function ProfessionalServicesPage() {
         >
           <div>
             <div className="cp-mono" style={{ marginBottom: 12 }}>
-              § 05 · FAQ
+              FAQ
             </div>
             <h2
               className="cp-display"
@@ -522,7 +519,6 @@ export default function ProfessionalServicesPage() {
               <details
                 key={i}
                 style={{
-                  borderTop: "1px solid var(--border)",
                   padding: "20px 0",
                 }}
                 open={i === 0}
@@ -558,7 +554,6 @@ export default function ProfessionalServicesPage() {
                 </p>
               </details>
             ))}
-            <div style={{ borderTop: "1px solid var(--border)" }} />
           </div>
         </div>
       </div>

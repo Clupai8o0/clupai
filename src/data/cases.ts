@@ -24,6 +24,7 @@ export type CaseStudy = {
   decisions: Decision[];
   testimonial?: { quote: string; name: string; role: string };
   thumbnail?: string;
+  art?: { src: string; alt: string; caption: string };
   media?: MediaItem[];
 };
 
@@ -31,6 +32,11 @@ export const cases: CaseStudy[] = [
   {
     slug: "king-double-glazing",
     thumbnail: "/work/kdg/homepage.webp",
+    art: {
+      src: "/illustrations/work/king-double-glazing.webp",
+      alt: "Illustration: a Victorian weatherboard house in Melbourne on a rainy night, one double-glazed window lit blue.",
+      caption: "A Melbourne weatherboard on a wet night.",
+    },
     stat: "75→99",
     sstat: "Performance · desktop · Lighthouse",
     tag: "Websites",
@@ -109,6 +115,11 @@ export const cases: CaseStudy[] = [
   {
     slug: "hoddle-melbourne",
     thumbnail: "/work/hoddle/mentor-rec.webp",
+    art: {
+      src: "/illustrations/work/hoddle-melbourne.webp",
+      alt: "Illustration: the Melbourne CBD street grid from above at night, the streets glowing blue beside the Yarra.",
+      caption: "The Hoddle Grid, the street plan of central Melbourne.",
+    },
     stat: "2nd",
     sstat: "Study Melbourne Leadership 4Impact",
     tag: "Apps",
@@ -257,15 +268,15 @@ export const cases: CaseStudy[] = [
     sstat: "task-to-calendar latency · schedule-on-write",
     tag: "Apps",
     client: "Kairos",
-    kind: "AI scheduling app · solo-built",
+    kind: "AI scheduling app · in-house product",
     year: "2025",
-    eyebrow: "Scheduling SaaS · solo-built · 2025–2026",
+    eyebrow: "Scheduling SaaS · in-house product · 2025–2026",
     headline: "Kairos—\npaste your notes,",
     headlineAccent: "own your week.",
     description:
       "Most people don't need another task list. They need something that turns the tasks they already have into a plan they'll actually follow. Kairos takes unstructured notes, extracts tasks using an LLM, and places them into Google Calendar automatically — respecting deadlines, dependencies, and your working hours. No drag and drop. No manual time-blocking.",
     meta: [
-      { k: "Type", v: "Solo product · Clupai" },
+      { k: "Type", v: "In-house product · clupai" },
       { k: "Stack", v: "Next.js 15 · Drizzle · Neon · Vercel AI SDK · Better Auth · Google Calendar API" },
       { k: "Timeline", v: "2025–2026 · 5 phases" },
       { k: "Status", v: "Live beta · v1.0.0 pending" },
@@ -314,6 +325,11 @@ export const cases: CaseStudy[] = [
       ],
     ],
     thumbnail: "/work/kairos/tasks.webp",
+    art: {
+      src: "/illustrations/work/kairos.webp",
+      alt: "Illustration: a desk before dawn with a laptop, an open notebook and a phone glowing blue.",
+      caption: "The week, planned before it starts.",
+    },
     media: [
       { src: "/work/kairos/kairos-demo.mp4", type: "video", label: "Core flow · scratchpad → tasks → calendar" },
       { src: "/work/kairos/mobile.webp", type: "image", label: "Mobile · 375px" },
@@ -448,6 +464,11 @@ export const cases: CaseStudy[] = [
       role: "India",
     },
     thumbnail: "/work/krishnaveni/homepage.webp",
+    art: {
+      src: "/illustrations/work/krishnaveni-school.webp",
+      alt: "Illustration: a two-storey school building in India with arched verandahs around a tree-shaded courtyard at dusk.",
+      caption: "A school courtyard in India at dusk.",
+    },
     media: [
       { src: "/work/krishnaveni/homepage.mp4", type: "video", label: "Home · desktop · 1440px" },
       { src: "/work/krishnaveni/mobile.webp", type: "image", label: "Mobile · 375px" },
@@ -472,7 +493,7 @@ export const cases: CaseStudy[] = [
       "A full conference website for the New Millennium Model United Nations — councils, schedules, registration funnel, team profiles, gallery. Originally built at fifteen as Head of IT for the 2023 batch, then forked by the 2024-25 batch on the same codebase. 500+ delegates used it across two consecutive conferences.",
     meta: [
       { k: "Event", v: "New Millennium Model UN · NMS Dwarka" },
-      { k: "Role", v: "Head of IT · 2023 · solo build" },
+      { k: "Role", v: "Head of IT · 2023" },
       { k: "Scope", v: "Conference website · councils · registration · gallery" },
       { k: "Stack", v: "Next.js 14 · Tailwind · shadcn/ui · Framer Motion · Embla" },
       { k: "Reuse", v: "Forked for NMMUN 2024-25 by the next batch" },
@@ -490,7 +511,7 @@ export const cases: CaseStudy[] = [
     },
     problems: [
       "Most school MUN sites are static HTML or a one-page Wix build. NMMUN'23 needed councils with per-committee detail pages, chair profiles, schedules, dress code, rules of procedure, and a registration funnel — all polished enough to represent the school internationally.",
-      "Built solo as a Year 10 student before any commercial experience. Every architectural choice had to be defensible for the next batch's IT lead to inherit, not just functional for one event weekend.",
+      "Built as a Year 10 student, before any commercial experience. Every architectural choice had to be defensible for the next batch's IT lead to inherit, not just functional for one event weekend.",
       "Content had to be event-aware. The hero, countdown, and CTAs needed to behave differently before, during, and after the conference without a manual swap on event day.",
     ],
     decisions: [
@@ -526,6 +547,11 @@ export const cases: CaseStudy[] = [
       role: "NMMUN'23 · NMS Dwarka",
     },
     thumbnail: "/work/nmmun/homepage.webp",
+    art: {
+      src: "/illustrations/work/nmmun.webp",
+      alt: "Illustration: a school auditorium set for a Model United Nations session, desks in a horseshoe facing a blue-lit stage.",
+      caption: "The hall, set for the opening session.",
+    },
     media: [
       { src: "/work/nmmun/home.mp4", type: "video", label: "Home · hero carousel · countdown" },
       { src: "/work/nmmun/mobile.webp", type: "image", label: "Mobile · 375px" },
@@ -538,14 +564,14 @@ export const cases: CaseStudy[] = [
   {
     slug: "cuts-and-shavez",
     stat: "0 deps",
-    sstat: "hand-coded HTML/CSS/JS · designed solo at fifteen",
+    sstat: "hand-coded HTML/CSS/JS · designed at fifteen",
     tag: "Websites",
     client: "Cuts & Shavez Salon",
     kind: "Barbershop · Manama, Bahrain",
     year: "2023",
     eyebrow: "Self-initiated design + build · Bahrain · 2023",
     headline: "Cuts & Shavez—\na Bahrain barbershop,",
-    headlineAccent: "designed and shipped solo.",
+    headlineAccent: "designed and shipped from scratch.",
     description:
       "A self-initiated design-and-build for Cuts & Shavez Salon, a real barbershop in Manama, Bahrain. Designed end-to-end in Figma at fifteen, then hand-coded in raw HTML, CSS, and vanilla JavaScript — no framework, no CMS, no build step. Not a paid engagement — a real shop, a real address, real services and pricing used as design constraints. Still hosted on Vercel three years later, unchanged.",
     meta: [
@@ -553,7 +579,7 @@ export const cases: CaseStudy[] = [
       { k: "Location", v: "Manama, Bahrain" },
       { k: "Scope", v: "Brand · UI design · static website" },
       { k: "Stack", v: "Figma · HTML · CSS · vanilla JS · Vercel" },
-      { k: "Timeline", v: "2023 · solo at fifteen" },
+      { k: "Timeline", v: "2023 · built at fifteen" },
       { k: "Live", v: "barbershop-design.vercel.app" },
     ],
     results: [
@@ -594,6 +620,11 @@ export const cases: CaseStudy[] = [
       ],
     ],
     thumbnail: "/work/cuts-and-shavez/hero.webp",
+    art: {
+      src: "/illustrations/work/cuts-and-shavez.webp",
+      alt: "Illustration: an empty barbershop at night, a barber chair facing a glowing mirror, a palm tree outside the window.",
+      caption: "A Manama barbershop after closing.",
+    },
     media: [
       { src: "/work/cuts-and-shavez/home.mp4", type: "video", label: "Full site scroll · desktop" },
       { src: "/work/cuts-and-shavez/mobile.webp", type: "image", label: "Mobile · 375px" },
@@ -606,7 +637,7 @@ export const cases: CaseStudy[] = [
   {
     slug: "thurman",
     stat: "5 pages",
-    sstat: "events marketing site · solo build · 2023",
+    sstat: "events marketing site · 2023",
     tag: "Websites",
     client: "Thurman Events Management",
     kind: "Events management · marketing site",
@@ -615,12 +646,12 @@ export const cases: CaseStudy[] = [
     headline: "Thurman Events—\na startup marketing site",
     headlineAccent: "shipped at fifteen.",
     description:
-      "A five-page marketing site for Thurman Events Management — home, services, team, gallery, contact. Built solo in 2023 on Next.js 13 with Tailwind, Framer Motion page transitions, and a Nodemailer-backed contact pipeline that drops leads straight into the team's inbox. No CMS, no third-party form provider, no monthly bill.",
+      "A five-page marketing site for Thurman Events Management — home, services, team, gallery, contact. Built in 2023 on Next.js 13 with Tailwind, Framer Motion page transitions, and a Nodemailer-backed contact pipeline that drops leads straight into the team's inbox. No CMS, no third-party form provider, no monthly bill.",
     meta: [
       { k: "Industry", v: "Events management · startup" },
       { k: "Scope", v: "Marketing website · gallery · contact funnel" },
       { k: "Stack", v: "Next.js 13 · React 18 · Tailwind · Framer Motion · Nodemailer" },
-      { k: "Timeline", v: "2023 · solo build at fifteen" },
+      { k: "Timeline", v: "2023 · built at fifteen" },
       { k: "Live", v: "thurman.vercel.app" },
       { k: "Repo", v: "github.com/Clupai8o0/thurman" },
     ],
@@ -666,6 +697,11 @@ export const cases: CaseStudy[] = [
       ],
     ],
     thumbnail: "/work/thurman/hero.webp",
+    art: {
+      src: "/illustrations/work/thurman.webp",
+      alt: "Illustration: an empty event hall the night before an event, round tables under strings of small blue lights.",
+      caption: "The room, the night before.",
+    },
     media: [
       { src: "/work/thurman/home.mp4", type: "video", label: "Home · full scroll" },
       { src: "/work/thurman/mobile.webp", type: "image", label: "Mobile · 375px" },

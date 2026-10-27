@@ -150,8 +150,31 @@ export default function Footer() {
           paddingTop: 24,
         }}
       >
-        <div className="cp-mono" style={{ fontSize: 10 }}>
-          © 2026 Sam Limbu · trading as Clupai
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 14,
+            flexWrap: "wrap",
+          }}
+        >
+          <span className="cp-mono" style={{ fontSize: 10 }}>
+            © 2026 Sam Limbu · trading as Clupai
+          </span>
+          <Link
+            href="/privacy"
+            className="cp-footer-link cp-mono"
+            style={{ fontSize: 10, color: "var(--text-muted)" }}
+          >
+            Privacy
+          </Link>
+          <Link
+            href="/terms"
+            className="cp-footer-link cp-mono"
+            style={{ fontSize: 10, color: "var(--text-muted)" }}
+          >
+            Terms
+          </Link>
         </div>
         <div className="cp-footer-socials">
           <SocialLinks gap={20} />

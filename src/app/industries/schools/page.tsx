@@ -3,9 +3,10 @@ import Link from "next/link";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
 import FinalCTA from "@/components/final-cta";
+import SceneBand from "@/components/scene-band";
 
 export const metadata: Metadata = {
-  title: "School Website Design Melbourne · clupai",
+  title: "School Website Design Melbourne",
   description:
     "Enrolment-focused website design for Melbourne private and independent schools. We build digital enrolment systems, events CMS, and accessible websites that drive applications — not just showcase events.",
   alternates: { canonical: "/industries/schools" },
@@ -50,7 +51,7 @@ const included = [
 const faqs = [
   {
     q: "Can parents track their application online?",
-    a: "Yes. The enrolment system we built for Krishnaveni School lets parents submit applications, upload supporting documents, and check their intake status without calling the office. Admin staff get a dashboard view of all applications, not an inbox. If you need something similar, we scope it in the initial call.",
+    a: "We can build that: an online application with document upload and a status page, so parents check progress without calling the office, and staff work from a dashboard instead of an inbox. It is a custom build, so we scope it in the first call: what you collect, who reviews it, and what parents see.",
   },
   {
     q: "Can our staff update the site without a developer?",
@@ -66,7 +67,7 @@ const faqs = [
   },
   {
     q: "What's the timeline for a school site?",
-    a: "The Krishnaveni School enrolment system took eight weeks end-to-end. A full school website rebuild without a custom application flow typically runs five to seven weeks. We'll give you a firm timeline in the scope before you sign anything.",
+    a: "A full school website rebuild typically runs five to seven weeks. A custom application flow adds time on top, depending on what it needs to do. We'll give you a firm timeline in the scope before you sign anything.",
   },
 ];
 
@@ -88,7 +89,6 @@ export default function SchoolsPage() {
       <div
         style={{
           padding: "32px 48px 80px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -109,7 +109,7 @@ export default function SchoolsPage() {
             >
               Private school website design Melbourne.
               <br />
-              <span style={{ color: "var(--accent)" }}>
+              <span style={{ color: "var(--text-muted)" }}>
                 Built to drive enrolments.
               </span>
             </h1>
@@ -152,28 +152,27 @@ export default function SchoolsPage() {
                 lineHeight: 0.9,
               }}
             >
-              8 wks
+              0
             </div>
             <div
               className="cp-mono"
               style={{ marginTop: 6, color: "var(--text-muted)" }}
             >
-              End-to-end enrolment system, delivered
+              Developer edits needed since handover
             </div>
             <div
               style={{
                 marginTop: 20,
                 paddingTop: 16,
-                borderTop: "1px solid var(--border)",
                 display: "flex",
                 flexDirection: "column",
                 gap: 10,
               }}
             >
               {[
-                ["System", "Application + doc upload + status"],
-                ["CMS", "Staff-editable, no developer needed"],
-                ["Access", "WCAG 2.2 AA"],
+                ["CMS", "Sanity Studio, 13 section types"],
+                ["Best Practices", "100 on Lighthouse"],
+                ["Delivered", "May 2026"],
               ].map(([k, v]) => (
                 <div
                   key={k}
@@ -193,11 +192,15 @@ export default function SchoolsPage() {
         </div>
       </div>
 
+      <SceneBand
+        src="/illustrations/industries/schools.webp"
+        alt="Illustration: an empty classroom at dusk, lit by a laptop left open on the teacher's desk."
+      />
+
       {/* Case study */}
       <div
         style={{
           padding: "80px 48px",
-          borderBottom: "1px solid var(--border)",
           background: "var(--surface)",
         }}
       >
@@ -211,7 +214,7 @@ export default function SchoolsPage() {
         >
           <div>
             <div className="cp-mono" style={{ marginBottom: 12 }}>
-              § 01 · Case study · Krishnaveni School
+              Case study · Krishnaveni School
             </div>
             <h2
               className="cp-display"
@@ -221,10 +224,10 @@ export default function SchoolsPage() {
                 lineHeight: 1.1,
               }}
             >
-              An enrolment system that works.
+              A school site staff can run.
               <br />
-              <span style={{ color: "var(--accent)" }}>
-                Not just a form.
+              <span style={{ color: "var(--text-muted)" }}>
+                No developer on call.
               </span>
             </h2>
             <p
@@ -235,11 +238,10 @@ export default function SchoolsPage() {
                 lineHeight: 1.7,
               }}
             >
-              We designed and built an end-to-end digital enrolment system for
-              Krishnaveni School, a private school in Melbourne. Parents submit
-              applications, upload documents, and track their intake status
-              online — cutting admin overhead and centralising the entire
-              enrolment pipeline.
+              Krishnaveni School, a K-12 school in India, ran on a static HTML
+              site: every new post or updated page meant emailing a developer
+              and waiting. We rebuilt it on Next.js with a Sanity CMS, and staff
+              now manage every page, post and facilities listing themselves.
             </p>
             <p
               style={{
@@ -249,8 +251,9 @@ export default function SchoolsPage() {
                 lineHeight: 1.7,
               }}
             >
-              Delivered in eight weeks. Staff manage news, events, and term
-              dates through a clean CMS with no code required.
+              Pages are assembled from 13 section types, so staff can add and
+              reorder sections without breaking the design. Content is baked in
+              at build time, so the live site makes no CMS calls at all.
             </p>
             <Link
               href="/work/krishnaveni-school"
@@ -272,16 +275,16 @@ export default function SchoolsPage() {
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             {[
               [
-                "Application pipeline",
-                "Online form, document upload, status tracking — all in one system.",
+                "Staff-run CMS",
+                "Posts, galleries and facilities pages are edited in Sanity Studio by the school team, not a developer.",
               ],
               [
-                "Zero admin calls",
-                "Parents check status online. Staff aren't answering the same question repeatedly.",
+                "Layouts that hold",
+                "Typed sections and content validation protect the layout from accidental edits.",
               ],
               [
-                "Staff-editable CMS",
-                "News, events, and key dates are managed by the school team, not a developer.",
+                "Fast by default",
+                "No runtime CMS calls. Best Practices 100 and SEO 92 on Lighthouse.",
               ],
             ].map(([h, b]) => (
               <div key={h} className="cp-card" style={{ padding: 24 }}>
@@ -317,7 +320,6 @@ export default function SchoolsPage() {
       <div
         style={{
           padding: "80px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -329,7 +331,7 @@ export default function SchoolsPage() {
         >
           <div>
             <div className="cp-mono" style={{ marginBottom: 12 }}>
-              § 02 · Problems we solve
+              Problems we solve
             </div>
             <h2
               className="cp-display"
@@ -356,7 +358,6 @@ export default function SchoolsPage() {
                   gap: 24,
                   paddingTop: 24,
                   paddingBottom: 24,
-                  borderTop: "1px solid var(--border)",
                   alignItems: "start",
                 }}
               >
@@ -404,7 +405,6 @@ export default function SchoolsPage() {
         style={{
           padding: "80px 48px",
           background: "var(--surface)",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -416,7 +416,7 @@ export default function SchoolsPage() {
         >
           <div>
             <div className="cp-mono" style={{ marginBottom: 12 }}>
-              § 03 · What&apos;s included
+              What&apos;s included
             </div>
             <h2
               className="cp-display"
@@ -446,7 +446,6 @@ export default function SchoolsPage() {
                   display: "flex",
                   gap: 14,
                   paddingTop: 14,
-                  borderTop: "1px solid var(--border)",
                 }}
               >
                 <span
@@ -474,7 +473,6 @@ export default function SchoolsPage() {
       <div
         style={{
           padding: "80px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -486,7 +484,7 @@ export default function SchoolsPage() {
         >
           <div>
             <div className="cp-mono" style={{ marginBottom: 12 }}>
-              § 04 · FAQ
+              FAQ
             </div>
             <h2
               className="cp-display"
@@ -504,7 +502,6 @@ export default function SchoolsPage() {
               <details
                 key={i}
                 style={{
-                  borderTop: "1px solid var(--border)",
                   padding: "20px 0",
                 }}
                 open={i === 0}
@@ -540,7 +537,6 @@ export default function SchoolsPage() {
                 </p>
               </details>
             ))}
-            <div style={{ borderTop: "1px solid var(--border)" }} />
           </div>
         </div>
       </div>

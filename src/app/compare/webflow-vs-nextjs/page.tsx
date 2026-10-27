@@ -5,7 +5,7 @@ import Footer from "@/components/footer";
 import FinalCTA from "@/components/final-cta";
 
 export const metadata: Metadata = {
-  title: "Webflow vs Next.js 2026 · clupai",
+  title: "Webflow vs Next.js 2026",
   description:
     "When Webflow is the right call, and when custom Next.js development outperforms it. An honest comparison from a studio that uses Next.js for every client build.",
   alternates: { canonical: "/compare/webflow-vs-nextjs" },
@@ -375,8 +375,8 @@ export default function WebflowVsNextjsPage() {
               Next.js gives you full control over what ships to the browser.
               Server-side rendering, static generation, image optimisation, and
               edge caching are all configurable. Our target LCP is under 1.2
-              seconds. King Double Glazing went from 13.1s to 1.2s after
-              rebuilding on Next.js.
+              seconds. After rebuilding on Next.js, King Double Glazing loads in
+              1.0s on desktop, and its mobile LCP fell from 13.1s to 4.4s.
             </p>
           </div>
         </div>

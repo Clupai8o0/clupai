@@ -59,10 +59,10 @@ export default async function ContactPage({
           className="cp-display"
           style={{ fontSize: "clamp(3rem, 5.6vw, 5rem)", margin: 0 }}
         >
-          Tell me what you&apos;re trying to sell.
+          Tell us what you&apos;re trying to sell.
           <br />
-          <span style={{ color: "var(--accent)" }}>
-            I&apos;ll tell you if I can help.
+          <span style={{ color: "var(--text-muted)" }}>
+            We&apos;ll tell you if we can help.
           </span>
         </h1>
       </div>
@@ -84,7 +84,7 @@ export default async function ContactPage({
           }}
         >
           <div className="cp-mono" style={{ marginBottom: 20 }}>
-            § 01 · Book a 20‑minute scope call
+            Book a 20‑minute scope call
           </div>
           <CalBooking prefill={prefill} />
           <div
@@ -104,7 +104,7 @@ export default async function ContactPage({
           }}
         >
           <div className="cp-mono" style={{ marginBottom: 20 }}>
-            § 02 · Or write, if you prefer
+            Or write, if you prefer
           </div>
           <ContactForm />
 

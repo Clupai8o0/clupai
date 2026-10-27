@@ -3,9 +3,10 @@ import Link from "next/link";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
 import FinalCTA from "@/components/final-cta";
+import SceneBand from "@/components/scene-band";
 
 export const metadata: Metadata = {
-  title: "Tradie Websites Melbourne · clupai",
+  title: "Tradie Websites Melbourne",
   description:
     "Fast, quote-generating websites for Melbourne trades businesses. We build tradie websites that rank on Google, load in under a second, and turn visits into enquiries — not just traffic.",
   alternates: { canonical: "/industries/tradies-trades" },
@@ -88,7 +89,6 @@ export default function TradiesPage() {
       <div
         style={{
           padding: "32px 48px 80px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -109,7 +109,7 @@ export default function TradiesPage() {
             >
               Tradie websites Melbourne.
               <br />
-              <span style={{ color: "var(--accent)" }}>
+              <span style={{ color: "var(--text-muted)" }}>
                 Built to book jobs.
               </span>
             </h1>
@@ -140,7 +140,7 @@ export default function TradiesPage() {
           </div>
           <div className="cp-card" style={{ padding: 28 }}>
             <div className="cp-mono" style={{ marginBottom: 16 }}>
-              What we target
+              A recent trades build
             </div>
             <div
               className="cp-num"
@@ -157,13 +157,12 @@ export default function TradiesPage() {
               className="cp-mono"
               style={{ marginTop: 6, color: "var(--text-muted)" }}
             >
-              Lighthouse score (King Double Glazing)
+              Desktop Lighthouse (King Double Glazing)
             </div>
             <div
               style={{
                 marginTop: 20,
                 paddingTop: 16,
-                borderTop: "1px solid var(--border)",
               }}
             >
               <div
@@ -175,7 +174,7 @@ export default function TradiesPage() {
                   marginBottom: 10,
                 }}
               >
-                <span className="cp-mono">Before</span>
+                <span className="cp-mono">Mobile load before</span>
                 <span className="cp-mono">13.1s LCP</span>
               </div>
               <div
@@ -187,9 +186,9 @@ export default function TradiesPage() {
                   marginBottom: 10,
                 }}
               >
-                <span className="cp-mono">After</span>
+                <span className="cp-mono">Mobile load after</span>
                 <span className="cp-mono" style={{ color: "var(--accent)" }}>
-                  1.2s LCP
+                  4.4s LCP
                 </span>
               </div>
               <div
@@ -201,18 +200,22 @@ export default function TradiesPage() {
                 }}
               >
                 <span className="cp-mono">Timeline</span>
-                <span className="cp-mono">3–5 weeks</span>
+                <span className="cp-mono">5 weeks</span>
               </div>
             </div>
           </div>
         </div>
       </div>
 
+      <SceneBand
+        src="/illustrations/industries/tradies-trades.webp"
+        alt="Illustration: a tradie's ute parked outside a Melbourne weatherboard on a wet night."
+      />
+
       {/* Case study */}
       <div
         style={{
           padding: "80px 48px",
-          borderBottom: "1px solid var(--border)",
           background: "var(--surface)",
         }}
       >
@@ -226,7 +229,7 @@ export default function TradiesPage() {
         >
           <div>
             <div className="cp-mono" style={{ marginBottom: 12 }}>
-              § 01 · Case study · King Double Glazing
+              Case study · King Double Glazing
             </div>
             <h2
               className="cp-display"
@@ -236,10 +239,10 @@ export default function TradiesPage() {
                 lineHeight: 1.1,
               }}
             >
-              13.1 seconds to 1.2.
+              75 to 99.
               <br />
-              <span style={{ color: "var(--accent)" }}>
-                A glazing business rebuilt.
+              <span style={{ color: "var(--text-muted)" }}>
+                A glazing business, rebuilt.
               </span>
             </h2>
             <p
@@ -250,10 +253,10 @@ export default function TradiesPage() {
                 lineHeight: 1.7,
               }}
             >
-              We rebuilt King Double Glazing from a bloated site with a 13.1-second
-              LCP to a Lighthouse score of 99. The Instant Estimate Tool now
-              surfaces a ballpark price before the form — leads arrive with a
-              number and close faster.
+              We rebuilt King Double Glazing from a slow WordPress site. Desktop
+              Lighthouse went from 75 to 99, and mobile load time (LCP) from 13.1
+              seconds to 4.4. The Instant Estimate Tool shows a ballpark price
+              before the form, so leads arrive already knowing the range.
             </p>
             <p
               style={{
@@ -291,10 +294,10 @@ export default function TradiesPage() {
             }}
           >
             {[
-              ["13.1s", "LCP before"],
-              ["1.2s", "LCP after"],
-              ["75", "Lighthouse before"],
-              ["99", "Lighthouse after"],
+              ["75", "Desktop score before"],
+              ["99", "Desktop score after"],
+              ["13.1s", "Mobile LCP before"],
+              ["4.4s", "Mobile LCP after"],
             ].map(([stat, label]) => (
               <div key={label} className="cp-card" style={{ padding: 24 }}>
                 <div
@@ -324,7 +327,6 @@ export default function TradiesPage() {
       <div
         style={{
           padding: "80px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -336,7 +338,7 @@ export default function TradiesPage() {
         >
           <div>
             <div className="cp-mono" style={{ marginBottom: 12 }}>
-              § 02 · Problems we solve
+              Problems we solve
             </div>
             <h2
               className="cp-display"
@@ -364,7 +366,6 @@ export default function TradiesPage() {
                   gap: 24,
                   paddingTop: 24,
                   paddingBottom: 24,
-                  borderTop: "1px solid var(--border)",
                   alignItems: "start",
                 }}
               >
@@ -412,7 +413,6 @@ export default function TradiesPage() {
         style={{
           padding: "80px 48px",
           background: "var(--surface)",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -424,7 +424,7 @@ export default function TradiesPage() {
         >
           <div>
             <div className="cp-mono" style={{ marginBottom: 12 }}>
-              § 03 · What&apos;s included
+              What&apos;s included
             </div>
             <h2
               className="cp-display"
@@ -454,7 +454,6 @@ export default function TradiesPage() {
                   display: "flex",
                   gap: 14,
                   paddingTop: 14,
-                  borderTop: "1px solid var(--border)",
                 }}
               >
                 <span
@@ -482,11 +481,10 @@ export default function TradiesPage() {
       <div
         style={{
           padding: "72px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div className="cp-mono" style={{ marginBottom: 20 }}>
-          § 04 · How we deliver it
+          How we deliver it
         </div>
         <div
           style={{
@@ -582,7 +580,6 @@ export default function TradiesPage() {
       <div
         style={{
           padding: "80px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -594,7 +591,7 @@ export default function TradiesPage() {
         >
           <div>
             <div className="cp-mono" style={{ marginBottom: 12 }}>
-              § 05 · FAQ
+              FAQ
             </div>
             <h2
               className="cp-display"
@@ -612,7 +609,6 @@ export default function TradiesPage() {
               <details
                 key={i}
                 style={{
-                  borderTop: "1px solid var(--border)",
                   padding: "20px 0",
                 }}
                 open={i === 0}
@@ -648,7 +644,6 @@ export default function TradiesPage() {
                 </p>
               </details>
             ))}
-            <div style={{ borderTop: "1px solid var(--border)" }} />
           </div>
         </div>
       </div>

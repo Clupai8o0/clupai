@@ -5,7 +5,7 @@ import Footer from "@/components/footer";
 import FinalCTA from "@/components/final-cta";
 
 export const metadata: Metadata = {
-  title: "Squarespace vs Custom Website 2026 · clupai",
+  title: "Squarespace vs Custom Website 2026",
   description:
     "When Squarespace is fine, and when it's costing you customers. An honest look at the performance gap, the SEO ceiling, and total cost of ownership for Australian small businesses.",
   alternates: { canonical: "/compare/squarespace-vs-custom" },
@@ -72,7 +72,7 @@ const faqs = [
   },
   {
     q: "How bad are the Lighthouse scores really?",
-    a: "We've tested a sample of Australian small business Squarespace sites. Mobile Lighthouse scores in the 40–65 range are standard. For comparison, our Next.js builds target 90+, and King Double Glazing scored 99. The gap matters for SEO — Google's Core Web Vitals are a ranking signal, and the mobile score is the one that counts.",
+    a: "We've tested a sample of Australian small business Squarespace sites. Mobile Lighthouse scores in the 40–65 range are standard. For comparison, our Next.js builds target 90+, and King Double Glazing went from 57 to 85 on mobile (99 on desktop). The gap matters for SEO — Google's Core Web Vitals are a ranking signal, and the mobile score is the one that counts.",
   },
 ];
 
@@ -399,7 +399,7 @@ export default function SquarespaceVsCustomPage() {
             {
               label: "Real-world result",
               stat: "99",
-              note: "King Double Glazing on Next.js. Rebuilt from a 13.1-second LCP. Mobile and desktop.",
+              note: "King Double Glazing on Next.js, desktop. Mobile went from 57 to 85.",
               dim: false,
             },
           ].map((item) => (

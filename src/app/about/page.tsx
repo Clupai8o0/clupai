@@ -6,12 +6,12 @@ import FinalCTA from "@/components/final-cta";
 import SocialLinks from "@/components/social-links";
 
 const rules = [
-  ["01", "Fixed price, firm scope", "Quotes are firm. If scope changes, I'll say so before I bill, not after."],
-  ["02", "One AU business day replies", "Non-negotiable. If I'm on leave, you'll know before you book."],
+  ["01", "Fixed price, firm scope", "Quotes are firm. If scope changes, we'll say so before we bill, not after."],
+  ["02", "One AU business day replies", "Non-negotiable. If we're away, you'll know before you book."],
   ["03", "You own everything", "Code, hosting, ad accounts, analytics—yours from day one."],
   ["04", "Weekly ship rhythm", "One priority a week. Loom + numbers, no status-report theatre."],
-  ["05", "Outcome over optics", "If it's not changing a number that matters, I won't build it."],
-  ["06", "Fire me if I'm not working", "Month-to-month where it applies. 30 days' notice. No guilt, no lock-in."],
+  ["05", "Outcome over optics", "If it's not changing a number that matters, we won't build it."],
+  ["06", "Fire us if it's not working", "Month-to-month where it applies. 30 days' notice. No guilt, no lock-in."],
 ];
 
 const goodFit = [
@@ -23,11 +23,11 @@ const goodFit = [
 ];
 
 const notFit = [
-  "Crypto, gambling, dropshipping, MLMs — I'll refer you, politely",
+  "Crypto, gambling, dropshipping, MLMs: we'll refer you, politely",
   "Enterprise RFPs with six-month procurement cycles",
   "WordPress rebuilds that insist on staying on WordPress",
-  "'Agency of record' relationships — I'm the work, not the brand",
-  "Anything requiring 24/7 on-call. I sleep.",
+  "'Agency of record' relationships: we sell the work, not the brand",
+  "Anything requiring 24/7 on-call. We sleep.",
 ];
 
 const elsewhere = [
@@ -46,7 +46,6 @@ export default function AboutPage() {
       <div
         style={{
           padding: "64px 48px 80px",
-          borderBottom: "1px solid var(--border)",
           display: "grid",
           gridTemplateColumns: "420px 1fr",
           gap: 56,
@@ -63,7 +62,7 @@ export default function AboutPage() {
         </div>
         <div>
           <div className="cp-eyebrow" style={{ marginBottom: 12 }}>
-            About · Clupai is me
+            About · The studio
           </div>
           <h1
             className="cp-display"
@@ -89,7 +88,7 @@ export default function AboutPage() {
             }}
           >
             Full-stack developer and founder, based in Brunswick, Melbourne.
-            Running under my own ABN since 2024.
+            Founded clupai in 2024.
           </p>
           <div
             style={{
@@ -124,12 +123,13 @@ export default function AboutPage() {
           }}
         >
           <span style={{ color: "var(--text-muted)" }}>
-            Clupai is me—Sam.
+            A small studio, on purpose.
           </span>{" "}
-          I don&apos;t hand you off to account managers. I don&apos;t have a
+          We don&apos;t hand you off to account managers or a separate
           delivery team.{" "}
           <span style={{ color: "var(--accent)" }}>
-            You get my hands on your build, every day it&apos;s in progress.
+            Whoever scopes your project builds it, every day it&apos;s in
+            progress.
           </span>
         </p>
       </div>
@@ -141,7 +141,6 @@ export default function AboutPage() {
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
           gap: 48,
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div>
@@ -169,14 +168,15 @@ export default function AboutPage() {
             }}
           >
             I&apos;m also CTO at Hoddle Melbourne, co-founder at TapCraft
-            Studio, and building Kairos—a scheduling API—as a solo product.
+            Studio, and building Kairos, the studio&apos;s in-house scheduling
+            product.
             Stack: Next.js 15, TypeScript, Tailwind v4, FastAPI, Postgres, n8n.
             No WordPress. Ever.
           </p>
         </div>
         <div>
           <div className="cp-mono" style={{ marginBottom: 14 }}>
-            What I believe about this work
+            What we believe about this work
           </div>
           <p
             style={{
@@ -205,16 +205,15 @@ export default function AboutPage() {
         </div>
       </div>
 
-      {/* How I work */}
+      {/* How we work */}
       <div
         style={{
           padding: "80px 48px",
           background: "var(--surface)",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div className="cp-mono" style={{ marginBottom: 12 }}>
-          § How I work
+          How we work
         </div>
         <h2
           className="cp-display"
@@ -281,7 +280,6 @@ export default function AboutPage() {
       <div
         style={{
           padding: "80px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -296,7 +294,7 @@ export default function AboutPage() {
               className="cp-mono"
               style={{ marginBottom: 12, color: "var(--accent)" }}
             >
-              I&apos;m a good fit for
+              We&apos;re a good fit for
             </div>
             <ul
               style={{
@@ -315,7 +313,6 @@ export default function AboutPage() {
                     display: "flex",
                     gap: 14,
                     paddingBottom: 14,
-                    borderBottom: "1px solid var(--border)",
                   }}
                 >
                   <span style={{ color: "var(--accent)" }}>✓</span>
@@ -329,7 +326,7 @@ export default function AboutPage() {
               className="cp-mono"
               style={{ marginBottom: 12, color: "var(--text-muted)" }}
             >
-              I&apos;m not a fit for
+              We&apos;re not a fit for
             </div>
             <ul
               style={{
@@ -348,7 +345,6 @@ export default function AboutPage() {
                     display: "flex",
                     gap: 14,
                     paddingBottom: 14,
-                    borderBottom: "1px solid var(--border)",
                   }}
                 >
                   <span style={{ color: "var(--text-dim)" }}>—</span>
@@ -372,7 +368,6 @@ export default function AboutPage() {
       <div
         style={{
           padding: "56px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div

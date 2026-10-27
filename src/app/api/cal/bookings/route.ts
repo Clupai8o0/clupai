@@ -1,6 +1,8 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { resolveEventTypeId } from "../_resolve";
 import { notifyTelegram, tgEsc } from "@/lib/notify";
+import { SMS_CONSENT_WORDING } from "@/lib/sms";
+import { triggerOpener } from "@/lib/sms-conversation";
 
 export async function POST(request: NextRequest) {
   const apiKey = process.env.CAL_API_KEY;
@@ -16,7 +18,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
-  const { start, name, email, projectType, budget, timeline, currentSite } = body;
+  const { start, name, email, projectType, budget, timeline, currentSite, phone } = body;
+  const smsConsent = (body as Record<string, unknown>).smsConsent === true;
 
   if (!start || !name || !email) {
     return NextResponse.json({ error: "start, name, and email are required" }, { status: 400 });
@@ -80,6 +83,7 @@ export async function POST(request: NextRequest) {
         "",
         `👤 ${tgEsc(name)}`,
         `✉️ ${tgEsc(email)}`,
+        phone ? `📞 ${tgEsc(phone)}${smsConsent ? " 📲 SMS opt-in" : ""}` : null,
         `🗓️ ${tgEsc(startFmt)} · Melbourne`,
         projectType ? `🔧 ${tgEsc(projectType)}` : null,
         budget ? `💰 ${tgEsc(budget)}` : null,
@@ -89,6 +93,17 @@ export async function POST(request: NextRequest) {
         .filter(Boolean)
         .join("\n")
     );
+
+    // Confirmation-flavored SMS — best-effort, no-op unless they opted in with a phone.
+    await triggerOpener({
+      source: "booking",
+      phoneRaw: phone,
+      smsConsent,
+      consentWording: SMS_CONSENT_WORDING,
+      name,
+      email,
+      quiz: { timeline, budget },
+    });
 
     return NextResponse.json(data);
   } catch (err) {

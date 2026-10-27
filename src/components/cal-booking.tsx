@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { SMS_CONSENT_WORDING } from "@/lib/sms-copy";
 
 const TZ = "Australia/Melbourne";
 const DISPLAY = "var(--font-display), Manrope, ui-sans-serif, system-ui, sans-serif";
@@ -208,10 +209,12 @@ type SlotsMap = Record<string, Slot[]>;
 interface Form {
   name: string;
   email: string;
+  phone: string;
   projectType: string;
   budget: string;
   timeline: string;
   currentSite: string;
+  smsConsent: boolean;
 }
 
 type Prefill = Partial<Form>;
@@ -252,10 +255,12 @@ export default function CalBooking({
   const [form, setForm] = useState<Form>({
     name: prefill?.name ?? "",
     email: prefill?.email ?? "",
+    phone: prefill?.phone ?? "",
     projectType: prefill?.projectType ?? "",
     budget: prefill?.budget ?? "",
     timeline: prefill?.timeline ?? "",
     currentSite: prefill?.currentSite ?? "",
+    smsConsent: prefill?.smsConsent ?? false,
   });
   const [submitting, setSubmitting] = useState(false);
   const [submitErr, setSubmitErr] = useState<string | null>(null);
@@ -731,6 +736,13 @@ export default function CalBooking({
                 placeholder="jane@example.com"
                 required
               />
+              <TextInput
+                label="Phone"
+                type="tel"
+                value={form.phone}
+                onChange={(v) => setForm((f) => ({ ...f, phone: v }))}
+                placeholder="optional"
+              />
               <SelectInput
                 label="Project type"
                 value={form.projectType}
@@ -770,6 +782,26 @@ export default function CalBooking({
                 placeholder="example.com.au"
               />
             </div>
+
+            <label
+              style={{
+                display: "flex",
+                gap: 10,
+                alignItems: "flex-start",
+                marginTop: 14,
+                cursor: "pointer",
+              }}
+            >
+              <input
+                type="checkbox"
+                checked={form.smsConsent}
+                onChange={(e) => setForm((f) => ({ ...f, smsConsent: e.target.checked }))}
+                style={{ marginTop: 2, accentColor: "var(--accent)", flexShrink: 0 }}
+              />
+              <span style={{ fontFamily: DISPLAY, fontSize: 12.5, lineHeight: 1.5, color: "var(--text-muted)" }}>
+                {SMS_CONSENT_WORDING}
+              </span>
+            </label>
 
             {submitErr && (
               <div

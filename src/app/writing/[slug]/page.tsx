@@ -17,7 +17,7 @@ export async function generateMetadata({
   if (!post) return {};
 
   return {
-    title: `${post.title} · clupai`,
+    title: post.title,
     description: post.dek,
     alternates: {
       canonical: `/writing/${slug}`,

@@ -3,10 +3,11 @@ import Link from "next/link";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
 import FinalCTA from "@/components/final-cta";
+import SceneBand from "@/components/scene-band";
 import Row from "@/components/row";
 
 export const metadata: Metadata = {
-  title: "Web Designer Melbourne · clupai — web, SEO & automation studio",
+  title: "Web Designer Melbourne",
   description:
     "Melbourne web design and Next.js development for small businesses and service operators. Fast, conversion-first builds, delivered in 3–5 weeks. No account managers, no lock-in.",
   alternates: {
@@ -116,7 +117,6 @@ export default function WebMelbournePage() {
       <div
         style={{
           padding: "32px 48px 72px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -138,7 +138,7 @@ export default function WebMelbournePage() {
             >
               Melbourne sites that
               <br />
-              <span style={{ color: "var(--accent)" }}>
+              <span style={{ color: "var(--text-muted)" }}>
                 actually convert.
               </span>
             </h1>
@@ -193,7 +193,6 @@ export default function WebMelbournePage() {
               style={{
                 marginTop: 20,
                 paddingTop: 16,
-                borderTop: "1px solid var(--border)",
                 display: "flex",
                 flexDirection: "column",
                 gap: 8,
@@ -208,16 +207,20 @@ export default function WebMelbournePage() {
         </div>
       </div>
 
+      <SceneBand
+        src="/illustrations/services/web-melbourne.webp"
+        alt="Illustration: Flinders Street Station at night with a tram passing."
+      />
+
       {/* Why us vs Melbourne agencies */}
       <div
         style={{
           padding: "80px 48px",
           background: "var(--surface)",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div className="cp-mono" style={{ marginBottom: 12 }}>
-          § 01 · Why clupai vs Melbourne agencies
+          Why clupai vs Melbourne agencies
         </div>
         <h2
           className="cp-display"
@@ -228,7 +231,7 @@ export default function WebMelbournePage() {
           }}
         >
           Agencies sell process.{" "}
-          <span style={{ color: "var(--accent)" }}>We sell the outcome.</span>
+          <span style={{ color: "var(--text-muted)" }}>We sell the outcome.</span>
         </h2>
         <div
           style={{
@@ -277,7 +280,6 @@ export default function WebMelbournePage() {
       <div
         style={{
           padding: "80px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -289,7 +291,7 @@ export default function WebMelbournePage() {
         >
           <div>
             <div className="cp-mono" style={{ marginBottom: 12 }}>
-              § 02 · What&apos;s included
+              What&apos;s included
             </div>
             <h2
               className="cp-display"
@@ -337,7 +339,6 @@ export default function WebMelbournePage() {
                   display: "flex",
                   gap: 14,
                   paddingTop: 14,
-                  borderTop: "1px solid var(--border)",
                 }}
               >
                 <span
@@ -371,7 +372,6 @@ export default function WebMelbournePage() {
       <div
         style={{
           padding: "80px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -384,14 +384,14 @@ export default function WebMelbournePage() {
         >
           <div>
             <div className="cp-mono" style={{ marginBottom: 12 }}>
-              § 03 · Melbourne context
+              Melbourne context
             </div>
             <h2
               className="cp-display"
               style={{ fontSize: "var(--fs-h2)", margin: "0 0 24px" }}
             >
-              Built for Melbourne's{" "}
-              <span style={{ color: "var(--accent)" }}>inner-suburb economy.</span>
+              Built for Melbourne&apos;s{" "}
+              <span style={{ color: "var(--text-muted)" }}>inner-suburb economy.</span>
             </h2>
             <p
               style={{
@@ -508,7 +508,6 @@ export default function WebMelbournePage() {
       <div
         style={{
           padding: "80px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -520,7 +519,7 @@ export default function WebMelbournePage() {
         >
           <div>
             <div className="cp-mono" style={{ marginBottom: 12 }}>
-              § 04 · FAQ
+              FAQ
             </div>
             <h2
               className="cp-display"
@@ -538,7 +537,6 @@ export default function WebMelbournePage() {
               <details
                 key={i}
                 style={{
-                  borderTop: "1px solid var(--border)",
                   padding: "20px 0",
                 }}
                 open={i === 0}
@@ -576,7 +574,6 @@ export default function WebMelbournePage() {
             ))}
             <div
               style={{
-                borderTop: "1px solid var(--border)",
                 paddingTop: 28,
                 marginTop: 4,
               }}

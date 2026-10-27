@@ -46,3 +46,27 @@ contact confirmation in `src/app/api/contact/route.ts`.
 - Any "Book a call" CTA must use `bookingUrl()` from `@/lib/booking-link` so the booking form arrives prefilled.
 - Follow the Voice & copy rules above ("we", never solo framing).
 - The internal *notification* email (to `hello@clupai.com`) can stay the simple light table. The dark theme is for emails sent to **leads/customers**.
+
+# SMS rules
+
+We text leads who opt in on a form, then an automated assistant (Claude Haiku) holds a
+short qualifying conversation. Outbound send + signature validation live in `src/lib/sms.ts`;
+state, guardrails, and the LLM call in `src/lib/sms-conversation.ts`; the inbound webhook at
+`src/app/api/sms/inbound/route.ts`.
+
+**Copy rules (every message):**
+- Identify the sender: messages name "clupai" (Spam Act sender ID).
+- The **opener** must carry a working opt-out ("Reply STOP to opt out").
+- Plain text only, no markdown. Keep replies short (aim for one SMS segment).
+- Never quote, estimate, or hint at a price/rate, and never write a dollar figure or a
+  number followed by "k" — pricing is gated and only given on a call. The assistant has a
+  locked system prompt plus a discard-and-replace post-check enforcing this; keep both.
+- Follow the Voice & copy rules ("we", never solo framing) and **no em dashes**.
+- Consent wording is the single constant `SMS_CONSENT_WORDING` in `src/lib/sms-copy.ts`
+  (client-safe). Reuse it on every form; never inline a divergent copy.
+
+**Compliance:** consent checkbox is unticked by default; consent + opt-out are stored as
+durable Redis records; openers are quiet-hours gated (9am-8pm Melbourne) in
+`/api/sms/flush-openers`, which is triggered on a timer by the standalone FastAPI
+service in `sms-scheduler/` (Vercel Hobby can't run sub-daily crons). STOP/START
+keywords are honored before the model ever runs.

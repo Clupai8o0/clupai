@@ -3,10 +3,11 @@ import Link from "next/link";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
 import FinalCTA from "@/components/final-cta";
+import SceneBand from "@/components/scene-band";
 import Row from "@/components/row";
 
 export const metadata: Metadata = {
-  title: "SEO Consultant Melbourne · clupai — web, SEO & automation studio",
+  title: "SEO Consultant Melbourne",
   description:
     "Technical and local SEO for Melbourne service businesses. No doorway pages, no link packages — just fewer, better pages and a technical foundation that holds.",
   alternates: {
@@ -104,7 +105,6 @@ export default function SEOMelbournePage() {
       <div
         style={{
           padding: "32px 48px 72px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -126,7 +126,7 @@ export default function SEOMelbournePage() {
             >
               Ranking in Melbourne
               <br />
-              <span style={{ color: "var(--accent)" }}>
+              <span style={{ color: "var(--text-muted)" }}>
                 isn&apos;t a numbers game.
               </span>
             </h1>
@@ -181,7 +181,6 @@ export default function SEOMelbournePage() {
               style={{
                 marginTop: 20,
                 paddingTop: 16,
-                borderTop: "1px solid var(--border)",
                 display: "flex",
                 flexDirection: "column",
                 gap: 8,
@@ -196,16 +195,20 @@ export default function SEOMelbournePage() {
         </div>
       </div>
 
+      <SceneBand
+        src="/illustrations/services/seo-melbourne.webp"
+        alt="Illustration: a Melbourne laneway of closed cafes at night, one window still lit."
+      />
+
       {/* Why us vs Melbourne agencies */}
       <div
         style={{
           padding: "80px 48px",
           background: "var(--surface)",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div className="cp-mono" style={{ marginBottom: 12 }}>
-          § 01 · Why clupai vs Melbourne SEO agencies
+          Why clupai vs Melbourne SEO agencies
         </div>
         <h2
           className="cp-display"
@@ -216,7 +219,7 @@ export default function SEOMelbournePage() {
           }}
         >
           The big Melbourne agencies sell volume.{" "}
-          <span style={{ color: "var(--accent)" }}>We sell precision.</span>
+          <span style={{ color: "var(--text-muted)" }}>We sell precision.</span>
         </h2>
         <div
           style={{
@@ -265,7 +268,6 @@ export default function SEOMelbournePage() {
       <div
         style={{
           padding: "80px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -277,7 +279,7 @@ export default function SEOMelbournePage() {
         >
           <div>
             <div className="cp-mono" style={{ marginBottom: 12 }}>
-              § 02 · What&apos;s included
+              What&apos;s included
             </div>
             <h2
               className="cp-display"
@@ -325,7 +327,6 @@ export default function SEOMelbournePage() {
                   display: "flex",
                   gap: 14,
                   paddingTop: 14,
-                  borderTop: "1px solid var(--border)",
                 }}
               >
                 <span
@@ -359,7 +360,6 @@ export default function SEOMelbournePage() {
       <div
         style={{
           padding: "80px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -372,14 +372,14 @@ export default function SEOMelbournePage() {
         >
           <div>
             <div className="cp-mono" style={{ marginBottom: 12 }}>
-              § 03 · Melbourne SEO context
+              Melbourne SEO context
             </div>
             <h2
               className="cp-display"
               style={{ fontSize: "var(--fs-h2)", margin: "0 0 24px" }}
             >
               Melbourne&apos;s search landscape{" "}
-              <span style={{ color: "var(--accent)" }}>is crowded but beatable.</span>
+              <span style={{ color: "var(--text-muted)" }}>is crowded but beatable.</span>
             </h2>
             <p
               style={{
@@ -500,7 +500,6 @@ export default function SEOMelbournePage() {
       <div
         style={{
           padding: "80px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -512,7 +511,7 @@ export default function SEOMelbournePage() {
         >
           <div>
             <div className="cp-mono" style={{ marginBottom: 12 }}>
-              § 04 · FAQ
+              FAQ
             </div>
             <h2
               className="cp-display"
@@ -530,7 +529,6 @@ export default function SEOMelbournePage() {
               <details
                 key={i}
                 style={{
-                  borderTop: "1px solid var(--border)",
                   padding: "20px 0",
                 }}
                 open={i === 0}
@@ -568,7 +566,6 @@ export default function SEOMelbournePage() {
             ))}
             <div
               style={{
-                borderTop: "1px solid var(--border)",
                 paddingTop: 28,
                 marginTop: 4,
               }}

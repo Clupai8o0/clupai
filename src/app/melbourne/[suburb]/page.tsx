@@ -4,7 +4,19 @@ import Link from "next/link";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
 import FinalCTA from "@/components/final-cta";
+import SceneBand from "@/components/scene-band";
 import { SUBURB_SLUGS, getSuburb } from "@/data/suburbs";
+
+// Alt text for the illustration under each suburb hero, in public/illustrations/suburbs
+const SCENES: Record<string, string> = {
+  brunswick: "Illustration: a tram passing Victorian shopfronts on Sydney Road, Brunswick, at night.",
+  carlton: "Illustration: the Royal Exhibition Building seen through the trees of Carlton Gardens.",
+  richmond: "Illustration: stadium light towers above the shops of Swan Street, Richmond.",
+  fitzroy: "Illustration: a row of Fitzroy terrace houses with iron-lace balconies at night.",
+  collingwood: "Illustration: Collingwood warehouses and a brick chimney, one window lit.",
+  northcote: "Illustration: an Art Deco theatre on High Street, Northcote, with a tram passing.",
+  coburg: "Illustration: the old Coburg Town Hall clock tower above Sydney Road at night.",
+};
 
 export function generateStaticParams() {
   return SUBURB_SLUGS.map((slug) => ({ suburb: slug }));
@@ -19,26 +31,23 @@ export async function generateMetadata({
   const data = getSuburb(suburb);
   if (!data) return {};
   return {
-    title: `Web Designer ${data.name} · clupai Melbourne`,
+    title: `Web Designer ${data.name}, Melbourne`,
     description: data.description,
   };
 }
 
 const services = [
   {
-    n: "01",
     label: "Websites",
     href: "/services/web",
     desc: "Fast, conversion-focused Next.js sites. Fixed scope, fixed price, you own everything from day one.",
   },
   {
-    n: "02",
     label: "SEO",
     href: "/services/seo",
     desc: "Technical and local SEO for Melbourne businesses. Fewer, better pages — not 40-suburb doorway content.",
   },
   {
-    n: "03",
     label: "Automation",
     href: "/services/automation",
     desc: "Wire up the tools you already own. Zapier, Make, n8n, and custom internal tools that remove the drudgery.",
@@ -73,7 +82,6 @@ export default async function SuburbPage({
       <div
         style={{
           padding: "40px 48px 72px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -148,7 +156,6 @@ export default async function SuburbPage({
               style={{
                 marginTop: 20,
                 paddingTop: 18,
-                borderTop: "1px solid var(--border)",
                 display: "flex",
                 flexDirection: "column",
                 gap: 10,
@@ -181,11 +188,18 @@ export default async function SuburbPage({
         </div>
       </div>
 
+      {SCENES[data.slug] && (
+        <SceneBand
+          src={`/illustrations/suburbs/${data.slug}.webp`}
+          alt={SCENES[data.slug]}
+          bridge={false}
+        />
+      )}
+
       {/* Lede — full opening copy */}
       <div
         style={{
           padding: "72px 48px",
-          borderBottom: "1px solid var(--border)",
           display: "grid",
           gridTemplateColumns: "320px 1fr",
           gap: 64,
@@ -193,14 +207,14 @@ export default async function SuburbPage({
       >
         <div>
           <div className="cp-mono" style={{ marginBottom: 12 }}>
-            § 01 · The situation
+            The situation
           </div>
           <h2
             className="cp-display"
             style={{ fontSize: "var(--fs-h2)", margin: 0, lineHeight: 1.05 }}
           >
             What we see in{" "}
-            <span style={{ color: "var(--accent)" }}>{data.name}.</span>
+            <span style={{ color: "var(--text-muted)" }}>{data.name}.</span>
           </h2>
         </div>
         <div>
@@ -233,12 +247,11 @@ export default async function SuburbPage({
       <div
         style={{
           padding: "72px 48px",
-          borderBottom: "1px solid var(--border)",
           background: "var(--surface)",
         }}
       >
         <div className="cp-mono" style={{ marginBottom: 12 }}>
-          § 02 · What we offer {data.name} businesses
+          What we offer {data.name} businesses
         </div>
         <h2
           className="cp-display"
@@ -251,27 +264,20 @@ export default async function SuburbPage({
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(3, 1fr)",
-            borderTop: "1px solid var(--border)",
+            gap: 16,
           }}
         >
-          {services.map((svc, i) => (
+          {services.map((svc) => (
             <Link
               key={svc.label}
               href={svc.href}
-              className="cp-service-card"
+              className="cp-tone-card"
               style={{
                 display: "block",
-                padding: "28px 28px 32px",
-                borderLeft: i === 0 ? "none" : "1px solid var(--border)",
+                padding: "32px 28px 36px",
                 textDecoration: "none",
               }}
             >
-              <div
-                className="cp-mono cp-service-num"
-                style={{ color: "var(--text-dim)", marginBottom: 16 }}
-              >
-                ({svc.n})
-              </div>
               <div
                 style={{
                   fontFamily:
@@ -312,7 +318,6 @@ export default async function SuburbPage({
       <div
         style={{
           padding: "72px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -324,14 +329,14 @@ export default async function SuburbPage({
         >
           <div>
             <div className="cp-mono" style={{ marginBottom: 12 }}>
-              § 03 · Local context
+              Local context
             </div>
             <h2
               className="cp-display"
               style={{ fontSize: "var(--fs-h2)", margin: 0, lineHeight: 1.05 }}
             >
               We know{" "}
-              <span style={{ color: "var(--accent)" }}>{data.name}.</span>
+              <span style={{ color: "var(--text-muted)" }}>{data.name}.</span>
             </h2>
           </div>
           <div>
@@ -383,7 +388,7 @@ export default async function SuburbPage({
             <div
               style={{
                 padding: "20px 24px",
-                borderLeft: "2px solid var(--accent)",
+                borderRadius: "var(--radius-lg)",
                 background: "var(--surface)",
               }}
             >
@@ -413,7 +418,6 @@ export default async function SuburbPage({
       <div
         style={{
           padding: "72px 48px",
-          borderBottom: "1px solid var(--border)",
           background: "var(--surface)",
         }}
       >
@@ -426,7 +430,7 @@ export default async function SuburbPage({
         >
           <div>
             <div className="cp-mono" style={{ marginBottom: 12 }}>
-              § 04 · Questions
+              Questions
             </div>
             <h2
               className="cp-display"
@@ -443,7 +447,6 @@ export default async function SuburbPage({
               <details
                 key={i}
                 style={{
-                  borderTop: "1px solid var(--border)",
                   padding: "20px 0",
                 }}
                 open={i === 0}
@@ -479,7 +482,6 @@ export default async function SuburbPage({
                 </p>
               </details>
             ))}
-            <div style={{ borderTop: "1px solid var(--border)", paddingTop: 20 }} />
           </div>
         </div>
       </div>
@@ -488,7 +490,6 @@ export default async function SuburbPage({
       <div
         style={{
           padding: "72px 48px",
-          borderBottom: "1px solid var(--border)",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
@@ -505,7 +506,7 @@ export default async function SuburbPage({
             style={{ fontSize: "clamp(2rem, 4vw, 3.6rem)", margin: 0, lineHeight: 1.05 }}
           >
             Twenty minutes.{" "}
-            <span style={{ color: "var(--accent)" }}>No slideshow.</span>
+            <span style={{ color: "var(--text-muted)" }}>No slideshow.</span>
           </h2>
           <p
             style={{

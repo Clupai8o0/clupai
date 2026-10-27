@@ -47,7 +47,7 @@ export default function FinalCTA() {
         >
           Twenty minutes. No slideshow. We&apos;ll ask what you sell, who&apos;s
           buying, and where the site is getting in the way. You&apos;ll leave
-          with a realistic estimate—or a reason we&apos;re not the right fit.
+          with a realistic estimate, or a reason we&apos;re not the right fit.
         </p>
         <div
           className="cp-cta-buttons"

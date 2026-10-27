@@ -1,14 +1,65 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
+import type { Metadata } from "next";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
 import FinalCTA from "@/components/final-cta";
-import Row from "@/components/row";
 import { CaseGallery } from "@/components/case-gallery";
-import { visibleCases as cases, getCaseBySlug } from "@/data/cases";
+import {
+  visibleCases as cases,
+  getCaseBySlug,
+  type CaseStudy,
+} from "@/data/cases";
 
 export function generateStaticParams() {
   return cases.map((c) => ({ slug: c.slug }));
+}
+
+// Search snippets cut off around 160 characters; end on a whole word.
+function summarise(text: string, max = 158) {
+  if (text.length <= max) {
+    return text;
+  }
+  const cut = text.slice(0, max);
+  return `${cut.slice(0, cut.lastIndexOf(" ")).replace(/[\s,;:—–-]+$/, "")}…`;
+}
+
+// "King Double Glazing—\nrebrand, rebuild," + "conversion funnel."
+// becomes "Rebrand, rebuild, conversion funnel." The client name is the h1.
+function statement(c: CaseStudy) {
+  const rest = c.headline.split("\n").slice(1).join(" ");
+  const text = `${rest} ${c.headlineAccent}`.trim();
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const c = getCaseBySlug(slug);
+  if (!c) return {};
+
+  const title = `${c.client} case study`;
+  const description = summarise(c.description);
+
+  return {
+    title,
+    description,
+    alternates: { canonical: `/work/${c.slug}` },
+    openGraph: {
+      title: `${title} · clupai`,
+      description,
+      type: "article",
+      url: `/work/${c.slug}`,
+      images: c.thumbnail
+        ? [{ url: c.thumbnail, alt: `${c.client} website on desktop` }]
+        : undefined,
+    },
+  };
 }
 
 export default async function CaseStudyPage({
@@ -20,74 +71,68 @@ export default async function CaseStudyPage({
   const c = getCaseBySlug(slug);
   if (!c) notFound();
 
+  const index = cases.findIndex((x) => x.slug === c.slug);
+  const next = cases[(index + 1) % cases.length];
+  const phone = c.media?.find(
+    (m) => m.type === "image" && m.src.includes("mobile")
+  );
+  const facts = c.meta.filter((m) => m.k !== "Stack");
+  const stack = c.meta.find((m) => m.k === "Stack")?.v;
+
   return (
     <>
       <Nav page="work" />
 
-      {/* Breadcrumb */}
-      <div style={{ padding: "48px 48px 0" }}>
-        <div className="cp-mono" style={{ color: "var(--text-muted)" }}>
-          <Link href="/work">Work</Link>{" "}
-          <span style={{ color: "var(--text-dim)" }}>/</span>{" "}
-          <span style={{ color: "var(--text)" }}>{c.slug}</span>
-        </div>
-      </div>
+      {/* Hero: who, what, and the real product, large */}
+      <section className="cs-hero">
+        <Link href="/work" className="cs-back">
+          <ArrowLeft size={16} strokeWidth={1.75} aria-hidden="true" />
+          All work
+        </Link>
+        <h1 className="cs-title">{c.client}</h1>
+        <p className="cs-statement">{statement(c)}</p>
 
-      {/* Hero */}
-      <div
-        style={{
-          padding: "32px 48px 80px",
-          borderBottom: "1px solid var(--border)",
-        }}
-      >
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 360px",
-            gap: 56,
-            alignItems: "end",
-          }}
-        >
-          <div>
-            <div className="cp-eyebrow" style={{ marginBottom: 12 }}>
-              {c.eyebrow}
-            </div>
-            <h1
-              className="cp-display"
-              style={{
-                fontSize: "clamp(2.75rem, 5.4vw, 5rem)",
-                margin: 0,
-                whiteSpace: "pre-line",
-              }}
-            >
-              {c.headline}{" "}
-              <span style={{ color: "var(--accent)" }}>{c.headlineAccent}</span>
-            </h1>
-            <p
-              style={{
-                marginTop: 28,
-                fontSize: 20,
-                color: "var(--text-muted)",
-                maxWidth: 700,
-                lineHeight: 1.5,
-              }}
-            >
-              {c.description}
-            </p>
-          </div>
-          <div className="cp-card" style={{ padding: 24 }}>
-            {c.meta.map((m, i) => (
+        <div className="cs-intro">
+          <p className="cs-lede">{c.description}</p>
+          <dl className="cs-facts">
+            {facts.map((m) => (
               <div key={m.k}>
-                {i > 0 && <div style={{ height: 8 }} />}
-                <Row k={m.k} v={m.v} />
+                <dt>{m.k}</dt>
+                <dd>{m.v}</dd>
               </div>
             ))}
-          </div>
+          </dl>
         </div>
-      </div>
 
-      {/* Result band */}
-      <div className="result-band">
+        {c.thumbnail && (
+          <div className="cs-stage">
+            <div className="cs-shot">
+              <Image
+                src={c.thumbnail}
+                alt={`${c.client} website on desktop`}
+                fill
+                preload
+                sizes="(max-width: 768px) 100vw, (max-width: 1440px) 92vw, 1344px"
+              />
+            </div>
+            {phone && (
+              <div className="cs-phone">
+                <div className="cs-phone-screen">
+                  <Image
+                    src={phone.src}
+                    alt={`${c.client} website on a phone`}
+                    fill
+                    sizes="(max-width: 768px) 30vw, 240px"
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+      </section>
+
+      {/* Results */}
+      <section className="result-band" aria-label="Results">
         {c.results.map(([label, stat, sub]) => (
           <div key={label} className="result-cell">
             <div
@@ -100,252 +145,115 @@ export default async function CaseStudyPage({
             <div style={{ marginTop: 6, color: "rgba(5,5,5,0.7)" }}>{sub}</div>
           </div>
         ))}
-      </div>
+      </section>
 
-      {/* The brief */}
-      <div
-        style={{
-          padding: "80px 48px",
-          borderBottom: "1px solid var(--border)",
-        }}
-      >
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "280px 1fr",
-            gap: 56,
-          }}
-        >
-          <div className="cp-mono">§ 01 · The brief</div>
-          <div style={{ maxWidth: 760 }}>
-            <p
-              style={{
-                fontSize: 22,
-                fontFamily:
-                  "var(--font-display), Manrope, ui-sans-serif, system-ui, sans-serif",
-                fontWeight: 400,
-                lineHeight: 1.5,
-                margin: 0,
-                letterSpacing: "-0.01em",
-              }}
-            >
-              {c.brief.quote}
-            </p>
-            <p style={{ marginTop: 16, color: "var(--text-muted)" }}>
-              — {c.brief.attribution}
-            </p>
-          </div>
+      {/* The brief, beside the client's world */}
+      <section className={`cs-block cs-brief${c.art ? "" : " cs-brief-solo"}`}>
+        <div>
+          <h2 className="cs-h2">The brief</h2>
+          <blockquote className="cs-quote">
+            <p>{c.brief.quote}</p>
+            <footer>{c.brief.attribution}</footer>
+          </blockquote>
         </div>
-      </div>
-
-      {/* The problem */}
-      <div
-        style={{
-          padding: "80px 48px",
-          borderBottom: "1px solid var(--border)",
-        }}
-      >
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "280px 1fr",
-            gap: 56,
-          }}
-        >
-          <div className="cp-mono">§ 02 · The problem</div>
-          <ul
-            style={{
-              margin: 0,
-              padding: 0,
-              listStyle: "none",
-              display: "flex",
-              flexDirection: "column",
-              gap: 16,
-              maxWidth: 860,
-            }}
-          >
-            {c.problems.map((p, i) => (
-              <li
-                key={i}
-                style={{
-                  display: "flex",
-                  gap: 20,
-                  paddingTop: 16,
-                  borderTop: "1px solid var(--border)",
-                }}
-              >
-                <span
-                  className="cp-num"
-                  style={{
-                    fontSize: 24,
-                    color: "var(--accent)",
-                    letterSpacing: "-0.03em",
-                    minWidth: 44,
-                  }}
-                >
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <span
-                  style={{ fontSize: 18, lineHeight: 1.55, color: "var(--text)" }}
-                >
-                  {p}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-
-      {/* The decisions */}
-      <div className="decisions-section">
-        <div className="decisions-layout">
-          <div>
-            <div className="cp-mono" style={{ marginBottom: 12 }}>
-              § 03 · The decisions
+        {c.art && (
+          <figure className="cs-art">
+            <div className="cs-art-frame">
+              <Image
+                src={c.art.src}
+                alt={c.art.alt}
+                fill
+                sizes="(max-width: 900px) 100vw, 46vw"
+              />
             </div>
-            <p
-              style={{
-                color: "var(--text-muted)",
-                fontSize: 14,
-                lineHeight: 1.55,
-              }}
-            >
-              The calls that meaningfully moved the outcome. Not the cosmetic
-              stuff.
-            </p>
-          </div>
-          <div className="decisions-grid">
-            {c.decisions.map(([h, b]) => (
-              <div key={h} className="cp-card" style={{ padding: 24 }}>
-                <div
-                  style={{
-                    fontFamily:
-                      "var(--font-display), Manrope, ui-sans-serif, system-ui, sans-serif",
-                    fontWeight: 700,
-                    fontSize: 20,
-                    letterSpacing: "-0.02em",
-                  }}
-                >
-                  {h}
-                </div>
-                <p
-                  style={{
-                    marginTop: 10,
-                    color: "var(--text-muted)",
-                    fontSize: 14,
-                    lineHeight: 1.55,
-                    margin: "10px 0 0",
-                  }}
-                >
-                  {b}
-                </p>
-              </div>
-            ))}
-          </div>
+            <figcaption>{c.art.caption}</figcaption>
+          </figure>
+        )}
+      </section>
+
+      {/* What was in the way */}
+      <section className="cs-problems">
+        <h2 className="cs-h2">What was in the way</h2>
+        <ul className="cs-problem-list">
+          {c.problems.map((p) => (
+            <li key={p}>{p}</li>
+          ))}
+        </ul>
+      </section>
+
+      {/* Decisions */}
+      <section className="cs-block">
+        <div className="cs-decisions-head">
+          <h2 className="cs-h2">The calls that moved the outcome</h2>
+          <p>Not the cosmetic stuff.</p>
         </div>
-      </div>
+        <div className="cs-decision-list">
+          {c.decisions.map(([h, b]) => (
+            <article key={h} className="cs-decision">
+              <h3>{h}</h3>
+              <p>{b}</p>
+            </article>
+          ))}
+        </div>
+      </section>
 
       {/* Gallery */}
-      <div
-        style={{
-          padding: "96px 48px 80px",
-          borderBottom: "1px solid var(--border)",
-        }}
-      >
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "280px 1fr",
-            gap: 56,
-            marginBottom: 56,
-          }}
-        >
-          <div className="cp-mono">§ 04 · The work</div>
-          <h2
-            className="cp-display"
-            style={{
-              fontSize: "clamp(2rem, 3.4vw, 3rem)",
-              margin: 0,
-              letterSpacing: "-0.025em",
-            }}
-          >
-            Screens, not mockups.
-            <span style={{ color: "var(--text-muted)" }}>
-              {" "}
-              The actual product—
-            </span>
-            <span style={{ color: "var(--accent)" }}>annotated</span>.
-          </h2>
+      <section className="cs-block">
+        <div className="cs-decisions-head">
+          <h2 className="cs-h2">Screens, not mockups</h2>
+          <p>Captured from the shipped product.</p>
         </div>
-
-        <CaseGallery media={c.media} results={c.results} client={c.client} />
-      </div>
+        <CaseGallery media={c.media} client={c.client} />
+      </section>
 
       {/* Testimonial */}
       {c.testimonial && (
-        <div
-          style={{
-            padding: "80px 48px",
-            borderBottom: "1px solid var(--border)",
-          }}
-        >
-          <div style={{ maxWidth: 960 }}>
-            <div className="cp-mono" style={{ marginBottom: 24 }}>
-              § 05 · In their words
-            </div>
-            <p
-              className="cp-display"
-              style={{
-                fontSize: "clamp(1.75rem, 3vw, 2.5rem)",
-                margin: 0,
-                lineHeight: 1.2,
-                fontWeight: 500,
-                letterSpacing: "-0.02em",
-              }}
-            >
-              {c.testimonial.quote}
-            </p>
-            <div
-              style={{
-                marginTop: 24,
-                display: "flex",
-                alignItems: "center",
-                gap: 12,
-              }}
-            >
-              <div>
-                <div
-                  style={{
-                    fontFamily:
-                      "var(--font-display), Manrope, ui-sans-serif, system-ui, sans-serif",
-                    fontWeight: 600,
-                  }}
-                >
-                  {c.testimonial.name}
-                </div>
-                <div className="cp-mono" style={{ color: "var(--text-muted)" }}>
-                  {c.testimonial.role}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <section className="cs-testimonial" aria-label="Client testimonial">
+          <figure>
+            <blockquote>
+              <p>{c.testimonial.quote}</p>
+            </blockquote>
+            <figcaption>
+              <span className="cs-testimonial-name">{c.testimonial.name}</span>
+              <span>{c.testimonial.role}</span>
+            </figcaption>
+          </figure>
+        </section>
       )}
 
-      {/* Stack strip */}
-      <div
-        style={{
-          padding: "40px 48px",
-          borderBottom: "1px solid var(--border)",
-        }}
-      >
-        <div className="cp-mono" style={{ color: "var(--text-muted)" }}>
-          Stack:{" "}
-          {c.meta
-            .find((m) => m.k === "Stack")
-            ?.v ?? ""}
-        </div>
-      </div>
+      {/* Stack */}
+      {stack && (
+        <section className="cs-block cs-stack">
+          <h2>Built with</h2>
+          <p>{stack}</p>
+        </section>
+      )}
+
+      {/* Next case study */}
+      {next && next.slug !== c.slug && (
+        <section className="cs-next" aria-label="Next case study">
+          <Link href={`/work/${next.slug}`} className="cs-next-link">
+            <span className="cs-next-copy">
+              <span className="cs-next-label">Next case study</span>
+              <span className="cs-next-title">{next.client}</span>
+              <span className="cs-next-kind">
+                {next.kind}
+                <ArrowRight size={18} strokeWidth={1.75} aria-hidden="true" />
+              </span>
+            </span>
+            {next.thumbnail && (
+              <span className="cs-next-shot">
+                <Image
+                  src={next.thumbnail}
+                  alt=""
+                  fill
+                  sizes="(max-width: 900px) 100vw, 45vw"
+                />
+              </span>
+            )}
+          </Link>
+        </section>
+      )}
 
       <FinalCTA />
       <Footer />

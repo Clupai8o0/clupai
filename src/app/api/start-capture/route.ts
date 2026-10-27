@@ -2,6 +2,8 @@ import { Resend } from "resend";
 import { type NextRequest, NextResponse } from "next/server";
 import { notifyTelegram, tgEsc } from "@/lib/notify";
 import { bookingUrl } from "@/lib/booking-link";
+import { SMS_CONSENT_WORDING } from "@/lib/sms";
+import { triggerOpener } from "@/lib/sms-conversation";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -90,6 +92,7 @@ export async function POST(request: NextRequest) {
     const business = body.business?.trim();
     const phone = body.phone?.trim();
     const message = body.message?.trim();
+    const smsConsent = (body as Record<string, unknown>).smsConsent === true;
 
     const subject = business ? `New lead · ${name} · ${business}` : `New lead · ${name}`;
 
@@ -213,7 +216,7 @@ export async function POST(request: NextRequest) {
       `👤 ${tgEsc(name)}`,
       business ? `🏢 ${tgEsc(business)}` : null,
       `✉️ ${tgEsc(email)}`,
-      phone ? `📞 ${tgEsc(phone)}` : null,
+      phone ? `📞 ${tgEsc(phone)}${smsConsent ? " 📲 SMS opt-in" : ""}` : null,
       "",
       `🎯 ${tgEsc(label(GOAL, body.goal))}`,
       `📍 ${tgEsc(label(SITUATION, body.situation))}`,
@@ -253,6 +256,24 @@ export async function POST(request: NextRequest) {
         html: confirmHtml,
       })
       .catch((err) => console.warn("Lead confirmation email skipped:", err));
+
+    // Personalized SMS opener — best-effort, seeded with the quiz answers so the
+    // assistant never re-asks what we already know. No-op unless they opted in.
+    await triggerOpener({
+      source: "funnel",
+      phoneRaw: phone,
+      smsConsent,
+      consentWording: SMS_CONSENT_WORDING,
+      name: body.name?.trim(),
+      email,
+      business,
+      quiz: {
+        goal: body.goal ? label(GOAL, body.goal) : undefined,
+        situation: body.situation ? label(SITUATION, body.situation) : undefined,
+        timeline: body.timeline ? label(TIMELINE, body.timeline) : undefined,
+        budget: body.budget ? label(BUDGET, body.budget) : undefined,
+      },
+    });
 
     return NextResponse.json({ ok: true });
   }

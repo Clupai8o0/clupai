@@ -27,11 +27,11 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://clupai.com"),
   title: {
-    default: "clupai — Websites, SEO & Automation · Melbourne",
+    default: "clupai — Melbourne AI Agency",
     template: "%s · clupai",
   },
   description:
-    "A Melbourne studio. Websites, SEO and automation for operators who want more customers — not more account managers.",
+    "A Melbourne AI agency. Websites, SEO and automation for operators who want more customers — not more account managers.",
   openGraph: {
     siteName: "clupai",
     locale: "en_AU",
@@ -52,7 +52,7 @@ const jsonLd = {
   name: "clupai",
   alternateName: "Clupai",
   description:
-    "Melbourne web, SEO and automation studio. Websites, SEO and automation for operators who want more customers — not more account managers.",
+    "Melbourne AI agency. Websites, SEO and automation for operators who want more customers — not more account managers.",
   url: "https://clupai.com",
   telephone: "+61000000000",
   email: "hello@clupai.com",

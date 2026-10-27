@@ -5,7 +5,7 @@ import Footer from "@/components/footer";
 import FinalCTA from "@/components/final-cta";
 
 export const metadata: Metadata = {
-  title: "WordPress vs Next.js 2026 · clupai",
+  title: "WordPress vs Next.js 2026",
   description:
     "An honest comparison from a studio that stopped taking WordPress projects in 2023. When WordPress makes sense, when it doesn't, and why we chose Next.js for every client site we build.",
   alternates: { canonical: "/compare/wordpress-vs-nextjs" },
@@ -69,7 +69,7 @@ const faqs = [
   },
   {
     q: "Can't you just optimise WordPress with a caching plugin?",
-    a: "You can improve WordPress performance significantly with caching, a CDN, and image optimisation. But you're fighting the architecture, not working with it. King Double Glazing was rebuilt from a heavily-cached WordPress-adjacent setup with a 13.1-second LCP. After the rebuild on Next.js, it scored 99 on Lighthouse. Caching helps; it doesn't fix fundamentals.",
+    a: "You can improve WordPress performance significantly with caching, a CDN, and image optimisation. But you're fighting the architecture, not working with it. King Double Glazing was rebuilt from a heavily-cached WordPress site with a 13.1-second mobile LCP. After the rebuild on Next.js, it scored 99 on desktop Lighthouse and its mobile LCP fell to 4.4 seconds. Caching helps; it doesn't fix fundamentals.",
   },
   {
     q: "What's the actual cost difference?",
@@ -368,13 +368,13 @@ export default function WordPressVsNextjsPage() {
             {
               label: "Next.js target LCP",
               stat: "< 1.2s",
-              note: "What we aim for on every build. King Double Glazing hit 1.2s.",
+              note: "What we aim for on every build. King Double Glazing loads in 1.0s on desktop.",
               dim: false,
             },
             {
               label: "Real-world result",
               stat: "99",
-              note: "King Double Glazing: rebuilt from a 13.1s LCP to a Lighthouse score of 99.",
+              note: "King Double Glazing on desktop, up from 75. Mobile LCP fell from 13.1s to 4.4s.",
               dim: false,
             },
           ].map((item) => (
@@ -430,8 +430,8 @@ export default function WordPressVsNextjsPage() {
             <span style={{ color: "var(--text)", fontWeight: 500 }}>
               The King Double Glazing rebuild:
             </span>{" "}
-            moved from a WordPress-adjacent setup with a 13.1-second LCP to a
-            Next.js site scoring 99 on Lighthouse. The Instant Estimate Tool
+            moved from a WordPress site with a 13.1-second mobile LCP
+            to a Next.js site scoring 99 on desktop Lighthouse. The Instant Estimate Tool
             was added at the same time.{" "}
             <Link
               href="/work/king-double-glazing"
