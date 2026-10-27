@@ -140,7 +140,7 @@ export default function ContactForm() {
               letterSpacing: "-0.02em",
             }}
           >
-            Sent. I&apos;ll reply within one AU business day.
+            Sent. We&apos;ll reply within one AU business day.
           </div>
         </div>
         <div style={{ color: "var(--text-muted)", fontSize: 14, lineHeight: 1.5, paddingLeft: 48 }}>

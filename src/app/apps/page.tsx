@@ -48,7 +48,7 @@ export default function AppsPage() {
                 lineHeight: 1.5,
               }}
             >
-              Bits I use on every project, packaged for anyone. Buy once, use
+              Bits we use on every project, packaged for anyone. Buy once, use
               forever. No subscriptions unless the thing actually needs one.
             </p>
           </div>
@@ -183,7 +183,7 @@ export default function AppsPage() {
               >
                 {a.price}
               </div>
-              {a.mrr !== "—" && (
+              {a.mrr && (
                 <div
                   className="cp-mono"
                   style={{ color: "var(--text-muted)", marginTop: 4 }}
@@ -254,11 +254,11 @@ export default function AppsPage() {
             margin: 0,
           }}
         >
-          Each of these started as something I built for one client, then
-          realised I&apos;d need again. I package them, charge enough to cover
-          the support, and keep them alive. Nothing here is a side hustle I hope
-          becomes a SaaS. If MRR drops to zero, the product goes to an archive
-          page—not to a bigger pricing plan.
+          Each of these started as something we built for one client, then
+          realised we&apos;d need again. We package them, charge enough to cover
+          the support, and keep them alive. Nothing here is a side hustle hoping
+          to become a SaaS. If MRR drops to zero, the product goes to an archive
+          page, not to a bigger pricing plan.
         </p>
       </div>
 

@@ -222,7 +222,7 @@ video {
     padding-right: 32px;
   }
   .cp-service-card {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
   }
   .cp-service-card > :last-child {
     grid-column: 1 / -1;
@@ -235,9 +235,9 @@ video {
     padding-right: 20px;
   }
   .cp-service-card {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 20px;
-    padding: 28px 24px;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 20px !important;
+    padding: 28px 24px !important;
   }
 }
 
