@@ -18,6 +18,17 @@ const SCENES: Record<string, string> = {
   coburg: "Illustration: the old Coburg Town Hall clock tower above Sydney Road at night.",
 };
 
+// The hero shows the opening of the lede; "What we see" picks up from where it
+// stopped, so the same sentences don't appear twice on the page.
+const HERO_SENTENCES = 2;
+
+function splitLede(lede: string) {
+  const parts = lede.split(". ");
+  const hero = parts.slice(0, HERO_SENTENCES).join(". ").replace(/\.?$/, ".");
+  const rest = parts.slice(HERO_SENTENCES).join(". ").trim();
+  return { hero, rest };
+}
+
 export function generateStaticParams() {
   return SUBURB_SLUGS.map((slug) => ({ suburb: slug }));
 }
@@ -62,6 +73,8 @@ export default async function SuburbPage({
   const { suburb } = await params;
   const data = getSuburb(suburb);
   if (!data) notFound();
+
+  const lede = splitLede(data.lede);
 
   return (
     <>
@@ -116,7 +129,7 @@ export default async function SuburbPage({
                 lineHeight: 1.55,
               }}
             >
-              {data.lede.split(". ").slice(0, 2).join(". ") + "."}
+              {lede.hero}
             </p>
             <div style={{ marginTop: 32, display: "flex", gap: 12, flexWrap: "wrap" }}>
               <Link href="/contact" className="cp-btn cp-btn-primary cp-btn-lg">
@@ -227,19 +240,21 @@ export default async function SuburbPage({
               maxWidth: 680,
             }}
           >
-            {data.lede}
+            {lede.rest || data.why}
           </p>
-          <p
-            style={{
-              fontSize: 15,
-              lineHeight: 1.65,
-              color: "var(--text-dim)",
-              margin: 0,
-              maxWidth: 680,
-            }}
-          >
-            {data.why}
-          </p>
+          {lede.rest && (
+            <p
+              style={{
+                fontSize: 15,
+                lineHeight: 1.65,
+                color: "var(--text-dim)",
+                margin: 0,
+                maxWidth: 680,
+              }}
+            >
+              {data.why}
+            </p>
+          )}
         </div>
       </div>
 

@@ -103,7 +103,6 @@ export default function WordPressVsNextjsPage() {
       <div
         style={{
           padding: "32px 48px 80px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div className="cp-eyebrow" style={{ marginBottom: 12 }}>
@@ -143,7 +142,6 @@ export default function WordPressVsNextjsPage() {
         style={{
           padding: "72px 48px",
           background: "var(--surface)",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div className="cp-mono" style={{ marginBottom: 20 }}>
@@ -218,7 +216,6 @@ export default function WordPressVsNextjsPage() {
       <div
         style={{
           padding: "80px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -250,7 +247,7 @@ export default function WordPressVsNextjsPage() {
               listStyle: "none",
               display: "flex",
               flexDirection: "column",
-              gap: 0,
+              gap: 14,
             }}
           >
             {wordpressWins.map((item, i) => (
@@ -261,7 +258,6 @@ export default function WordPressVsNextjsPage() {
                   gap: 16,
                   paddingTop: 18,
                   paddingBottom: 18,
-                  borderTop: "1px solid var(--border)",
                   fontSize: 16,
                   lineHeight: 1.6,
                   color: "var(--text-muted)",
@@ -286,7 +282,6 @@ export default function WordPressVsNextjsPage() {
         style={{
           padding: "80px 48px",
           background: "var(--surface)",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -314,7 +309,7 @@ export default function WordPressVsNextjsPage() {
               listStyle: "none",
               display: "flex",
               flexDirection: "column",
-              gap: 0,
+              gap: 14,
             }}
           >
             {nextjsWins.map((item, i) => (
@@ -325,7 +320,6 @@ export default function WordPressVsNextjsPage() {
                   gap: 16,
                   paddingTop: 18,
                   paddingBottom: 18,
-                  borderTop: "1px solid var(--border)",
                   fontSize: 16,
                   lineHeight: 1.6,
                   alignItems: "start",
@@ -345,7 +339,6 @@ export default function WordPressVsNextjsPage() {
       <div
         style={{
           padding: "80px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div className="cp-mono" style={{ marginBottom: 20 }}>
@@ -447,7 +440,6 @@ export default function WordPressVsNextjsPage() {
       <div
         style={{
           padding: "80px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div className="cp-mono" style={{ marginBottom: 20 }}>
@@ -457,7 +449,7 @@ export default function WordPressVsNextjsPage() {
           style={{
             display: "flex",
             flexDirection: "column",
-            gap: 0,
+            gap: 12,
           }}
         >
           {decisionTree.map((item, i) => (
@@ -468,7 +460,6 @@ export default function WordPressVsNextjsPage() {
                 gridTemplateColumns: "1fr 120px 1fr",
                 gap: 32,
                 padding: "20px 0",
-                borderTop: "1px solid var(--border)",
                 alignItems: "center",
               }}
             >
@@ -517,7 +508,6 @@ export default function WordPressVsNextjsPage() {
       <div
         style={{
           padding: "80px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -547,7 +537,6 @@ export default function WordPressVsNextjsPage() {
               <details
                 key={i}
                 style={{
-                  borderTop: "1px solid var(--border)",
                   padding: "20px 0",
                 }}
                 open={i === 0}
@@ -583,7 +572,6 @@ export default function WordPressVsNextjsPage() {
                 </p>
               </details>
             ))}
-            <div style={{ borderTop: "1px solid var(--border)" }} />
           </div>
         </div>
       </div>
@@ -592,7 +580,6 @@ export default function WordPressVsNextjsPage() {
       <div
         style={{
           padding: "56px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div className="cp-mono" style={{ marginBottom: 20 }}>

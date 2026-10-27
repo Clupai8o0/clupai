@@ -432,7 +432,6 @@ export default function CalBooking({
       <div
         style={{
           padding: "20px 24px",
-          borderBottom: "1px solid var(--border)",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
@@ -471,7 +470,6 @@ export default function CalBooking({
             alignItems: "center",
             gap: 10,
             padding: "12px 24px",
-            borderBottom: "1px solid var(--border)",
             background: "rgba(77,163,255,0.06)",
           }}
         >
@@ -707,7 +705,6 @@ export default function CalBooking({
             style={{
               marginTop: 28,
               paddingTop: 24,
-              borderTop: "1px solid var(--border)",
             }}
           >
             <div className="cp-mono" style={{ marginBottom: 16 }}>

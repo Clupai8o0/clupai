@@ -86,8 +86,6 @@ export default function StartPage() {
       <section
         style={{
           padding: "20px 48px",
-          borderTop: "1px solid var(--border)",
-          borderBottom: "1px solid var(--border)",
           background: "var(--surface)",
         }}
       >
@@ -122,7 +120,6 @@ export default function StartPage() {
         id="book"
         style={{
           padding: "72px 48px",
-          borderTop: "1px solid var(--border)",
           background: "var(--surface)",
           scrollMarginTop: 80,
         }}
@@ -147,7 +144,6 @@ export default function StartPage() {
         id="audit"
         style={{
           padding: "72px 48px",
-          borderTop: "1px solid var(--border)",
           scrollMarginTop: 80,
         }}
       >

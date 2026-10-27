@@ -354,7 +354,7 @@ export default function TradiesPage() {
               listStyle: "none",
               display: "flex",
               flexDirection: "column",
-              gap: 0,
+              gap: 20,
             }}
           >
             {problems.map(([h, b], i) => (

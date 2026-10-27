@@ -49,7 +49,6 @@ export default async function ContactPage({
       <div
         style={{
           padding: "64px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div className="cp-eyebrow" style={{ marginBottom: 12 }}>
@@ -72,7 +71,6 @@ export default async function ContactPage({
         style={{
           display: "grid",
           gridTemplateColumns: "1.3fr 1fr",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         {/* Cal.com live booking */}
@@ -80,7 +78,6 @@ export default async function ContactPage({
           className="cp-contact-col-left"
           style={{
             padding: "48px 48px",
-            borderRight: "1px solid var(--border)",
           }}
         >
           <div className="cp-mono" style={{ marginBottom: 20 }}>
@@ -112,7 +109,6 @@ export default async function ContactPage({
             style={{
               marginTop: 48,
               paddingTop: 28,
-              borderTop: "1px solid var(--border)",
               display: "flex",
               flexDirection: "column",
               gap: 18,

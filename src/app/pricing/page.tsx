@@ -31,7 +31,6 @@ export default function PricingPage() {
       <div
         style={{
           padding: "80px 48px 56px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -289,7 +288,6 @@ export default function PricingPage() {
       <div
         style={{
           padding: "64px 48px",
-          borderTop: "1px solid var(--border)",
         }}
       >
         <div className="cp-eyebrow" style={{ marginBottom: 24 }}>

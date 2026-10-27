@@ -233,7 +233,6 @@ export default function LocalSchemaGenerator() {
       <div
         style={{
           padding: "56px 48px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div className="cp-eyebrow" style={{ marginBottom: 12 }}>
@@ -280,7 +279,7 @@ export default function LocalSchemaGenerator() {
         style={{
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
-          gap: 0,
+          gap: 32,
           minHeight: "70vh",
           alignItems: "start",
         }}
@@ -289,7 +288,6 @@ export default function LocalSchemaGenerator() {
         <div
           style={{
             padding: "40px 48px",
-            borderRight: "1px solid var(--border)",
           }}
         >
           {/* Business details */}
@@ -755,7 +753,6 @@ export default function LocalSchemaGenerator() {
       {/* Explainer + callout */}
       <div
         style={{
-          borderTop: "1px solid var(--border)",
           padding: "72px 48px",
           display: "grid",
           gridTemplateColumns: "1fr 1fr",

@@ -18,7 +18,6 @@ export default function AppsPage() {
       <div
         style={{
           padding: "80px 48px 56px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -95,7 +94,6 @@ export default function AppsPage() {
               gridTemplateColumns: "72px 1.1fr 1.4fr 180px 140px 60px",
               gap: 24,
               padding: "28px 0",
-              borderBottom: "1px solid var(--border)",
               alignItems: "center",
               cursor: "pointer",
               textDecoration: "none",
@@ -235,8 +233,6 @@ export default function AppsPage() {
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
           gap: 48,
-          borderTop: "1px solid var(--border)",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div>

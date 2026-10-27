@@ -94,7 +94,6 @@ export default function SquarespaceVsCustomPage() {
       <div
         style={{
           padding: "32px 48px 80px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div className="cp-eyebrow" style={{ marginBottom: 12 }}>
@@ -135,7 +134,6 @@ export default function SquarespaceVsCustomPage() {
         style={{
           padding: "72px 48px",
           background: "var(--surface)",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div className="cp-mono" style={{ marginBottom: 20 }}>
@@ -211,7 +209,6 @@ export default function SquarespaceVsCustomPage() {
       <div
         style={{
           padding: "80px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -243,7 +240,6 @@ export default function SquarespaceVsCustomPage() {
                 style={{
                   paddingTop: 24,
                   paddingBottom: 24,
-                  borderTop: "1px solid var(--border)",
                 }}
               >
                 <div
@@ -283,7 +279,6 @@ export default function SquarespaceVsCustomPage() {
         style={{
           padding: "80px 48px",
           background: "var(--surface)",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -322,7 +317,6 @@ export default function SquarespaceVsCustomPage() {
                   gap: 24,
                   paddingTop: 24,
                   paddingBottom: 24,
-                  borderTop: "1px solid var(--border)",
                   alignItems: "start",
                 }}
               >
@@ -370,7 +364,6 @@ export default function SquarespaceVsCustomPage() {
         style={{
           padding: "80px 48px",
           background: "var(--surface)",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div className="cp-mono" style={{ marginBottom: 20 }}>
@@ -441,7 +434,6 @@ export default function SquarespaceVsCustomPage() {
       <div
         style={{
           padding: "80px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -471,7 +463,6 @@ export default function SquarespaceVsCustomPage() {
               <details
                 key={i}
                 style={{
-                  borderTop: "1px solid var(--border)",
                   padding: "20px 0",
                 }}
                 open={i === 0}
@@ -507,7 +498,6 @@ export default function SquarespaceVsCustomPage() {
                 </p>
               </details>
             ))}
-            <div style={{ borderTop: "1px solid var(--border)" }} />
           </div>
         </div>
       </div>
@@ -516,7 +506,6 @@ export default function SquarespaceVsCustomPage() {
       <div
         style={{
           padding: "56px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div className="cp-mono" style={{ marginBottom: 20 }}>

@@ -46,9 +46,8 @@ export default function Footer() {
   return (
     <footer
       style={{
-        borderTop: "1px solid var(--border)",
         padding: "56px 48px 32px",
-        background: "var(--bg)",
+        background: "var(--surface)",
       }}
     >
       <div
@@ -141,13 +140,12 @@ export default function Footer() {
         ))}
       </div>
 
-      <div className="cp-hair" />
       <div
         style={{
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          paddingTop: 24,
+          paddingTop: 40,
         }}
       >
         <div

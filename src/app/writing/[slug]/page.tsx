@@ -255,7 +255,6 @@ export default async function BlogPostPage({
             alignItems: "center",
             gap: 12,
             paddingBottom: 24,
-            borderBottom: "1px solid var(--border)",
           }}
         >
           <Image
@@ -308,7 +307,6 @@ export default async function BlogPostPage({
       {relatedPosts.length > 0 && (
         <div
           className="px-6 md:px-12 py-14"
-          style={{ borderTop: "1px solid var(--border)" }}
         >
           <div className="cp-mono mb-6">Keep reading</div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">

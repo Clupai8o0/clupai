@@ -9,7 +9,6 @@ const DISPLAY =
 
 const services = [
   {
-    n: "01",
     slug: "web",
     h: "Websites",
     price: "Custom quote",
@@ -17,7 +16,6 @@ const services = [
     items: ["Copy + design + build", "Schema, analytics, CWV", "Cal.com / Calendly wired in"],
   },
   {
-    n: "02",
     slug: "seo",
     h: "SEO",
     price: "Custom quote",
@@ -25,7 +23,6 @@ const services = [
     items: ["Core Web Vitals", "Google Business Profile", "2–4 posts/month"],
   },
   {
-    n: "03",
     slug: "automation",
     h: "Automation",
     price: "Custom quote",
@@ -42,7 +39,6 @@ export default function ServicesPage() {
       <div
         style={{
           padding: "80px 48px 56px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div className="cp-eyebrow" style={{ marginBottom: 12 }}>
@@ -76,33 +72,29 @@ export default function ServicesPage() {
         </p>
       </div>
 
-      <div style={{ padding: "0 0 48px" }}>
+      <div
+        className="cp-service-list"
+        style={{
+          padding: "0 48px 48px",
+          display: "flex",
+          flexDirection: "column",
+          gap: 16,
+        }}
+      >
         {services.map((s) => (
           <Link
-            key={s.n}
+            key={s.slug}
             href={`/services/${s.slug}`}
-            className="cp-service-card"
+            className="cp-card cp-service-card"
             style={{
               display: "grid",
-              gridTemplateColumns: "80px 1fr 1fr 280px",
+              gridTemplateColumns: "1fr 1fr 280px",
               gap: 32,
-              padding: "40px 48px",
-              borderBottom: "1px solid var(--border)",
+              padding: "36px 36px",
               alignItems: "start",
-              cursor: "pointer",
+              textDecoration: "none",
             }}
           >
-            <div
-              className="cp-num cp-service-num"
-              style={{
-                fontSize: 48,
-                color: "var(--accent)",
-                letterSpacing: "-0.04em",
-                lineHeight: 0.9,
-              }}
-            >
-              {s.n}
-            </div>
             <div>
               <h2
                 className="cp-display"
@@ -164,8 +156,6 @@ export default function ServicesPage() {
         style={{
           padding: "72px 48px",
           background: "var(--surface)",
-          borderTop: "1px solid var(--border)",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div className="cp-mono" style={{ marginBottom: 20 }}>
@@ -182,7 +172,7 @@ export default function ServicesPage() {
             <Link
               key={h}
               href="/pricing"
-              className="cp-card"
+              className="cp-tone-card"
               style={{ padding: 28, display: "block", textDecoration: "none" }}
             >
               <div className="cp-mono" style={{ marginBottom: 12 }}>

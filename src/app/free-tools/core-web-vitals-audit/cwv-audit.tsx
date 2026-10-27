@@ -319,7 +319,6 @@ export default function CWVAudit() {
       <div
         style={{
           padding: "56px 48px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div className="cp-eyebrow" style={{ marginBottom: 12 }}>
@@ -829,7 +828,6 @@ export default function CWVAudit() {
       {/* What are Core Web Vitals — explainer */}
       <div
         style={{
-          borderTop: "1px solid var(--border)",
           padding: "72px 48px",
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
