@@ -211,6 +211,7 @@ export default async function SuburbPage({
 
       {/* Lede — full opening copy */}
       <div
+        className="cp-suburb-split"
         style={{
           padding: "72px 48px",
           display: "grid",
@@ -276,6 +277,7 @@ export default async function SuburbPage({
           <span style={{ color: "var(--text-muted)" }}>All fixed price.</span>
         </h2>
         <div
+          className="cp-suburb-trio"
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(3, 1fr)",
@@ -336,6 +338,7 @@ export default async function SuburbPage({
         }}
       >
         <div
+          className="cp-suburb-split"
           style={{
             display: "grid",
             gridTemplateColumns: "320px 1fr",
@@ -356,6 +359,7 @@ export default async function SuburbPage({
           </div>
           <div>
             <div
+              className="cp-suburb-duo"
               style={{
                 display: "grid",
                 gridTemplateColumns: "1fr 1fr",
@@ -437,6 +441,7 @@ export default async function SuburbPage({
         }}
       >
         <div
+          className="cp-suburb-split"
           style={{
             display: "grid",
             gridTemplateColumns: "320px 1fr",

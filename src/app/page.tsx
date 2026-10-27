@@ -204,7 +204,9 @@ function KitsSection() {
           <article key={kit.slug} className="hm-kit">
             <div className="hm-kit-top">
               <h3>{kit.name}</h3>
-              <span className="hm-kit-live">Live</span>
+              <span className="hm-kit-live" data-status={kit.status}>
+                {kit.status}
+              </span>
             </div>
             <p className="hm-kit-tag">
               {kit.tag} · {kit.tech}

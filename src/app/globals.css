@@ -8,7 +8,7 @@
   --border-2: #2a2a2a;
   --text: #e5e5e5;
   --text-muted: #9a9a9a;
-  --text-dim: #6b6b6b;
+  --text-dim: #7a7a7a;
   --accent: #4da3ff;
   --accent-ink: #050505;
   --accent-glow: color-mix(in oklab, var(--accent) 22%, transparent);
@@ -1625,7 +1625,11 @@ video {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--accent);
+  background: currentColor;
+}
+/* Only a shipped kit gets the accent dot; a beta reads as in-progress. */
+.hm-kit-live[data-status="Beta"] {
+  color: var(--text-muted);
 }
 .hm-kit-tag {
   margin: 10px 0 0;
@@ -1821,12 +1825,12 @@ video {
   [style*="repeat(5, 1fr)"],
   [style*="repeat(4, 1fr)"],
   [style*="repeat(3, 1fr)"] {
-    grid-template-columns: repeat(2, 1fr) !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 
   /* About hero: 420px fixed column is too wide at tablet — stack */
   [style*="420px 1fr"] {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: minmax(0, 1fr) !important;
   }
 }
 
@@ -1852,7 +1856,7 @@ video {
 
   /* Service list rows — too narrow to read in 4-col at tablet width */
   [style*="80px 1fr 1fr 280px"] {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: minmax(0, 1fr) !important;
     gap: 16px !important;
   }
 
@@ -1869,7 +1873,7 @@ video {
 
   /* Hero CTA: stack text + buttons */
   .cp-hero-cta {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: minmax(0, 1fr) !important;
     gap: 24px !important;
     margin-top: 36px !important;
   }
@@ -1882,13 +1886,13 @@ video {
 
   /* Service detail hero — stack price card at tablet */
   .cp-svc-hero-grid {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: minmax(0, 1fr) !important;
     gap: 32px !important;
   }
 
   /* Stack 320px sidebar + content grids (included, FAQ) at tablet */
   [style*="320px 1fr"] {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: minmax(0, 1fr) !important;
     gap: 32px !important;
   }
 
@@ -1904,7 +1908,7 @@ video {
 
   /* Case study: stack at tablet */
   .cp-svc-cs-grid {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: minmax(0, 1fr) !important;
     gap: 32px !important;
   }
 
@@ -1916,7 +1920,7 @@ video {
 
 /* === Narrow iPad portrait (769px–860px) — stack AboutTeaser === */
 @media (min-width: 769px) and (max-width: 860px) {
-  [style*="380px 1fr"] { grid-template-columns: 1fr !important; }
+  [style*="380px 1fr"] { grid-template-columns: minmax(0, 1fr) !important; }
   [style*="gap: 56px"]  { gap: 32px !important; }
 }
 
@@ -1981,7 +1985,7 @@ video {
   [style*="repeat(4, 1fr)"],
   [style*="repeat(3, 1fr)"],
   [style*="repeat(2, 1fr)"] {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: minmax(0, 1fr) !important;
   }
 
   [style*="1.3fr 1fr"],
@@ -1996,13 +2000,16 @@ video {
   [style*="1fr 560px"],
   [style*="1fr auto"],
   [style*="80px 1fr 1fr 280px"],
-  [style*="72px 1.1fr 1.4fr 180px 140px 60px"] {
-    grid-template-columns: 1fr !important;
+  [style*="72px 1.1fr 1.4fr 180px 140px 60px"],
+  [style*="1fr 120px 1fr"],
+  [style*="80px 1fr 1fr"],
+  [style*="1fr 80px"] {
+    grid-template-columns: minmax(0, 1fr) !important;
   }
 
   /* "1fr 1fr" 2-column grids */
   [style*="1fr 1fr"] {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: minmax(0, 1fr) !important;
   }
 
   /* gap reductions */
@@ -2171,13 +2178,13 @@ video {
 
   /* Items included grid: single column */
   .cp-svc-items-grid {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: minmax(0, 1fr) !important;
     gap: 0 !important;
   }
 
   /* Process: single column, no min-height */
   .cp-svc-process-grid {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: minmax(0, 1fr) !important;
   }
   .cp-svc-step {
     min-height: 0 !important;
@@ -2185,7 +2192,7 @@ video {
 
   /* Case study: stack */
   .cp-svc-cs-grid {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: minmax(0, 1fr) !important;
     gap: 28px !important;
   }
 
@@ -2253,14 +2260,14 @@ video {
 /* === Cal booking calendar grid — stack on mobile === */
 @media (max-width: 768px) {
   .cp-cal-grid {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: minmax(0, 1fr) !important;
   }
 }
 
 /* === Contact page — stack at tablet === */
 @media (max-width: 1280px) {
   .cp-contact-grid {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: minmax(0, 1fr) !important;
   }
 }
 
@@ -2347,5 +2354,28 @@ video {
 @media (max-width: 768px) {
   .cp-legal-toc {
     grid-template-columns: 1fr;
+  }
+}
+
+/* === Suburb pages — these grids had no breakpoints at all === */
+@media (max-width: 1024px) {
+  .cp-suburb-hero {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 40px !important;
+    align-items: start !important;
+  }
+  .cp-suburb-split {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 32px !important;
+  }
+  .cp-suburb-trio {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .cp-suburb-trio,
+  .cp-suburb-duo {
+    grid-template-columns: minmax(0, 1fr) !important;
   }
 }
