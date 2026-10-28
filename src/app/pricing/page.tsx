@@ -10,7 +10,7 @@ const smallPrint = [
   ],
   [
     "You own everything",
-    "Code, hosting, ad accounts, analytics. Day one—not at the end of a contract.",
+    "Code, hosting, ad accounts, analytics. Day one, not at the end of a contract.",
   ],
   [
     "Real reply times",
@@ -18,7 +18,7 @@ const smallPrint = [
   ],
   [
     "Fixed, not time-and-materials",
-    "Quotes are firm. If the scope changes, we'll say so before we bill—not after.",
+    "Quotes are firm. If the scope changes, we'll say so before we bill, not after.",
   ],
 ];
 
@@ -63,7 +63,7 @@ export default function PricingPage() {
           }}
         >
           Here&apos;s how each engagement is shaped, what&apos;s in it,
-          and—honestly—who it isn&apos;t for. We quote a fixed number once we
+          and, honestly, who it isn&apos;t for. We quote a fixed number once we
           understand the brief, so book a call and we&apos;ll tell you where you
           land.
         </p>
@@ -274,7 +274,7 @@ export default function PricingPage() {
               }}
             >
               We do a lot of these. They&apos;re quoted per project because they
-              should be—usually two to eight weeks of work. If that&apos;s you,
+              should be: usually two to eight weeks of work. If that&apos;s you,
               skip the tier grid and book a call.
             </p>
           </div>

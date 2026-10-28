@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "clupai — Websites, SEO & Automation",
+    name: "clupai · Websites, SEO & Automation",
     short_name: "clupai",
     description:
       "A Melbourne studio. Websites, SEO and automation for operators who want more customers.",

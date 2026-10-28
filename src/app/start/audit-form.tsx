@@ -32,11 +32,11 @@ export default function AuditForm() {
       if (res.ok) {
         setState("sent");
       } else {
-        setErrorMsg(data.error ?? "Something went wrong — please email hello@clupai.com");
+        setErrorMsg(data.error ?? "Something went wrong: please email hello@clupai.com");
         setState("error");
       }
     } catch {
-      setErrorMsg("Network error — please try again or email hello@clupai.com");
+      setErrorMsg("Network error: please try again or email hello@clupai.com");
       setState("error");
     }
   }
@@ -88,7 +88,7 @@ export default function AuditForm() {
         disabled={sending}
         value={website}
         onChange={(e) => setWebsite(e.target.value)}
-        placeholder="yourwebsite.com.au — the site you want audited"
+        placeholder="yourwebsite.com.au (the site you want audited)"
         aria-label="Your website"
         onFocus={() => setWebFocused(true)}
         onBlur={() => setWebFocused(false)}

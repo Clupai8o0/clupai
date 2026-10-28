@@ -8,7 +8,7 @@ import SceneBand from "@/components/scene-band";
 export const metadata: Metadata = {
   title: "Professional Services Websites Melbourne",
   description:
-    "Credibility-first website design for Melbourne law firms, accountants, consultants, and professional services. We build sites that establish trust before the first meeting — and rank for local search.",
+    "Credibility-first website design for Melbourne law firms, accountants, consultants, and professional services. We build sites that establish trust before the first meeting, and rank for local search.",
   alternates: { canonical: "/industries/professional-services" },
 };
 
@@ -31,7 +31,7 @@ const problems = [
   ],
   [
     "Not showing up for local searches",
-    "'Melbourne commercial lawyer', 'Carlton accountant', 'Brunswick financial advisor' — if you're not ranking for these terms, someone else is taking that work.",
+    "'Melbourne commercial lawyer', 'Carlton accountant', 'Brunswick financial advisor': if you're not ranking for these terms, someone else is taking that work.",
   ],
 ];
 
@@ -50,8 +50,8 @@ const included = [
 
 const faqs = [
   {
-    q: "We have a strict brand — can you work within it?",
-    a: "Yes. If you have existing brand guidelines — colour, typography, logo usage rules — we work inside them. We're not redesigning your identity; we're building a site that reflects it properly. If your brand guidelines are loose or dated, we can tighten them up as part of the engagement.",
+    q: "We have a strict brand: can you work within it?",
+    a: "Yes. If you have existing brand guidelines (colour, typography, logo usage rules), we work inside them. We're not redesigning your identity; we're building a site that reflects it properly. If your brand guidelines are loose or dated, we can tighten them up as part of the engagement.",
   },
   {
     q: "Do you understand professional services compliance?",
@@ -59,15 +59,15 @@ const faqs = [
   },
   {
     q: "Can we add attorney or consultant bios ourselves?",
-    a: "Yes. Bio pages are part of the CMS — your staff can add, update, or remove profiles without touching code. We set up the structure and you manage the content. Same goes for news updates and any regularly changing content.",
+    a: "Yes. Bio pages are part of the CMS: your staff can add, update, or remove profiles without touching code. We set up the structure and you manage the content. Same goes for news updates and any regularly changing content.",
   },
   {
     q: "What about privacy and client confidentiality on the site?",
-    a: "Nothing on the site requires you to publish client information. Case studies and testimonials can be fully anonymised — 'a Melbourne-based financial services firm' rather than a named client. We never push you to publish anything that creates a confidentiality risk.",
+    a: "Nothing on the site requires you to publish client information. Case studies and testimonials can be fully anonymised: 'a Melbourne-based financial services firm' rather than a named client. We never push you to publish anything that creates a confidentiality risk.",
   },
   {
     q: "How do you handle testimonials if we can't share client names?",
-    a: "Anonymised testimonials are standard in professional services. 'A Melbourne family law client' is still credible — it's the sentiment that matters, not the name. We can also structure social proof around outcomes, process, and practice reputation rather than individual client statements.",
+    a: "Anonymised testimonials are standard in professional services. 'A Melbourne family law client' is still credible: it's the sentiment that matters, not the name. We can also structure social proof around outcomes, process, and practice reputation rather than individual client statements.",
   },
 ];
 
@@ -142,7 +142,7 @@ export default function ProfessionalServicesPage() {
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
               {[
-                ["Design", "Credibility-first — no stock handshake photos"],
+                ["Design", "Credibility-first, no stock handshake photos"],
                 ["SEO", "Local search for '[city] + [profession]'"],
                 ["Booking", "Cal.com or Calendly, wired in"],
                 ["Schema", "LocalBusiness + ProfessionalService"],
@@ -192,7 +192,7 @@ export default function ProfessionalServicesPage() {
           {[
             {
               label: "Law firms",
-              d: "Family, commercial, employment, property — Melbourne practices that need to rank and convert.",
+              d: "Family, commercial, employment, property: Melbourne practices that need to rank and convert.",
             },
             {
               label: "Accountants",

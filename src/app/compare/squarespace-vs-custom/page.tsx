@@ -41,15 +41,15 @@ const squarespaceProblems = [
   ],
   [
     "No custom schema markup",
-    "LocalBusiness, ProfessionalService, Service, Review schema — the structured data that helps Google understand what you do and who you serve — requires code. Squarespace supports basic schema but you can't customise it.",
+    "LocalBusiness, ProfessionalService, Service, Review schema (the structured data that helps Google understand what you do and who you serve) requires code. Squarespace supports basic schema but you can't customise it.",
   ],
   [
     "Template limitations compound over time",
-    "When you want to do something the template wasn't designed for — a custom calculator, a quote tool, a booking flow — you're either hacking around the template or you can't do it at all.",
+    "When you want to do something the template wasn't designed for (a custom calculator, a quote tool, a booking flow), you're either hacking around the template or you can't do it at all.",
   ],
   [
     "Mobile Lighthouse scores are bad",
-    "The 40–65 mobile Lighthouse range isn't an edge case — it's typical for Squarespace sites. Google measures mobile performance. Your customers search on phones.",
+    "The 40–65 mobile Lighthouse range isn't an edge case: it's typical for Squarespace sites. Google measures mobile performance. Your customers search on phones.",
   ],
   [
     "Lock-in with no exit ramp",
@@ -60,7 +60,7 @@ const squarespaceProblems = [
 const faqs = [
   {
     q: "Can't I just optimise a Squarespace site for SEO?",
-    a: "You can do the basics — meta titles, alt text, clean URLs. But you're hitting a ceiling quickly. You can't add custom LocalBusiness schema, can't do server-side rendering, can't control page weight beyond what Squarespace exposes. For local search in a competitive market, these limitations are real.",
+    a: "You can do the basics: meta titles, alt text, clean URLs. But you're hitting a ceiling quickly. You can't add custom LocalBusiness schema, can't do server-side rendering, can't control page weight beyond what Squarespace exposes. For local search in a competitive market, these limitations are real.",
   },
   {
     q: "My Squarespace site looks fine. Why would I rebuild it?",
@@ -68,11 +68,11 @@ const faqs = [
   },
   {
     q: "What's the actual cost difference?",
-    a: "Squarespace charges an ongoing monthly platform fee — so over three years you're paying in subscription fees alone, before any designer or developer costs. A custom Next.js build has a higher upfront cost but near-zero ongoing platform fees. By year three or four, the custom build is typically cheaper in total.",
+    a: "Squarespace charges an ongoing monthly platform fee, so over three years you're paying in subscription fees alone, before any designer or developer costs. A custom Next.js build has a higher upfront cost but near-zero ongoing platform fees. By year three or four, the custom build is typically cheaper in total.",
   },
   {
     q: "How bad are the Lighthouse scores really?",
-    a: "We've tested a sample of Australian small business Squarespace sites. Mobile Lighthouse scores in the 40–65 range are standard. For comparison, our Next.js builds target 90+, and King Double Glazing went from 57 to 85 on mobile (99 on desktop). The gap matters for SEO — Google's Core Web Vitals are a ranking signal, and the mobile score is the one that counts.",
+    a: "We've tested a sample of Australian small business Squarespace sites. Mobile Lighthouse scores in the 40–65 range are standard. For comparison, our Next.js builds target 90+, and King Double Glazing went from 57 to 85 on mobile (99 on desktop). The gap matters for SEO: Google's Core Web Vitals are a ranking signal, and the mobile score is the one that counts.",
   },
 ];
 
@@ -124,7 +124,7 @@ export default function SquarespaceVsCustomPage() {
         >
           Squarespace isn&apos;t always the wrong answer. But for any business
           that needs to rank in search, handle custom logic, or look
-          meaningfully different from every other Squarespace site — it&apos;s
+          meaningfully different from every other Squarespace site: it&apos;s
           costing you customers.
         </p>
       </div>
@@ -380,7 +380,7 @@ export default function SquarespaceVsCustomPage() {
             {
               label: "Squarespace mobile Lighthouse",
               stat: "40–65",
-              note: "Typical range for Australian small business Squarespace sites. Not an edge case — this is standard.",
+              note: "Typical range for Australian small business Squarespace sites. Not an edge case. This is standard.",
               dim: true,
             },
             {

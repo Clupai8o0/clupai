@@ -67,7 +67,7 @@ export default function ServicesPage() {
             lineHeight: 1.5,
           }}
         >
-          Pick one. Pick all three. Same process either way — one Slack
+          Pick one. Pick all three. Same process either way: one Slack
           channel, one invoice.
         </p>
       </div>
@@ -159,7 +159,7 @@ export default function ServicesPage() {
         }}
       >
         <div className="cp-mono" style={{ marginBottom: 20 }}>
-          Good / better / best — bundles
+          Good / better / best: bundles
         </div>
         <div
           style={{

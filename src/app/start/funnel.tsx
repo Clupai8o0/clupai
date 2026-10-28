@@ -52,7 +52,7 @@ const QUIZ: QuizStep[] = [
     title: "What's the situation today?",
     options: [
       { id: "scratch",        icon: ic(Rocket),   label: "Starting from scratch" },
-      { id: "underperforming", icon: ic(Settings), label: "I have something — it underperforms" },
+      { id: "underperforming", icon: ic(Settings), label: "I have something. It underperforms" },
       { id: "grow",           icon: ic(Sprout),   label: "Solid base, want to grow" },
     ],
   },
@@ -61,7 +61,7 @@ const QUIZ: QuizStep[] = [
     eyebrow: "03 · Timing",
     title: "When do you want this moving?",
     options: [
-      { id: "asap",      icon: ic(Flame),        label: "ASAP — it's urgent" },
+      { id: "asap",      icon: ic(Flame),        label: "ASAP: it's urgent" },
       { id: "soon",      icon: ic(CalendarDays), label: "Next 1–3 months" },
       { id: "exploring", icon: ic(Eye),          label: "Just exploring" },
     ],
@@ -133,7 +133,7 @@ function recommend(a: Answers): Reco {
       const t = tier("Operator");
       return {
         service: "Operator retainer",
-        approach: `${t.name} — your product & engineering hire`,
+        approach: `${t.name}: your product & engineering hire`,
         pitch: t.pitch,
         included: t.bullets.slice(0, 5),
         price: t.price,
@@ -162,7 +162,7 @@ function recommend(a: Answers): Reco {
 const SOLUTION = QUIZ.length; // 4
 const CONTACT = QUIZ.length + 1; // 5
 const PRICING = QUIZ.length + 2; // 6
-const BOOKING = QUIZ.length + 3; // 7 — inline Cal.com booking, prefilled from answers
+const BOOKING = QUIZ.length + 3; // 7: inline Cal.com booking, prefilled from answers
 
 // Map quiz answers onto the booking form's exact option strings so the
 // prefilled <select>s show as selected (must match CalBooking's options).
@@ -174,7 +174,7 @@ const BOOKING_BUDGET: Record<string, string> = {
   unsure: "Not sure yet",
 };
 const BOOKING_TIMELINE: Record<string, string> = {
-  asap: "ASAP — it's urgent",
+  asap: "ASAP: it's urgent",
   soon: "Next 1–3 months",
   exploring: "Just exploring",
 };
@@ -188,7 +188,7 @@ function bookingProjectType(a: Answers): string {
     case "automation":
       return "Automation";
     default:
-      return "Not sure"; // operator / custom — scope on the call
+      return "Not sure"; // operator / custom: scope on the call
   }
 }
 
@@ -289,10 +289,10 @@ export default function Funnel() {
       if (res.ok) {
         setStep(PRICING);
       } else {
-        setError(data.error ?? "Something went wrong — email hello@clupai.com");
+        setError(data.error ?? "Something went wrong: email hello@clupai.com");
       }
     } catch {
-      setError("Network error — try again or email hello@clupai.com");
+      setError("Network error: try again or email hello@clupai.com");
     } finally {
       setSending(false);
     }
@@ -428,7 +428,7 @@ export default function Funnel() {
         </div>
       )}
 
-      {/* Solution (qualitative — no price yet) */}
+      {/* Solution (qualitative, no price yet) */}
       {step === SOLUTION && (
         <div style={{ animation: "cp-fade-up 0.4s cubic-bezier(0.16,1,0.3,1) both" }}>
           <div className="cp-eyebrow" style={{ marginBottom: 12 }}>
@@ -483,7 +483,7 @@ export default function Funnel() {
           <p className="cp-mono" style={{ marginTop: 16, color: "var(--text-dim)" }}>
             {SKIP_CONTACT
               ? "No email needed. Your pricing's on the next screen."
-              : "Pricing's on the next screen — we just need a way to send it to you."}
+              : "Pricing's on the next screen. We just need a way to send it to you."}
           </p>
         </div>
       )}
@@ -600,7 +600,7 @@ export default function Funnel() {
         </form>
       )}
 
-      {/* Pricing reveal (gated — after capture) */}
+      {/* Pricing reveal (gated: after capture) */}
       {step === PRICING && (
         <div style={{ animation: "cp-fade-up 0.45s cubic-bezier(0.16,1,0.3,1) both" }}>
           <div
@@ -623,7 +623,7 @@ export default function Funnel() {
             <span style={{ fontFamily: DISPLAY, fontWeight: 600, fontSize: 15 }}>
               {SKIP_CONTACT
                 ? "Based on your answers, here's where you'd land."
-                : `Thanks${contact.name ? `, ${contact.name.split(" ")[0]}` : ""} — your details are in. Here's where you'd land.`}
+                : `Thanks${contact.name ? `, ${contact.name.split(" ")[0]}` : ""}: your details are in. Here's where you'd land.`}
             </span>
           </div>
 
@@ -714,7 +714,7 @@ export default function Funnel() {
         </div>
       )}
 
-      {/* Inline booking — prefilled from everything they already told us */}
+      {/* Inline booking: prefilled from everything they already told us */}
       {step === BOOKING && (
         <div style={{ animation: "cp-fade-up 0.45s cubic-bezier(0.16,1,0.3,1) both" }}>
           <div className="cp-eyebrow" style={{ marginBottom: 12 }}>
@@ -727,7 +727,7 @@ export default function Funnel() {
             Pick a time{contact.name ? `, ${contact.name.split(" ")[0]}` : ""}.
           </h2>
           <p style={{ color: "var(--text-muted)", fontSize: 15, lineHeight: 1.55, margin: "0 0 24px", maxWidth: 560 }}>
-            Your details are already filled in — just choose a slot that works.
+            Your details are already filled in, just choose a slot that works.
             You&apos;ll get a calendar invite by email straight away.
           </p>
           <CalBooking

@@ -134,7 +134,7 @@ function buildSchema(form: FormState): Record<string, unknown> {
   if (form.priceRange) schema.priceRange = form.priceRange;
   if (form.image.trim()) schema.image = form.image.trim();
 
-  // Address — only if at least street or suburb is filled
+  // Address: only if at least street or suburb is filled
   if (form.street.trim() || form.suburb.trim()) {
     const address: Record<string, string> = {
       "@type": "PostalAddress",
@@ -175,7 +175,7 @@ function buildSchema(form: FormState): Record<string, unknown> {
   if (sameAsLines.length === 1) schema.sameAs = sameAsLines[0];
   else if (sameAsLines.length > 1) schema.sameAs = sameAsLines;
 
-  // Google Business Profile — add to sameAs array
+  // Google Business Profile: add to sameAs array
   if (form.googleBusiness.trim()) {
     const existing = schema.sameAs;
     if (Array.isArray(existing)) {
@@ -270,7 +270,7 @@ export default function LocalSchemaGenerator() {
           >
             &lt;head&gt;
           </code>{" "}
-          — or ask your developer to. No account needed.
+, or ask your developer to. No account needed.
         </p>
       </div>
 
@@ -782,7 +782,7 @@ export default function LocalSchemaGenerator() {
               data gives them a precise, machine-readable summary of who you are
               and where you operate. LocalBusiness JSON-LD tells Google your
               business name, address, phone number (NAP), and opening hours in
-              a format it can trust — without guessing from your page copy.
+              a format it can trust, without guessing from your page copy.
             </p>
             <p style={{ margin: 0 }}>
               When Google is confident in your NAP data, it&apos;s more likely to
@@ -793,8 +793,8 @@ export default function LocalSchemaGenerator() {
               visibility in competitive Australian markets.
             </p>
             <p style={{ margin: 0 }}>
-              Implementing schema correctly — consistent with the rest of your
-              site&apos;s signals — is a foundational step in any serious local SEO
+              Implementing schema correctly, consistent with the rest of your
+              site&apos;s signals, is a foundational step in any serious local SEO
               strategy. It&apos;s fast to add and has no downside.
             </p>
           </div>
@@ -817,7 +817,7 @@ export default function LocalSchemaGenerator() {
               className="cp-display"
               style={{ fontSize: "1.5rem", margin: "0 0 12px" }}
             >
-              Schema across your whole site — not just one block
+              Schema across your whole site, not just one block
             </h3>
             <p style={{ color: "var(--text-muted)", fontSize: 15, lineHeight: 1.6, margin: 0 }}>
               This tool generates your base LocalBusiness block. But a complete

@@ -8,7 +8,7 @@ import SceneBand from "@/components/scene-band";
 export const metadata: Metadata = {
   title: "Tradie Websites Melbourne",
   description:
-    "Fast, quote-generating websites for Melbourne trades businesses. We build tradie websites that rank on Google, load in under a second, and turn visits into enquiries — not just traffic.",
+    "Fast, quote-generating websites for Melbourne trades businesses. We build tradie websites that rank on Google, load in under a second, and turn visits into enquiries, not just traffic.",
   alternates: { canonical: "/industries/tradies-trades" },
 };
 
@@ -22,7 +22,7 @@ const problems = [
     "Most tradies' clients want a ballpark before they pick up the phone. If you can't give them one online, they call someone who can.",
   ],
   [
-    "Photos are bad — or nonexistent",
+    "Photos are bad, or nonexistent",
     "A before/after gallery is your most convincing sales tool. Stock photos of strangers in hard hats aren't.",
   ],
   [
@@ -51,11 +51,11 @@ const included = [
 const faqs = [
   {
     q: "Do I need to provide photos?",
-    a: "Yes — and it's worth it. Before/after photos of your actual work convert far better than anything we could source. If you can send us a folder of job photos from your phone, we'll handle cropping, optimisation, and layout. If you genuinely have nothing, we'll discuss options in scope.",
+    a: "Yes, and it's worth it. Before/after photos of your actual work convert far better than anything we could source. If you can send us a folder of job photos from your phone, we'll handle cropping, optimisation, and layout. If you genuinely have nothing, we'll discuss options in scope.",
   },
   {
     q: "Can it handle quote requests automatically?",
-    a: "Yes. We build quote tools that surface a ballpark figure — based on job type, size, or suburb — before the form. Leads arrive with a number already in their head, which means shorter sales calls and faster decisions. The enquiry data can feed into your CRM or email.",
+    a: "Yes. We build quote tools that surface a ballpark figure, based on job type, size, or suburb, before the form. Leads arrive with a number already in their head, which means shorter sales calls and faster decisions. The enquiry data can feed into your CRM or email.",
   },
   {
     q: "What about Google Ads?",
@@ -63,7 +63,7 @@ const faqs = [
   },
   {
     q: "I'm already on tradie directories. Does that help?",
-    a: "Directories (hipages, Houzz, ServiceSeeking) generate shared leads — meaning five tradies receive the same enquiry. Your own site generates exclusive leads. We don't tell you to quit directories; we give you a site that earns leads that nobody else is competing for.",
+    a: "Directories (hipages, Houzz, ServiceSeeking) generate shared leads: meaning five tradies receive the same enquiry. Your own site generates exclusive leads. We don't tell you to quit directories; we give you a site that earns leads that nobody else is competing for.",
   },
   {
     q: "How long does a tradie site take?",
@@ -124,7 +124,7 @@ export default function TradiesPage() {
             >
               We build fast, quote-generating websites for Melbourne trades
               businesses. Your site should rank on Google, load in under a
-              second, and turn visitors into enquiries — not just impressions.
+              second, and turn visitors into enquiries, not just impressions.
             </p>
             <div style={{ marginTop: 32, display: "flex", gap: 12 }}>
               <Link href="/contact" className="cp-btn cp-btn-primary cp-btn-lg">

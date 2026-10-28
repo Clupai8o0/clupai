@@ -56,7 +56,7 @@ const services = [
   {
     label: "SEO",
     href: "/services/seo",
-    desc: "Technical and local SEO for Melbourne businesses. Fewer, better pages — not 40-suburb doorway content.",
+    desc: "Technical and local SEO for Melbourne businesses. Fewer, better pages, not 40-suburb doorway content.",
   },
   {
     label: "Automation",
@@ -209,7 +209,7 @@ export default async function SuburbPage({
         />
       )}
 
-      {/* Lede — full opening copy */}
+      {/* Lede: full opening copy */}
       <div
         className="cp-suburb-split"
         style={{
@@ -423,7 +423,7 @@ export default async function SuburbPage({
                 }}
               >
                 Every suburb has different search patterns, different customer expectations, and
-                different competitive dynamics. We don&apos;t apply a suburb template — we start
+                different competitive dynamics. We don&apos;t apply a suburb template. We start
                 with what actually works for{" "}
                 <strong style={{ color: "var(--text)" }}>{data.name}</strong> businesses,
                 given how local customers search and what they expect to see when they arrive.
@@ -539,7 +539,7 @@ export default async function SuburbPage({
           >
             We&apos;ll ask what you sell, who your customers are, and where your
             current site is letting you down. You&apos;ll leave with a realistic
-            quote — or a clear reason we&apos;re not the right fit.
+            quote, or a clear reason we&apos;re not the right fit.
           </p>
         </div>
         <div style={{ display: "flex", gap: 12, flexShrink: 0, flexWrap: "wrap" }}>

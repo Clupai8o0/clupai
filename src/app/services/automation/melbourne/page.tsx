@@ -22,13 +22,13 @@ export const metadata: Metadata = {
 };
 
 const included = [
-  "Process audit — map what you actually do, not the org chart",
-  "Zapier, Make, or n8n — whichever fits the budget and ops team",
-  "Internal dashboards — Retool, Appsmith, or custom Next.js",
-  "Integrations — HubSpot, Airtable, Notion, Stripe, Xero, Attio",
-  "Webhook glue — the bit consultants skip",
-  "Error handling + alerting — because silent failures are worse",
-  "Handover docs — a Loom per workflow, in plain English",
+  "Process audit: map what you actually do, not the org chart",
+  "Zapier, Make, or n8n: whichever fits the budget and ops team",
+  "Internal dashboards: Retool, Appsmith, or custom Next.js",
+  "Integrations: HubSpot, Airtable, Notion, Stripe, Xero, Attio",
+  "Webhook glue: the bit consultants skip",
+  "Error handling + alerting: because silent failures are worse",
+  "Handover docs: a Loom per workflow, in plain English",
   "30 days of fixes post-launch",
 ];
 
@@ -39,7 +39,7 @@ const differentiators = [
   },
   {
     label: "Tools we actually use",
-    body: "Zapier, n8n, Make — not because they're trending, but because they're what we use in production. We'll tell you which one suits your team's technical confidence and budget, not which one has the better affiliate program.",
+    body: "Zapier, n8n, Make, not because they're trending, but because they're what we use in production. We'll tell you which one suits your team's technical confidence and budget, not which one has the better affiliate program.",
   },
   {
     label: "We document everything",
@@ -47,34 +47,34 @@ const differentiators = [
   },
   {
     label: "No silent failures",
-    body: "Most automation builds ignore alerting. We wire error notifications into every workflow from the start — Slack, email, or PagerDuty — so you know when something stops before your customers do.",
+    body: "Most automation builds ignore alerting. We wire error notifications into every workflow from the start (Slack, email, or PagerDuty), so you know when something stops before your customers do.",
   },
 ];
 
 const faqs = [
   {
-    q: "Zapier vs n8n for a Melbourne SMB — which should I use?",
-    a: "Zapier if you want something your team can maintain without a developer. It's the most intuitive, the most expensive at scale, and the most likely to have the native integration you need. n8n if you're comfortable with a bit of complexity or want self-hosted — the unit economics are much better for high-volume workflows. Make (formerly Integromat) sits in between: more visual and powerful than Zapier, cheaper per operation, slightly steeper learning curve. We'll recommend based on your team and your workflow volume, not on principle.",
+    q: "Zapier vs n8n for a Melbourne SMB: which should I use?",
+    a: "Zapier if you want something your team can maintain without a developer. It's the most intuitive, the most expensive at scale, and the most likely to have the native integration you need. n8n if you're comfortable with a bit of complexity or want self-hosted: the unit economics are much better for high-volume workflows. Make (formerly Integromat) sits in between: more visual and powerful than Zapier, cheaper per operation, slightly steeper learning curve. We'll recommend based on your team and your workflow volume, not on principle.",
   },
   {
     q: "Can you connect Xero?",
-    a: "Yes. Xero is one of the most common integration requests from Australian businesses — we connect it to CRMs (HubSpot, Attio), project management tools (Notion, Airtable), and custom internal dashboards. We work within Xero's API limits and document every endpoint we touch.",
+    a: "Yes. Xero is one of the most common integration requests from Australian businesses. We connect it to CRMs (HubSpot, Attio), project management tools (Notion, Airtable), and custom internal dashboards. We work within Xero's API limits and document every endpoint we touch.",
   },
   {
     q: "What about HubSpot integrations?",
-    a: "Yes — HubSpot is in almost every quote we do. Common setups: lead forms routing to HubSpot and triggering Slack notifications, deal stage changes updating Airtable dashboards, Xero invoice creation on deal close, and onboarding sequences triggered by contact property changes. If you're on HubSpot Free, we'll tell you when a paid feature is the only clean path.",
+    a: "Yes: HubSpot is in almost every quote we do. Common setups: lead forms routing to HubSpot and triggering Slack notifications, deal stage changes updating Airtable dashboards, Xero invoice creation on deal close, and onboarding sequences triggered by contact property changes. If you're on HubSpot Free, we'll tell you when a paid feature is the only clean path.",
   },
   {
     q: "Do you do ongoing retainers for automation?",
-    a: "Yes — the Operator retainer covers ongoing automation work alongside site and SEO. If you just want automation maintenance, we offer a lighter monthly arrangement for monitoring, tweaks, and new workflows. Book a call and we'll scope what makes sense.",
+    a: "Yes: the Operator retainer covers ongoing automation work alongside site and SEO. If you just want automation maintenance, we offer a lighter monthly arrangement for monitoring, tweaks, and new workflows. Book a call and we'll scope what makes sense.",
   },
   {
     q: "How much does automation actually save?",
     a: "That depends entirely on what you're automating. A quoting workflow that takes 45 minutes per job and runs 30 times a week is worth more to fix than a monthly report that takes an hour. We'll map the time cost in the process audit and prioritise accordingly. If the automation can't pay for itself in under six months of time saved, we'll tell you that too.",
   },
   {
-    q: "Can you build internal tools — not just connect existing ones?",
-    a: "Yes. When the off-the-shelf option genuinely doesn't exist, we build lightweight internal tools in Next.js, Retool, or Appsmith. King Double Glazing's Instant Estimate calculator is an example — a multi-step quoting tool that generates a ballpark price inline before asking for contact details. It's not a Zapier workflow; it's a purpose-built tool that removed the manual quoting step for standard jobs.",
+    q: "Can you build internal tools, not just connect existing ones?",
+    a: "Yes. When the off-the-shelf option genuinely doesn't exist, we build lightweight internal tools in Next.js, Retool, or Appsmith. King Double Glazing's Instant Estimate calculator is an example: a multi-step quoting tool that generates a ballpark price inline before asking for contact details. It's not a Zapier workflow; it's a purpose-built tool that removed the manual quoting step for standard jobs.",
   },
 ];
 
@@ -134,7 +134,7 @@ export default function AutomationMelbournePage() {
             >
               Melbourne&apos;s SMBs are paying for five SaaS tools and
               manually copying data between all of them. We wire up what you
-              already own — Zapier, n8n, Make — and build the small internal
+              already own (Zapier, n8n, Make) and build the small internal
               tools that remove the worst of the drudgery. Fixed scope, honest
               docs, and nothing that breaks silently.
             </p>
@@ -383,10 +383,10 @@ export default function AutomationMelbournePage() {
                 marginBottom: 24,
               }}
             >
-              Melbourne has a dense layer of owner-operated businesses —
-              trades, professional services, healthcare, food — that are
-              running on Xero, HubSpot, and a spreadsheet named
-              something_FINAL_v3. The tools are good. The connections aren&apos;t.
+              Melbourne has a dense layer of owner-operated businesses:
+              trades, professional services, healthcare, food. They run on
+              Xero, HubSpot, and a spreadsheet named something_FINAL_v3.
+              The tools are good. The connections aren&apos;t.
             </p>
             <p
               style={{
@@ -397,7 +397,7 @@ export default function AutomationMelbournePage() {
               }}
             >
               We built King Double Glazing&apos;s Instant Estimate calculator as
-              part of their site rebuild — a multi-step quoting tool that shows
+              part of their site rebuild: a multi-step quoting tool that shows
               a ballpark price before the contact form. Leads arrive with a
               budget number, spend less time on the phone qualifying, and close
               faster. That&apos;s not a Zapier workflow; it&apos;s a purpose-built
@@ -456,7 +456,7 @@ export default function AutomationMelbournePage() {
                   letterSpacing: "-0.02em",
                 }}
               >
-                King Double Glazing — Instant Estimate calculator
+                King Double Glazing: Instant Estimate calculator
               </div>
               <p
                 style={{
@@ -467,7 +467,7 @@ export default function AutomationMelbournePage() {
                 }}
               >
                 Visitors landed, saw no price, and left. We built a multi-step
-                calculator — window type, number of panes, rough size — that
+                calculator (window type, number of panes, rough size) that
                 generates a ballpark estimate inline before asking for contact
                 details. Leads arrive with a number, have fewer objections,
                 and close faster. No manual quoting for standard jobs.

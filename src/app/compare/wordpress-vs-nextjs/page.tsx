@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 const wordpressWins = [
-  "Plugin ecosystem is unmatched — if you need a specific integration and you need it this week, there's probably a plugin.",
+  "Plugin ecosystem is unmatched: if you need a specific integration and you need it this week, there's probably a plugin.",
   "Self-managed content: if your client insists on maintaining their own site without any developer contact, WordPress CMS is genuinely easier for non-technical users than most alternatives.",
   "WooCommerce: for straightforward e-commerce without complex requirements, WooCommerce is mature and cost-effective to set up.",
   "Hosting options: every shared host runs WordPress. It's cheap to host and easy to hand off.",
@@ -23,10 +23,10 @@ const wordpressWins = [
 const nextjsWins = [
   "Performance: a well-built Next.js site will outperform WordPress on Core Web Vitals in virtually every comparison. The gap isn't small.",
   "Security: WordPress's plugin ecosystem is also its attack surface. Plugin vulnerabilities are the most common vector for site compromise. Next.js sites have a dramatically smaller attack surface.",
-  "Maintainability: WordPress sites accumulate technical debt — outdated plugins, theme conflicts, PHP version constraints. Next.js sites are code you control.",
+  "Maintainability: WordPress sites accumulate technical debt. Outdated plugins, theme conflicts, PHP version constraints. Next.js sites are code you control.",
   "No plugin hell: WordPress plugins conflict with each other. Updates break things. Plugins get abandoned. This is a maintenance burden that compounds over time.",
   "Performance ceiling: WordPress can be heavily optimised, but the ceiling is lower than a server-rendered React app. For Core Web Vitals, the gap matters for SEO.",
-  "Developer experience: modern tooling, TypeScript, component architecture, edge deployment — the experience of building on Next.js is significantly better for anyone building serious software.",
+  "Developer experience: modern tooling, TypeScript, component architecture, edge deployment. Building on Next.js is significantly better for anyone building serious software.",
 ];
 
 const decisionTree = [
@@ -65,7 +65,7 @@ const decisionTree = [
 const faqs = [
   {
     q: "Why did you stop taking WordPress projects?",
-    a: "In 2023 we made a deliberate call: the maintenance burden of WordPress projects was costing our clients more in the long run than the lower upfront cost justified. Plugin conflicts, security patches, PHP updates, theme breakages — we were spending billable hours on problems that wouldn't exist on a modern stack. We'd rather build something that runs clean for five years.",
+    a: "In 2023 we made a deliberate call: the maintenance burden of WordPress projects was costing our clients more in the long run than the lower upfront cost justified. Plugin conflicts, security patches, PHP updates, theme breakages. We were spending billable hours on problems that wouldn't exist on a modern stack. We'd rather build something that runs clean for five years.",
   },
   {
     q: "Can't you just optimise WordPress with a caching plugin?",
@@ -73,11 +73,11 @@ const faqs = [
   },
   {
     q: "What's the actual cost difference?",
-    a: "WordPress is cheaper to start: low monthly hosting, an inexpensive theme, and plugins that vary. But factor in a few hours of maintenance per month (security updates, plugin checks, backups), the occasional emergency (a plugin breaks something after an update), and the cost of a developer when things go wrong — and the 3-year cost is often comparable to a well-built Next.js site. Over 5 years, custom is usually cheaper.",
+    a: "WordPress is cheaper to start: low monthly hosting, an inexpensive theme, and plugins that vary. But factor in a few hours of maintenance per month (security updates, plugin checks, backups), the occasional emergency (a plugin breaks something after an update), and the cost of a developer when things go wrong, and the 3-year cost is often comparable to a well-built Next.js site. Over 5 years, custom is usually cheaper.",
   },
   {
     q: "Do you ever recommend WordPress?",
-    a: "Yes. For a client who needs to manage their own content daily and doesn't want any developer involvement, WordPress CMS is genuinely better for them. For WooCommerce stores with standard product catalogues, it makes sense. We're not ideological about it — we just don't build it anymore because we're better at the alternative.",
+    a: "Yes. For a client who needs to manage their own content daily and doesn't want any developer involvement, WordPress CMS is genuinely better for them. For WooCommerce stores with standard product catalogues, it makes sense. We're not ideological about it. We just don't build it anymore because we're better at the alternative.",
   },
   {
     q: "Is Next.js harder to update content in?",
@@ -131,7 +131,7 @@ export default function WordPressVsNextjsPage() {
             lineHeight: 1.5,
           }}
         >
-          We stopped taking WordPress projects in 2023. That makes us biased —
+          We stopped taking WordPress projects in 2023. That makes us biased,
           so let&apos;s be explicit about it and work through where WordPress
           still wins, where it doesn&apos;t, and how to decide.
         </p>

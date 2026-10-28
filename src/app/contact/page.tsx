@@ -114,7 +114,7 @@ export default async function ContactPage({
               gap: 18,
             }}
           >
-            <Fact k="Reply time" v="Under 1 AU business day — every time." />
+            <Fact k="Reply time" v="Under 1 AU business day: every time." />
             <Fact k="Office" v="Melbourne VIC" />
             <div>
               <div className="cp-mono" style={{ marginBottom: 12 }}>Follow</div>

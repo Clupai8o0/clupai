@@ -9,8 +9,8 @@ const columns = [
       { label: "Websites", href: "/services/web" },
       { label: "SEO", href: "/services/seo" },
       { label: "Automation", href: "/services/automation" },
-      { label: "Web — Melbourne", href: "/services/web/melbourne" },
-      { label: "SEO — Melbourne", href: "/services/seo/melbourne" },
+      { label: "Web · Melbourne", href: "/services/web/melbourne" },
+      { label: "SEO · Melbourne", href: "/services/seo/melbourne" },
     ],
   },
   {
@@ -95,7 +95,7 @@ export default function Footer() {
             }}
           >
             A studio in Melbourne. Websites, SEO and automation for operators
-            who want more customers — not more account managers.
+            who want more customers, not more account managers.
           </p>
           <div
             style={{
