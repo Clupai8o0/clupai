@@ -7,7 +7,8 @@ the same evening.
 ## Live
 
 - **URL: https://www.clupai.com** (clupai.com 308-redirects to www)
-- **SMS removal: `d3c3af5`** · **contact-form fix: `1578d6c`** · site level-up merge: `8455c9a`
+- **SMS removal: `d3c3af5`** · **contact-form fix: `1578d6c`, hardened in `99a59e7`** · site
+  level-up merge: `8455c9a`
 - Deployed by Vercel's GitHub integration on push. The CLI here is NOT logged in, so a manual
   deploy would need `vercel login` first.
 
@@ -54,14 +55,35 @@ for every payload**, including malformed JSON. The form was not reaching the han
   both answering 400 correctly throughout.
 - **Cause:** the Upstash rate limiter. `Redis.fromEnv()` ran at module scope, so a bad
   `UPSTASH_REDIS_REST_URL` throws on import and kills every request before the handler runs,
-  which matches an empty-body 500 exactly. Codex spotted that this was outside my first fix.
-- **Fixed in `1578d6c`:** construction is wrapped and falls back to no limiter; `limit()` fails
-  open. Production went 500 to 400 on the deploy, which confirms the diagnosis.
+  which matches an empty-body 500 exactly.
+- **Fixed in `1578d6c`**, then hardened in `99a59e7`. Production went 500 to 400 on deploy, and a
+  burst of requests now returns 429, so throttling is active again.
 
-**Still on you:** the fix stops the outage, it does not repair Upstash. Until you check the
-database and the `UPSTASH_REDIS_REST_URL` / `_TOKEN` values in Vercel, **the contact form has no
-rate limiting**. Turnstile and the spam assessment still run, so it is not unprotected, but it is
-weaker than intended. Worth doing soon.
+### The security review on my own fix
+
+A background review flagged `1578d6c` as **fail-open rate limiting**, which was fair. Catching
+the error kept the form up, but it left the site with no throttling at all whenever Upstash was
+down, and silently. `99a59e7` adds a fallback: when Upstash is missing or failing, requests go
+through a per-instance in-memory sliding window on the same budget, 5 per IP per hour, with the
+key map bounded at 5000.
+
+Codex found two real holes in my first attempt at that, both fixed before it shipped:
+
+- **On timeout the Upstash SDK resolves `{ success: true, reason: "timeout" }` instead of
+  throwing** (see `applyTimeout` in `@upstash/ratelimit`). A hanging Upstash is the most likely
+  failure mode, and it would have waved every request straight through without ever reaching the
+  fallback. A `"timeout"` verdict is now treated as a limiter failure.
+- A flooding IP kept appending timestamps to its own array even once throttled, making every
+  later check more expensive. It stops recording at the limit.
+
+**Know the limit of this.** The fallback is per serverless instance with no shared state, so on
+Vercel it is genuinely weaker than Upstash: requests spread across instances each get their own
+counter. It is a floor, not a replacement. Turnstile, the honeypot, the minimum-time-on-form
+check and gibberish detection all still run regardless, so the form is not unprotected.
+
+**Still on you:** none of this repairs Upstash. Check the database and the
+`UPSTASH_REDIS_REST_URL` / `_TOKEN` values in Vercel, or the site keeps running on the weaker
+per-instance limit.
 
 ## What the SMS removal took out
 
@@ -106,8 +128,10 @@ env entry remains.
 - `npx eslint src` reports 3 errors and 1 warning, all in `cal-booking.tsx` and `contact-form.tsx`
   (`Date.now()` during render, `setState` in an effect). **Pre-existing**: identical on the
   commit before this work, verified in a scratch worktree. Not introduced here, not fixed here.
-- Codex reviewed both diffs. The SMS removal: no defects. The contact fix: it caught the
-  module-scope initialisation hole, which I then fixed, and the re-review came back clean.
+- Codex reviewed all three diffs. The SMS removal: no defects. The contact fix: it caught the
+  module-scope initialisation hole. The fallback limiter: it caught the Upstash timeout
+  semantics and the unbounded per-IP array. Everything it confirmed was fixed, and the final
+  re-review came back clean.
 
 ## Still open for you
 
