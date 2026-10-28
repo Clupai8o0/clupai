@@ -1,159 +1,138 @@
-# Handoff: clupai site level-up
+# Handoff: clupai site
 
-Started on the Mac (session clupai-monorepo-1e, 27 Oct 2026), continued on the vivobook
-overnight 28 Oct, **merged into `main` and deployed on the evening of 28 Oct**.
+Latest work: **Twilio and the whole SMS feature removed**, 28 Oct 2026 (vivobook).
+Before that: the site level-up (dividers, em dashes, responsive and a11y), merged and deployed
+the same evening.
 
 ## Live
 
 - **URL: https://www.clupai.com** (clupai.com 308-redirects to www)
-- **Merge commit: `8455c9a`** - "Merge clupai-cleanup-20261028: dividers, em dashes, responsive
-  and a11y fixes"
-- Deployed by Vercel's GitHub integration, which fired on the push to `main`. Nothing had to be
-  triggered by hand. The CLI on this machine is NOT logged in, so a manual deploy from here
-  would need `vercel login` first.
-- Verified live, not just assumed: `--text-dim:#7a7a7a` in the served CSS, `cp-hair`,
-  `cp-pricing-*` and `cp-bento-*` all absent, `cp-suburb-hero` present, zero divider rules, and
-  zero em dashes on /, /services, /apps, /pricing, /compare/wordpress-vs-nextjs and /contact.
-  The 20 on /melbourne/brunswick are `suburbs.ts`, left on purpose (see below).
+- **SMS removal: `d3c3af5`** · **contact-form fix: `1578d6c`** · site level-up merge: `8455c9a`
+- Deployed by Vercel's GitHub integration on push. The CLI here is NOT logged in, so a manual
+  deploy would need `vercel login` first.
 
-The merge was clean, no conflicts, so there was no conflict resolution to review.
+Verified on production after the deploy:
 
-## What the overnight session changed
-
-| Commit | What |
+| Check | Result |
 |---|---|
-| `74c22e6` | Every divider line removed, site-wide |
-| `6567ebf` | Em dashes out of studio copy |
-| `587badd` | Responsive and contrast faults DeepSeek found |
-| `28a9a39` | Two bugs Codex found, plus solo voice on /apps |
+| `/api/sms/inbound`, `/api/sms/flush-openers` (GET and POST) | 404 |
+| `/api/contact`, `/api/start-capture`, `/api/cal/bookings` on a bad payload | 400, correct error, nothing sent |
+| /contact, /start, /privacy, /terms | no SMS or STOP copy, no consent checkbox, phone field still there |
 
-**Dividers (items 3, 4, 5).** 69 inline border declarations across 15 files, plus the divider
-rules in globals.css. That is everywhere, not just the pages the Mac session touched: nav,
-footer, /services, /apps, /start, /pricing, /writing, the three compare pages, the free tools,
-cal-booking and legal-page. Lists that used row rules to separate items got real gaps instead.
-The nav's blurred dark bar now does its own separating; the footer sits on a surface tone.
-/services rows became cards in a gapped stack with the 01/02/03 numbers gone. Dead CSS deleted:
-`cp-pricing-*`, `cp-kit-*`, `cp-bento-*`, `cp-work-bento`, `cp-hair`, and the
-`writing-posts-grid` column rules.
+No test lead was sent. Only invalid payloads were used, which the routes reject before any email.
 
-**Suburb intro (item 6).** The hero showed the first two sentences of the lede and the "What we
-see" section repeated the whole thing. The section now picks up from where the hero stopped.
-Checked against all seven suburbs.
+## You must do this in Vercel
 
-**Em dashes (item 7).** 123 lines in `cases.ts`, `services.ts`, `pricing.ts` and `lib/kits.ts`.
-Each dash became what the sentence wanted: a colon before a list, a comma before a contrast, a
-full stop between two clauses. **Client quotes were left exactly as spoken** - the 14 em dashes
-still in `cases.ts` are all inside `brief.quote` and `testimonial.quote`, which are a real
-person's words. See the first decision below.
+I cannot change env vars (CLI not logged in). **Delete these from the clupai project**, all
+environments. Nothing in the code reads them any more:
 
-**Bugs found and fixed along the way.** Detail in the commit messages; the short version:
+```
+TWILIO_ACCOUNT_SID
+TWILIO_AUTH_TOKEN
+TWILIO_FROM_NUMBER
+SMS_WEBHOOK_URL
+SMS_MODEL              (if set)
+SMS_MAX_TURNS          (if set)
+SMS_DAILY_LLM_CAP      (if set)
+CRON_SECRET            (only the SMS scheduler used it)
+ANTHROPIC_API_KEY      (only the SMS assistant used it)
+```
 
-- Suburb pages had no breakpoints at all. Six grids, including a hero pinned at `1fr 340px`. On
-  a 390px phone the pricing card was cut off on all seven pages.
-- The collapse layer in globals.css set a bare `1fr`, whose automatic minimum is `min-content`,
-  so long text could push a collapsed column wider than its container: 376px inside 350px on the
-  three `/services/*/melbourne` pages. Now `minmax(0, 1fr)`.
-- The /services breakpoints I added at first had no `!important`, so the inline grid beat them.
-- `--text-dim` was `#6b6b6b`: 3.65:1 on card backgrounds, under WCAG AA's 4.5:1, in 97 places.
-  Now `#7a7a7a` (4.53:1), still clearly dimmer than `--text-muted`.
-- Home kit cards hardcoded a "Live" badge, so Kairos read "Free beta" and "Live" at once.
-- `kits.ts` used `"—"` as a sentinel for "no revenue". My own em-dash sweep broke it and /apps
-  started rendering ": MRR". Absence is `null` now and the type says so.
-- /apps copy and the contact form were still in solo voice ("Bits I use", "I'll reply").
+**Keep** everything else, especially `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN`: the
+contact form's rate limiter still uses them. I removed the same nine from `.env.local` here.
 
-**Worth knowing:** `body` has `overflow-x: hidden`, so none of the layout breakage above ever
-showed as sideways scrolling. It was silently clipped. That is why the Mac session's
-scroll-based check came back clean. I measured element geometry in Chrome instead, at 1440,
-1024, 900, 768 and 390px across 29 pages. Everything above is verified fixed.
+Also worth doing outside Vercel: close the Twilio number and the Fly.io app for the scheduler
+(`clupai-sms-scheduler`), or they keep billing.
+
+## Read this one: the contact form was down
+
+While verifying, I found **`POST /api/contact` returning 500 with an empty body on production
+for every payload**, including malformed JSON. The form was not reaching the handler at all.
+
+- **Not caused by the SMS removal.** The rate limiter landed in `c9e59eb`, five commits before
+  any SMS work, and `/api/start-capture` and `/api/cal/bookings` (same edits, no limiter) were
+  both answering 400 correctly throughout.
+- **Cause:** the Upstash rate limiter. `Redis.fromEnv()` ran at module scope, so a bad
+  `UPSTASH_REDIS_REST_URL` throws on import and kills every request before the handler runs,
+  which matches an empty-body 500 exactly. Codex spotted that this was outside my first fix.
+- **Fixed in `1578d6c`:** construction is wrapped and falls back to no limiter; `limit()` fails
+  open. Production went 500 to 400 on the deploy, which confirms the diagnosis.
+
+**Still on you:** the fix stops the outage, it does not repair Upstash. Until you check the
+database and the `UPSTASH_REDIS_REST_URL` / `_TOKEN` values in Vercel, **the contact form has no
+rate limiting**. Turnstile and the spam assessment still run, so it is not unprotected, but it is
+weaker than intended. Worth doing soon.
+
+## What the SMS removal took out
+
+**Deleted:** `src/lib/sms.ts`, `sms-conversation.ts`, `sms-copy.ts`, `src/app/api/sms/` (inbound
+and flush-openers), and the `sms-scheduler/` FastAPI service.
+
+**Edited:** the contact, cal/bookings and start-capture routes lose `triggerOpener`, the
+`smsConsent` flag and the "SMS opt-in" marker in the internal email and Telegram alerts. The
+consent checkbox and wording come off the contact form, the booking form and the funnel. The
+"SMS rules" section is gone from AGENTS.md.
+
+**Kept working:** the phone field on every form, still reaching the internal email and the
+Telegram alert. Email confirmations untouched.
+
+**Legal copy was rewritten, not just cut**, so the pages stay coherent: the terms clause is now
+"Communications" and covers email and phone; the privacy page's SMS section is now "Marketing
+messages". Twilio and Anthropic are off the third-party list. Upstash stays, redescribed as rate
+limiting, since the consent records it held are gone.
+
+**No dependency was removed.** Twilio and Anthropic were called over `fetch`, never as SDKs, so
+there was nothing in `package.json` to drop. `@upstash/redis` and `@upstash/ratelimit` stay
+because the contact route uses them.
+
+## Decisions I took
+
+- **Left `docs/seo-content-strategy-2026.md` alone.** It has four rows mentioning SMS, but they
+  are planned blog topics about review-request automation you might build *for clients* with n8n,
+  not the Twilio lead assistant. Deleting your content roadmap is not what "remove the SMS
+  feature" meant. One row does say "Your SMS workflow", which is no longer true, so you may want
+  to reword it. Your call.
+- **Left the two files in `.claude/`.** `review-brief.md` and this handoff mention SMS as a record
+  of what happened. They are history, not live config.
+- `skills-lock.json` and `package-lock.json` match "sms"/"twilio" only on unrelated skill names
+  and base64 hashes.
+
+So `grep -ri "twilio\|sms"` is clean apart from those: no source, route, component, config or
+env entry remains.
 
 ## Checks
 
 - `npm run build` passes.
-- No element overflows the viewport at any of the five widths, across 29 pages, bar a 4px
-  artifact on the SceneBand noted below.
-- Screenshots of /services, the suburb page, compare, home, /apps and /writing at 1440 and 390px
-  all read correctly with no dividers.
-
-## Reviews
-
-- **Codex (required):** reviewed my diff, found 2 real bugs, both fixed (`28a9a39`).
-- **DeepSeek Flash:** 3 findings, all confirmed and fixed (`587badd`).
-- **Grok 4.7: could not run here.** Its CLI needs a device-code login only you can complete, and
-  there is no xAI key on this machine. I tried OpenRouter as the substitute; the account's
-  credits ran out mid-pass. This is the one piece of item 1 still open.
-
-## Left, in order
-
-1. **Check the live site** at https://www.clupai.com. That is the only thing outstanding.
-2. **Optional:** the Grok pass was skipped, as you asked. Codex and DeepSeek both reviewed, and
-   Codex reviewed tonight's em-dash commit separately and found no defects.
-3. **Optional, cosmetic:** the SceneBand sits 4px past the viewport at 768 and 390px on the three
-   `/services/*` pages, and an svg on /apps does the same by 10px at 900px. Both invisible,
-   clipped by `overflow-x: hidden`.
-
-## Decisions taken for you
-
-You said to take the recommended option on both open decisions. For the record:
-
-1. **Em dashes: page copy converted, essays and quotes left alone.** All marketing page and
-   component copy now uses real punctuation. Deliberately NOT touched:
-   - `src/data/writing.ts` (your long-form essays, your narrative voice)
-   - `src/data/suburbs.ts` (the same long-form register; this is the 20 on the Brunswick page)
-   - the client quotes in `src/data/cases.ts`, which are a real person's words
-   - `{value ?? "—"}` in the CWV tool and the character class in `work/[slug]` `summarise()`:
-     both are code, not prose
-   Brand titles and nav labels took the site's house separator "·", not a colon.
-2. **`--text-dim` stays `#7a7a7a`.** It fixed a real WCAG AA failure (3.65:1, under 4.5:1) in 97
-   places. Still open to taste: anything lighter than `#7a7a7a` passes.
-
-A blind find-and-replace made a mess of the em dashes and each of these was caught and fixed by
-hand before the merge. Worth knowing if anyone repeats the exercise:
-- A **paired** dash (an aside wrapped in two) breaks if only the opening one is converted. Nine
-  such lines, plus three where the pair spanned two lines and both ends became colons.
-- `\s*` in the pattern **matches newlines**, so two lines ending in a dash were silently joined
-  with the line below.
-- Two `"—"` values were **sentinels, not prose**. One had already caused the `/apps` ": MRR" bug
-  last night; the same sweep nearly broke a second one in `notify.ts`.
-- One dash sat directly before a quote mark and vanished entirely, leaving `anonymised'a
-  Melbourne-based...'`.
+- `npx eslint src` reports 3 errors and 1 warning, all in `cal-booking.tsx` and `contact-form.tsx`
+  (`Date.now()` during render, `setState` in an effect). **Pre-existing**: identical on the
+  commit before this work, verified in a scratch worktree. Not introduced here, not fixed here.
+- Codex reviewed both diffs. The SMS removal: no defects. The contact fix: it caught the
+  module-scope initialisation hole, which I then fixed, and the re-review came back clean.
 
 ## Still open for you
 
-These were on the list before and are unchanged. They are content calls, not code.
+Unchanged content calls from before:
 
 1. **"24 projects shipped"** (hero rail). Nobody has checked the number.
 2. **The schools page sells enrolment systems**, but no case study backs it up. Keep or drop?
-3. **The Brunswick FAQ** makes claims nobody has checked ("we've worked with cafes, studios...").
-4. **The nav "(01)" numbers.** Left alone, as this was always your call. The hairline under the
-   nav is gone. Remove the numbers too, or keep them?
-
-## Commands
-
-```bash
-# deploy from this machine would need a login first; the git push already deploys
-vercel login && vercel --prod
-
-# the Codex review, required before calling a change done
-python3 ~/Documents/Obsidian/brain/skills/_core/token-economy/scripts/second_opinion.py \
-  - --cwd . --review --base <commit> --ladder codex
-```
+3. **The Brunswick FAQ** claims nobody has checked ("we've worked with cafes, studios...").
+4. **The nav "(01)" numbers.** Always your call; the hairline under the nav is gone.
+5. **Em dashes**: page copy was converted. `suburbs.ts`, `writing.ts` (your essays) and the client
+   quotes in `cases.ts` were deliberately left.
 
 ## Notes for whoever picks this up
 
-- `second_opinion.py` **works for the `codex` route on Linux** (Codex brings its own sandbox),
-  but **fails for `dsh`, `grok`, `kimi`, `agy` and `opencode`**: it wraps those in macOS
-  `sandbox-exec`, which does not exist here (`[Errno 2] No such file or directory`). For
-  DeepSeek, call `dsh --profile headless` directly, which is allowed on a personal folder.
-- **Grok cannot run on this machine**: its CLI needs a device-code login and there is no
-  `XAI_API_KEY` in `~/.secrets.env`. The OpenRouter fallback exists but the account's credits
-  are exhausted.
-- A 225KB prompt is too long for `dsh` as an argv string ("argument list too long"). Write it to
-  a file in the repo and tell the model to read that file.
-- `node_modules` is not in the repo copy on this machine; `npm install` first or nothing builds.
-- **The push to `main` also published the Mac's commit `1d3ad0a`** (the SMS/Twilio work, privacy
-  and terms pages), which had never reached GitHub. It was scanned before pushing: no client
-  names, no key material, every secret read through `process.env`, and `.env.local` is gitignored
-  and untracked.
-- No dev server or background job of mine is still running. Nothing of mine is uncommitted.
+- `second_opinion.py` **works for the `codex` route on Linux**; it fails for `dsh`, `grok`,
+  `kimi`, `agy` and `opencode`, which it wraps in macOS `sandbox-exec`. For DeepSeek call
+  `dsh --profile headless` directly.
+- `codex exec` with a diff in a file returned a bare verdict with no detail. Inlining the diff
+  via `second_opinion.py --review` gave the real findings. Prefer that.
+- **Grok cannot run here**: its CLI needs a device-code login and there is no `XAI_API_KEY`.
+  OpenRouter is configured but out of credits.
+- This shell **cannot resolve `upstash.io`**, so Upstash failures reproduce locally for the wrong
+  reason. Test the routes with the Upstash vars unset to reach their real validation path.
+- `node_modules` is not in the repo copy here; `npm install` first.
+- No dev server or background job of mine is running. Nothing of mine is uncommitted.
 
-Safe to close: the branch is merged, `main` is pushed, and the deploy is live and verified.
+Safe to close: `main` is pushed, the deploy is live and verified, and the two follow-ups for you
+are the Vercel env vars and the Upstash database.
