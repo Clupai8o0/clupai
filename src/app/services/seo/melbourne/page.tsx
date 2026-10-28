@@ -9,7 +9,7 @@ import Row from "@/components/row";
 export const metadata: Metadata = {
   title: "SEO Consultant Melbourne",
   description:
-    "Technical and local SEO for Melbourne service businesses. No doorway pages, no link packages — just fewer, better pages and a technical foundation that holds.",
+    "Technical and local SEO for Melbourne service businesses. No doorway pages, no link packages, just fewer, better pages and a technical foundation that holds.",
   alternates: {
     canonical: "https://clupai.com/services/seo/melbourne",
   },
@@ -22,14 +22,14 @@ export const metadata: Metadata = {
 };
 
 const included = [
-  "Technical audit — Core Web Vitals, crawl, schema, canonicals",
-  "Local setup — Google Business Profile, citations, reviews flow",
-  "Keyword map — 10–20 pages, not 200",
-  "Content plan — 2 to 4 real posts per month",
-  "On-page fixes, monthly — titles, meta, internal links, schema",
-  "Backlinks — earned, not bought. No PBNs, no link packages.",
-  "Tracker — your rankings, plus the ones we'll admit to missing",
-  "Monthly strategy call — 30 minutes, no dashboard cosplay",
+  "Technical audit: Core Web Vitals, crawl, schema, canonicals",
+  "Local setup: Google Business Profile, citations, reviews flow",
+  "Keyword map: 10–20 pages, not 200",
+  "Content plan: 2 to 4 real posts per month",
+  "On-page fixes, monthly: titles, meta, internal links, schema",
+  "Backlinks: earned, not bought. No PBNs, no link packages.",
+  "Tracker: your rankings, plus the ones we'll admit to missing",
+  "Monthly strategy call: 30 minutes, no dashboard cosplay",
 ];
 
 const differentiators = [
@@ -39,11 +39,11 @@ const differentiators = [
   },
   {
     label: "Technical work we actually do",
-    body: "Most local SEO retainers are a monthly report and a content brief. We fix the Core Web Vitals, the crawl issues, the broken schema — before the content goes in.",
+    body: "Most local SEO retainers are a monthly report and a content brief. We fix the Core Web Vitals, the crawl issues, the broken schema: before the content goes in.",
   },
   {
     label: "We work in the seams",
-    body: "Melbourne has Webfirm, Clearwater, the big national players. They chase the $10k/month accounts. We work with the businesses those agencies price out — and we don't staff the account with a junior after month two.",
+    body: "Melbourne has Webfirm, Clearwater, the big national players. They chase the $10k/month accounts. We work with the businesses those agencies price out, and we don't staff the account with a junior after month two.",
   },
   {
     label: "Content that doesn't embarrass you",
@@ -54,7 +54,7 @@ const differentiators = [
 const faqs = [
   {
     q: "How is local SEO different for Melbourne businesses?",
-    a: "Melbourne's search landscape is dense — service-category searches like 'plumber Carlton' or 'physio Fitzroy' are competitive because everyone's targeting them. What works is suburb-level GBP authority, reviews velocity, and genuinely useful service-area content that a searcher would bookmark. We also watch for Melbourne-specific local pack behaviour — Google's local pack in Melbourne tends to weight proximity more than many other Australian cities.",
+    a: "Melbourne's search landscape is dense: service-category searches like 'plumber Carlton' or 'physio Fitzroy' are competitive because everyone's targeting them. What works is suburb-level GBP authority, reviews velocity, and genuinely useful service-area content that a searcher would bookmark. We also watch for Melbourne-specific local pack behaviour: Google's local pack in Melbourne tends to weight proximity more than many other Australian cities.",
   },
   {
     q: "How long until my Google Business Profile ranks?",
@@ -62,18 +62,18 @@ const faqs = [
   },
   {
     q: "Do you do suburb pages?",
-    a: "Yes — but not 40 of them. We'll build the four or five suburbs that actually generate searches for your service category, write them so they're genuinely useful, and structure them so they reinforce the core service page. We won't publish a page that's just a suburb name swapped into a template. Those get you penalised now.",
+    a: "Yes, but not 40 of them. We'll build the four or five suburbs that actually generate searches for your service category, write them so they're genuinely useful, and structure them so they reinforce the core service page. We won't publish a page that's just a suburb name swapped into a template. Those get you penalised now.",
   },
   {
     q: "What about Google Ads vs SEO?",
-    a: "Different tools for different problems. Ads are immediate and off the moment the budget stops. SEO compounds over time but takes longer to move. For most Melbourne service businesses, we'd run both if the ad budget is there — Ads buys data while SEO builds the asset. If you only have budget for one, talk to us about which fits your timeline.",
+    a: "Different tools for different problems. Ads are immediate and off the moment the budget stops. SEO compounds over time but takes longer to move. For most Melbourne service businesses, we'd run both if the ad budget is there: Ads buys data while SEO builds the asset. If you only have budget for one, talk to us about which fits your timeline.",
   },
   {
     q: "Do you write the content?",
-    a: "Yes. Drafts are written by us, reviewed by a subject-matter editor, then sent to you for approval before they go live. If your industry has specific compliance requirements (health, financial services, legal), tell us upfront — we'll adjust the workflow. We never publish without your sign-off.",
+    a: "Yes. Drafts are written by us, reviewed by a subject-matter editor, then sent to you for approval before they go live. If your industry has specific compliance requirements (health, financial services, legal), tell us upfront: we'll adjust the workflow. We never publish without your sign-off.",
   },
   {
-    q: "Three-month minimum — why?",
+    q: "Three-month minimum: why?",
     a: "Technical wins show up in weeks. Content and local authority take three to six months. Signing up for a month and leaving before the compounding starts is a bad deal for both of us. Three months is the minimum that gives us room to actually show you what works.",
   },
 ];
@@ -81,7 +81,7 @@ const faqs = [
 const caseStudy = {
   stat: "+2,000%",
   sstat: "organic click growth · 6 months",
-  title: "nmmun — zero to 19,000 organic clicks",
+  title: "nmmun: zero to 19,000 organic clicks",
   body: "New domain, no authority, competitive niche. We mapped real search intent, wrote 10 focused articles, fixed the technical baseline, and built internal links that reinforced the right pages. Six months in: 19k monthly organic clicks and no doorway page exposure to write off.",
 };
 
@@ -139,7 +139,7 @@ export default function SEOMelbournePage() {
                 lineHeight: 1.5,
               }}
             >
-              Melbourne&apos;s competitive — and most SEO retainers respond by
+              Melbourne&apos;s competitive, and most SEO retainers respond by
               producing more content, more suburb pages, more links. We go the
               other way: fewer pages, technically tight, written for an actual
               reader. That&apos;s what&apos;s working in 2026, and it&apos;s
@@ -299,7 +299,7 @@ export default function SEOMelbournePage() {
                 lineHeight: 1.6,
               }}
             >
-              Same deliverables every month — not a different package each
+              Same deliverables every month, not a different package each
               quarter.{" "}
               <Link
                 href="/services/seo"
@@ -389,8 +389,8 @@ export default function SEOMelbournePage() {
                 marginBottom: 24,
               }}
             >
-              The inner-north corridor — Brunswick, Fitzroy, Collingwood,
-              Northcote — has some of the densest local search competition in
+              The inner-north corridor (Brunswick, Fitzroy, Collingwood,
+              Northcote) has some of the densest local search competition in
               Australia for categories like trades, health, and food. The
               tactics that worked five years ago (bulk suburb pages, cheap link
               packages, exact-match anchor text) are now penalties waiting to
@@ -418,7 +418,7 @@ export default function SEOMelbournePage() {
                 lineHeight: 1.65,
               }}
             >
-              We also integrate technical SEO with site builds — if you&apos;re
+              We also integrate technical SEO with site builds: if you&apos;re
               working with us on a website, the SEO foundation is already in the
               stack (schema, Core Web Vitals, sitemap, internal linking
               structure). You&apos;re not paying twice.

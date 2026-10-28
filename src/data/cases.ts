@@ -44,10 +44,10 @@ export const cases: CaseStudy[] = [
     kind: "Retrofit glazing · Melbourne",
     year: "2026",
     eyebrow: "Retrofit glazing · Melbourne · 2026",
-    headline: "King Double Glazing—\nrebrand, rebuild,",
+    headline: "King Double Glazing:\nrebrand, rebuild,",
     headlineAccent: "conversion funnel.",
     description:
-      "Melbourne retrofit double glazing business. Previous brand (The Glass Discounters) had a 57 Lighthouse score and 13.1s mobile LCP. Rebuilt from scratch under a new brand — conversion-first architecture, self-serve Instant Estimate Tool, and a perfect 100 SEO score out of the gate.",
+      "Melbourne retrofit double glazing business. Previous brand (The Glass Discounters) had a 57 Lighthouse score and 13.1s mobile LCP. Rebuilt from scratch under a new brand: conversion-first architecture, self-serve Instant Estimate Tool, and a perfect 100 SEO score out of the gate.",
     meta: [
       { k: "Industry", v: "Retrofit double glazing · trades" },
       { k: "Location", v: "Melbourne, VIC" },
@@ -67,18 +67,18 @@ export const cases: CaseStudy[] = [
       attribution: "Client, King Double Glazing",
     },
     problems: [
-      "The Glass Discounters (prior brand) had a Lighthouse Performance score of 57 on mobile — 13.1s LCP and 370ms total blocking time. Customers bounced before the page loaded.",
-      "No way for customers to self-serve a price estimate. Every enquiry went straight to the phone — including price-shoppers and tyre-kickers with no intent to buy.",
+      "The Glass Discounters (prior brand) had a Lighthouse Performance score of 57 on mobile: 13.1s LCP and 370ms total blocking time. Customers bounced before the page loaded.",
+      "No way for customers to self-serve a price estimate. Every enquiry went straight to the phone, including price-shoppers and tyre-kickers with no intent to buy.",
       "A full rebrand to King Double Glazing needed a clean break: new positioning, new brand voice, and a site built from scratch rather than patching the old WordPress stack.",
     ],
     decisions: [
       [
         "Next.js 16 + Vercel",
-        "Rebuilt from scratch on Next.js 16 App Router. No plugin bloat, no page builder. Desktop LCP 1.0s, mobile LCP 4.4s. TBT 20ms across both — down from 370ms on the old site.",
+        "Rebuilt from scratch on Next.js 16 App Router. No plugin bloat, no page builder. Desktop LCP 1.0s, mobile LCP 4.4s. TBT 20ms across both, down from 370ms on the old site.",
       ],
       [
         "Instant Estimate Tool",
-        "Multi-step calculator that produces a price range before asking for contact details. Reverses the standard trades lead-gen pattern — qualify first, capture second. Reduces junk enquiries before they reach the phone.",
+        "Multi-step calculator that produces a price range before asking for contact details. Reverses the standard trades lead-gen pattern: qualify first, capture second. Reduces junk enquiries before they reach the phone.",
       ],
       [
         "5-page conversion funnel",
@@ -86,11 +86,11 @@ export const cases: CaseStudy[] = [
       ],
       [
         "TinaCMS (git-based)",
-        "Content stored as JSON in the repo — no external CMS database. Visual editor via Tina Cloud. Client can edit pages without touching code or needing a developer.",
+        "Content stored as JSON in the repo: no external CMS database. Visual editor via Tina Cloud. Client can edit pages without touching code or needing a developer.",
       ],
       [
         "Neon + Drizzle",
-        "Postgres on Neon with Drizzle ORM. All quote and lead submissions stored here. Token-based email confirmation flow — only confirmed quote requests get flagged as hot leads.",
+        "Postgres on Neon with Drizzle ORM. All quote and lead submissions stored here. Token-based email confirmation flow: only confirmed quote requests get flagged as hot leads.",
       ],
       [
         "Resend + React Email",
@@ -127,10 +127,10 @@ export const cases: CaseStudy[] = [
     kind: "International student mentorship · Melbourne",
     year: "2026",
     eyebrow: "EdTech startup · Study Melbourne 4Impact · 2026",
-    headline: "Hoddle Melbourne—\nfull mentorship platform,",
+    headline: "Hoddle Melbourne:\nfull mentorship platform,",
     headlineAccent: "built in six weeks.",
     description:
-      "First-year international students arrive in Melbourne without the informal networks domestic students rely on. We built the platform that fills that gap — weighted mentor matching, a content library, community forums, live Q&A sessions, and a self-sustaining cycle where students graduate into mentors themselves. Placed 2nd at Study Melbourne's 4Impact Program.",
+      "First-year international students arrive in Melbourne without the informal networks domestic students rely on. We built the platform that fills that gap: weighted mentor matching, a content library, community forums, live Q&A sessions, and a self-sustaining cycle where students graduate into mentors themselves. Placed 2nd at Study Melbourne's 4Impact Program.",
     meta: [
       { k: "Industry", v: "EdTech · international student mentorship" },
       { k: "Location", v: "Carlton, VIC" },
@@ -140,7 +140,7 @@ export const cases: CaseStudy[] = [
       { k: "Live", v: "hoddle.org" },
     ],
     results: [
-      ["Study Melbourne 4Impact", "2nd", "final pitch day — ranked 2nd of all competing teams"],
+      ["Study Melbourne 4Impact", "2nd", "final pitch day: ranked 2nd of all competing teams"],
       ["LinkedIn impressions", "14,040", "before public launch · organic early-access traction"],
       ["Codebase", "26K+ lines", "51 routes · 23 tables · 17 migrations · 3 cron jobs"],
     ],
@@ -150,18 +150,18 @@ export const cases: CaseStudy[] = [
       attribution: "Hoddle Melbourne · Study Melbourne Leadership 4Impact 2026",
     },
     problems: [
-      "First-year international students arrive in Melbourne without the informal knowledge networks domestic students lean on — academic conventions, career pathways, housing, visa admin. No platform gave them access to verified peers who'd already navigated the same journey.",
-      "One-to-many was the only model that worked at scale. 1:1 tutoring creates scheduling bottlenecks. Mentors needed to publish articles, host live Q&As, and engage forums — reaching many students from a single piece of effort, without calendar overhead.",
+      "First-year international students arrive in Melbourne without the informal knowledge networks domestic students lean on: academic conventions, career pathways, housing, visa admin. No platform gave them access to verified peers who'd already navigated the same journey.",
+      "One-to-many was the only model that worked at scale. 1:1 tutoring creates scheduling bottlenecks. Mentors needed to publish articles, host live Q&As, and engage forums: reaching many students from a single piece of effort, without calendar overhead.",
       "Six weeks from Figma concept to production. The team was competing in the Study Melbourne Leadership 4Impact Program with a hard public deadline. Every architectural decision had to be defensible, deployable, and maintainable by the founding team post-launch.",
     ],
     decisions: [
       [
         "RLS as the authorisation layer",
-        "Row Level Security enforces data access at the database layer — not the application layer. Every table has explicit RLS policies from day one. A bug in middleware can expose data; a bug in application code cannot bypass RLS. The admin client is the only surface that bypasses RLS — used only for system operations.",
+        "Row Level Security enforces data access at the database layer, not the application layer. Every table has explicit RLS policies from day one. A bug in middleware can expose data; a bug in application code cannot bypass RLS. The admin client is the only surface that bypasses RLS, used only for system operations.",
       ],
       [
         "Weighted matching algorithm",
-        "scoreMentor() is a pure function — zero database calls. country_of_origin match +30 (shared migration context is the strongest signal), field overlap +15 each, challenges and goals overlap +10 each. Scores pre-computed nightly via Vercel cron; recomputed immediately on profile update. Students see a 'why this mentor' reasoning line on their dashboard.",
+        "scoreMentor() is a pure function: zero database calls. country_of_origin match +30 (shared migration context is the strongest signal), field overlap +15 each, challenges and goals overlap +10 each. Scores pre-computed nightly via Vercel cron; recomputed immediately on profile update. Students see a 'why this mentor' reasoning line on their dashboard.",
       ],
       [
         "Token-gated mentor invites",
@@ -173,7 +173,7 @@ export const cases: CaseStudy[] = [
       ],
       [
         "Supabase Realtime notifications",
-        "In-app notification bell subscribes to the notifications table via Supabase Realtime — unread count stays live without polling. Single notify() helper writes to the table and conditionally dispatches email based on per-type, per-channel preference toggles. 6 notification types across 3 delivery channels.",
+        "In-app notification bell subscribes to the notifications table via Supabase Realtime: unread count stays live without polling. Single notify() helper writes to the table and conditionally dispatches email based on per-type, per-channel preference toggles. 6 notification types across 3 delivery channels.",
       ],
       [
         "Vercel + preview deploys",
@@ -205,10 +205,10 @@ export const cases: CaseStudy[] = [
     kind: "NFC products · Melbourne",
     year: "2026",
     eyebrow: "NFC products · Melbourne · 2026",
-    headline: "TapCraft—\n3D product configurator meets",
+    headline: "TapCraft:\n3D product configurator meets",
     headlineAccent: "headless Shopify.",
     description:
-      "TapCraft sells custom NFC-embedded products. They needed a site that felt as premium as the hardware—interactive 3D previews, a live configurator, and a headless Shopify checkout. We built it.",
+      "TapCraft sells custom NFC-embedded products. They needed a site that felt as premium as the hardware: interactive 3D previews, a live configurator, and a headless Shopify checkout. We built it.",
     meta: [
       { k: "Industry", v: "Consumer hardware · NFC" },
       { k: "Location", v: "Melbourne, VIC" },
@@ -231,7 +231,7 @@ export const cases: CaseStudy[] = [
       attribution: "Founder, TapCraft Studio",
     },
     problems: [
-      "Off-the-shelf Shopify themes couldn't support a live 3D preview—customers couldn't see their NFC card design before buying.",
+      "Off-the-shelf Shopify themes couldn't support a live 3D preview: customers couldn't see their NFC card design before buying.",
       "Product variants (material, finish, embedded data) drove a combinatorial explosion that standard product pages couldn't handle cleanly.",
       "The checkout UX needed to stay branded end-to-end, not drop into Shopify's hosted checkout mid-flow.",
     ],
@@ -246,7 +246,7 @@ export const cases: CaseStudy[] = [
       ],
       [
         "Variant state machine",
-        "Configuration state modelled as a flat object—material, finish, embedded URL. Maps directly to a Shopify variant SKU. No nested selects.",
+        "Configuration state modelled as a flat object: material, finish, embedded URL. Maps directly to a Shopify variant SKU. No nested selects.",
       ],
       [
         "Next.js Image",
@@ -271,10 +271,10 @@ export const cases: CaseStudy[] = [
     kind: "AI scheduling app · in-house product",
     year: "2025",
     eyebrow: "Scheduling SaaS · in-house product · 2025–2026",
-    headline: "Kairos—\npaste your notes,",
+    headline: "Kairos:\npaste your notes,",
     headlineAccent: "own your week.",
     description:
-      "Most people don't need another task list. They need something that turns the tasks they already have into a plan they'll actually follow. Kairos takes unstructured notes, extracts tasks using an LLM, and places them into Google Calendar automatically — respecting deadlines, dependencies, and your working hours. No drag and drop. No manual time-blocking.",
+      "Most people don't need another task list. They need something that turns the tasks they already have into a plan they'll actually follow. Kairos takes unstructured notes, extracts tasks using an LLM, and places them into Google Calendar automatically, respecting deadlines, dependencies, and your working hours. No drag and drop. No manual time-blocking.",
     meta: [
       { k: "Type", v: "In-house product · clupai" },
       { k: "Stack", v: "Next.js 15 · Drizzle · Neon · Vercel AI SDK · Better Auth · Google Calendar API" },
@@ -295,21 +295,21 @@ export const cases: CaseStudy[] = [
     },
     problems: [
       "Task managers are good at storage. They're bad at time. Nothing connected 'things I need to do' with 'when I can actually do them' without hours of manual scheduling.",
-      "Adding a new input source — say, pulling tasks from GitHub Issues or a Slack message — shouldn't require touching the core app. Every integration being a one-off made the codebase fragile and the system hard to extend.",
+      "Adding a new input source, say pulling tasks from GitHub Issues or a Slack message, shouldn't require touching the core app. Every integration being a one-off made the codebase fragile and the system hard to extend.",
       "The theme system needed to be community-extensible without any risk of a bad theme breaking the layout. Hand-rolled design tokens with no enforcement meant this was impossible to delegate.",
     ],
     decisions: [
       [
         "Schedule-on-write",
-        "Creating or updating a task automatically enqueues a placement job via the Postgres jobs table. Scheduling completes in 1–3 s within the same Vercel function call — no separate trigger, no user action required. Idempotency keys prevent duplicates under concurrent saves.",
+        "Creating or updating a task automatically enqueues a placement job via the Postgres jobs table. Scheduling completes in 1–3 s within the same Vercel function call: no separate trigger, no user action required. Idempotency keys prevent duplicates under concurrent saves.",
       ],
       [
         "Plugin host with PluginContext",
-        "Every scratchpad plugin gets a PluginContext — complete/completeStructured for LLM access, config, memory, logging — without core importing any provider SDK. Adding a new input source (Readwise, GitHub, Linear) is a PR to the public registry. 10 plugins shipped at launch without a single core change.",
+        "Every scratchpad plugin gets a PluginContext: complete/completeStructured for LLM access, config, memory, logging, without core importing any provider SDK. Adding a new input source (Readwise, GitHub, Linear) is a PR to the public registry. 10 plugins shipped at launch without a single core change.",
       ],
       [
         "HTTP plugin runtime",
-        "Plugin authors deploy their own serverless function exposing GET /manifest and POST /parse. Kairos calls via lib/plugins/http-adapter.ts — HMAC-signed requests, 5 s timeout, circuit breaker (3 failures / 1 min → 5 min open). Supports version rollback. No third-party code runs inside the Kairos runtime.",
+        "Plugin authors deploy their own serverless function exposing GET /manifest and POST /parse. Kairos calls via lib/plugins/http-adapter.ts: HMAC-signed requests, 5 s timeout, circuit breaker (3 failures / 1 min → 5 min open). Supports version rollback. No third-party code runs inside the Kairos runtime.",
       ],
       [
         "Semantic token enforcement in CI",
@@ -321,7 +321,7 @@ export const cases: CaseStudy[] = [
       ],
       [
         "Collections as coordination, not taxonomy",
-        "Tags handle taxonomy. Google Calendar handles time. Collections handle coordination — grouping tasks into ordered phases (Planning → Build → Review) with progress tracking and bulk-schedule. No collectionId on the tasks table; many-to-many keeps tasks portable across collections.",
+        "Tags handle taxonomy. Google Calendar handles time. Collections handle coordination: grouping tasks into ordered phases (Planning → Build → Review) with progress tracking and bulk-schedule. No collectionId on the tasks table; many-to-many keeps tasks portable across collections.",
       ],
     ],
     thumbnail: "/work/kairos/tasks.webp",
@@ -349,10 +349,10 @@ export const cases: CaseStudy[] = [
     kind: "Software engineering club · Deakin",
     year: "2025",
     eyebrow: "Student tech club · Deakin University · 2025",
-    headline: "DSEC—\na club site that actually",
+    headline: "DSEC:\na club site that actually",
     headlineAccent: "gets students to show up.",
     description:
-      "Deakin's software engineering club needed a site that communicated events, showcased projects, and recruited members. Not a Wix template—something that looked like it was built by people who know what they're doing.",
+      "Deakin's software engineering club needed a site that communicated events, showcased projects, and recruited members. Not a Wix template: something that looked like it was built by people who know what they're doing.",
     meta: [
       { k: "Industry", v: "Education · student tech club" },
       { k: "Location", v: "Burwood, VIC · Deakin University" },
@@ -372,8 +372,8 @@ export const cases: CaseStudy[] = [
       attribution: "President, DSEC",
     },
     problems: [
-      "The previous site was a static HTML page with no way to update events without editing raw HTML—execs were skipping it entirely.",
-      "Member count stagnated. New students visiting the site had no reason to sign up—no visible community, no clear value prop.",
+      "The previous site was a static HTML page with no way to update events without editing raw HTML: execs were skipping it entirely.",
+      "Member count stagnated. New students visiting the site had no reason to sign up: no visible community, no clear value prop.",
       "Events had no recurring home. Announcements were scattered across Discord and Instagram with no canonical source.",
     ],
     decisions: [
@@ -395,11 +395,11 @@ export const cases: CaseStudy[] = [
       ],
       [
         "Vercel + ISR",
-        "Pages revalidate every 60 seconds. Execs see live changes without a deploy. Site stays fast—no API calls on the critical path.",
+        "Pages revalidate every 60 seconds. Execs see live changes without a deploy. Site stays fast: no API calls on the critical path.",
       ],
       [
         "Dark mode default",
-        "Design system built dark-first. Looks native to the tools students already use—VS Code, GitHub, Discord. Not a corporate site.",
+        "Design system built dark-first. Looks native to the tools students already use: VS Code, GitHub, Discord. Not a corporate site.",
       ],
     ],
   },
@@ -412,10 +412,10 @@ export const cases: CaseStudy[] = [
     kind: "School marketing website · India",
     year: "2026",
     eyebrow: "School website · India · 2026",
-    headline: "Krishnaveni—\na school site with a CMS",
+    headline: "Krishnaveni:\na school site with a CMS",
     headlineAccent: "staff can actually use.",
     description:
-      "Indian school stuck on a static HTML site — any content change meant emailing a developer. Delivered a full Next.js 15 marketing website with 13 section types, a Sanity v5 CMS, and a custom content pipeline. Staff now manage all pages, posts, and facilities independently.",
+      "Indian school stuck on a static HTML site: any content change meant emailing a developer. Delivered a full Next.js 15 marketing website with 13 section types, a Sanity v5 CMS, and a custom content pipeline. Staff now manage all pages, posts, and facilities independently.",
     meta: [
       { k: "Industry", v: "Education · K-12 school" },
       { k: "Location", v: "India" },
@@ -435,18 +435,18 @@ export const cases: CaseStudy[] = [
       attribution: "Client, Krishnaveni School",
     },
     problems: [
-      "The school was running on a static HTML site. Every content change — a new gallery post, updated facilities list, announcement — required a developer. Staff had no autonomy.",
+      "The school was running on a static HTML site. Every content change needed a developer: a new gallery post, an updated facilities list, an announcement. Staff had no autonomy.",
       "A standard CMS would still break if staff accidentally edited the wrong field or reordered sections. The system needed to be opinionated enough to protect the layout.",
-      "Handover was a hard requirement. The school couldn't rely on ongoing developer availability — staff had to be self-sufficient from day one.",
+      "Handover was a hard requirement. The school couldn't rely on ongoing developer availability: staff had to be self-sufficient from day one.",
     ],
     decisions: [
       [
         "Sanity v5",
-        "Schema-first CMS with typed GROQ queries. Studio is clean and opinionated — staff adopted it without training docs. Validates all content before it reaches the frontend. Custom document types for posts, facilities, and page sections.",
+        "Schema-first CMS with typed GROQ queries. Studio is clean and opinionated: staff adopted it without training docs. Validates all content before it reaches the frontend. Custom document types for posts, facilities, and page sections.",
       ],
       [
         "Polymorphic section architecture",
-        "Page body is an array of typed section objects. SectionRenderer maps each _type to its React component. Any page layout can be assembled in Studio by reordering or adding sections — no code change, no redeploy. 13 section types at handover.",
+        "Page body is an array of typed section objects. SectionRenderer maps each _type to its React component. Any page layout can be assembled in Studio by reordering or adding sections: no code change, no redeploy. 13 section types at handover.",
       ],
       [
         "Static data pipeline",
@@ -454,7 +454,7 @@ export const cases: CaseStudy[] = [
       ],
       [
         "GSAP + Radix UI",
-        "GSAP for scroll-driven animations. Radix UI Dialog for the video testimonial lightbox and post media gallery with keyboard navigation (Escape, arrow keys). Radix Accordion for FAQ sections. Scoped JS — no heavy framework overhead on pages that don't need interactivity.",
+        "GSAP for scroll-driven animations. Radix UI Dialog for the video testimonial lightbox and post media gallery with keyboard navigation (Escape, arrow keys). Radix Accordion for FAQ sections. Scoped JS: no heavy framework overhead on pages that don't need interactivity.",
       ],
     ],
     testimonial: {
@@ -487,10 +487,10 @@ export const cases: CaseStudy[] = [
     kind: "Model UN conference · NMS Dwarka",
     year: "2023",
     eyebrow: "School MUN conference · New Delhi · 2023",
-    headline: "NMMUN—\na conference site",
+    headline: "NMMUN:\na conference site",
     headlineAccent: "shipped at fifteen.",
     description:
-      "A full conference website for the New Millennium Model United Nations — councils, schedules, registration funnel, team profiles, gallery. Originally built at fifteen as Head of IT for the 2023 batch, then forked by the 2024-25 batch on the same codebase. 500+ delegates used it across two consecutive conferences.",
+      "A full conference website for the New Millennium Model United Nations: councils, schedules, registration funnel, team profiles, gallery. Originally built at fifteen as Head of IT for the 2023 batch, then forked by the 2024-25 batch on the same codebase. 500+ delegates used it across two consecutive conferences.",
     meta: [
       { k: "Event", v: "New Millennium Model UN · NMS Dwarka" },
       { k: "Role", v: "Head of IT · 2023" },
@@ -510,22 +510,22 @@ export const cases: CaseStudy[] = [
       attribution: "NMMUN'23 · New Millennium School Dwarka",
     },
     problems: [
-      "Most school MUN sites are static HTML or a one-page Wix build. NMMUN'23 needed councils with per-committee detail pages, chair profiles, schedules, dress code, rules of procedure, and a registration funnel — all polished enough to represent the school internationally.",
+      "Most school MUN sites are static HTML or a one-page Wix build. NMMUN'23 needed councils with per-committee detail pages, chair profiles, schedules, dress code, rules of procedure, and a registration funnel: all polished enough to represent the school internationally.",
       "Built as a Year 10 student, before any commercial experience. Every architectural choice had to be defensible for the next batch's IT lead to inherit, not just functional for one event weekend.",
       "Content had to be event-aware. The hero, countdown, and CTAs needed to behave differently before, during, and after the conference without a manual swap on event day.",
     ],
     decisions: [
       [
         "Data-driven content layer",
-        "All councils, teams, table-of-content blocks, and navigation pulled from lib/links.ts; hero copy, event timing, itineraries, and dress code from lib/config.ts. Next year's IT lead edits two files to roll the site forward — no hunting through JSX.",
+        "All councils, teams, table-of-content blocks, and navigation pulled from lib/links.ts; hero copy, event timing, itineraries, and dress code from lib/config.ts. Next year's IT lead edits two files to roll the site forward: no hunting through JSX.",
       ],
       [
         "Event-aware UI via useTime",
-        "Hero countdown, CTA states, and banners derive from eventDate/eventEndDate through a single useTime hook. Pre-event, day-of, and post-event states render automatically — no scheduled deploys on conference morning.",
+        "Hero countdown, CTA states, and banners derive from eventDate/eventEndDate through a single useTime hook. Pre-event, day-of, and post-event states render automatically: no scheduled deploys on conference morning.",
       ],
       [
         "Per-council dynamic routes",
-        "/council/[id] renders a detail page per committee — topic, background guide, chair bios — from the same data source as the council listing. Adding a new committee is one entry in the array; route, listing, and detail page all update together.",
+        "/council/[id] renders a detail page per committee: topic, background guide, chair bios, from the same data source as the council listing. Adding a new committee is one entry in the array; route, listing, and detail page all update together.",
       ],
       [
         "shadcn/ui + Framer Motion",
@@ -533,7 +533,7 @@ export const cases: CaseStudy[] = [
       ],
       [
         "Centralised SEO metadata",
-        "lib/metadata.ts generates Open Graph and Twitter tags per route. Councils, registration, gallery — each gets its own preview card when shared across Instagram, WhatsApp, and email, which is where 90% of delegate traffic actually came from.",
+        "lib/metadata.ts generates Open Graph and Twitter tags per route. Councils, registration, gallery: each gets its own preview card when shared across Instagram, WhatsApp, and email, which is where 90% of delegate traffic actually came from.",
       ],
       [
         "Designed for handover from day one",
@@ -570,10 +570,10 @@ export const cases: CaseStudy[] = [
     kind: "Barbershop · Manama, Bahrain",
     year: "2023",
     eyebrow: "Self-initiated design + build · Bahrain · 2023",
-    headline: "Cuts & Shavez—\na Bahrain barbershop,",
+    headline: "Cuts & Shavez:\na Bahrain barbershop,",
     headlineAccent: "designed and shipped from scratch.",
     description:
-      "A self-initiated design-and-build for Cuts & Shavez Salon, a real barbershop in Manama, Bahrain. Designed end-to-end in Figma at fifteen, then hand-coded in raw HTML, CSS, and vanilla JavaScript — no framework, no CMS, no build step. Not a paid engagement — a real shop, a real address, real services and pricing used as design constraints. Still hosted on Vercel three years later, unchanged.",
+      "A self-initiated design-and-build for Cuts & Shavez Salon, a real barbershop in Manama, Bahrain. Designed end-to-end in Figma at fifteen, then hand-coded in raw HTML, CSS, and vanilla JavaScript: no framework, no CMS, no build step. Not a paid engagement: a real shop, a real address, real services and pricing used as design constraints. Still hosted on Vercel three years later, unchanged.",
     meta: [
       { k: "Industry", v: "Hair salon · barbershop" },
       { k: "Location", v: "Manama, Bahrain" },
@@ -593,18 +593,18 @@ export const cases: CaseStudy[] = [
       attribution: "Self-initiated · age 15 · 2023",
     },
     problems: [
-      "Most barbershop sites in the region looked like directory listings — stock imagery, default templates, no point of view. The brief we set ourselves was the opposite: make it look like a boutique business worth visiting, not a listing entry.",
-      "No framework experience yet. Every interaction — the nav, the gallery, the scroll behaviour — had to be hand-rolled in vanilla JavaScript. No React, no Next.js, no component library to lean on.",
-      "Designing end-to-end for the first time. Hero, services, gallery, reviews, contact — each section had its own visual conventions to learn before we could put a personal stamp on them.",
+      "Most barbershop sites in the region looked like directory listings: stock imagery, default templates, no point of view. The brief we set ourselves was the opposite: make it look like a boutique business worth visiting, not a listing entry.",
+      "No framework experience yet. Every interaction had to be hand-rolled in vanilla JavaScript: the nav, the gallery, the scroll behaviour. No React, no Next.js, no component library to lean on.",
+      "Designing end-to-end for the first time. Hero, services, gallery, reviews, contact: each section had its own visual conventions to learn before we could put a personal stamp on them.",
     ],
     decisions: [
       [
         "Figma-first design system",
-        "Built the entire visual system in Figma before writing a line of code. Components for buttons, cards, section headers, pricing rows. Forced the design to think about reuse before commit, not after — a habit that still runs the studio today.",
+        "Built the entire visual system in Figma before writing a line of code. Components for buttons, cards, section headers, pricing rows. Forced the design to think about reuse before commit, not after: a habit that still runs the studio today.",
       ],
       [
         "Real shop as design brief",
-        "Picked a real barbershop in Manama with a real address, real services, real BD pricing. Designing against actual constraints — three services, a tight price list, an exact location — produces a different result to lorem ipsum and stock prices.",
+        "Picked a real barbershop in Manama with a real address, real services, real BD pricing. Designing against actual constraints (three services, a tight price list, an exact location) produces a different result to lorem ipsum and stock prices.",
       ],
       [
         "Raw HTML, CSS, vanilla JS",
@@ -612,11 +612,11 @@ export const cases: CaseStudy[] = [
       ],
       [
         "Tailwind for utility-first layout",
-        "First project using Tailwind. Skipped the BEM-vs-OOCSS debate entirely and learned the utility-first model from scratch — a pattern that's stayed in every project since.",
+        "First project using Tailwind. Skipped the BEM-vs-OOCSS debate entirely and learned the utility-first model from scratch: a pattern that's stayed in every project since.",
       ],
       [
         "Vercel from day one",
-        "Static deploy on Vercel — same platform the studio still uses in 2026. The original 2023 build is still live at barbershop-design.vercel.app, untouched, as a fixed point against the rest of the portfolio.",
+        "Static deploy on Vercel: same platform the studio still uses in 2026. The original 2023 build is still live at barbershop-design.vercel.app, untouched, as a fixed point against the rest of the portfolio.",
       ],
     ],
     thumbnail: "/work/cuts-and-shavez/hero.webp",
@@ -643,10 +643,10 @@ export const cases: CaseStudy[] = [
     kind: "Events management · marketing site",
     year: "2023",
     eyebrow: "Events startup · marketing site · 2023",
-    headline: "Thurman Events—\na startup marketing site",
+    headline: "Thurman Events:\na startup marketing site",
     headlineAccent: "shipped at fifteen.",
     description:
-      "A five-page marketing site for Thurman Events Management — home, services, team, gallery, contact. Built in 2023 on Next.js 13 with Tailwind, Framer Motion page transitions, and a Nodemailer-backed contact pipeline that drops leads straight into the team's inbox. No CMS, no third-party form provider, no monthly bill.",
+      "A five-page marketing site for Thurman Events Management: home, services, team, gallery, contact. Built in 2023 on Next.js 13 with Tailwind, Framer Motion page transitions, and a Nodemailer-backed contact pipeline that drops leads straight into the team's inbox. No CMS, no third-party form provider, no monthly bill.",
     meta: [
       { k: "Industry", v: "Events management · startup" },
       { k: "Scope", v: "Marketing website · gallery · contact funnel" },
@@ -666,14 +666,14 @@ export const cases: CaseStudy[] = [
       attribution: "Thurman Events Management · 2023",
     },
     problems: [
-      "Most events-management sites split into two camps: bloated agency builds or template Wix pages with no point of view. Thurman needed something in between — premium feel, real content, but cheap enough for a launching startup to actually ship.",
-      "The contact form had to work end-to-end on day one. No external CRM, no Calendly redirect — every enquiry had to land directly in the team's inbox the moment a visitor hit send.",
-      "Events photography arrives in mixed aspect ratios and irregular volume. A rigid CSS grid would crop awkwardly and look amateur — the gallery needed to scale gracefully as more shoots came in.",
+      "Most events-management sites split into two camps: bloated agency builds or template Wix pages with no point of view. Thurman needed something in between: premium feel, real content, but cheap enough for a launching startup to actually ship.",
+      "The contact form had to work end-to-end on day one. No external CRM, no Calendly redirect: every enquiry had to land directly in the team's inbox the moment a visitor hit send.",
+      "Events photography arrives in mixed aspect ratios and irregular volume. A rigid CSS grid would crop awkwardly and look amateur: the gallery needed to scale gracefully as more shoots came in.",
     ],
     decisions: [
       [
         "Next.js 13 pages router",
-        "File-based routes per section, wrapped in a shared Layout with nav, footer, and a page-transition overlay. Copy and section data live in /config — pages stay thin and content is editable without touching JSX.",
+        "File-based routes per section, wrapped in a shared Layout with nav, footer, and a page-transition overlay. Copy and section data live in /config: pages stay thin and content is editable without touching JSX.",
       ],
       [
         "Nodemailer + Gmail transport",
@@ -681,7 +681,7 @@ export const cases: CaseStudy[] = [
       ],
       [
         "Responsive masonry galleries",
-        "react-responsive-masonry handles the events gallery — drops mixed-aspect images into a balanced multi-column layout that reflows at every breakpoint. CTA links out to the full Google Drive album for visitors who want more.",
+        "react-responsive-masonry handles the events gallery: drops mixed-aspect images into a balanced multi-column layout that reflows at every breakpoint. CTA links out to the full Google Drive album for visitors who want more.",
       ],
       [
         "Framer Motion page transitions",
@@ -693,7 +693,7 @@ export const cases: CaseStudy[] = [
       ],
       [
         "Built for handover",
-        "Most content lives in /config and reusable /components — route files stay thin. Whoever picked the codebase up next could update copy, swap imagery, or add a section without learning the framework. Same handover pattern still used today.",
+        "Most content lives in /config and reusable /components: route files stay thin. Whoever picked the codebase up next could update copy, swap imagery, or add a section without learning the framework. Same handover pattern still used today.",
       ],
     ],
     thumbnail: "/work/thurman/hero.webp",
@@ -721,7 +721,7 @@ export const cases: CaseStudy[] = [
     kind: "Hackathon · FastAPI + Gemini",
     year: "2026",
     eyebrow: "Hackathon · Hack48 · March 2026",
-    headline: "Farmers Intuition—\nbuilt and shipped in",
+    headline: "Farmers Intuition:\nbuilt and shipped in",
     headlineAccent: "under 24 hours.",
     description:
       "An AI-powered farm advisory tool built at Hack48 in March 2026. Farmers describe their conditions in plain language; Gemini returns actionable advice calibrated to soil type, season, and location. FastAPI backend, Next.js front end, deployed to Vercel before the judging window closed.",
@@ -744,14 +744,14 @@ export const cases: CaseStudy[] = [
       attribution: "Team, Farmers Intuition",
     },
     problems: [
-      "Existing AgTech tools assumed desktop use and structured data inputs—bad fit for a farmer with muddy hands and a 4G connection.",
+      "Existing AgTech tools assumed desktop use and structured data inputs: bad fit for a farmer with muddy hands and a 4G connection.",
       "Agricultural advice is highly contextual: the right answer depends on soil, season, crop stage, and location. Generic LLM output wasn't good enough.",
       "24 hours to build, test, and deploy. Every architectural decision had to be cheap to implement and easy to debug under pressure.",
     ],
     decisions: [
       [
         "Gemini 2.0 structured outputs",
-        "Gemini returns typed JSON—advice category, confidence, recommended actions, caveats. No parsing hacks. The front end renders directly from the schema.",
+        "Gemini returns typed JSON: advice category, confidence, recommended actions, caveats. No parsing hacks. The front end renders directly from the schema.",
       ],
       [
         "FastAPI backend",
@@ -759,7 +759,7 @@ export const cases: CaseStudy[] = [
       ],
       [
         "Plain-language input",
-        "No forms—farmers describe the problem in one text field. System prompt injects location, season, and crop context from a minimal onboarding step.",
+        "No forms: farmers describe the problem in one text field. System prompt injects location, season, and crop context from a minimal onboarding step.",
       ],
       [
         "Context injection via tools",

@@ -12,7 +12,6 @@ export default function WritingPage() {
       {/* Header */}
       <div
         className="px-6 md:px-12 pt-20 pb-10"
-        style={{ borderBottom: "1px solid var(--border)" }}
       >
         <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-5">
           <div>

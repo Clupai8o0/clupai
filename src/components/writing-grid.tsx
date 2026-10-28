@@ -17,7 +17,6 @@ function PostCard({ p, index }: { p: PostMeta; index: number }) {
       className="writing-card"
       style={{
         padding: "32px 24px",
-        borderBottom: "1px solid var(--border)",
         display: "flex",
         flexDirection: "column",
         minHeight: 300,
@@ -143,7 +142,6 @@ export default function WritingGrid({ posts }: { posts: PostMeta[] }) {
       {/* Tag filters */}
       <div
         className="px-6 md:px-12 pt-8 pb-0"
-        style={{ borderBottom: "1px solid var(--border)" }}
       >
         <div className="flex gap-2 flex-wrap pb-8">
           {TAGS.map((t) => (
@@ -216,7 +214,6 @@ function FeaturedCard({ post }: { post: PostMeta }) {
   return (
     <div
       className="px-6 md:px-12 py-10 md:py-12"
-      style={{ borderBottom: "1px solid var(--border)" }}
     >
       <Link
         href={`/writing/${post.slug}`}

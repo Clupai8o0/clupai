@@ -79,15 +79,15 @@ function contextCopy(score: number, url: string, strategy: string): string {
   })();
 
   if (score >= 90) {
-    return `${domain} scored ${score} on ${device} — that&apos;s in the top tier. Fast load times reduce bounce rates and send positive signals to Google, reinforcing your search rankings. Keep it maintained as you add content.`;
+    return `${domain} scored ${score} on ${device}: that&apos;s in the top tier. Fast load times reduce bounce rates and send positive signals to Google, reinforcing your search rankings. Keep it maintained as you add content.`;
   }
   if (score >= 70) {
-    return `${domain} scored ${score} on ${device} — decent, but there&apos;s real room for improvement. Google uses page experience as a ranking input, and in competitive local markets, every point counts. We can usually get sites into the 90+ range.`;
+    return `${domain} scored ${score} on ${device}: decent, but there&apos;s real room for improvement. Google uses page experience as a ranking input, and in competitive local markets, every point counts. We can usually get sites into the 90+ range.`;
   }
   if (score >= 50) {
-    return `${domain} scored ${score} on ${device} — this is below what Google expects for a good page experience. Slow sites lose visitors before the page even loads. Fixing this is likely the highest-ROI technical change you can make right now.`;
+    return `${domain} scored ${score} on ${device}. This is below what Google expects for a good page experience. Slow sites lose visitors before the page even loads. Fixing this is likely the highest-ROI technical change you can make right now.`;
   }
-  return `${domain} scored ${score} on ${device} — that&apos;s a significant performance problem. Visitors on ${device} are almost certainly bouncing before your content appears, and Google is likely deprioritising the site as a result. This needs urgent attention.`;
+  return `${domain} scored ${score} on ${device}: that&apos;s a significant performance problem. Visitors on ${device} are almost certainly bouncing before your content appears, and Google is likely deprioritising the site as a result. This needs urgent attention.`;
 }
 
 const inputStyle: React.CSSProperties = {
@@ -319,7 +319,6 @@ export default function CWVAudit() {
       <div
         style={{
           padding: "56px 48px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div className="cp-eyebrow" style={{ marginBottom: 12 }}>
@@ -343,7 +342,7 @@ export default function CWVAudit() {
             margin: 0,
           }}
         >
-          Check your site&apos;s LCP, INP, and CLS scores — the three metrics Google
+          Check your site&apos;s LCP, INP, and CLS scores: the three metrics Google
           uses to assess page experience. No account needed.
         </p>
       </div>
@@ -632,19 +631,19 @@ export default function CWVAudit() {
                   label="LCP"
                   value={result.lcpDisplay}
                   rating={lcpRating(result.lcp)}
-                  description="Largest Contentful Paint — how fast your main content loads."
+                  description="Largest Contentful Paint: how fast your main content loads."
                 />
                 <MetricCard
                   label="INP"
                   value={result.inpDisplay}
                   rating={inpRating(result.inp)}
-                  description="Interaction to Next Paint — how quickly your page responds to input."
+                  description="Interaction to Next Paint: how quickly your page responds to input."
                 />
                 <MetricCard
                   label="CLS"
                   value={result.clsDisplay}
                   rating={clsRating(result.cls)}
-                  description="Cumulative Layout Shift — how much your content jumps around while loading."
+                  description="Cumulative Layout Shift: how much your content jumps around while loading."
                 />
               </div>
 
@@ -761,9 +760,9 @@ export default function CWVAudit() {
                     maxWidth: 520,
                   }}
                 >
-                  We&apos;ll analyse your Core Web Vitals in detail — waterfall
+                  We&apos;ll analyse your Core Web Vitals in detail: waterfall
                   charts, render-blocking resources, image optimisation, server
-                  response time — and send you a prioritised fix list.
+                  response time, and send you a prioritised fix list.
                 </p>
                 <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
                   <a
@@ -826,10 +825,9 @@ export default function CWVAudit() {
         </div>
       </div>
 
-      {/* What are Core Web Vitals — explainer */}
+      {/* What are Core Web Vitals: explainer */}
       <div
         style={{
-          borderTop: "1px solid var(--border)",
           padding: "72px 48px",
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
@@ -861,7 +859,7 @@ export default function CWVAudit() {
               Core Web Vitals are a set of real-world metrics Google uses to
               measure user experience on the web. They directly factor into
               Google&apos;s page experience ranking signal, meaning a slow site can
-              cost you search rankings — even if everything else is in order.
+              cost you search rankings: even if everything else is in order.
             </p>
             <p style={{ margin: 0 }}>
               The three key metrics are LCP (how fast your main content appears),
@@ -871,7 +869,7 @@ export default function CWVAudit() {
             </p>
             <p style={{ margin: 0 }}>
               For local Melbourne businesses, mobile performance is especially
-              critical — most searches happen on phones, often on 4G connections.
+              critical: most searches happen on phones, often on 4G connections.
               If your site scores below 70 on mobile, you&apos;re likely losing
               visitors before they ever read your offer.
             </p>
@@ -899,7 +897,7 @@ export default function CWVAudit() {
               full: "Cumulative Layout Shift",
               good: "< 0.1",
               poor: "> 0.25",
-              what: "Measures visual instability — buttons jumping, text reflowing. Causes accidental clicks and frustration.",
+              what: "Measures visual instability, buttons jumping, text reflowing. Causes accidental clicks and frustration.",
             },
           ].map((m) => (
             <div

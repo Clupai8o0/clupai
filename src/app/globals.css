@@ -8,7 +8,7 @@
   --border-2: #2a2a2a;
   --text: #e5e5e5;
   --text-muted: #9a9a9a;
-  --text-dim: #6b6b6b;
+  --text-dim: #7a7a7a;
   --accent: #4da3ff;
   --accent-ink: #050505;
   --accent-glow: color-mix(in oklab, var(--accent) 22%, transparent);
@@ -212,36 +212,33 @@ video {
 
 .cp-service-card {
   position: relative;
-  transition: background 0.18s ease;
 }
 
-.cp-service-card::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: var(--accent);
-  opacity: 0;
-  transition: opacity 0.18s ease;
-  pointer-events: none;
+/* The /services rows are cards in a gapped stack: at narrow widths the
+   three columns stack instead of squeezing the feature list. */
+@media (max-width: 1024px) {
+  .cp-service-list {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+  .cp-service-card {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+  }
+  .cp-service-card > :last-child {
+    grid-column: 1 / -1;
+  }
 }
 
-.cp-service-card:hover {
-  background: var(--surface);
-}
-
-.cp-service-card:hover::before {
-  opacity: 1;
-}
-
-.cp-service-card:hover .cp-service-num {
-  color: var(--text-muted);
-}
-
-.cp-service-num {
-  transition: color 0.18s ease;
+@media (max-width: 768px) {
+  .cp-service-list {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .cp-service-card {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 20px !important;
+    padding: 28px 24px !important;
+  }
 }
 
 /* A card set apart by tone instead of rules, on a surface band */
@@ -265,12 +262,8 @@ video {
   transition: transform 0.22s ease;
 }
 
-.cp-service-card:hover .cp-service-arrow {
+.cp-card:hover .cp-service-arrow {
   transform: translateX(5px);
-}
-
-.cp-hair {
-  border-top: 1px solid var(--border);
 }
 
 .cp-num {
@@ -280,24 +273,6 @@ video {
 }
 
 /* Kit cards — homepage */
-.cp-kit-card {
-  transition: background 0.2s ease, border-color 0.2s ease;
-  position: relative;
-}
-
-.cp-kit-card:hover {
-  background: var(--surface);
-}
-
-.cp-kit-buy {
-  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease !important;
-}
-
-.cp-kit-card:hover .cp-kit-buy {
-  border-color: var(--accent) !important;
-  color: var(--accent) !important;
-}
-
 /* See all kits CTA */
 .cp-kits-cta {
   font-size: 15px !important;
@@ -316,37 +291,9 @@ video {
 }
 
 /* Tablet: kits grid — 3rd card full width */
-@media (max-width: 900px) {
-  .cp-kits-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 24px;
-    padding: 48px 32px 40px;
-  }
-  .cp-kits-mrr {
-    text-align: left !important;
-  }
-  .cp-kits-bottom {
-    padding: 24px 32px !important;
-    flex-wrap: wrap;
-    justify-content: flex-end !important;
-  }
-}
 
 @media (min-width: 601px) and (max-width: 900px) {
   /* 2-col kit grid on tablet */
-  .cp-kits-grid {
-    grid-template-columns: 1fr 1fr !important;
-  }
-  .cp-kit-card:last-child {
-    grid-column: 1 / -1;
-  }
-}
-
-@media (max-width: 600px) {
-  .cp-kits-grid {
-    grid-template-columns: 1fr !important;
-  }
 }
 
 /* Writing post body — list markers */
@@ -373,11 +320,9 @@ video {
 }
 
 .writing-posts-grid .writing-card {
-  border-right: 1px solid var(--border);
 }
 
 .writing-posts-grid .writing-card:nth-child(3n) {
-  border-right: none;
 }
 
 @media (max-width: 1023px) and (min-width: 640px) {
@@ -385,16 +330,12 @@ video {
     grid-template-columns: repeat(2, 1fr);
   }
   .writing-posts-grid .writing-card {
-    border-right: 1px solid var(--border);
   }
   .writing-posts-grid .writing-card:nth-child(2n) {
-    border-right: none;
   }
   .writing-posts-grid .writing-card:nth-child(3n) {
-    border-right: 1px solid var(--border);
   }
   .writing-posts-grid .writing-card:nth-child(2n):last-child {
-    border-right: none;
   }
 }
 
@@ -403,7 +344,6 @@ video {
     grid-template-columns: 1fr;
   }
   .writing-posts-grid .writing-card {
-    border-right: none !important;
   }
 }
 
@@ -1089,7 +1029,6 @@ video {
   padding: 24px 20px 40px;
   gap: 6px;
   z-index: 49;
-  border-top: 1px solid var(--border);
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -1103,7 +1042,6 @@ video {
   font-weight: 500;
   font-size: 20px;
   letter-spacing: -0.01em;
-  border-bottom: 1px solid var(--border);
   color: var(--text);
 }
 
@@ -1117,7 +1055,6 @@ video {
 
 .cp-mobile-menu .cta {
   margin-top: 18px;
-  border-bottom: none !important;
   background: var(--accent);
   color: var(--accent-ink);
   border-radius: var(--radius);
@@ -1149,23 +1086,6 @@ video {
 }
 
 /* === Pricing grid === */
-.cp-pricing-grid {
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-}
-
-.cp-pricing-card:not(:first-child) {
-  border-left: 1px solid var(--border);
-}
-
-.cp-pricing-card {
-  transition: background 0.15s;
-}
-
-.cp-pricing-card:hover {
-  background: rgba(255, 255, 255, 0.055);
-}
-
 /* Footer socials — mobile only */
 .cp-footer-socials {
   display: none;
@@ -1705,7 +1625,11 @@ video {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--accent);
+  background: currentColor;
+}
+/* Only a shipped kit gets the accent dot; a beta reads as in-progress. */
+.hm-kit-live[data-status="Beta"] {
+  color: var(--text-muted);
 }
 .hm-kit-tag {
   margin: 10px 0 0;
@@ -1894,88 +1818,19 @@ video {
 }
 
 /* === Bento work grid === */
-.cp-work-bento {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-}
 
-.cp-bento-large {
-  grid-column: span 2;
-  min-height: 300px;
-}
-
-.cp-bento-small {
-  min-height: 380px;
-}
-
-.cp-bento-inner {
-  display: flex;
-  flex: 1;
-  min-height: 0;
-}
-
-.cp-bento-stat-col {
-  flex: 0 0 44%;
-  padding-right: 28px;
-  border-right: 1px solid var(--border);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.cp-bento-info-col {
-  flex: 1;
-  padding-left: 28px;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-@media (max-width: 1024px) {
-  .cp-work-bento {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .cp-bento-large {
-    grid-column: span 1;
-    min-height: 0;
-  }
-  .cp-bento-small {
-    min-height: 0;
-  }
-  .cp-bento-inner {
-    flex-direction: column;
-  }
-  .cp-bento-stat-col {
-    flex: unset;
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-    padding-right: 0;
-    padding-bottom: 20px;
-  }
-  .cp-bento-info-col {
-    padding-left: 0;
-    padding-top: 20px;
-  }
-}
-
-@media (max-width: 768px) {
-  .cp-work-bento {
-    grid-template-columns: 1fr;
-  }
-}
 
 /* === Tablet & smaller — collapse 5/4/3-col grids to 2, stack fixed-col heroes === */
 @media (max-width: 900px) {
   [style*="repeat(5, 1fr)"],
   [style*="repeat(4, 1fr)"],
   [style*="repeat(3, 1fr)"] {
-    grid-template-columns: repeat(2, 1fr) !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 
   /* About hero: 420px fixed column is too wide at tablet — stack */
   [style*="420px 1fr"] {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: minmax(0, 1fr) !important;
   }
 }
 
@@ -2001,7 +1856,7 @@ video {
 
   /* Service list rows — too narrow to read in 4-col at tablet width */
   [style*="80px 1fr 1fr 280px"] {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: minmax(0, 1fr) !important;
     gap: 16px !important;
   }
 
@@ -2018,7 +1873,7 @@ video {
 
   /* Hero CTA: stack text + buttons */
   .cp-hero-cta {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: minmax(0, 1fr) !important;
     gap: 24px !important;
     margin-top: 36px !important;
   }
@@ -2031,13 +1886,13 @@ video {
 
   /* Service detail hero — stack price card at tablet */
   .cp-svc-hero-grid {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: minmax(0, 1fr) !important;
     gap: 32px !important;
   }
 
   /* Stack 320px sidebar + content grids (included, FAQ) at tablet */
   [style*="320px 1fr"] {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: minmax(0, 1fr) !important;
     gap: 32px !important;
   }
 
@@ -2053,7 +1908,7 @@ video {
 
   /* Case study: stack at tablet */
   .cp-svc-cs-grid {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: minmax(0, 1fr) !important;
     gap: 32px !important;
   }
 
@@ -2065,7 +1920,7 @@ video {
 
 /* === Narrow iPad portrait (769px–860px) — stack AboutTeaser === */
 @media (min-width: 769px) and (max-width: 860px) {
-  [style*="380px 1fr"] { grid-template-columns: 1fr !important; }
+  [style*="380px 1fr"] { grid-template-columns: minmax(0, 1fr) !important; }
   [style*="gap: 56px"]  { gap: 32px !important; }
 }
 
@@ -2130,7 +1985,7 @@ video {
   [style*="repeat(4, 1fr)"],
   [style*="repeat(3, 1fr)"],
   [style*="repeat(2, 1fr)"] {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: minmax(0, 1fr) !important;
   }
 
   [style*="1.3fr 1fr"],
@@ -2145,13 +2000,16 @@ video {
   [style*="1fr 560px"],
   [style*="1fr auto"],
   [style*="80px 1fr 1fr 280px"],
-  [style*="72px 1.1fr 1.4fr 180px 140px 60px"] {
-    grid-template-columns: 1fr !important;
+  [style*="72px 1.1fr 1.4fr 180px 140px 60px"],
+  [style*="1fr 120px 1fr"],
+  [style*="80px 1fr 1fr"],
+  [style*="1fr 80px"] {
+    grid-template-columns: minmax(0, 1fr) !important;
   }
 
   /* "1fr 1fr" 2-column grids */
   [style*="1fr 1fr"] {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: minmax(0, 1fr) !important;
   }
 
   /* gap reductions */
@@ -2288,21 +2146,6 @@ video {
   }
 
   /* Pricing grid — full borders, stacked on mobile */
-  .cp-pricing-grid {
-    border-top: none;
-    border-bottom: none;
-  }
-
-  .cp-pricing-card {
-    border: 1px solid var(--border);
-    border-right: 1px solid var(--border);
-  }
-
-  .cp-pricing-card:not(:first-child) {
-    border-left: 1px solid var(--border);
-    border-top: none;
-  }
-
   /* CTA buttons — full width, stacked on mobile */
   .cp-cta-buttons {
     flex-direction: column !important;
@@ -2335,13 +2178,13 @@ video {
 
   /* Items included grid: single column */
   .cp-svc-items-grid {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: minmax(0, 1fr) !important;
     gap: 0 !important;
   }
 
   /* Process: single column, no min-height */
   .cp-svc-process-grid {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: minmax(0, 1fr) !important;
   }
   .cp-svc-step {
     min-height: 0 !important;
@@ -2349,7 +2192,7 @@ video {
 
   /* Case study: stack */
   .cp-svc-cs-grid {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: minmax(0, 1fr) !important;
     gap: 28px !important;
   }
 
@@ -2417,65 +2260,19 @@ video {
 /* === Cal booking calendar grid — stack on mobile === */
 @media (max-width: 768px) {
   .cp-cal-grid {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: minmax(0, 1fr) !important;
   }
 }
 
 /* === Contact page — stack at tablet === */
 @media (max-width: 1280px) {
   .cp-contact-grid {
-    grid-template-columns: 1fr !important;
-  }
-  .cp-contact-col-left {
-    border-right: none !important;
-    border-bottom: 1px solid var(--border) !important;
+    grid-template-columns: minmax(0, 1fr) !important;
   }
 }
 
 /* === Kits section (homepage teaser) === */
-.cp-kit-card {
-  transition: background 0.18s ease;
-}
 
-.cp-kit-card:last-child {
-  border-right: none !important;
-}
-
-.cp-kit-card:hover {
-  background: rgba(255, 255, 255, 0.025);
-}
-
-@media (max-width: 900px) {
-  .cp-kit-card:nth-child(2n) {
-    border-right: none;
-  }
-  .cp-kit-card:nth-child(-n+2) {
-    border-bottom: 1px solid var(--border);
-  }
-}
-
-@media (max-width: 768px) {
-  .cp-kit-card {
-    border-right: none !important;
-    border-bottom: 1px solid var(--border) !important;
-  }
-  .cp-kit-card:last-child {
-    border-bottom: none !important;
-  }
-  .cp-kits-header {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 24px !important;
-  }
-  .cp-kits-mrr {
-    text-align: left !important;
-  }
-  .cp-kits-bottom {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 20px !important;
-  }
-}
 
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -2557,5 +2354,28 @@ video {
 @media (max-width: 768px) {
   .cp-legal-toc {
     grid-template-columns: 1fr;
+  }
+}
+
+/* === Suburb pages — these grids had no breakpoints at all === */
+@media (max-width: 1024px) {
+  .cp-suburb-hero {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 40px !important;
+    align-items: start !important;
+  }
+  .cp-suburb-split {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 32px !important;
+  }
+  .cp-suburb-trio {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .cp-suburb-trio,
+  .cp-suburb-duo {
+    grid-template-columns: minmax(0, 1fr) !important;
   }
 }

@@ -29,7 +29,6 @@ export default function LegalPage({
       <header
         style={{
           padding: "64px 48px 56px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div style={{ maxWidth: 820, margin: "0 auto" }}>
@@ -76,7 +75,6 @@ export default function LegalPage({
             style={{
               marginBottom: 56,
               paddingBottom: 36,
-              borderBottom: "1px solid var(--border)",
             }}
           >
             <div className="cp-mono" style={{ marginBottom: 18 }}>

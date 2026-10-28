@@ -84,13 +84,13 @@ export default function ContactForm() {
       if (res.ok) {
         setState("sent");
       } else {
-        setErrorMsg(data.error ?? "Something went wrong — please email hello@clupai.com");
+        setErrorMsg(data.error ?? "Something went wrong: please email hello@clupai.com");
         setState("error");
         turnstileRef.current?.reset();
         setTurnstileToken("");
       }
     } catch {
-      setErrorMsg("Network error — please try again or email hello@clupai.com");
+      setErrorMsg("Network error: please try again or email hello@clupai.com");
       setState("error");
       turnstileRef.current?.reset();
       setTurnstileToken("");
@@ -140,11 +140,11 @@ export default function ContactForm() {
               letterSpacing: "-0.02em",
             }}
           >
-            Sent. I&apos;ll reply within one AU business day.
+            Sent. We&apos;ll reply within one AU business day.
           </div>
         </div>
         <div style={{ color: "var(--text-muted)", fontSize: 14, lineHeight: 1.5, paddingLeft: 48 }}>
-          Check your inbox — a copy has been sent to {email}.
+          Check your inbox: a copy has been sent to {email}.
         </div>
       </div>
     );
@@ -154,7 +154,7 @@ export default function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-      {/* Honeypot — leave empty */}
+      {/* Honeypot: leave empty */}
       <div
         aria-hidden="true"
         style={{
@@ -242,7 +242,7 @@ export default function ContactForm() {
           disabled={sending}
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
-          placeholder="optional — for a quick text"
+          placeholder="optional: for a quick text"
           onFocus={() => setFocused("phone")}
           onBlur={() => setFocused(null)}
           style={fieldStyle(focused === "phone")}

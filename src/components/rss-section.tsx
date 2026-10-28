@@ -15,7 +15,6 @@ export default function RssSection() {
   return (
     <div
       className="px-6 md:px-12 py-12 flex flex-col md:flex-row md:justify-between md:items-center gap-6"
-      style={{ borderTop: "1px solid var(--border)" }}
     >
       <div>
         <div className="cp-mono mb-1">Subscribe · no newsletter theatre</div>

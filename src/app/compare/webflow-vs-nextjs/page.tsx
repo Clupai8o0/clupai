@@ -26,25 +26,25 @@ const nextjsWins = [
   "API integrations: connecting to custom APIs, internal systems, or anything beyond Webflow's native integrations requires workarounds or third-party services.",
   "No vendor lock-in: your Webflow site lives on Webflow's infrastructure. If they raise prices, change terms, or discontinue a feature, your options are limited. Next.js code is yours.",
   "Scale: for high-traffic sites or sites with complex content models, Next.js gives you caching, edge deployment, and infrastructure control that Webflow doesn't.",
-  "Custom data models: Webflow's CMS is good for standard patterns. Once your content model gets complex — nested relationships, dynamic filtering, user-generated content — you need code.",
+  "Custom data models: Webflow's CMS is good for standard patterns. Once your content model gets complex (nested relationships, dynamic filtering, user-generated content), you need code.",
 ];
 
 const faqs = [
   {
     q: "Can Webflow match Next.js on performance?",
-    a: "On a simple marketing site, Webflow can score well on Core Web Vitals. The ceiling is lower — you're constrained by what Webflow outputs — but for a site without complex interactions, the gap may not matter in practice. For sites where LCP is a competitive SEO factor, or where you need a sub-1-second load time, Next.js gives you more control.",
+    a: "On a simple marketing site, Webflow can score well on Core Web Vitals. The ceiling is lower: you're constrained by what Webflow outputs, but for a site without complex interactions, the gap may not matter in practice. For sites where LCP is a competitive SEO factor, or where you need a sub-1-second load time, Next.js gives you more control.",
   },
   {
     q: "What's the actual pricing difference?",
-    a: "Webflow charges per site on an ongoing basis — a recurring monthly platform fee, plus agency or freelancer time to build it. A Next.js site has a higher one-time build cost but near-zero ongoing platform fees (Vercel's free tier covers most small business sites). Over three years, the total cost is often similar or lower for custom. Book a call and we'll put a real number on your specific build.",
+    a: "Webflow charges per site on an ongoing basis: a recurring monthly platform fee, plus agency or freelancer time to build it. A Next.js site has a higher one-time build cost but near-zero ongoing platform fees (Vercel's free tier covers most small business sites). Over three years, the total cost is often similar or lower for custom. Book a call and we'll put a real number on your specific build.",
   },
   {
     q: "What about Webflow's editor for content teams?",
-    a: "Webflow's editor is genuinely good for non-technical users. If your content team needs daily publishing autonomy, it's a real advantage. Our Next.js builds use headless CMS options (TinaCMS, Sanity) that give editors a clean interface — it's not quite as drag-and-drop as Webflow, but it's designed around what your editors actually need to change.",
+    a: "Webflow's editor is genuinely good for non-technical users. If your content team needs daily publishing autonomy, it's a real advantage. Our Next.js builds use headless CMS options (TinaCMS, Sanity) that give editors a clean interface: it's not quite as drag-and-drop as Webflow, but it's designed around what your editors actually need to change.",
   },
   {
-    q: "We're a design agency — do you build on Webflow?",
-    a: "We don't. If you're a design agency that prefers Webflow as your delivery tool, that's fine for your clients — but it's not how we work. Our builds are in Next.js with TypeScript. If you need a development partner who works in Next.js for design handoffs, we can discuss how that looks.",
+    q: "We're a design agency: do you build on Webflow?",
+    a: "We don't. If you're a design agency that prefers Webflow as your delivery tool, that's fine for your clients, but it's not how we work. Our builds are in Next.js with TypeScript. If you need a development partner who works in Next.js for design handoffs, we can discuss how that looks.",
   },
 ];
 
@@ -94,7 +94,6 @@ export default function WebflowVsNextjsPage() {
       <div
         style={{
           padding: "32px 48px 80px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div className="cp-eyebrow" style={{ marginBottom: 12 }}>
@@ -123,7 +122,7 @@ export default function WebflowVsNextjsPage() {
             lineHeight: 1.5,
           }}
         >
-          We build everything in Next.js — but Webflow genuinely wins for some
+          We build everything in Next.js, but Webflow genuinely wins for some
           use cases. Here&apos;s the honest breakdown.
         </p>
       </div>
@@ -133,7 +132,6 @@ export default function WebflowVsNextjsPage() {
         style={{
           padding: "72px 48px",
           background: "var(--surface)",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div className="cp-mono" style={{ marginBottom: 20 }}>
@@ -208,7 +206,6 @@ export default function WebflowVsNextjsPage() {
       <div
         style={{
           padding: "80px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -250,7 +247,6 @@ export default function WebflowVsNextjsPage() {
                   gap: 16,
                   paddingTop: 18,
                   paddingBottom: 18,
-                  borderTop: "1px solid var(--border)",
                   fontSize: 16,
                   lineHeight: 1.6,
                   color: "var(--text-muted)",
@@ -275,7 +271,6 @@ export default function WebflowVsNextjsPage() {
         style={{
           padding: "80px 48px",
           background: "var(--surface)",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -313,7 +308,6 @@ export default function WebflowVsNextjsPage() {
                   gap: 16,
                   paddingTop: 18,
                   paddingBottom: 18,
-                  borderTop: "1px solid var(--border)",
                   fontSize: 16,
                   lineHeight: 1.6,
                   alignItems: "start",
@@ -333,7 +327,6 @@ export default function WebflowVsNextjsPage() {
       <div
         style={{
           padding: "80px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div className="cp-mono" style={{ marginBottom: 20 }}>
@@ -357,7 +350,7 @@ export default function WebflowVsNextjsPage() {
               Webflow sites can score well on Lighthouse for simple pages. The
               editor adds some JavaScript overhead, and complex animations or
               CMS-heavy pages can lower scores. You&apos;re constrained by what
-              Webflow outputs — there&apos;s a ceiling you can&apos;t break through
+              Webflow outputs: there&apos;s a ceiling you can&apos;t break through
               without leaving the platform.
             </p>
           </div>
@@ -386,7 +379,6 @@ export default function WebflowVsNextjsPage() {
       <div
         style={{
           padding: "72px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div className="cp-mono" style={{ marginBottom: 20 }}>
@@ -407,7 +399,7 @@ export default function WebflowVsNextjsPage() {
               pay up, or rebuild from scratch.
             </p>
             <p style={{ fontSize: 17, color: "var(--text-muted)", lineHeight: 1.7, marginTop: 16 }}>
-              This isn&apos;t a hypothetical — Webflow has raised prices and
+              This isn&apos;t a hypothetical: Webflow has raised prices and
               changed tier features before. It&apos;s the normal trajectory for
               a VC-backed SaaS platform.
             </p>
@@ -415,7 +407,7 @@ export default function WebflowVsNextjsPage() {
           <div>
             <p style={{ fontSize: 17, color: "var(--text-muted)", lineHeight: 1.7, margin: 0 }}>
               A Next.js site is code. It lives in a Git repository you own. It
-              can be hosted anywhere — Vercel, AWS, Cloudflare, your own
+              can be hosted anywhere: Vercel, AWS, Cloudflare, your own
               server. If you want to change hosting providers, you can. If you
               want to hand the codebase to a different developer, you can.
             </p>
@@ -432,7 +424,6 @@ export default function WebflowVsNextjsPage() {
         style={{
           padding: "80px 48px",
           background: "var(--surface)",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div className="cp-mono" style={{ marginBottom: 20 }}>
@@ -447,7 +438,6 @@ export default function WebflowVsNextjsPage() {
                 gridTemplateColumns: "1fr 120px 1fr",
                 gap: 32,
                 padding: "20px 0",
-                borderTop: "1px solid var(--border)",
                 alignItems: "center",
               }}
             >
@@ -492,7 +482,6 @@ export default function WebflowVsNextjsPage() {
       <div
         style={{
           padding: "80px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -522,7 +511,6 @@ export default function WebflowVsNextjsPage() {
               <details
                 key={i}
                 style={{
-                  borderTop: "1px solid var(--border)",
                   padding: "20px 0",
                 }}
                 open={i === 0}
@@ -558,7 +546,6 @@ export default function WebflowVsNextjsPage() {
                 </p>
               </details>
             ))}
-            <div style={{ borderTop: "1px solid var(--border)" }} />
           </div>
         </div>
       </div>
@@ -567,7 +554,6 @@ export default function WebflowVsNextjsPage() {
       <div
         style={{
           padding: "56px 48px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div className="cp-mono" style={{ marginBottom: 20 }}>

@@ -8,7 +8,7 @@ import SocialLinks from "@/components/social-links";
 const rules = [
   ["01", "Fixed price, firm scope", "Quotes are firm. If scope changes, we'll say so before we bill, not after."],
   ["02", "One AU business day replies", "Non-negotiable. If we're away, you'll know before you book."],
-  ["03", "You own everything", "Code, hosting, ad accounts, analytics—yours from day one."],
+  ["03", "You own everything", "Code, hosting, ad accounts, analytics: yours from day one."],
   ["04", "Weekly ship rhythm", "One priority a week. Loom + numbers, no status-report theatre."],
   ["05", "Outcome over optics", "If it's not changing a number that matters, we won't build it."],
   ["06", "Fire us if it's not working", "Month-to-month where it applies. 30 days' notice. No guilt, no lock-in."],
@@ -31,10 +31,10 @@ const notFit = [
 ];
 
 const elsewhere = [
-  ["Portfolio", "samridhlimbu.com", "My personal site — code, experiments, credentialing"],
+  ["Portfolio", "samridhlimbu.com", "My personal site: code, experiments, credentialing"],
   ["Writing", "/writing", "Essays and working notes from the studio"],
   ["Email", "hello@clupai.com", "Replies within 1 AU business day"],
-  ["Call", "cal.com/clupai", "20-minute scope call — no slideshow"],
+  ["Call", "cal.com/clupai", "20-minute scope call, no slideshow"],
 ];
 
 export default function AboutPage() {
@@ -199,7 +199,7 @@ export default function AboutPage() {
             }}
           >
             We think a small studio can do better on the projects that
-            actually suit it—operators in Melbourne, work that fits in a small
+            actually suit it: operators in Melbourne, work that fits in a small
             number of sprints. Past that, we&apos;ll refer you.
           </p>
         </div>
@@ -347,7 +347,7 @@ export default function AboutPage() {
                     paddingBottom: 14,
                   }}
                 >
-                  <span style={{ color: "var(--text-dim)" }}>—</span>
+                  <span style={{ color: "var(--text-dim)" }}>·</span>
                   <span
                     style={{
                       fontSize: 15,

@@ -7,9 +7,9 @@ import AuditForm from "./audit-form";
 import Funnel from "./funnel";
 
 export const metadata: Metadata = {
-  title: { absolute: "Start — Clupai Melbourne Web Studio" },
+  title: { absolute: "Start · Clupai Melbourne Web Studio" },
   description:
-    "Book a free scope call with the studio behind Clupai. Melbourne websites, SEO and automation — fixed-price quotes, no account managers.",
+    "Book a free scope call with the studio behind Clupai. Melbourne websites, SEO and automation: fixed-price quotes, no account managers.",
   robots: { index: false, follow: false },
 };
 
@@ -60,7 +60,7 @@ export default function StartPage() {
               ...fadeUp(0.09),
             }}
           >
-            We design, build, and grow websites for Melbourne businesses — so you
+            We design, build, and grow websites for Melbourne businesses, so you
             rank higher, convert more visitors, and stop leaving revenue on the table.
           </p>
 
@@ -86,8 +86,6 @@ export default function StartPage() {
       <section
         style={{
           padding: "20px 48px",
-          borderTop: "1px solid var(--border)",
-          borderBottom: "1px solid var(--border)",
           background: "var(--surface)",
         }}
       >
@@ -100,7 +98,7 @@ export default function StartPage() {
         </div>
       </section>
 
-      {/* Funnel — problem → solution → contact → pricing */}
+      {/* Funnel: problem → solution → contact → pricing */}
       <section id="funnel" style={{ padding: "72px 48px", scrollMarginTop: 80 }}>
         <div style={{ maxWidth: 820, margin: "0 auto 36px", textAlign: "center" }}>
           <div className="cp-eyebrow" style={{ marginBottom: 12 }}>
@@ -117,12 +115,11 @@ export default function StartPage() {
         <Funnel />
       </section>
 
-      {/* Book — live Cal.com */}
+      {/* Book: live Cal.com */}
       <section
         id="book"
         style={{
           padding: "72px 48px",
-          borderTop: "1px solid var(--border)",
           background: "var(--surface)",
           scrollMarginTop: 80,
         }}
@@ -142,12 +139,11 @@ export default function StartPage() {
         </div>
       </section>
 
-      {/* Free site audit — email capture */}
+      {/* Free site audit: email capture */}
       <section
         id="audit"
         style={{
           padding: "72px 48px",
-          borderTop: "1px solid var(--border)",
           scrollMarginTop: 80,
         }}
       >
@@ -160,7 +156,7 @@ export default function StartPage() {
           </h2>
           <p style={{ color: "var(--text-muted)", fontSize: 16, lineHeight: 1.55, margin: "0 0 28px" }}>
             We&apos;ll record a Loom walking through your biggest conversion and
-            speed issues. No pitch — just the findings.
+            speed issues. No pitch, just the findings.
           </p>
           <AuditForm />
         </div>

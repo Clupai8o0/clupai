@@ -18,7 +18,6 @@ export default function AppsPage() {
       <div
         style={{
           padding: "80px 48px 56px",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -49,7 +48,7 @@ export default function AppsPage() {
                 lineHeight: 1.5,
               }}
             >
-              Bits I use on every project, packaged for anyone. Buy once, use
+              Bits we use on every project, packaged for anyone. Buy once, use
               forever. No subscriptions unless the thing actually needs one.
             </p>
           </div>
@@ -95,7 +94,6 @@ export default function AppsPage() {
               gridTemplateColumns: "72px 1.1fr 1.4fr 180px 140px 60px",
               gap: 24,
               padding: "28px 0",
-              borderBottom: "1px solid var(--border)",
               alignItems: "center",
               cursor: "pointer",
               textDecoration: "none",
@@ -185,7 +183,7 @@ export default function AppsPage() {
               >
                 {a.price}
               </div>
-              {a.mrr !== "—" && (
+              {a.mrr && (
                 <div
                   className="cp-mono"
                   style={{ color: "var(--text-muted)", marginTop: 4 }}
@@ -235,8 +233,6 @@ export default function AppsPage() {
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
           gap: 48,
-          borderTop: "1px solid var(--border)",
-          borderBottom: "1px solid var(--border)",
         }}
       >
         <div>
@@ -258,11 +254,11 @@ export default function AppsPage() {
             margin: 0,
           }}
         >
-          Each of these started as something I built for one client, then
-          realised I&apos;d need again. I package them, charge enough to cover
-          the support, and keep them alive. Nothing here is a side hustle I hope
-          becomes a SaaS. If MRR drops to zero, the product goes to an archive
-          page—not to a bigger pricing plan.
+          Each of these started as something we built for one client, then
+          realised we&apos;d need again. We package them, charge enough to cover
+          the support, and keep them alive. Nothing here is a side hustle hoping
+          to become a SaaS. If MRR drops to zero, the product goes to an archive
+          page, not to a bigger pricing plan.
         </p>
       </div>
 

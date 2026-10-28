@@ -1,4 +1,4 @@
-// Single source of truth for all pricing. Change a number here — it propagates everywhere.
+// Single source of truth for all pricing. Change a number here. It propagates everywhere.
 
 // ─── Per-service prices ────────────────────────────────────────────────────────
 
@@ -30,7 +30,7 @@ export const TIERS: Tier[] = [
     who: "Operators with a site that looks okay and sells badly.",
     accent: false,
     bullets: [
-      "Up to 8 pages — home, services, about, contact, 3 content pages",
+      "Up to 8 pages: home, services, about, contact, 3 content pages",
       "Copy draft on the first call. You edit; we refine.",
       "Next.js · Tailwind · MDX. You own the repo.",
       "Schema, sitemap, analytics, OG images, favicon pack",
@@ -48,10 +48,10 @@ export const TIERS: Tier[] = [
     accent: true,
     bullets: [
       "Everything in Launch",
-      "Advanced feature module — booking system, customer portal, quote calculator, or chatbot CMS (scoped in sprint 0)",
-      "90 days of SEO — technical, local, content (4 posts)",
+      "Advanced feature module: booking system, customer portal, quote calculator, or chatbot CMS (scoped in sprint 0)",
+      "90 days of SEO: technical, local, content (4 posts)",
       "Cal.com booking flow with budget-range qualification",
-      "CRM wire-up — HubSpot, Attio, Airtable, or your sheet",
+      "CRM wire-up: HubSpot, Attio, Airtable, or your sheet",
       "Weekly 20-minute check-ins for the first 90 days.",
     ],
     out: "Native mobile apps, ongoing ads management, complex integrations.",
@@ -64,11 +64,11 @@ export const TIERS: Tier[] = [
     who: "Businesses past product-market-fit, compounding reach month over month.",
     accent: false,
     bullets: [
-      "Sites, SEO, automation — whatever moves the number",
+      "Sites, SEO, automation: whatever moves the number",
       "One priority per week. Shipped, not queued.",
       "Monthly loom with the real numbers, no fluff deck",
       "Shared Linear: you see the roadmap we're working from",
-      "Direct line — Slack Connect or email, 1 AU biz day reply",
+      "Direct line: Slack Connect or email, 1 AU biz day reply",
       "Month-to-month. No 12-month lock. No setup fee.",
     ],
     out: "Anything outside marketing + ops. Book a call.",

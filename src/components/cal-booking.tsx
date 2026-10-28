@@ -325,10 +325,10 @@ export default function CalBooking({
         setBookedRef(data?.data?.uid ?? "confirmed");
         setSuccess(true);
       } else {
-        setSubmitErr(data.error ?? "Booking failed — please email hello@clupai.com");
+        setSubmitErr(data.error ?? "Booking failed: please email hello@clupai.com");
       }
     } catch {
-      setSubmitErr("Network error — please try again");
+      setSubmitErr("Network error: please try again");
     } finally {
       setSubmitting(false);
     }
@@ -432,7 +432,6 @@ export default function CalBooking({
       <div
         style={{
           padding: "20px 24px",
-          borderBottom: "1px solid var(--border)",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
@@ -462,7 +461,7 @@ export default function CalBooking({
         </div>
       </div>
 
-      {/* Prefilled? Reassure them up-front — the form fields only reveal after
+      {/* Prefilled? Reassure them up-front: the form fields only reveal after
           a slot is picked, so without this it reads as "nothing autofilled". */}
       {(prefill?.name || prefill?.email) && (
         <div
@@ -471,7 +470,6 @@ export default function CalBooking({
             alignItems: "center",
             gap: 10,
             padding: "12px 24px",
-            borderBottom: "1px solid var(--border)",
             background: "rgba(77,163,255,0.06)",
           }}
         >
@@ -481,7 +479,7 @@ export default function CalBooking({
             </svg>
           </span>
           <span className="cp-mono" style={{ color: "var(--text-muted)", lineHeight: 1.5 }}>
-            Your details are filled in{form.name ? `, ${form.name.split(" ")[0]}` : ""} — just pick a time below.
+            Your details are filled in{form.name ? `, ${form.name.split(" ")[0]}` : ""}, just pick a time below.
           </span>
         </div>
       )}
@@ -700,14 +698,13 @@ export default function CalBooking({
           </div>
         </div>
 
-        {/* Booking form — shown when slot is chosen */}
+        {/* Booking form: shown when slot is chosen */}
         {selectedSlot && (
           <form
             onSubmit={handleSubmit}
             style={{
               marginTop: 28,
               paddingTop: 24,
-              borderTop: "1px solid var(--border)",
             }}
           >
             <div className="cp-mono" style={{ marginBottom: 16 }}>

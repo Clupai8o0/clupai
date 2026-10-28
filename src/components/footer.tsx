@@ -9,8 +9,8 @@ const columns = [
       { label: "Websites", href: "/services/web" },
       { label: "SEO", href: "/services/seo" },
       { label: "Automation", href: "/services/automation" },
-      { label: "Web — Melbourne", href: "/services/web/melbourne" },
-      { label: "SEO — Melbourne", href: "/services/seo/melbourne" },
+      { label: "Web · Melbourne", href: "/services/web/melbourne" },
+      { label: "SEO · Melbourne", href: "/services/seo/melbourne" },
     ],
   },
   {
@@ -46,9 +46,8 @@ export default function Footer() {
   return (
     <footer
       style={{
-        borderTop: "1px solid var(--border)",
         padding: "56px 48px 32px",
-        background: "var(--bg)",
+        background: "var(--surface)",
       }}
     >
       <div
@@ -96,7 +95,7 @@ export default function Footer() {
             }}
           >
             A studio in Melbourne. Websites, SEO and automation for operators
-            who want more customers — not more account managers.
+            who want more customers, not more account managers.
           </p>
           <div
             style={{
@@ -141,13 +140,12 @@ export default function Footer() {
         ))}
       </div>
 
-      <div className="cp-hair" />
       <div
         style={{
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          paddingTop: 24,
+          paddingTop: 40,
         }}
       >
         <div

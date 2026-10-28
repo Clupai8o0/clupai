@@ -8,7 +8,7 @@ import SceneBand from "@/components/scene-band";
 export const metadata: Metadata = {
   title: "School Website Design Melbourne",
   description:
-    "Enrolment-focused website design for Melbourne private and independent schools. We build digital enrolment systems, events CMS, and accessible websites that drive applications — not just showcase events.",
+    "Enrolment-focused website design for Melbourne private and independent schools. We build digital enrolment systems, events CMS, and accessible websites that drive applications, not just showcase events.",
   alternates: { canonical: "/industries/schools" },
 };
 
@@ -27,7 +27,7 @@ const problems = [
   ],
   [
     "Events not properly promoted",
-    "Open days, orientation events, and scholarship deadlines are the school's best conversion tools — and they're buried in a news section nobody reads.",
+    "Open days, orientation events, and scholarship deadlines are the school's best conversion tools, and they're buried in a news section nobody reads.",
   ],
   [
     "Site doesn't reflect the school's culture",
@@ -55,7 +55,7 @@ const faqs = [
   },
   {
     q: "Can our staff update the site without a developer?",
-    a: "Yes. We use a headless CMS (typically TinaCMS or Sanity) with a clean editing interface scoped to what your staff actually need to change — news, events, staff profiles, and key dates. They don't need to see or touch code.",
+    a: "Yes. We use a headless CMS (typically TinaCMS or Sanity) with a clean editing interface scoped to what your staff actually need to change: news, events, staff profiles, and key dates. They don't need to see or touch code.",
   },
   {
     q: "What about DECD or government compliance requirements?",
@@ -63,7 +63,7 @@ const faqs = [
   },
   {
     q: "Do you integrate with TASS or Synergetic?",
-    a: "We can integrate with school management systems that expose an API or allow data exports. TASS and Synergetic both have varying levels of API access depending on your licence tier. We scope the integration specifically — it's not a blanket yes or no, it depends on your setup.",
+    a: "We can integrate with school management systems that expose an API or allow data exports. TASS and Synergetic both have varying levels of API access depending on your licence tier. We scope the integration specifically: it's not a blanket yes or no, it depends on your setup.",
   },
   {
     q: "What's the timeline for a school site?",
@@ -123,7 +123,7 @@ export default function SchoolsPage() {
               }}
             >
               Melbourne independent and private schools need a website that
-              drives enrolment applications — not just one that lists term dates
+              drives enrolment applications, not just one that lists term dates
               and looks fine on a desktop. We design and build the full digital
               enrolment experience.
             </p>

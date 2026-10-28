@@ -58,7 +58,7 @@ export default function FunnelModal({ onClose }: { onClose: () => void }) {
             animation: "cp-fade-up 0.35s cubic-bezier(0.16,1,0.3,1) both",
           }}
         >
-          {/* close button — inside the card top-right corner */}
+          {/* close button: inside the card top-right corner */}
           <button
             type="button"
             onClick={onClose}

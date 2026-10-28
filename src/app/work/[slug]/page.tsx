@@ -26,7 +26,7 @@ function summarise(text: string, max = 158) {
   return `${cut.slice(0, cut.lastIndexOf(" ")).replace(/[\s,;:—–-]+$/, "")}…`;
 }
 
-// "King Double Glazing—\nrebrand, rebuild," + "conversion funnel."
+// "King Double Glazing: \nrebrand, rebuild," + "conversion funnel."
 // becomes "Rebrand, rebuild, conversion funnel." The client name is the h1.
 function statement(c: CaseStudy) {
   const rest = c.headline.split("\n").slice(1).join(" ");
