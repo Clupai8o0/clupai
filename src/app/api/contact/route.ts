@@ -6,14 +6,24 @@ import { notifyTelegram, tgEsc } from "@/lib/notify";
 import { bookingUrl } from "@/lib/booking-link";
 import { assessContactSpamWithCaptcha } from "@/lib/form-spam";
 
-const ratelimiter =
-  process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
-    ? new Ratelimit({
-        redis: Redis.fromEnv(),
-        limiter: Ratelimit.slidingWindow(5, "1 h"),
-        prefix: "contact:",
-      })
-    : null;
+// Built at module scope, so a malformed UPSTASH_REDIS_REST_URL would throw on
+// import and take every request down with it before the handler ever runs.
+// Build it defensively and treat a failure as "no rate limiting".
+const ratelimiter = (() => {
+  if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN) {
+    return null;
+  }
+  try {
+    return new Ratelimit({
+      redis: Redis.fromEnv(),
+      limiter: Ratelimit.slidingWindow(5, "1 h"),
+      prefix: "contact:",
+    });
+  } catch (err) {
+    console.warn("Rate limiter could not be initialised, continuing without it:", err);
+    return null;
+  }
+})();
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -27,12 +37,19 @@ export async function POST(request: NextRequest) {
     undefined;
 
   if (ratelimiter) {
-    const { success } = await ratelimiter.limit(remoteIp ?? "unknown");
-    if (!success) {
-      return NextResponse.json(
-        { error: "Too many requests. Please try again later." },
-        { status: 429 }
-      );
+    // Fail OPEN. If Upstash is unreachable the form must still work: losing a
+    // lead costs more than letting a submission through unthrottled, and
+    // Turnstile plus the spam assessment below still stand in the way.
+    try {
+      const { success } = await ratelimiter.limit(remoteIp ?? "unknown");
+      if (!success) {
+        return NextResponse.json(
+          { error: "Too many requests. Please try again later." },
+          { status: 429 }
+        );
+      }
+    } catch (err) {
+      console.warn("Rate limiter unavailable, allowing the request:", err);
     }
   }
 
