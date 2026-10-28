@@ -58,14 +58,6 @@ const sections: LegalSection[] = [
           can include your name, email address, phone number, business name,
           budget range, project goals and the content of your message.
         </p>
-        <h3>SMS opt-in</h3>
-        <p>
-          If you tick the SMS consent box on a form, we record that you opted
-          in, the phone number you provided and the time and wording of your
-          consent. We keep these consent records so we can honour your choices
-          and meet our obligations under the Spam Act 2003 (Cth). You can opt
-          out at any time by replying STOP to a message from us.
-        </p>
         <h3>Bookings</h3>
         <p>
           When you book a call, our scheduling provider collects the details you
@@ -96,9 +88,6 @@ const sections: LegalSection[] = [
             send confirmation and transactional emails relating to your enquiry
             or booking;
           </li>
-          <li>
-            run the short SMS qualifying conversation, where you have opted in;
-          </li>
           <li>operate, improve and secure the site;</li>
           <li>
             keep records and meet our legal, tax and regulatory obligations.
@@ -112,23 +101,15 @@ const sections: LegalSection[] = [
     ),
   },
   {
-    id: "sms-and-marketing",
-    heading: "SMS and marketing messages",
+    id: "marketing",
+    heading: "Marketing messages",
     body: (
-      <>
-        <p>
-          We only text people who opt in on one of our forms. Our first message
-          identifies us as Clupai and includes a working opt-out (reply STOP).
-          After that, an automated assistant may hold a short qualifying
-          conversation with you. You can stop messages at any time by replying
-          STOP, and resume by replying START.
-        </p>
-        <p>
-          Openers are sent only within reasonable hours (9am to 8pm Melbourne
-          time). We never quote prices over SMS. Your opt-in and any opt-out are
-          stored as durable records so we can respect your preference.
-        </p>
-      </>
+      <p>
+        We reply by email to the enquiry you sent us. We do not add you to a
+        marketing list without your consent, and any marketing email we send
+        carries an unsubscribe link that we honour. We do not send marketing
+        text messages.
+      </p>
     ),
   },
   {
@@ -179,18 +160,11 @@ const sections: LegalSection[] = [
             emails;
           </li>
           <li>
-            <strong>Twilio:</strong> sending and receiving SMS;
-          </li>
-          <li>
-            <strong>Anthropic:</strong> the AI assistant that powers the SMS
-            conversation;
-          </li>
-          <li>
             <strong>Cal.com:</strong> call scheduling and bookings;
           </li>
           <li>
-            <strong>Upstash:</strong> secure storage of consent and related
-            records.
+            <strong>Upstash:</strong> rate limiting and abuse protection on
+            our forms.
           </li>
         </ul>
         <p>

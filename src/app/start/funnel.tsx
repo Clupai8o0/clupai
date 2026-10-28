@@ -10,7 +10,6 @@ import {
 import { TIERS, SERVICE_PRICES } from "@/data/pricing";
 import { SERVICE_DATA } from "@/data/services";
 import CalBooking from "@/components/cal-booking";
-import { SMS_CONSENT_WORDING } from "@/lib/sms-copy";
 
 const DISPLAY =
   "var(--font-display), Manrope, ui-sans-serif, system-ui, sans-serif";
@@ -259,7 +258,6 @@ export default function Funnel() {
     business: "",
     phone: "",
     message: "",
-    smsConsent: false,
   });
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
@@ -535,28 +533,6 @@ export default function Funnel() {
               />
             </label>
           </div>
-
-          <label
-            style={{
-              display: "flex",
-              gap: 10,
-              alignItems: "flex-start",
-              marginTop: 16,
-              cursor: "pointer",
-            }}
-          >
-            <input
-              type="checkbox"
-              checked={contact.smsConsent}
-              onChange={(e) =>
-                setContact((c) => ({ ...c, smsConsent: e.target.checked }))
-              }
-              style={{ marginTop: 2, accentColor: "var(--accent)", flexShrink: 0 }}
-            />
-            <span style={{ fontFamily: BODY, fontSize: 12.5, lineHeight: 1.5, color: "var(--text-muted)" }}>
-              {SMS_CONSENT_WORDING}
-            </span>
-          </label>
 
           {error && (
             <div

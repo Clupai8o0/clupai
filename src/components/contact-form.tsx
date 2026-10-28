@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
-import { SMS_CONSENT_WORDING } from "@/lib/sms-copy";
 
 const SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "";
 
@@ -45,7 +44,6 @@ export default function ContactForm() {
   const [company, setCompany] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [smsConsent, setSmsConsent] = useState(false);
   const [message, setMessage] = useState("");
   const [website, setWebsite] = useState("");
   const [turnstileToken, setTurnstileToken] = useState("");
@@ -72,7 +70,6 @@ export default function ContactForm() {
           company,
           email,
           phone,
-          smsConsent,
           message,
           website,
           formLoadedAt: formLoadedAt.current,
@@ -247,26 +244,6 @@ export default function ContactForm() {
           onBlur={() => setFocused(null)}
           style={fieldStyle(focused === "phone")}
         />
-        <label
-          style={{
-            display: "flex",
-            gap: 10,
-            alignItems: "flex-start",
-            marginTop: 10,
-            cursor: "pointer",
-          }}
-        >
-          <input
-            type="checkbox"
-            checked={smsConsent}
-            disabled={sending}
-            onChange={(e) => setSmsConsent(e.target.checked)}
-            style={{ marginTop: 2, accentColor: "var(--accent)", flexShrink: 0 }}
-          />
-          <span style={{ fontFamily: BODY, fontSize: 12.5, lineHeight: 1.5, color: "var(--text-muted)" }}>
-            {SMS_CONSENT_WORDING}
-          </span>
-        </label>
       </div>
 
       <div>

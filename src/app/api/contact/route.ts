@@ -5,8 +5,6 @@ import { Redis } from "@upstash/redis";
 import { notifyTelegram, tgEsc } from "@/lib/notify";
 import { bookingUrl } from "@/lib/booking-link";
 import { assessContactSpamWithCaptcha } from "@/lib/form-spam";
-import { SMS_CONSENT_WORDING } from "@/lib/sms";
-import { triggerOpener } from "@/lib/sms-conversation";
 
 const ratelimiter =
   process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
@@ -57,7 +55,6 @@ export async function POST(request: NextRequest) {
   const email = body.email?.trim() ?? "";
   const message = body.message?.trim() ?? "";
   const phone = body.phone?.trim() ?? "";
-  const smsConsent = (body as Record<string, unknown>).smsConsent === true;
 
   if (!name || !email || !message) {
     return NextResponse.json(
@@ -119,7 +116,7 @@ export async function POST(request: NextRequest) {
     ${phone ? `<tr>
       <td style="padding:8px 0; border-bottom:1px solid #eee; font-size:12px; color:#888;">Phone</td>
       <td style="padding:8px 0; border-bottom:1px solid #eee; font-size:15px;">
-        <a href="tel:${escHtml(phone)}" style="color:#4da3ff;">${escHtml(phone)}</a>${smsConsent ? ` <span style="color:#888;font-size:12px;">(SMS opt-in)</span>` : ""}
+        <a href="tel:${escHtml(phone)}" style="color:#4da3ff;">${escHtml(phone)}</a>
       </td>
     </tr>` : ""}
   </table>
@@ -209,7 +206,7 @@ export async function POST(request: NextRequest) {
     `👤 ${tgEsc(name)}`,
     company ? `🏢 ${tgEsc(company)}` : null,
     `✉️ ${tgEsc(email)}`,
-    phone ? `📞 ${tgEsc(phone)}${smsConsent ? " 📲 SMS opt-in" : ""}` : null,
+    phone ? `📞 ${tgEsc(phone)}` : null,
     "",
     `💬 ${tgEsc(message)}`,
   ]
@@ -242,17 +239,6 @@ export async function POST(request: NextRequest) {
       html: confirmHtml,
     })
     .catch((err) => console.warn("Confirmation email skipped:", err));
-
-  // Personalized SMS opener — best-effort, no-op unless they opted in with a valid phone.
-  await triggerOpener({
-    source: "contact",
-    phoneRaw: phone,
-    smsConsent,
-    consentWording: SMS_CONSENT_WORDING,
-    name,
-    email,
-    business: company,
-  });
 
   return NextResponse.json({ ok: true });
 }

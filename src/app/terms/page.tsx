@@ -135,14 +135,15 @@ const sections: LegalSection[] = [
   },
   {
     id: "communications",
-    heading: "Communications and SMS",
+    heading: "Communications",
     body: (
       <p>
-        If you tick the SMS consent box on a form, you agree that we may text
-        you, including via an automated assistant, about your enquiry. Our first
-        message identifies us as Clupai and explains how to opt out. You can
-        stop messages at any time by replying STOP. For more on how we handle
-        your information, see our <Link href="/privacy">Privacy Policy</Link>.
+        When you send us an enquiry, you agree that we may reply to you by
+        email about it, and that we may call you if you give us a phone number.
+        We do not add you to a marketing list without your consent, and every
+        marketing email we send has an unsubscribe link. For more on how we
+        handle your information, see our{" "}
+        <Link href="/privacy">Privacy Policy</Link>.
       </p>
     ),
   },
