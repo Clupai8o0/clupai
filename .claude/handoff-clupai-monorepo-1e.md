@@ -1,17 +1,22 @@
 # Handoff: clupai site level-up
 
 Started on the Mac (session clupai-monorepo-1e, 27 Oct 2026), continued on the vivobook
-overnight 28 Oct. Items 1 and 3-7 are done. Item 2 (you review the site, then merge) is yours.
+overnight 28 Oct, **merged into `main` and deployed on the evening of 28 Oct**.
 
-**Branch: `clupai-cleanup-20261028`**, pushed to GitHub. Four commits on top of `1d3ad0a`.
-`main` was not touched and not pushed.
+## Live
 
-```bash
-cd ~/Documents/projects/clupai-monorepo/clupai
-git checkout clupai-cleanup-20261028
-npm install          # node_modules is not in the repo copy
-npm run dev
-```
+- **URL: https://www.clupai.com** (clupai.com 308-redirects to www)
+- **Merge commit: `8455c9a`** - "Merge clupai-cleanup-20261028: dividers, em dashes, responsive
+  and a11y fixes"
+- Deployed by Vercel's GitHub integration, which fired on the push to `main`. Nothing had to be
+  triggered by hand. The CLI on this machine is NOT logged in, so a manual deploy from here
+  would need `vercel login` first.
+- Verified live, not just assumed: `--text-dim:#7a7a7a` in the served CSS, `cp-hair`,
+  `cp-pricing-*` and `cp-bento-*` all absent, `cp-suburb-hero` present, zero divider rules, and
+  zero em dashes on /, /services, /apps, /pricing, /compare/wordpress-vs-nextjs and /contact.
+  The 20 on /melbourne/brunswick are `suburbs.ts`, left on purpose (see below).
+
+The merge was clean, no conflicts, so there was no conflict resolution to review.
 
 ## What the overnight session changed
 
@@ -79,59 +84,76 @@ scroll-based check came back clean. I measured element geometry in Chrome instea
 
 ## Left, in order
 
-1. **Review the site and merge the branch.** This is item 2 and it is the only thing blocking.
-2. **Run the Grok pass**, if you still want a third opinion. Either `grok login --device-code`
-   on the vivobook, or top up OpenRouter and re-run; the prompt is saved and the command is in
-   "Commands" below. Codex and DeepSeek have both been through it, so this is optional.
-3. **Decide on the remaining em dashes** (first decision below).
-4. **Optional, cosmetic:** the SceneBand sits 4px past the viewport at 768 and 390px on the three
-   `/services/*` pages, and an svg on /apps does the same by 10px at 900px. Both are invisible,
-   clipped by `overflow-x: hidden`. I left them rather than chase a 4px artifact at 6am.
+1. **Check the live site** at https://www.clupai.com. That is the only thing outstanding.
+2. **Optional:** the Grok pass was skipped, as you asked. Codex and DeepSeek both reviewed, and
+   Codex reviewed tonight's em-dash commit separately and found no defects.
+3. **Optional, cosmetic:** the SceneBand sits 4px past the viewport at 768 and 390px on the three
+   `/services/*` pages, and an svg on /apps does the same by 10px at 900px. Both invisible,
+   clipped by `overflow-x: hidden`.
 
-## Decisions for you
+## Decisions taken for you
 
-Recommended option first.
+You said to take the recommended option on both open decisions. For the record:
 
-1. **The ~335 em dashes still in the site.** Item 7 said "about 80 in cases.ts"; the real number
-   across everything is larger. Where they are: ~235 in page and component JSX (worst:
-   the three `/services/*/melbourne` pages, 67 between them), 68 in `suburbs.ts`, 33 in
-   `writing.ts`, 14 in client quotes in `cases.ts`.
-   - **Recommended: do the page JSX, leave `writing.ts` and the client quotes.** Marketing page
-     copy is ours and should follow the rule. The essays in `writing.ts` are your narrative voice
-     and read fine with dashes, and rewriting a client's quoted words misrepresents them.
-   - Or: do all of it except the quotes.
-   - Or: leave it; the rule in AGENTS.md is written for emails, not pages.
-2. **`--text-dim` is now `#7a7a7a` instead of `#6b6b6b`.** That was a genuine WCAG AA failure in
-   97 places, so I changed it, but it does lift the dimmest tone across the whole site. Keep it,
-   or tune the exact grey to taste - anything lighter than `#7a7a7a` passes.
-3. **"24 projects shipped"** (hero rail). Still nobody has checked the number.
-4. **The schools page sells enrolment systems**, but no case study backs it up. Keep the offer or
-   drop it?
-5. **The Brunswick FAQ** makes claims nobody has checked ("we've worked with cafes, studios...").
-6. **The nav "(01)" numbers.** Left alone on purpose this time, as this was already your open
-   decision. The hairline under the nav is gone. Remove the numbers too, or keep them?
+1. **Em dashes: page copy converted, essays and quotes left alone.** All marketing page and
+   component copy now uses real punctuation. Deliberately NOT touched:
+   - `src/data/writing.ts` (your long-form essays, your narrative voice)
+   - `src/data/suburbs.ts` (the same long-form register; this is the 20 on the Brunswick page)
+   - the client quotes in `src/data/cases.ts`, which are a real person's words
+   - `{value ?? "—"}` in the CWV tool and the character class in `work/[slug]` `summarise()`:
+     both are code, not prose
+   Brand titles and nav labels took the site's house separator "·", not a colon.
+2. **`--text-dim` stays `#7a7a7a`.** It fixed a real WCAG AA failure (3.65:1, under 4.5:1) in 97
+   places. Still open to taste: anything lighter than `#7a7a7a` passes.
+
+A blind find-and-replace made a mess of the em dashes and each of these was caught and fixed by
+hand before the merge. Worth knowing if anyone repeats the exercise:
+- A **paired** dash (an aside wrapped in two) breaks if only the opening one is converted. Nine
+  such lines, plus three where the pair spanned two lines and both ends became colons.
+- `\s*` in the pattern **matches newlines**, so two lines ending in a dash were silently joined
+  with the line below.
+- Two `"—"` values were **sentinels, not prose**. One had already caused the `/apps` ": MRR" bug
+  last night; the same sweep nearly broke a second one in `notify.ts`.
+- One dash sat directly before a quote mark and vanished entirely, leaving `anonymised'a
+  Melbourne-based...'`.
+
+## Still open for you
+
+These were on the list before and are unchanged. They are content calls, not code.
+
+1. **"24 projects shipped"** (hero rail). Nobody has checked the number.
+2. **The schools page sells enrolment systems**, but no case study backs it up. Keep or drop?
+3. **The Brunswick FAQ** makes claims nobody has checked ("we've worked with cafes, studios...").
+4. **The nav "(01)" numbers.** Left alone, as this was always your call. The hairline under the
+   nav is gone. Remove the numbers too, or keep them?
 
 ## Commands
 
 ```bash
-# the Grok pass, if you want it
-grok login --device-code          # then re-run the review
+# deploy from this machine would need a login first; the git push already deploys
+vercel login && vercel --prod
 
-# the Codex review, which is required before calling a change done
+# the Codex review, required before calling a change done
 python3 ~/Documents/Obsidian/brain/skills/_core/token-economy/scripts/second_opinion.py \
-  - --cwd . --review --base 1d3ad0a --ladder codex
+  - --cwd . --review --base <commit> --ladder codex
 ```
 
 ## Notes for whoever picks this up
 
-- `second_opinion.py` **does not work on the Linux machines** for the `dsh`, `grok`, `kimi`,
-  `agy` and `opencode` routes: it wraps them in macOS `sandbox-exec`, which does not exist here.
-  It fails with `[Errno 2] No such file or directory: 'sandbox-exec'`. The `codex` route is fine,
-  since Codex brings its own sandbox. For DeepSeek I called `dsh --profile headless` directly,
-  which is allowed on a personal folder. Worth fixing in the script.
+- `second_opinion.py` **works for the `codex` route on Linux** (Codex brings its own sandbox),
+  but **fails for `dsh`, `grok`, `kimi`, `agy` and `opencode`**: it wraps those in macOS
+  `sandbox-exec`, which does not exist here (`[Errno 2] No such file or directory`). For
+  DeepSeek, call `dsh --profile headless` directly, which is allowed on a personal folder.
+- **Grok cannot run on this machine**: its CLI needs a device-code login and there is no
+  `XAI_API_KEY` in `~/.secrets.env`. The OpenRouter fallback exists but the account's credits
+  are exhausted.
 - A 225KB prompt is too long for `dsh` as an argv string ("argument list too long"). Write it to
   a file in the repo and tell the model to read that file.
 - `node_modules` is not in the repo copy on this machine; `npm install` first or nothing builds.
+- **The push to `main` also published the Mac's commit `1d3ad0a`** (the SMS/Twilio work, privacy
+  and terms pages), which had never reached GitHub. It was scanned before pushing: no client
+  names, no key material, every secret read through `process.env`, and `.env.local` is gitignored
+  and untracked.
 - No dev server or background job of mine is still running. Nothing of mine is uncommitted.
 
-Safe to close, handover ready: `.claude/handoff-clupai-monorepo-1e.md`
+Safe to close: the branch is merged, `main` is pushed, and the deploy is live and verified.
