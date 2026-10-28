@@ -25,6 +25,42 @@ const ratelimiter = (() => {
   }
 })();
 
+// Last-resort throttle for when Upstash is unavailable. Per instance and
+// in-memory, so it is not airtight across a horizontally scaled deployment,
+// but it blunts a single-IP flood instead of leaving the form wide open.
+const FALLBACK_LIMIT = 5;
+const FALLBACK_WINDOW_MS = 60 * 60 * 1000;
+const FALLBACK_MAX_KEYS = 5000;
+const fallbackHits = new Map<string, number[]>();
+
+function fallbackRateLimited(key: string): boolean {
+  const now = Date.now();
+  const recent = (fallbackHits.get(key) ?? []).filter((t) => now - t < FALLBACK_WINDOW_MS);
+
+  // Stop recording once the key is already over the limit, so a flooding IP
+  // cannot grow its own array (and the cost of filtering it) without bound.
+  if (recent.length >= FALLBACK_LIMIT) {
+    fallbackHits.set(key, recent);
+    return true;
+  }
+
+  recent.push(now);
+  fallbackHits.set(key, recent);
+
+  // Bound the map so a caller rotating IPs cannot grow it without limit.
+  if (fallbackHits.size > FALLBACK_MAX_KEYS) {
+    for (const [k, times] of fallbackHits) {
+      if (times.every((t) => now - t >= FALLBACK_WINDOW_MS)) fallbackHits.delete(k);
+      if (fallbackHits.size <= FALLBACK_MAX_KEYS) break;
+    }
+    if (fallbackHits.size > FALLBACK_MAX_KEYS) {
+      fallbackHits.delete(fallbackHits.keys().next().value as string);
+    }
+  }
+
+  return false;
+}
+
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 const TO = "hello@clupai.com";
@@ -36,21 +72,34 @@ export async function POST(request: NextRequest) {
     request.headers.get("x-real-ip") ??
     undefined;
 
+  const rateKey = remoteIp ?? "unknown";
+  let throttled: boolean;
+
   if (ratelimiter) {
-    // Fail OPEN. If Upstash is unreachable the form must still work: losing a
-    // lead costs more than letting a submission through unthrottled, and
-    // Turnstile plus the spam assessment below still stand in the way.
     try {
-      const { success } = await ratelimiter.limit(remoteIp ?? "unknown");
-      if (!success) {
-        return NextResponse.json(
-          { error: "Too many requests. Please try again later." },
-          { status: 429 }
-        );
-      }
+      const verdict = await ratelimiter.limit(rateKey);
+      // On timeout the SDK resolves { success: true, reason: "timeout" } rather
+      // than throwing, so an unreachable Upstash would otherwise wave every
+      // request through. Treat that as a limiter failure, not as a pass.
+      throttled =
+        verdict.reason === "timeout"
+          ? fallbackRateLimited(rateKey)
+          : !verdict.success;
     } catch (err) {
-      console.warn("Rate limiter unavailable, allowing the request:", err);
+      // Upstash is down. Do not fail the form outright, that takes the whole
+      // lead channel with it, but do not drop throttling entirely either.
+      console.warn("Rate limiter unavailable, falling back to in-memory:", err);
+      throttled = fallbackRateLimited(rateKey);
     }
+  } else {
+    throttled = fallbackRateLimited(rateKey);
+  }
+
+  if (throttled) {
+    return NextResponse.json(
+      { error: "Too many requests. Please try again later." },
+      { status: 429 }
+    );
   }
 
   if (!process.env.RESEND_API_KEY) {
