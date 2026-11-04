@@ -16,7 +16,7 @@ const reasons = [
     body: "Miss it and everything unpaid is cancelled. We finish the build for free.",
   },
   {
-    title: "One person from scope to launch.",
+    title: "The same person, scope to launch.",
     body: "The person who sells it scopes it, then builds it or directs the build.",
   },
   {

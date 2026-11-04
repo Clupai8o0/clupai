@@ -221,7 +221,7 @@ export const cases: CaseStudy[] = [
     group: "product",
     role: "Our own product",
     line: "Blocks your Mac until you read your own rules and name what matters today.",
-    when: "May 2026 → Aug 2026",
+    when: "Jan 2026 → May 2026",
     status: "Released",
     url: { href: "https://force.clupai.com", label: "force.clupai.com" },
     picture: {
@@ -256,7 +256,7 @@ export const cases: CaseStudy[] = [
     group: "product",
     role: "Our own product",
     line: "Keeps several AI coding tools from clashing, and cuts what they cost to run.",
-    when: "Sep 2026 → Nov 2026",
+    when: "Sep 2026",
     status: "Released",
     url: { href: "https://github.com/Clupai8o0/cstack", label: "github.com/Clupai8o0/cstack" },
     picture: {

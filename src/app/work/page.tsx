@@ -49,7 +49,7 @@ export default function WorkPage()
           <div className="l" />
           <div className="r">
             <p className="t-lead" style={{ maxWidth: "30em" }}>
-              Every entry says when it started, when it went live and what our part was. Most of it you can click today.
+              Every entry says when it happened and what our part was. Most of it you can click today.
             </p>
           </div>
         </div>
