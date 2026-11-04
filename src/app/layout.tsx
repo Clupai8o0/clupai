@@ -1,123 +1,112 @@
 import type { Metadata } from "next";
-import { Manrope, Inter, JetBrains_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import Script from "next/script";
 import "./globals.css";
-import ClickSpark from "@/components/click-spark";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import SiteHeader from "@/components/site-header";
+import SiteFooter from "@/components/site-footer";
 
-const manrope = Manrope({
-  subsets: ["latin"],
-  variable: "--font-display",
+const erode = localFont({
+  src: [
+    { path: "../fonts/Erode-Variable.woff2", style: "normal", weight: "300 700" },
+    { path: "../fonts/Erode-VariableItalic.woff2", style: "italic", weight: "300 700" },
+  ],
+  variable: "--font-erode",
   display: "swap",
 });
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-body",
-  display: "swap",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-  display: "swap",
-});
+const DESCRIPTION =
+  "We build and launch first versions for non-technical founders in Australia. Fixed price, fixed date, and the code is yours.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://clupai.com"),
   title: {
-    default: "clupai · Melbourne AI Agency",
-    template: "%s · clupai",
+    default: "Clupai · Your software live by the date we agree",
+    template: "%s · Clupai",
   },
-  description:
-    "A Melbourne AI agency. Websites, SEO and automation for operators who want more customers, not more account managers.",
+  description: DESCRIPTION,
+  applicationName: "Clupai",
+  authors: [{ name: "Samridh Limbu" }],
   openGraph: {
-    siteName: "clupai",
-    locale: "en_AU",
     type: "website",
+    locale: "en_AU",
+    siteName: "Clupai",
+    url: "https://clupai.com",
+    title: "Your software live by the date we agree, or you stop paying.",
+    description: DESCRIPTION,
   },
   twitter: {
     card: "summary_large_image",
-    site: "@clupai",
+    title: "Your software live by the date we agree, or you stop paying.",
+    description: DESCRIPTION,
   },
-  alternates: {
-    canonical: "/",
-  },
+  robots: { index: true, follow: true },
 };
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
-  name: "clupai",
-  alternateName: "Clupai",
-  description:
-    "Melbourne AI agency. Websites, SEO and automation for operators who want more customers, not more account managers.",
+  name: "Clupai",
   url: "https://clupai.com",
-  telephone: "+61000000000",
   email: "hello@clupai.com",
-  foundingDate: "2024",
-  founder: {
-    "@type": "Person",
-    name: "Sam Limbu",
-    jobTitle: "Founder",
-    url: "https://samridhlimbu.com",
-  },
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "Brunswick",
-    addressRegion: "VIC",
-    addressCountry: "AU",
-  },
-  areaServed: [
-    { "@type": "City", name: "Melbourne" },
-    { "@type": "State", name: "Victoria" },
-    { "@type": "Country", name: "Australia" },
-  ],
-  serviceType: ["Web Design", "SEO", "Business Automation"],
-  sameAs: [
-    "https://www.linkedin.com/company/clupai",
-    "https://x.com/clupai",
-  ],
+  description: DESCRIPTION,
+  founder: { "@type": "Person", name: "Samridh Limbu" },
+  areaServed: { "@type": "Country", name: "Australia" },
+  address: { "@type": "PostalAddress", addressLocality: "Melbourne", addressRegion: "VIC", addressCountry: "AU" },
+  serviceType: "Software development",
+  taxID: "56 228 849 452",
 };
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim();
 const SHOULD_LOAD_GA = Boolean(GA_MEASUREMENT_ID) && process.env.NODE_ENV !== "development";
+const META_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID?.trim();
+const SHOULD_LOAD_PIXEL = Boolean(META_PIXEL_ID) && process.env.NODE_ENV !== "development";
+
+// Runs before analytics. Moves name and email out of the address bar on the results
+// link from our email, so they never reach GA or the pixel. See src/lib/booking-link.ts.
+const STRIP_PREFILL = `(function(){var h=location.hash;if(location.pathname==="/start/result"&&h.indexOf("#p=")===0){try{sessionStorage.setItem("clupai-prefill",h.slice(3))}catch(e){}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()`;
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>)
+{
   return (
-    <html
-      lang="en"
-      className={`${manrope.variable} ${inter.variable} ${jetbrainsMono.variable}`}
-    >
+    <html lang="en-AU" className={erode.variable}>
       <head>
-        {SHOULD_LOAD_GA ? (
-          <Script
-            src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-            strategy="afterInteractive"
-          />
-        ) : null}
-        {SHOULD_LOAD_GA ? (
-          <Script id="google-analytics" strategy="afterInteractive">
-            {`window.dataLayer = window.dataLayer || [];
+        <script dangerouslySetInnerHTML={{ __html: STRIP_PREFILL }} />
+      </head>
+      <body>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+        {SHOULD_LOAD_GA && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="google-analytics" strategy="afterInteractive">
+              {`window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', '${GA_MEASUREMENT_ID}');`}
+            </Script>
+          </>
+        )}
+        {SHOULD_LOAD_PIXEL && (
+          <Script id="meta-pixel" strategy="afterInteractive">
+            {`!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','${META_PIXEL_ID}');
+fbq('track','PageView');`}
           </Script>
-        ) : null}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-      </head>
-      <body>
-        <ClickSpark sparkColor="#ffffff" sparkSize={10} sparkRadius={20} sparkCount={8} duration={400}>
-          {children}
-        </ClickSpark>
+        )}
+        <a className="skip" href="#main">
+          Skip to content
+        </a>
+        <SiteHeader />
+        <main id="main">{children}</main>
+        <SiteFooter />
         <Analytics />
         <SpeedInsights />
       </body>

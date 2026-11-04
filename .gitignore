@@ -73,3 +73,6 @@ skills/
 .vibe/
 .windsurf/
 .zencoder/
+
+# Erode: fetched from Fontshare by scripts/get-fonts.mjs. Its licence bars public repositories.
+/src/fonts/

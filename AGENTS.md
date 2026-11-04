@@ -6,15 +6,15 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 # Voice & copy rules
 
-- The studio is always **"we"**. Never describe clupai as a "one-person studio" or use solo framing in any user-facing copy (pages, meta, footer, blog deks, service descriptions, marketing). Use *we / our / us* for studio identity.
-- Long-form personal essays may use first-person "I" for narrative voice, but identity statements ("a studio in Melbourne") stay collective.
+- The company is always **"we"**. Never describe clupai as a "one-person" anything or use solo framing in user-facing copy (pages, meta, footer, emails, marketing). Say "company", not "studio".
+- Samridh Limbu may be named as founder. "I" is fine for Sam's own story (the founder section on /about), but identity statements ("a software company in Melbourne") stay collective.
+- Every claim has to be true and checkable. The guarantee only ever applies as written in a signed agreement. No prices of ours on the site.
 
 # Email design rules
 
 All transactional emails (lead, contact, audit confirmations) share one
 "Digital Obsidian" dark theme. New emails MUST match it. Reference implementation:
-the lead/audit confirmations in `src/app/api/start-capture/route.ts` and the
-contact confirmation in `src/app/api/contact/route.ts`.
+the Build Risk Check results email in `src/app/api/start-capture/route.ts`.
 
 **Structure (email-client safe):**
 - Build with nested `<table role="presentation">`, not flexbox/grid. Inline styles only — no `<style>` blocks or external CSS.
@@ -37,7 +37,7 @@ contact confirmation in `src/app/api/contact/route.ts`.
 **Components:**
 - Primary CTA = table cell `background:#4da3ff;border-radius:2px` wrapping an `<a>` with `padding:15px 28px`, 15px, weight 600, `color:#050505`, ` &rarr;` suffix.
 - Recap rows: mono uppercase label (`#6b6b6b`) over value (`#e5e5e5`), separated by `border-top:1px solid #1f1f1f`.
-- Footer: `clupai` (e5e5e5, 600) + dim line "Melbourne web studio · websites, SEO, automation." + "We reply within one Australian business day."
+- Footer: `clupai` (e5e5e5, 600) + dim line "Software built and launched by a fixed date." + "We reply within one Australian business day."
 
 **Rules:**
 - Escape ALL dynamic content with `escHtml()`. Never interpolate raw user input.

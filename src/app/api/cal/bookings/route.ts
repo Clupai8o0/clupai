@@ -1,25 +1,48 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { resolveEventTypeId } from "../_resolve";
 import { notifyTelegram, tgEsc } from "@/lib/notify";
+import { clientIp, hourlyLimiter } from "@/lib/rate-limit";
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const isRateLimited = hourlyLimiter("cal-bookings:", 5);
+
+function text(value: unknown, max: number): string
+{
+  return typeof value === "string" ? value.trim().slice(0, max) : "";
+}
 
 export async function POST(request: NextRequest) {
   const apiKey = process.env.CAL_API_KEY;
 
   if (!apiKey) {
-    return NextResponse.json({ error: "CAL_API_KEY must be set in .env.local" }, { status: 500 });
+    console.error("CAL_API_KEY is not set");
+    return NextResponse.json({ error: "Booking isn’t available right now" }, { status: 500 });
   }
 
-  let body: Record<string, string>;
+  // Each booking sends an invite to whatever address it's given, so a stranger mustn't be able to repeat it.
+  if (await isRateLimited(clientIp(request) ?? "unknown")) {
+    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+  }
+
+  let body: Record<string, unknown>;
   try {
-    body = await request.json();
+    body = (await request.json()) as Record<string, unknown>;
   } catch {
     return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
-  const { start, name, email, projectType, budget, timeline, currentSite, phone } = body;
+  const start = text(body.start, 40);
+  const name = text(body.name, 120);
+  const email = text(body.email, 254);
+  const phone = text(body.phone, 40);
+  const projectType = text(body.projectType, 120);
+  const budget = text(body.budget, 120);
+  const timeline = text(body.timeline, 120);
+  const currentSite = text(body.currentSite, 200);
+  const startMs = Date.parse(start);
 
-  if (!start || !name || !email) {
-    return NextResponse.json({ error: "start, name, and email are required" }, { status: 400 });
+  if (!name || !EMAIL_RE.test(email) || !Number.isFinite(startMs) || startMs < Date.now()) {
+    return NextResponse.json({ error: "A future time, a name and a valid email are required" }, { status: 400 });
   }
 
   let eventTypeId: number;
@@ -27,7 +50,7 @@ export async function POST(request: NextRequest) {
     eventTypeId = await resolveEventTypeId();
   } catch (err) {
     console.error("Event type resolution error:", err);
-    return NextResponse.json({ error: String(err) }, { status: 502 });
+    return NextResponse.json({ error: "Booking isn’t available right now" }, { status: 502 });
   }
 
   try {
@@ -47,20 +70,15 @@ export async function POST(request: NextRequest) {
           timeZone: "Australia/Melbourne",
           language: "en",
         },
-        metadata: {
-          projectType: projectType ?? "",
-          budget: budget ?? "",
-          timeline: timeline ?? "",
-          currentSite: currentSite ?? "",
-        },
+        metadata: { projectType, budget, timeline, currentSite },
       }),
     });
 
     const data = await res.json();
 
     if (!res.ok) {
-      const msg = data?.error?.message ?? data?.message ?? "Booking failed";
-      return NextResponse.json({ error: msg }, { status: res.status });
+      console.error(`Cal.com booking ${res.status}:`, data?.error?.message ?? data?.message);
+      return NextResponse.json({ error: "Booking failed" }, { status: res.status });
     }
 
     // Instant phone ping — a booked call is the highest-value event.

@@ -1,15 +1,15 @@
 import type { MetadataRoute } from "next";
 
-export default function manifest(): MetadataRoute.Manifest {
+export default function manifest(): MetadataRoute.Manifest
+{
   return {
-    name: "clupai · Websites, SEO & Automation",
-    short_name: "clupai",
-    description:
-      "A Melbourne studio. Websites, SEO and automation for operators who want more customers.",
+    name: "Clupai · Software live by the date we agree",
+    short_name: "Clupai",
+    description: "We build software for Australian founders and launch it by the date we agree, or you stop paying.",
     start_url: "/",
     display: "standalone",
-    background_color: "#050505",
-    theme_color: "#050505",
+    background_color: "#eef0f3",
+    theme_color: "#eef0f3",
     icons: [
       { src: "/icon-192.png", type: "image/png", sizes: "192x192" },
       { src: "/icon-512.png", type: "image/png", sizes: "512x512" },

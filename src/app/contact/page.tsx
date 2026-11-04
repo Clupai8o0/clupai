@@ -1,130 +1,51 @@
-import Nav from "@/components/nav";
-import Footer from "@/components/footer";
-import CalBooking from "@/components/cal-booking";
-import ContactForm from "@/components/contact-form";
-import SocialLinks from "@/components/social-links";
+import type { Metadata } from "next";
+import Link from "next/link";
 
-function Fact({ k, v }: { k: string; v: string }) {
-  return (
-    <div>
-      <div className="cp-mono" style={{ marginBottom: 4 }}>
-        {k}
-      </div>
-      <div
-        style={{
-          fontFamily:
-            "var(--font-display), Manrope, ui-sans-serif, system-ui, sans-serif",
-          fontWeight: 500,
-          fontSize: 16,
-          letterSpacing: "-0.01em",
-        }}
-      >
-        {v}
-      </div>
-    </div>
-  );
-}
+export const metadata: Metadata = {
+  title: "Contact",
+  description: "Email Clupai for referrals, partners, press and anything that isn’t a build.",
+  alternates: { canonical: "/contact" },
+};
 
-export default async function ContactPage({
-  searchParams,
-}: {
-  searchParams: Promise<Record<string, string | string[] | undefined>>;
-}) {
-  const sp = await searchParams;
-  const one = (v: string | string[] | undefined) =>
-    (Array.isArray(v) ? v[0] : v) ?? "";
-  const prefill = {
-    name: one(sp.name),
-    email: one(sp.email),
-    projectType: one(sp.type),
-    budget: one(sp.budget),
-    timeline: one(sp.timeline),
-    currentSite: one(sp.site),
-  };
-
+export default function ContactPage()
+{
   return (
     <>
-      <Nav page="contact" />
-
-      <div
-        style={{
-          padding: "64px 48px",
-        }}
-      >
-        <div className="cp-eyebrow" style={{ marginBottom: 12 }}>
-          Contact · book or write
-        </div>
-        <h1
-          className="cp-display"
-          style={{ fontSize: "clamp(3rem, 5.6vw, 5rem)", margin: 0 }}
-        >
-          Tell us what you&apos;re trying to sell.
-          <br />
-          <span style={{ color: "var(--text-muted)" }}>
-            We&apos;ll tell you if we can help.
-          </span>
-        </h1>
-      </div>
-
-      <div
-        className="cp-contact-grid"
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1.3fr 1fr",
-        }}
-      >
-        {/* Cal.com live booking */}
-        <div
-          className="cp-contact-col-left"
-          style={{
-            padding: "48px 48px",
-          }}
-        >
-          <div className="cp-mono" style={{ marginBottom: 20 }}>
-            Book a 20‑minute scope call
-          </div>
-          <CalBooking prefill={prefill} />
-          <div
-            className="cp-mono"
-            style={{ marginTop: 20, color: "var(--text-muted)" }}
-          >
-            Cal.com (open‑source) · no CRM spam · you&apos;ll get one calendar
-            invite and nothing else.
+      <header className="page-head">
+        <h1 className="page-title">Talk to us.</h1>
+        <div className="axis page-lead">
+          <div className="l" />
+          <div className="r">
+            <p className="t-state">
+              <a className="tlink" href="mailto:hello@clupai.com">
+                hello@clupai.com
+              </a>
+            </p>
+            <p style={{ marginTop: 18, maxWidth: "30em" }}>
+              For referrals, partners, press and anything that isn’t a build. We reply within one Australian business
+              day.
+            </p>
           </div>
         </div>
+      </header>
 
-        {/* Contact form */}
-        <div
-          style={{
-            padding: "48px 48px",
-            background: "var(--surface)",
-          }}
-        >
-          <div className="cp-mono" style={{ marginBottom: 20 }}>
-            Or write, if you prefer
+      <section className="on-field sec" aria-labelledby="build-title">
+        <div className="axis">
+          <div className="l">
+            <h2 className="t-head rise" id="build-title">
+              Got something to build?
+            </h2>
           </div>
-          <ContactForm />
-
-          <div
-            style={{
-              marginTop: 48,
-              paddingTop: 28,
-              display: "flex",
-              flexDirection: "column",
-              gap: 18,
-            }}
-          >
-            <Fact k="Reply time" v="Under 1 AU business day: every time." />
-            <Fact k="Office" v="Melbourne VIC" />
+          <div className="r stack rise" style={{ maxWidth: "calc(34em + var(--margin))" }}>
+            <p>Start with the Build Risk Check. It takes two minutes, and you can book a call with us at the end.</p>
             <div>
-              <div className="cp-mono" style={{ marginBottom: 12 }}>Follow</div>
-              <SocialLinks gap={16} />
+              <Link className="btn btn--white" href="/start">
+                Take the Build Risk Check
+              </Link>
             </div>
           </div>
         </div>
-      </div>
-
-      <Footer />
+      </section>
     </>
   );
 }

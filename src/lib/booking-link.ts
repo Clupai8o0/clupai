@@ -1,30 +1,29 @@
-// Builds a /contact link that pre-fills the booking form via query params, so a
-// lead clicking "Book a call" from an email never re-types what we already know.
-// The param keys here must match what src/app/contact/page.tsx reads back.
+// Builds the link a lead uses to reach the booking form with what we already know
+// filled in, so they never re-type it.
+//
+// Name and email go in the URL fragment, encoded, because a fragment never reaches a
+// server. The inline script in src/app/layout.tsx moves it to sessionStorage and clears
+// it from the address bar before analytics load, so it's never sent to GA or the pixel.
 
-const BASE = "https://clupai.com/contact";
+const BASE = "https://clupai.com/start";
 
 export type BookingPrefill = {
+  /** Answer code from the Build Risk Check. Without one, the link goes to the check. */
+  code?: string;
   name?: string;
   email?: string;
-  projectType?: string;
-  budget?: string;
-  timeline?: string;
-  currentSite?: string;
 };
 
 export function bookingUrl(p: BookingPrefill): string {
-  const params: Record<string, string | undefined> = {
-    name: p.name,
-    email: p.email,
-    type: p.projectType,
-    budget: p.budget,
-    timeline: p.timeline,
-    site: p.currentSite,
-  };
-  const qs = Object.entries(params)
-    .filter(([, v]) => v && v.trim() && v.trim() !== "—")
-    .map(([k, v]) => `${k}=${encodeURIComponent(v!.trim())}`)
-    .join("&");
-  return qs ? `${BASE}?${qs}` : BASE;
+  if (!p.code) {
+    return BASE;
+  }
+  const url = `${BASE}/result?r=${encodeURIComponent(p.code)}`;
+  const name = p.name?.trim();
+  const email = p.email?.trim();
+  if (!name && !email) {
+    return url;
+  }
+  const prefill = Buffer.from(JSON.stringify({ name, email }), "utf8").toString("base64url");
+  return `${url}#p=${prefill}`;
 }

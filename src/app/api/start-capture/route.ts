@@ -1,402 +1,253 @@
-import { Resend } from "resend";
 import { type NextRequest, NextResponse } from "next/server";
-import { notifyTelegram, tgEsc } from "@/lib/notify";
+import { Resend } from "resend";
 import { bookingUrl } from "@/lib/booking-link";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+import { assessContactSpamWithCaptcha } from "@/lib/form-spam";
+import { notifyTelegram, tgEsc } from "@/lib/notify";
+import { clientIp, hourlyLimiter } from "@/lib/rate-limit";
+import { decodeAnswers, type Result, scoreAnswers } from "@/lib/risk-check";
 
 const TO = "hello@clupai.com";
 const FROM = "clupai <hello@clupai.com>";
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const DECIDER_ANSWER = 6;
 
-const GOAL: Record<string, string> = {
-  web: "More customers from their website",
-  seo: "Rank higher on Google",
-  automation: "Automate manual work",
-  operator: "Ongoing partner across everything",
-  custom: "Something custom",
-};
-const SITUATION: Record<string, string> = {
-  scratch: "Starting from scratch",
-  underperforming: "Has something, but it underperforms",
-  grow: "Solid base, wants to grow",
-};
-const TIMELINE: Record<string, string> = {
-  asap: "ASAP, it's urgent",
-  soon: "Next 1–3 months",
-  exploring: "Just exploring",
-};
-const BUDGET: Record<string, string> = {
-  u3: "Under $3k",
-  "3-8": "$3k – $8k",
-  "8-20": "$8k – $20k",
-  "20+": "$20k+",
-  unsure: "Not sure yet",
-};
+const isRateLimited = hourlyLimiter("start-capture:", 5);
 
-const label = (map: Record<string, string>, v?: string) =>
-  v ? map[v] ?? v : "—";
-
-// Map quiz answers onto CalBooking's exact option strings for booking prefill.
-function leadProjectType(goal?: string, situation?: string): string {
-  switch (goal) {
-    case "web":
-      return situation === "scratch" ? "New website" : "Website rebuild";
-    case "seo":
-      return "SEO";
-    case "automation":
-      return "Automation";
-    default:
-      return "Not sure";
-  }
-}
-
-function row(k: string, v: string) {
-  return `<tr>
-    <td style="padding:8px 0;border-bottom:1px solid #eee;font-size:12px;color:#888;width:140px;">${k}</td>
-    <td style="padding:8px 0;border-bottom:1px solid #eee;font-size:15px;">${v}</td>
-  </tr>`;
-}
-
-// Row for the dark, branded confirmation email sent to the lead.
-function recapRow(k: string, v: string) {
-  return `<tr>
-    <td style="padding:11px 0;border-bottom:1px solid #1f1f1f;font-family:'SFMono-Regular',Menlo,Consolas,monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#6b6b6b;width:120px;vertical-align:top;">${k}</td>
-    <td style="padding:11px 0;border-bottom:1px solid #1f1f1f;font-size:14px;color:#e5e5e5;">${v}</td>
-  </tr>`;
-}
-
-export async function POST(request: NextRequest) {
-  if (!process.env.RESEND_API_KEY) {
-    return NextResponse.json({ error: "RESEND_API_KEY is not set" }, { status: 500 });
-  }
-
-  let body: Record<string, string>;
-  try {
-    body = await request.json();
-  } catch {
-    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
-  }
-
-  const email = body.email?.trim();
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    return NextResponse.json({ error: "A valid email is required" }, { status: 400 });
-  }
-
-  // A funnel lead carries quiz answers + contact details; the audit form sends email only.
-  const isLead = Boolean(body.goal || body.name);
-
-  if (isLead) {
-    const name = body.name?.trim() || "(no name)";
-    const business = body.business?.trim();
-    const phone = body.phone?.trim();
-    const message = body.message?.trim();
-
-    const subject = business ? `New lead · ${name} · ${business}` : `New lead · ${name}`;
-
-    const html = `
-<div style="font-family: system-ui, sans-serif; max-width: 600px; color: #111;">
-  <p style="margin:0 0 24px; font-size:13px; color:#666; text-transform:uppercase; letter-spacing:0.08em;">
-    New lead · clupai.com/start funnel
-  </p>
-  <table style="width:100%; border-collapse:collapse; margin-bottom:24px;">
-    ${row("Name", `<strong>${escHtml(name)}</strong>`)}
-    ${business ? row("Business", escHtml(business)) : ""}
-    ${row("Email", `<a href="mailto:${escHtml(email)}" style="color:#4da3ff;">${escHtml(email)}</a>`)}
-    ${phone ? row("Phone", `<a href="tel:${escHtml(phone)}" style="color:#4da3ff;">${escHtml(phone)}</a>`) : ""}
-  </table>
-  <p style="margin:0 0 8px; font-size:11px; color:#999; text-transform:uppercase; letter-spacing:0.08em;">
-    What they told us
-  </p>
-  <table style="width:100%; border-collapse:collapse; margin-bottom:24px;">
-    ${row("Goal", escHtml(label(GOAL, body.goal)))}
-    ${row("Situation", escHtml(label(SITUATION, body.situation)))}
-    ${row("Timeline", escHtml(label(TIMELINE, body.timeline)))}
-    ${row("Budget", escHtml(label(BUDGET, body.budget)))}
-  </table>
-  ${message ? `<div style="background:#f9f9f9; border-left:3px solid #4da3ff; padding:16px 20px; border-radius:2px;">
-    <p style="margin:0; font-size:15px; line-height:1.6; white-space:pre-wrap;">${escHtml(message)}</p>
-  </div>` : ""}
-  <p style="margin:24px 0 0; font-size:12px; color:#aaa;">
-    Sent from clupai.com/start
-  </p>
-</div>`;
-
-    const first = escHtml(name.split(" ")[0]);
-    const firstRaw = name.split(" ")[0];
-    // Carry their details into the booking form so they don't re-type a thing.
-    const bookUrl = bookingUrl({
-      name,
-      email,
-      projectType: leadProjectType(body.goal, body.situation),
-      budget: label(BUDGET, body.budget),
-      timeline: label(TIMELINE, body.timeline),
-    });
-    const recapVal = (m: Record<string, string>, v?: string) => {
-      const l = label(m, v);
-      return escHtml(l === "—" ? "Not provided" : l);
-    };
-    const confirmHtml = `
-<!DOCTYPE html>
-<html lang="en">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;padding:0;background:#050505;-webkit-text-size-adjust:100%;">
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#050505;padding:32px 16px;">
-    <tr><td align="center">
-      <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#0d0d0d;border:1px solid #1f1f1f;border-radius:6px;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
-
-        <tr><td style="padding:30px 36px 0;">
-          <span style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:700;font-size:21px;letter-spacing:-0.02em;color:#e5e5e5;">clup<span style="color:#4da3ff;">ai</span></span>
-        </td></tr>
-
-        <tr><td style="padding:26px 36px 0;">
-          <p style="margin:0;font-family:'SFMono-Regular',Menlo,Consolas,monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#4da3ff;">You're in · now the real part</p>
-        </td></tr>
-
-        <tr><td style="padding:12px 36px 0;">
-          <h1 style="margin:0;font-size:27px;line-height:1.22;letter-spacing:-0.02em;color:#ffffff;font-weight:700;">Thanks, ${first}. Let's get the full picture.</h1>
-        </td></tr>
-
-        <tr><td style="padding:18px 36px 0;">
-          <p style="margin:0 0 16px;font-size:15px;line-height:1.72;color:#c9c9c9;">
-            We've got your details and the pricing you saw on screen. Those numbers are a real starting point, but they're a range, not a final figure. Here's the honest version: we can't hand you a true quote off a four-question form. What it actually costs depends on what you're selling, who's buying, and where things are getting stuck right now.
-          </p>
-          <p style="margin:0 0 22px;font-size:15px;line-height:1.72;color:#c9c9c9;">
-            So the next step is a quick call. Twenty minutes, no slideshow, no pressure. We'll ask what you do, look at what you've already got, and give you the realistic shape and cost of fixing it. If we're not the right fit, we'll tell you straight and point you somewhere better.
-          </p>
-        </td></tr>
-
-        <tr><td style="padding:0 36px;">
-          <table role="presentation" cellpadding="0" cellspacing="0"><tr><td style="background:#4da3ff;border-radius:2px;">
-            <a href="${bookUrl}" style="display:inline-block;padding:15px 28px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:15px;font-weight:600;color:#050505;text-decoration:none;">Book your 20 minute call &rarr;</a>
-          </td></tr></table>
-        </td></tr>
-
-        <tr><td style="padding:30px 36px 0;">
-          <p style="margin:0 0 6px;font-family:'SFMono-Regular',Menlo,Consolas,monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#6b6b6b;">What you told us</p>
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid #1f1f1f;">
-            ${recapRow("Goal", recapVal(GOAL, body.goal))}
-            ${recapRow("Situation", recapVal(SITUATION, body.situation))}
-            ${recapRow("Timeline", recapVal(TIMELINE, body.timeline))}
-            ${recapRow("Budget", recapVal(BUDGET, body.budget))}
-          </table>
-        </td></tr>
-
-        <tr><td style="padding:26px 36px 0;">
-          <p style="margin:0;font-size:14px;line-height:1.7;color:#9a9a9a;">
-            Prefer to write first? Just reply to this email, it lands straight with us. Or reach us any time at <a href="mailto:hello@clupai.com" style="color:#4da3ff;text-decoration:none;">hello@clupai.com</a>.
-          </p>
-        </td></tr>
-
-        <tr><td style="padding:18px 36px 0;">
-          <p style="margin:0;font-size:13px;line-height:1.65;color:#6b6b6b;">
-            Can't find this in your inbox? Please check your spam or junk folder and mark us as "not spam" so our replies always reach you.
-          </p>
-        </td></tr>
-
-        <tr><td style="padding:28px 36px 32px;">
-          <div style="border-top:1px solid #1f1f1f;padding-top:18px;">
-            <p style="margin:0;font-size:13px;color:#e5e5e5;font-weight:600;">clupai</p>
-            <p style="margin:5px 0 0;font-size:12px;line-height:1.65;color:#6b6b6b;">Melbourne web studio · websites, SEO, automation.<br>We reply within one Australian business day.</p>
-          </div>
-        </td></tr>
-
-      </table>
-    </td></tr>
-  </table>
-</body>
-</html>`;
-
-    // Instant phone ping — fired in parallel so it lands even if email fails.
-    const tgText = [
-      "🔔 <b>New lead</b> · clupai.com/start",
-      "",
-      `👤 ${tgEsc(name)}`,
-      business ? `🏢 ${tgEsc(business)}` : null,
-      `✉️ ${tgEsc(email)}`,
-      phone ? `📞 ${tgEsc(phone)}` : null,
-      "",
-      `🎯 ${tgEsc(label(GOAL, body.goal))}`,
-      `📍 ${tgEsc(label(SITUATION, body.situation))}`,
-      `⏱️ ${tgEsc(label(TIMELINE, body.timeline))}`,
-      `💰 ${tgEsc(label(BUDGET, body.budget))}`,
-      message ? `\n💬 ${tgEsc(message)}` : null,
-    ]
-      .filter(Boolean)
-      .join("\n");
-    const notifyPromise = notifyTelegram(tgText);
-
-    const { error } = await resend.emails.send({
-      from: FROM,
-      to: TO,
-      replyTo: email,
-      subject,
-      html,
-    });
-
-    await notifyPromise;
-
-    if (error) {
-      console.error("Resend error (lead):", error);
-      return NextResponse.json(
-        { error: (error as { message?: string }).message ?? "Email failed" },
-        { status: 502 }
-      );
-    }
-
-    // Confirmation to lead — best-effort; fails silently when FROM is unverified
-    resend.emails
-      .send({
-        from: FROM,
-        to: email,
-        replyTo: TO,
-        subject: `Thanks ${firstRaw} · let's book a quick call`,
-        html: confirmHtml,
-      })
-      .catch((err) => console.warn("Lead confirmation email skipped:", err));
-
-    return NextResponse.json({ ok: true });
-  }
-
-  // Audit request — email only
-  const website = body.website?.trim();
-  const websiteHref = website
-    ? website.startsWith("http")
-      ? website
-      : `https://${website}`
-    : "";
-  // Prefill a follow-up booking with what we know (email + the site to audit).
-  const auditBookUrl = bookingUrl({ email, currentSite: website });
-  const auditHtml = `
-<div style="font-family: system-ui, sans-serif; max-width: 600px; color: #111;">
-  <p style="margin:0 0 24px; font-size:13px; color:#666; text-transform:uppercase; letter-spacing:0.08em;">
-    Free audit request · clupai.com
-  </p>
-  <table style="width:100%; border-collapse:collapse; margin-bottom:24px;">
-    ${row("Email", `<a href="mailto:${escHtml(email)}" style="color:#4da3ff;">${escHtml(email)}</a>`)}
-    ${website ? row("Website", `<a href="${escHtml(websiteHref)}" style="color:#4da3ff;">${escHtml(website)}</a>`) : ""}
-  </table>
-  <p style="margin:0; font-size:14px; color:#444; line-height:1.6;">
-    Record a Loom walking through ${website ? `${escHtml(website)}'s` : "their"} biggest conversion and speed issues, then send it over.
-  </p>
-</div>`;
-
-  const auditConfirmHtml = `
-<!DOCTYPE html>
-<html lang="en">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;padding:0;background:#050505;-webkit-text-size-adjust:100%;">
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#050505;padding:32px 16px;">
-    <tr><td align="center">
-      <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#0d0d0d;border:1px solid #1f1f1f;border-radius:6px;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
-
-        <tr><td style="padding:30px 36px 0;">
-          <span style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:700;font-size:21px;letter-spacing:-0.02em;color:#e5e5e5;">clup<span style="color:#4da3ff;">ai</span></span>
-        </td></tr>
-
-        <tr><td style="padding:26px 36px 0;">
-          <p style="margin:0;font-family:'SFMono-Regular',Menlo,Consolas,monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#4da3ff;">Free site audit · on the way</p>
-        </td></tr>
-
-        <tr><td style="padding:12px 36px 0;">
-          <h1 style="margin:0;font-size:27px;line-height:1.22;letter-spacing:-0.02em;color:#ffffff;font-weight:700;">On it. Your audit is being recorded.</h1>
-        </td></tr>
-
-        <tr><td style="padding:18px 36px 0;">
-          <p style="margin:0 0 16px;font-size:15px;line-height:1.72;color:#c9c9c9;">
-            Within one Australian business day you'll get a short Loom of us walking through ${website ? `<span style="color:#e5e5e5;">${escHtml(website)}</span>` : "your site"} and pointing at the biggest things costing you conversions and speed. No pitch, no slideshow. Just the findings, in plain English.
-          </p>
-          <p style="margin:0 0 22px;font-size:15px;line-height:1.72;color:#c9c9c9;">
-            Want to talk it through instead of waiting? Grab a time below. It's twenty minutes, and your details are already filled in.
-          </p>
-        </td></tr>
-
-        <tr><td style="padding:0 36px;">
-          <table role="presentation" cellpadding="0" cellspacing="0"><tr><td style="background:#4da3ff;border-radius:2px;">
-            <a href="${auditBookUrl}" style="display:inline-block;padding:15px 28px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:15px;font-weight:600;color:#050505;text-decoration:none;">Book a 20 minute call &rarr;</a>
-          </td></tr></table>
-        </td></tr>
-${website ? `
-        <tr><td style="padding:30px 36px 0;">
-          <p style="margin:0 0 6px;font-family:'SFMono-Regular',Menlo,Consolas,monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#6b6b6b;">Auditing</p>
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid #1f1f1f;">
-            <tr><td style="padding:14px 0;font-size:14px;color:#e5e5e5;"><a href="${escHtml(websiteHref)}" style="color:#4da3ff;text-decoration:none;">${escHtml(website)}</a></td></tr>
-          </table>
-        </td></tr>` : ""}
-
-        <tr><td style="padding:22px 36px 0;">
-          <p style="margin:0;font-size:14px;line-height:1.7;color:#9a9a9a;">
-            Prefer to write first? Just reply to this email, it lands straight with us. Or reach us any time at <a href="mailto:hello@clupai.com" style="color:#4da3ff;text-decoration:none;">hello@clupai.com</a>.
-          </p>
-        </td></tr>
-
-        <tr><td style="padding:18px 36px 0;">
-          <p style="margin:0;font-size:13px;line-height:1.65;color:#6b6b6b;">
-            Can't find this in your inbox? Please check your spam or junk folder and mark us as "not spam" so our replies always reach you.
-          </p>
-        </td></tr>
-
-        <tr><td style="padding:28px 36px 32px;">
-          <div style="border-top:1px solid #1f1f1f;padding-top:18px;">
-            <p style="margin:0;font-size:13px;color:#e5e5e5;font-weight:600;">clupai</p>
-            <p style="margin:5px 0 0;font-size:12px;line-height:1.65;color:#6b6b6b;">Melbourne web studio · websites, SEO, automation.<br>We reply within one Australian business day.</p>
-          </div>
-        </td></tr>
-
-      </table>
-    </td></tr>
-  </table>
-</body>
-</html>`;
-
-  // Instant phone ping — fired in parallel so it lands even if email fails.
-  const auditNotify = notifyTelegram(
-    [
-      "🔔 <b>Free audit request</b> · clupai.com",
-      "",
-      `✉️ ${tgEsc(email)}`,
-      website ? `🌐 ${tgEsc(website)}` : null,
-    ]
-      .filter(Boolean)
-      .join("\n")
-  );
-
-  const { error } = await resend.emails.send({
-    from: FROM,
-    to: TO,
-    replyTo: email,
-    subject: website
-      ? `Free audit request · ${website}`
-      : `Free audit request · ${email}`,
-    html: auditHtml,
-  });
-
-  await auditNotify;
-
-  if (error) {
-    console.error("Resend error (audit):", error);
-    return NextResponse.json(
-      { error: (error as { message?: string }).message ?? "Email failed" },
-      { status: 502 }
-    );
-  }
-
-  resend.emails
-    .send({
-      from: FROM,
-      to: email,
-      replyTo: TO,
-      subject: "Your free site audit is on the way · clupai",
-      html: auditConfirmHtml,
-    })
-    .catch((err) => console.warn("Audit confirmation email skipped:", err));
-
-  return NextResponse.json({ ok: true });
-}
-
-function escHtml(str: string) {
+function escHtml(str: string): string
+{
   return str
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function text(value: unknown, max: number): string
+{
+  return typeof value === "string" ? value.trim().slice(0, max) : "";
+}
+
+function internalRow(k: string, v: string): string
+{
+  return `<tr>
+    <td style="padding:8px 0;border-bottom:1px solid #eee;font-size:12px;color:#888;width:180px;vertical-align:top;">${escHtml(k)}</td>
+    <td style="padding:8px 0;border-bottom:1px solid #eee;font-size:15px;">${v}</td>
+  </tr>`;
+}
+
+function internalHtml(lead: { name: string; email: string; phone: string }, result: Result): string
+{
+  const risks = result.risks.map((r) => `<li style="margin-bottom:6px;">${escHtml(r.title)}</li>`).join("");
+  return `
+<div style="font-family:system-ui,sans-serif;max-width:600px;color:#111;">
+  <p style="margin:0 0 24px;font-size:15px;">
+    <strong>${result.qualified ? "QUALIFIED" : "Under A$10k"}</strong>${result.businessTool ? " · business tool" : ""} · ${result.score}/100
+  </p>
+  <table style="width:100%;border-collapse:collapse;margin-bottom:24px;">
+    ${internalRow("Name", `<strong>${escHtml(lead.name)}</strong>`)}
+    ${internalRow("Email", `<a href="mailto:${escHtml(lead.email)}">${escHtml(lead.email)}</a>`)}
+    ${lead.phone ? internalRow("Mobile", `<a href="tel:${escHtml(lead.phone)}">${escHtml(lead.phone)}</a>`) : ""}
+  </table>
+  <table style="width:100%;border-collapse:collapse;margin-bottom:24px;">
+    ${result.answers.map((a) => internalRow(a.question, escHtml(a.answer))).join("")}
+  </table>
+  <p style="margin:0 0 8px;font-size:13px;color:#666;">Top three risks shown</p>
+  <ul style="margin:0;padding-left:18px;font-size:15px;">${risks}</ul>
+</div>`;
+}
+
+function resultsHtml(firstName: string, result: Result, link: string): string
+{
+  const risks = result.risks
+    .map(
+      (r) => `
+        <tr><td style="padding:22px 36px 0;">
+          <p style="margin:0 0 6px;font-size:17px;line-height:1.35;font-weight:600;color:#e5e5e5;">${escHtml(r.title)}</p>
+          <p style="margin:0 0 8px;font-size:15px;line-height:1.72;color:#c9c9c9;">${escHtml(r.means)}</p>
+          <p style="margin:0;font-size:15px;line-height:1.72;color:#e5e5e5;">This week: ${escHtml(r.thisWeek)}</p>
+        </td></tr>`,
+    )
+    .join("");
+
+  const next = result.canBook
+    ? `Want to talk it through? Thirty minutes with Samridh, our founder. You tell us where you’re stuck, and you’ll hear straight whether we can build it and what scoping would look like.`
+    : `A custom build from us would be a stretch on under A$10k, and we’d rather tell you now. Start with the three things above. A no-code tool or a freelancer can test the idea for less, and the check will still be here when your budget grows.`;
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#050505;-webkit-text-size-adjust:100%;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#050505;padding:32px 16px;">
+    <tr><td align="center">
+      <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#0d0d0d;border:1px solid #1f1f1f;border-radius:6px;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+
+        <tr><td style="padding:30px 36px 0;">
+          <span style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:700;font-size:21px;letter-spacing:-0.02em;color:#e5e5e5;">clup<span style="color:#4da3ff;">ai</span></span>
+        </td></tr>
+
+        <tr><td style="padding:26px 36px 0;">
+          <p style="margin:0;font-family:'SFMono-Regular',Menlo,Consolas,monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#4da3ff;">Your Build Risk Check</p>
+        </td></tr>
+
+        <tr><td style="padding:12px 36px 0;">
+          <h1 style="margin:0;font-size:27px;line-height:1.22;letter-spacing:-0.02em;color:#ffffff;font-weight:700;">${escHtml(firstName)}, you scored ${result.score} out of 100.</h1>
+        </td></tr>
+
+        <tr><td style="padding:18px 36px 0;">
+          <p style="margin:0;font-size:15px;line-height:1.72;color:#c9c9c9;">Higher is safer. It’s worked out only from your answers, and we haven’t seen your project yet. Here are your top three risks, with one thing to do about each this week.</p>
+        </td></tr>
+${risks}
+        <tr><td style="padding:28px 36px 22px;">
+          <p style="margin:0;font-size:15px;line-height:1.72;color:#c9c9c9;">${escHtml(next)}</p>
+        </td></tr>
+
+        <tr><td style="padding:0 36px;">
+          <table role="presentation" cellpadding="0" cellspacing="0"><tr><td style="background:#4da3ff;border-radius:2px;">
+            <a href="${escHtml(link)}" style="display:inline-block;padding:15px 28px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:15px;font-weight:600;color:#050505;text-decoration:none;">${result.canBook ? "Book your 30-minute call" : "See your result"} &rarr;</a>
+          </td></tr></table>
+        </td></tr>
+
+        <tr><td style="padding:26px 36px 0;">
+          <p style="margin:0;font-size:14px;line-height:1.7;color:#9a9a9a;">Prefer to write first? Reply to this email and it comes straight to us.</p>
+        </td></tr>
+
+        <tr><td style="padding:18px 36px 0;">
+          <p style="margin:0;font-size:13px;line-height:1.65;color:#6b6b6b;">Can’t find this in your inbox? Please check your spam or junk folder and mark us as "not spam" so our replies always reach you.</p>
+        </td></tr>
+
+        <tr><td style="padding:28px 36px 32px;">
+          <div style="border-top:1px solid #1f1f1f;padding-top:18px;">
+            <p style="margin:0;font-size:13px;color:#e5e5e5;font-weight:600;">clupai</p>
+            <p style="margin:5px 0 0;font-size:12px;line-height:1.65;color:#6b6b6b;">Software built and launched by a fixed date.<br>We reply within one Australian business day.</p>
+          </div>
+        </td></tr>
+
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+}
+
+export async function POST(request: NextRequest)
+{
+  let body: Record<string, unknown>;
+  try {
+    body = (await request.json()) as Record<string, unknown>;
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+  }
+
+  const remoteIp = clientIp(request);
+
+  if (await isRateLimited(remoteIp ?? "unknown")) {
+    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+  }
+
+  const code = text(body.code, 32);
+  const indexes = decodeAnswers(code);
+  const name = text(body.name, 120);
+  const email = text(body.email, 254);
+  const phone = text(body.phone, 40);
+
+  if (!indexes) {
+    return NextResponse.json({ error: "Those answers aren’t valid" }, { status: 400 });
+  }
+  if (!name) {
+    return NextResponse.json({ error: "A name is required" }, { status: 400 });
+  }
+  if (!EMAIL_RE.test(email)) {
+    return NextResponse.json({ error: "A valid email is required" }, { status: 400 });
+  }
+
+  const verdict = await assessContactSpamWithCaptcha(
+    {
+      name,
+      email,
+      message: "Build Risk Check",
+      website: text(body.website, 200),
+      turnstileToken: text(body.turnstileToken, 4096),
+    },
+    remoteIp,
+  );
+  if (verdict.spam) {
+    // No email goes out, so the page has to say so. A person wrongly blocked still sees their result.
+    console.warn("Blocked Build Risk Check submission:", verdict.reason);
+    // Real people can fail the bot check (a blocked widget, Cloudflare down). Nothing goes to the
+    // address they typed, but we hear about it so the lead isn't lost.
+    if (verdict.reason === "turnstile_failed") {
+      await notifyTelegram(
+        [
+          "⚠️ <b>Build Risk Check</b> · failed the bot check, no email sent",
+          `👤 ${tgEsc(name)}`,
+          `✉️ ${tgEsc(email)}`,
+          phone ? `📞 ${tgEsc(phone)}` : null,
+        ]
+          .filter((line) => line !== null)
+          .join("\n"),
+      );
+    }
+    return NextResponse.json({ ok: true, sent: false });
+  }
+
+  // Worked out here from the answers, so a score can’t be forged from the browser.
+  const result = scoreAnswers(indexes);
+  const firstName = name.split(/\s+/)[0] ?? name;
+  const decider = result.answers[DECIDER_ANSWER]?.answer ?? "";
+
+  const ping = notifyTelegram(
+    [
+      `🔔 <b>Build Risk Check</b> · ${result.qualified ? "QUALIFIED" : "under A$10k"} · ${result.score}/100`,
+      result.businessTool ? "🏢 Business tool" : null,
+      "",
+      `👤 ${tgEsc(name)}`,
+      `✉️ ${tgEsc(email)}`,
+      phone ? `📞 ${tgEsc(phone)}` : null,
+      `🧭 Decides: ${tgEsc(decider)}`,
+      "",
+      ...result.answers.map((a) => `• ${tgEsc(a.answer)}`),
+    ]
+      .filter((line) => line !== null)
+      .join("\n"),
+  );
+
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    console.warn("RESEND_API_KEY is not set, skipping Build Risk Check emails");
+    await ping;
+    return NextResponse.json({ ok: true, sent: false });
+  }
+
+  const resend = new Resend(apiKey);
+  const link = result.canBook ? bookingUrl({ code, name, email }) : `https://clupai.com/start/result?r=${code}`;
+
+  // Awaited, because a serverless function can be stopped as soon as it responds.
+  const [internal, results] = await Promise.allSettled([
+    resend.emails.send({
+      from: FROM,
+      to: TO,
+      replyTo: email,
+      subject: `${result.qualified ? "Qualified" : "Under A$10k"} · ${name} · ${result.score}/100`,
+      html: internalHtml({ name, email, phone }, result),
+    }),
+    resend.emails.send({
+      from: FROM,
+      to: email,
+      replyTo: TO,
+      subject: `Your Build Risk Check: ${result.score} out of 100`,
+      html: resultsHtml(firstName, result, link),
+    }),
+    ping,
+  ]);
+
+  if (internal.status === "rejected" || internal.value.error) {
+    console.error("Build Risk Check internal email failed:", internal.status === "rejected" ? internal.reason : internal.value.error);
+  }
+  const sent = results.status === "fulfilled" && !results.value.error;
+  if (!sent) {
+    console.error("Build Risk Check results email failed:", results.status === "rejected" ? results.reason : results.value.error);
+  }
+
+  return NextResponse.json({ ok: true, sent });
 }

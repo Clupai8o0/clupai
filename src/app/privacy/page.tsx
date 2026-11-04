@@ -5,11 +5,11 @@ import LegalPage, { type LegalSection } from "@/components/legal-page";
 export const metadata: Metadata = {
   title: { absolute: "Privacy Policy · Clupai" },
   description:
-    "How Clupai, a Melbourne web studio, collects, uses and protects your personal information. Written to follow the Australian Privacy Principles.",
+    "How Clupai, a software company in Melbourne, collects, uses and protects your personal information. Written to follow the Australian Privacy Principles.",
   alternates: { canonical: "/privacy" },
 };
 
-const UPDATED = "2 June 2026";
+const UPDATED = "4 November 2026";
 
 const sections: LegalSection[] = [
   {
@@ -21,8 +21,8 @@ const sections: LegalSection[] = [
           This site, <strong>clupai.com</strong>, is operated by Sam Limbu
           trading as Clupai (<strong>&ldquo;Clupai&rdquo;</strong>,{" "}
           <strong>&ldquo;we&rdquo;</strong>, <strong>&ldquo;us&rdquo;</strong>{" "}
-          or <strong>&ldquo;our&rdquo;</strong>), a web, SEO and automation
-          studio based in Brunswick, Victoria, Australia.
+          or <strong>&ldquo;our&rdquo;</strong>), a software company based in
+          Brunswick, Victoria, Australia.
         </p>
         <ul>
           <li>
@@ -53,10 +53,17 @@ const sections: LegalSection[] = [
       <>
         <h3>Information you give us</h3>
         <p>
-          When you submit a form, request a quote, book a call or email us, we
-          collect the details you choose to provide. Depending on the form, that
-          can include your name, email address, phone number, business name,
-          budget range, project goals and the content of your message.
+          When you take the Build Risk Check, book a call or email us, we
+          collect the details you choose to provide. That can include your name,
+          email address, mobile number and the content of your message.
+        </p>
+        <h3>Build Risk Check answers</h3>
+        <p>
+          The check asks about what you&rsquo;re building, how far along it is,
+          who&rsquo;s building it, your budget range and who makes the decision.
+          We use your answers to work out your result and to prepare if you book
+          a call. Your answers are also held in a code in your result link, so
+          anyone you share that link with can see the result.
         </p>
         <h3>Bookings</h3>
         <p>
@@ -82,7 +89,8 @@ const sections: LegalSection[] = [
       <>
         <p>We use the information we collect to:</p>
         <ul>
-          <li>respond to your enquiry and provide a quote;</li>
+          <li>prepare and send your Build Risk Check result;</li>
+          <li>respond to your enquiry and prepare for your call;</li>
           <li>deliver and manage the services you engage us for;</li>
           <li>
             send confirmation and transactional emails relating to your enquiry
@@ -134,6 +142,20 @@ const sections: LegalSection[] = [
           </a>
           . Blocking cookies may affect how some parts of the site work.
         </p>
+        <p>
+          If we run ads, we use the Meta pixel to measure them. It tells Meta
+          that someone who saw an ad visited the site, finished the check or
+          booked a call. It doesn&rsquo;t send your name or your answers. You can
+          manage this in your{" "}
+          <a
+            href="https://www.facebook.com/adpreferences"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Meta ad settings
+          </a>
+          .
+        </p>
       </>
     ),
   },
@@ -144,7 +166,7 @@ const sections: LegalSection[] = [
       <>
         <p>
           We share personal information only with the service providers that
-          help us run the studio and the site, and only so they can perform
+          help us run the business and the site, and only so they can perform
           their service for us. These currently include:
         </p>
         <ul>
@@ -163,8 +185,14 @@ const sections: LegalSection[] = [
             <strong>Cal.com:</strong> call scheduling and bookings;
           </li>
           <li>
-            <strong>Upstash:</strong> rate limiting and abuse protection on
-            our forms.
+            <strong>Upstash and Cloudflare Turnstile:</strong> rate limiting and
+            abuse protection on our forms;
+          </li>
+          <li>
+            <strong>Meta:</strong> measuring our ads, if we&rsquo;re running them;
+          </li>
+          <li>
+            <strong>Telegram:</strong> telling our team when an enquiry comes in.
           </li>
         </ul>
         <p>
@@ -300,10 +328,9 @@ const sections: LegalSection[] = [
 export default function PrivacyPage() {
   return (
     <LegalPage
-      eyebrow="Legal · Privacy Policy"
       title="Privacy Policy"
       updated={UPDATED}
-      intro="This policy explains what information we collect when you use clupai.com or get in touch, how we use it, and the choices you have. We keep it plain and we keep it honest."
+      intro="This policy explains what information we collect when you use clupai.com or get in touch, how we use it, and the choices you have."
       sections={sections}
     />
   );

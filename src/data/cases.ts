@@ -1,784 +1,423 @@
-export type CaseMeta = { k: string; v: string };
-export type ResultCell = [label: string, stat: string, sub: string];
-export type Decision = [heading: string, body: string];
-export type Problem = string;
-export type MediaItem = { src: string; type: "image" | "video"; label: string };
+export type MediaItem = {
+  src: string;
+  type: "image" | "video";
+  label: string;
+  poster?: string;
+};
 
 export type CaseStudy = {
   slug: string;
-  hidden?: boolean;
-  stat: string;
-  sstat: string;
-  tag: string;
-  client: string;
-  kind: string;
-  year: string;
-  eyebrow: string;
-  headline: string;
-  headlineAccent: string;
-  description: string;
-  meta: CaseMeta[];
-  results: ResultCell[];
-  brief: { quote: string; attribution: string };
-  problems: Problem[];
-  decisions: Decision[];
+  name: string;
+  /** client: built for someone else. product: our own. earlier: small row at the bottom of /work. */
+  group: "client" | "product" | "earlier";
+  /** How we were involved, always stated plainly. */
+  role: string;
+  line: string;
+  /** Dates on the page axis, e.g. "Mar 2026 → Apr 2026". */
+  when: string;
+  took?: string;
+  status: string;
+  url?: { href: string; label: string };
+  picture: { src: string; alt: string };
+  clip?: { src: string; poster: string };
+  facts: { k: string; v: string }[];
+  problem: string[];
+  built: { title: string; body: string }[];
   testimonial?: { quote: string; name: string; role: string };
-  thumbnail?: string;
-  art?: { src: string; alt: string; caption: string };
-  media?: MediaItem[];
+  media: MediaItem[];
+  stack?: string;
 };
 
 export const cases: CaseStudy[] = [
   {
-    slug: "king-double-glazing",
-    thumbnail: "/work/kdg/homepage.webp",
-    art: {
-      src: "/illustrations/work/king-double-glazing.webp",
-      alt: "Illustration: a Victorian weatherboard house in Melbourne on a rainy night, one double-glazed window lit blue.",
-      caption: "A Melbourne weatherboard on a wet night.",
-    },
-    stat: "75→99",
-    sstat: "Performance · desktop · Lighthouse",
-    tag: "Websites",
-    client: "King Double Glazing",
-    kind: "Retrofit glazing · Melbourne",
-    year: "2026",
-    eyebrow: "Retrofit glazing · Melbourne · 2026",
-    headline: "King Double Glazing:\nrebrand, rebuild,",
-    headlineAccent: "conversion funnel.",
-    description:
-      "Melbourne retrofit double glazing business. Previous brand (The Glass Discounters) had a 57 Lighthouse score and 13.1s mobile LCP. Rebuilt from scratch under a new brand: conversion-first architecture, self-serve Instant Estimate Tool, and a perfect 100 SEO score out of the gate.",
-    meta: [
-      { k: "Industry", v: "Retrofit double glazing · trades" },
-      { k: "Location", v: "Melbourne, VIC" },
-      { k: "Scope", v: "Rebrand · website · conversion funnel" },
-      { k: "Stack", v: "Next.js 16 · TinaCMS · Neon · Drizzle · Resend · Tailwind v4" },
-      { k: "Timeline", v: "5 weeks" },
-      { k: "Live", v: "kingdoubleglazing.com.au" },
-    ],
-    results: [
-      ["Desktop performance", "99", "from 75 on the old Glass Discounters site"],
-      ["Mobile performance", "85", "from 57 · LCP 4.4s · TBT 20ms · CLS 0"],
-      ["SEO score", "100", "Lighthouse · Best Practices 100 · schema complete"],
-    ],
-    brief: {
-      quote:
-        "\"The old site was slow, the brand felt dated, and we had no way to give customers a price before they called. We needed a full restart — new name, new site, something that filters serious buyers before they ring my phone.\"",
-      attribution: "Client, King Double Glazing",
-    },
-    problems: [
-      "The Glass Discounters (prior brand) had a Lighthouse Performance score of 57 on mobile: 13.1s LCP and 370ms total blocking time. Customers bounced before the page loaded.",
-      "No way for customers to self-serve a price estimate. Every enquiry went straight to the phone, including price-shoppers and tyre-kickers with no intent to buy.",
-      "A full rebrand to King Double Glazing needed a clean break: new positioning, new brand voice, and a site built from scratch rather than patching the old WordPress stack.",
-    ],
-    decisions: [
-      [
-        "Next.js 16 + Vercel",
-        "Rebuilt from scratch on Next.js 16 App Router. No plugin bloat, no page builder. Desktop LCP 1.0s, mobile LCP 4.4s. TBT 20ms across both, down from 370ms on the old site.",
-      ],
-      [
-        "Instant Estimate Tool",
-        "Multi-step calculator that produces a price range before asking for contact details. Reverses the standard trades lead-gen pattern: qualify first, capture second. Reduces junk enquiries before they reach the phone.",
-      ],
-      [
-        "5-page conversion funnel",
-        "Original plan was a 27-route SEO content cluster. Mid-project pivot to a tight 5-page funnel pointing every visitor to one action: the estimate tool. SEO infrastructure (schema, sitemap, suburb page template) is in place for future expansion without a rebuild.",
-      ],
-      [
-        "TinaCMS (git-based)",
-        "Content stored as JSON in the repo: no external CMS database. Visual editor via Tina Cloud. Client can edit pages without touching code or needing a developer.",
-      ],
-      [
-        "Neon + Drizzle",
-        "Postgres on Neon with Drizzle ORM. All quote and lead submissions stored here. Token-based email confirmation flow: only confirmed quote requests get flagged as hot leads.",
-      ],
-      [
-        "Resend + React Email",
-        "Transactional email pipeline with DKIM/SPF/DMARC configured. Two-step quote confirmation: customer clicks a token link before KDG receives the lead notification. Filters junk at the email layer.",
-      ],
-    ],
-    testimonial: {
-      quote:
-        "\"The calculator came out exactly how I had it in my head. Sam showed me every update as he built it — I could see the changes straight away and tell him what I wanted. I felt in control the whole way through.\"",
-      name: "Tas",
-      role: "King Double Glazing · Melbourne",
-    },
-    media: [
-      { src: "/work/kdg/homepage.mp4", type: "video", label: "Home · 1440px" },
-      { src: "/work/kdg/mobile.webp", type: "image", label: "Mobile · 375px" },
-      { src: "/work/kdg/quote.mp4", type: "video", label: "Instant Estimate Tool" },
-      { src: "/work/kdg/services.mp4", type: "video", label: "Services · full scroll" },
-      { src: "/work/kdg/gallery.webp", type: "image", label: "Gallery" },
-      { src: "/work/kdg/about.webp", type: "image", label: "About" },
-    ],
-  },
-  {
     slug: "hoddle-melbourne",
-    thumbnail: "/work/hoddle/mentor-rec.webp",
-    art: {
-      src: "/illustrations/work/hoddle-melbourne.webp",
-      alt: "Illustration: the Melbourne CBD street grid from above at night, the streets glowing blue beside the Yarra.",
-      caption: "The Hoddle Grid, the street plan of central Melbourne.",
+    name: "Hoddle Melbourne",
+    group: "client",
+    role: "Co-founder and CTO",
+    line: "A mentoring platform for first-year international students in Melbourne.",
+    when: "Mar 2026 → Apr 2026",
+    took: "Six weeks",
+    status: "Live",
+    url: { href: "https://hoddle.org", label: "hoddle.org" },
+    picture: {
+      src: "/work/hoddle/new/home.webp",
+      alt: "Hoddle’s home page: Navigate Melbourne with someone who’s been in your shoes.",
     },
-    stat: "2nd",
-    sstat: "Study Melbourne Leadership 4Impact",
-    tag: "Apps",
-    client: "Hoddle Melbourne",
-    kind: "International student mentorship · Melbourne",
-    year: "2026",
-    eyebrow: "EdTech startup · Study Melbourne 4Impact · 2026",
-    headline: "Hoddle Melbourne:\nfull mentorship platform,",
-    headlineAccent: "built in six weeks.",
-    description:
-      "First-year international students arrive in Melbourne without the informal networks domestic students rely on. We built the platform that fills that gap: weighted mentor matching, a content library, community forums, live Q&A sessions, and a self-sustaining cycle where students graduate into mentors themselves. Placed 2nd at Study Melbourne's 4Impact Program.",
-    meta: [
-      { k: "Industry", v: "EdTech · international student mentorship" },
-      { k: "Location", v: "Carlton, VIC" },
-      { k: "Scope", v: "Full-stack platform · matching · community" },
-      { k: "Stack", v: "Next.js 16 · Supabase · Tiptap · Tailwind v4" },
-      { k: "Timeline", v: "6 weeks (Mar–Apr 2026)" },
-      { k: "Live", v: "hoddle.org" },
+    clip: { src: "/work/hoddle/loop.mp4", poster: "/work/hoddle/poster.jpg" },
+    facts: [
+      { k: "Took", v: "Six weeks, one developer" },
+      { k: "Result", v: "Live, and 2nd at Study Melbourne Leadership 4Impact" },
+      { k: "Our part", v: "Co-founder and CTO, so this one is our own venture" },
     ],
-    results: [
-      ["Study Melbourne 4Impact", "2nd", "final pitch day: ranked 2nd of all competing teams"],
-      ["LinkedIn impressions", "14,040", "before public launch · organic early-access traction"],
-      ["Codebase", "26K+ lines", "51 routes · 23 tables · 17 migrations · 3 cron jobs"],
+    problem: [
+      "First-year international students land in Melbourne without the networks local students grow up with. Marking, housing, part-time work and visa paperwork all get learned the hard way.",
+      "The team was in the Study Melbourne Leadership 4Impact program, with a public pitch day that wasn’t going to move.",
     ],
-    brief: {
-      quote:
-        "\"International students land in Melbourne without the networks domestic students grow up with. We needed a platform that could match them with verified seniors, let mentors share knowledge at scale, and build a community worth coming back to. Six weeks, one developer.\"",
-      attribution: "Hoddle Melbourne · Study Melbourne Leadership 4Impact 2026",
-    },
-    problems: [
-      "First-year international students arrive in Melbourne without the informal knowledge networks domestic students lean on: academic conventions, career pathways, housing, visa admin. No platform gave them access to verified peers who'd already navigated the same journey.",
-      "One-to-many was the only model that worked at scale. 1:1 tutoring creates scheduling bottlenecks. Mentors needed to publish articles, host live Q&As, and engage forums: reaching many students from a single piece of effort, without calendar overhead.",
-      "Six weeks from Figma concept to production. The team was competing in the Study Melbourne Leadership 4Impact Program with a hard public deadline. Every architectural decision had to be defensible, deployable, and maintainable by the founding team post-launch.",
-    ],
-    decisions: [
-      [
-        "RLS as the authorisation layer",
-        "Row Level Security enforces data access at the database layer, not the application layer. Every table has explicit RLS policies from day one. A bug in middleware can expose data; a bug in application code cannot bypass RLS. The admin client is the only surface that bypasses RLS, used only for system operations.",
-      ],
-      [
-        "Weighted matching algorithm",
-        "scoreMentor() is a pure function: zero database calls. country_of_origin match +30 (shared migration context is the strongest signal), field overlap +15 each, challenges and goals overlap +10 each. Scores pre-computed nightly via Vercel cron; recomputed immediately on profile update. Students see a 'why this mentor' reasoning line on their dashboard.",
-      ],
-      [
-        "Token-gated mentor invites",
-        "Admin sends an invite → row written to mentor_invites with a hashed token, 14-day expiry, and full audit columns. Owning the invite row means owning the full lifecycle: custom expiry, re-invite without blocking, revocation, and reuse prevention. No dependency on third-party link delivery.",
-      ],
-      [
-        "One-to-many content model",
-        "Mentors author articles with a Tiptap rich-text editor, embed YouTube/Vimeo via URL, and attach downloadable resources with signed storage URLs. Community forums have two-level nested replies, 4 reaction types, and anonymous posting for sensitive questions. Live Q&A sessions with capacity limits and post-session recording storage.",
-      ],
-      [
-        "Supabase Realtime notifications",
-        "In-app notification bell subscribes to the notifications table via Supabase Realtime: unread count stays live without polling. Single notify() helper writes to the table and conditionally dispatches email based on per-type, per-channel preference toggles. 6 notification types across 3 delivery channels.",
-      ],
-      [
-        "Vercel + preview deploys",
-        "Every PR gets a preview URL. Co-founders reviewed each feature in context before merge. No surprises on pitch day. Three Vercel cron jobs handle the full session lifecycle and nightly recommendation recompute.",
-      ],
+    built: [
+      {
+        title: "Mentor matching",
+        body: "Students answer a few questions. The platform ranks mentors on where they’re from, what they study and what they’re stuck on, then says why it picked each one.",
+      },
+      {
+        title: "One mentor, many students",
+        body: "Mentors write articles, answer in forums and host live Q&As, so one hour of their time reaches a lot of people. Forum posts can be anonymous for questions nobody wants their name on.",
+      },
+      {
+        title: "Who can see what",
+        body: "Access rules sit in the database itself as well as the app, from the first table onward.",
+      },
+      {
+        title: "A link for every change",
+        body: "Each change got its own preview link. The co-founders clicked through every feature before it went live, so pitch day held no surprises.",
+      },
     ],
     testimonial: {
       quote:
-        "\"We had the idea, we had people who were interested — but the solution that Sam put together really brought the product to life. Usually the website is the cherry on top, but for us, Hoddle became the cake.\"",
+        "We had the idea, we had people who were interested, but the solution that Sam put together really brought the product to life. Usually the website is the cherry on top, but for us, Hoddle became the cake.",
       name: "Chirag P Agarwal",
-      role: "Co-founder · Hoddle Melbourne",
+      role: "Co-founder, Hoddle Melbourne",
     },
     media: [
-      { src: "/work/hoddle/demo.mp4", type: "video", label: "Platform walkthrough" },
-      { src: "/work/hoddle/mobile.webp", type: "image", label: "Mobile · 390px" },
-      { src: "/work/hoddle/mentor-rec.webp", type: "image", label: "Matching recommendations" },
-      { src: "/work/hoddle/forum.mp4", type: "video", label: "Community forums" },
-      { src: "/work/hoddle/mentors.mp4", type: "video", label: "Mentor profiles" },
-      { src: "/work/hoddle/dashboard.mp4", type: "video", label: "Student dashboard · mentor matches" },
+      { src: "/work/hoddle/loop.mp4", type: "video", label: "Signing up as a student", poster: "/work/hoddle/poster.jpg" },
+      { src: "/work/hoddle/new/phone-home.webp", type: "image", label: "On a phone" },
+      { src: "/work/hoddle/new/matching.webp", type: "image", label: "Mentors picked for a student" },
     ],
+    stack: "Next.js, Supabase, Tailwind",
   },
   {
-    slug: "tapcraft",
-    hidden: true,
-    stat: "3D+shop",
-    sstat: "headless Shopify",
-    tag: "Websites",
-    client: "TapCraft Studio",
-    kind: "NFC products · Melbourne",
-    year: "2026",
-    eyebrow: "NFC products · Melbourne · 2026",
-    headline: "TapCraft:\n3D product configurator meets",
-    headlineAccent: "headless Shopify.",
-    description:
-      "TapCraft sells custom NFC-embedded products. They needed a site that felt as premium as the hardware: interactive 3D previews, a live configurator, and a headless Shopify checkout. We built it.",
-    meta: [
-      { k: "Industry", v: "Consumer hardware · NFC" },
-      { k: "Location", v: "Melbourne, VIC" },
-      { k: "Scope", v: "Website · 3D configurator · Shopify headless" },
-      {
-        k: "Stack",
-        v: "Next.js 16 · Three.js · Shopify Storefront API · Tailwind v4",
-      },
-      { k: "Timeline", v: "7 weeks" },
-      { k: "Live", v: "tapcraftstudio.com" },
-    ],
-    results: [
-      ["3D renderer", "60fps", "on mid-range mobile, no quality compromise"],
-      ["Checkout", "headless", "Shopify cart + payment, custom UI throughout"],
-      ["Stack", "Three.js", "Next.js 16 · Shopify API · Tailwind v4"],
-    ],
-    brief: {
-      quote:
-        "\"Every other NFC product site looks like a Shopify template. We make hardware that people show off—the site needed to match that energy.\"",
-      attribution: "Founder, TapCraft Studio",
+    slug: "king-double-glazing",
+    name: "King Double Glazing",
+    group: "client",
+    role: "Built for a client",
+    line: "A new brand, a new site and an instant price tool for a Melbourne glazier.",
+    when: "2026",
+    took: "Five weeks",
+    status: "Live",
+    url: { href: "https://kingdoubleglazing.com.au", label: "kingdoubleglazing.com.au" },
+    picture: {
+      src: "/work/kdg/new/estimate-options.webp",
+      alt: "King Double Glazing’s estimate tool, asking a customer to pick a glass option.",
     },
-    problems: [
-      "Off-the-shelf Shopify themes couldn't support a live 3D preview: customers couldn't see their NFC card design before buying.",
-      "Product variants (material, finish, embedded data) drove a combinatorial explosion that standard product pages couldn't handle cleanly.",
-      "The checkout UX needed to stay branded end-to-end, not drop into Shopify's hosted checkout mid-flow.",
+    clip: { src: "/work/kdg/loop.mp4", poster: "/work/kdg/poster.jpg" },
+    facts: [
+      { k: "Took", v: "Five weeks" },
+      { k: "Speed", v: "Google’s desktop score went from 75 to 99" },
+      { k: "Our part", v: "Brand, site, price tool and quote emails" },
     ],
-    decisions: [
-      [
-        "Three.js configurator",
-        "Custom Three.js scene with GLTF models for each product. Finish and material swaps happen in real-time via texture replacement. 60fps on mid-range mobile.",
-      ],
-      [
-        "Shopify Storefront API",
-        "Headless checkout via Storefront API. Cart lives in React context, Shopify handles fulfilment. Brand stays consistent until payment.",
-      ],
-      [
-        "Variant state machine",
-        "Configuration state modelled as a flat object: material, finish, embedded URL. Maps directly to a Shopify variant SKU. No nested selects.",
-      ],
-      [
-        "Next.js Image",
-        "Product photography served via next/image with AVIF. Fallback for the 3D canvas when WebGL is unavailable.",
-      ],
-      [
-        "Static PDP shell",
-        "Product detail page pre-rendered at build time with ISR. The configurator hydrates client-side. Fast first paint, no SSR 3D flicker.",
-      ],
-      [
-        "Analytics events",
-        "Custom events fire on configurator interactions and add-to-cart. Gives the founder real data on which finishes convert vs. which ones browsers browse.",
-      ],
+    problem: [
+      "Every enquiry landed on the owner’s phone, including people only shopping for a number.",
+      "The old site was slow and the brand felt dated. Fixing it meant a clean restart under a new name.",
     ],
+    built: [
+      {
+        title: "A price before a phone call",
+        body: "Customers enter their window sizes and see a price range before giving any contact details. People who get in touch already know the number.",
+      },
+      {
+        title: "Quotes that confirm themselves",
+        body: "A customer clicks a link in an email before the lead reaches the owner, which filters out junk before anyone has to deal with it.",
+      },
+      {
+        title: "Five pages, one job",
+        body: "The first plan was 27 pages. We cut it to five, all pointing at the price tool.",
+      },
+      {
+        title: "Editable without us",
+        body: "The owner changes pages through a visual editor, with no developer involved.",
+      },
+    ],
+    testimonial: {
+      quote:
+        "The calculator came out exactly how I had it in my head. Sam showed me every update as he built it. I could see the changes straight away and tell him what I wanted. I felt in control the whole way through.",
+      name: "Tas",
+      role: "King Double Glazing, Melbourne",
+    },
+    media: [
+      { src: "/work/kdg/loop.mp4", type: "video", label: "Getting a price", poster: "/work/kdg/poster.jpg" },
+      { src: "/work/kdg/new/hero.webp", type: "image", label: "Home page" },
+      { src: "/work/kdg/new/estimate-windows-mobile.webp", type: "image", label: "The price tool on a phone" },
+      { src: "/work/kdg/gallery.webp", type: "image", label: "Gallery" },
+    ],
+    stack: "Next.js, TinaCMS, Postgres, Resend",
+  },
+  {
+    slug: "tempo",
+    name: "Tempo",
+    group: "product",
+    role: "Our own product",
+    line: "Log your workouts, see your progress, and let Claude read and log them for you.",
+    when: "Apr 2026 → Aug 2026",
+    status: "Released",
+    url: { href: "https://tempo.clupai.com", label: "tempo.clupai.com" },
+    picture: {
+      src: "/products/tempo/dashboard.webp",
+      alt: "Tempo’s dashboard: workouts this week, volume, and a frequency chart.",
+    },
+    facts: [
+      { k: "Live since", v: "August 2026" },
+      { k: "Library", v: "800+ exercises" },
+      { k: "Checks", v: "353 automated tests on the API" },
+    ],
+    problem: [
+      "Workout apps keep your history inside their own screens. An AI assistant can’t read it, and can’t log a set for you.",
+    ],
+    built: [
+      {
+        title: "One log, two ways in",
+        body: "The web app and Claude read and write the same training history, so a set logged in chat shows up in the browser.",
+      },
+      {
+        title: "Written once",
+        body: "Every feature lives in one shared layer, and the tests fail if the app and the Claude tools ever disagree.",
+      },
+      {
+        title: "Still being finished",
+        body: "Planning a workout ahead works through Claude today. Its web screens aren’t done yet.",
+      },
+    ],
+    media: [
+      { src: "/products/tempo/session.webp", type: "image", label: "Logging a set" },
+      { src: "/products/tempo/log-mobile.webp", type: "image", label: "On a phone" },
+    ],
+    stack: "Next.js, FastAPI, Postgres",
+  },
+  {
+    slug: "govchat",
+    name: "GovChat",
+    group: "product",
+    role: "Our own product",
+    line: "Ask in plain English and find Australian government datasets, with sources.",
+    when: "Aug 2025 → Dec 2025",
+    status: "In the works",
+    picture: {
+      src: "/products/govchat/trust.webp",
+      alt: "GovChat answering a question about languages spoken at home, next to a trust score.",
+    },
+    facts: [
+      { k: "Award", v: "A GovHack 2025 winner" },
+      { k: "Covers", v: "2,016 government datasets" },
+      { k: "Team", v: "Built for GovHack, with one other contributor on the API" },
+      { k: "Now", v: "The live demo is offline until we repair its search" },
+    ],
+    problem: [
+      "Australia publishes thousands of useful datasets, but finding the right one means knowing what it’s called and which agency holds it.",
+    ],
+    built: [
+      {
+        title: "Plain English search",
+        body: "Ask a question the way you’d say it. GovChat finds the datasets that answer it and links to where they came from.",
+      },
+      {
+        title: "A first go at a trust score",
+        body: "Answers carry a score for how much to rely on them. It’s an early version, and we say so.",
+      },
+    ],
+    media: [{ src: "/products/govchat/trust.webp", type: "image", label: "An answer with its sources" }],
+    stack: "Next.js, FastAPI, ChromaDB",
+  },
+  {
+    slug: "acknowledgement-force",
+    name: "Acknowledgement Force",
+    group: "product",
+    role: "Our own product",
+    line: "Blocks your Mac until you read your own rules and name what matters today.",
+    when: "May 2026 → Aug 2026",
+    status: "Released",
+    url: { href: "https://force.clupai.com", label: "force.clupai.com" },
+    picture: {
+      src: "/products/force/desktop.webp",
+      alt: "The Acknowledgement Force home page.",
+    },
+    clip: { src: "/products/force/demo.mp4", poster: "/products/force/demo-poster.webp" },
+    facts: [
+      { k: "Runs on", v: "macOS, with a web editor" },
+      { k: "Version", v: "v0.3, free and open source" },
+      { k: "Privacy", v: "No telemetry. Works fully local with no account" },
+    ],
+    problem: [
+      "The rule you set last week disappears the moment you’re stressed. Reminders get swiped away.",
+    ],
+    built: [
+      {
+        title: "A screen you can’t skip",
+        body: "On a schedule you pick, the app covers the screen until you’ve read your rules, ticked the box and named one thing for the day.",
+      },
+      {
+        title: "Rewritten properly",
+        body: "The first version was a web app in a wrapper. We rebuilt it as a native Mac app so it’s small and quick to open.",
+      },
+    ],
+    media: [{ src: "/products/force/demo.mp4", type: "video", label: "The daily screen", poster: "/products/force/demo-poster.webp" }],
+    stack: "Swift, SwiftUI, Supabase",
+  },
+  {
+    slug: "cstack",
+    name: "cstack",
+    group: "product",
+    role: "Our own product",
+    line: "Keeps several AI coding tools from clashing, and cuts what they cost to run.",
+    when: "Sep 2026 → Nov 2026",
+    status: "Released",
+    url: { href: "https://github.com/Clupai8o0/cstack", label: "github.com/Clupai8o0/cstack" },
+    picture: {
+      src: "/products/cstack/cover.webp",
+      alt: "The cstack README: one rules, hooks and skills layer for AI coding tools.",
+    },
+    facts: [
+      { k: "For", v: "Developers, and it’s how we run our own builds" },
+      { k: "Works with", v: "Six AI coding tools" },
+      { k: "Cost", v: "US$0.33 a task against US$0.90, in our own benchmarks" },
+    ],
+    problem: [
+      "Run a few AI coding tools on one project and they overwrite each other’s work, repeat each other’s mistakes and burn money.",
+    ],
+    built: [
+      {
+        title: "One set of rules",
+        body: "All the tools read the same rules, and a mistake one of them makes becomes a rule for the others.",
+      },
+      {
+        title: "No two editors on one file",
+        body: "Each tool claims the files it’s working on, so another session can’t write over them.",
+      },
+    ],
+    media: [],
   },
   {
     slug: "kairos",
-    stat: "1–3 s",
-    sstat: "task-to-calendar latency · schedule-on-write",
-    tag: "Apps",
-    client: "Kairos",
-    kind: "AI scheduling app · in-house product",
-    year: "2025",
-    eyebrow: "Scheduling SaaS · in-house product · 2025–2026",
-    headline: "Kairos:\npaste your notes,",
-    headlineAccent: "own your week.",
-    description:
-      "Most people don't need another task list. They need something that turns the tasks they already have into a plan they'll actually follow. Kairos takes unstructured notes, extracts tasks using an LLM, and places them into Google Calendar automatically, respecting deadlines, dependencies, and your working hours. No drag and drop. No manual time-blocking.",
-    meta: [
-      { k: "Type", v: "In-house product · clupai" },
-      { k: "Stack", v: "Next.js 15 · Drizzle · Neon · Vercel AI SDK · Better Auth · Google Calendar API" },
-      { k: "Timeline", v: "2025–2026 · 5 phases" },
-      { k: "Status", v: "Live beta · v1.0.0 pending" },
-      { k: "Self-host", v: "MIT · Docker Compose · one-click Vercel deploy" },
-      { k: "Live", v: "kairos.clupai.com" },
-    ],
-    results: [
-      ["Schedule latency", "1–3 s", "task created → placed on Google Calendar · schedule-on-write"],
-      ["Plugins at launch", "10", "text, Instagram, Twitter, Readwise, voice, GitHub, Notion, Linear, email, Slack"],
-      ["Phases shipped", "5", "scheduling → recurrence → plugin host → marketplaces → collections"],
-    ],
-    brief: {
-      quote:
-        "\"Every scheduling app I tried had the same problem: it stored my tasks but it didn't do anything with them. I wanted something that would look at everything I had on, figure out when I could actually do it, and put it on my calendar — without me touching a single slot.\"",
-      attribution: "Sam Limbu · Founder, Kairos",
+    name: "Kairos",
+    group: "product",
+    role: "Our own product",
+    line: "Paste your notes and it books the tasks into your calendar.",
+    when: "Apr 2026 → now",
+    status: "In the works",
+    picture: {
+      src: "/products/kairos/week.webp",
+      alt: "Kairos’s week view, with tasks booked into a calendar.",
     },
-    problems: [
-      "Task managers are good at storage. They're bad at time. Nothing connected 'things I need to do' with 'when I can actually do them' without hours of manual scheduling.",
-      "Adding a new input source, say pulling tasks from GitHub Issues or a Slack message, shouldn't require touching the core app. Every integration being a one-off made the codebase fragile and the system hard to extend.",
-      "The theme system needed to be community-extensible without any risk of a bad theme breaking the layout. Hand-rolled design tokens with no enforcement meant this was impossible to delegate.",
+    facts: [
+      { k: "Plans", v: "The next 14 days, around fixed events" },
+      { k: "Checks", v: "306 automated tests" },
+      { k: "Now", v: "A full rebuild, started October 2026" },
     ],
-    decisions: [
-      [
-        "Schedule-on-write",
-        "Creating or updating a task automatically enqueues a placement job via the Postgres jobs table. Scheduling completes in 1–3 s within the same Vercel function call: no separate trigger, no user action required. Idempotency keys prevent duplicates under concurrent saves.",
-      ],
-      [
-        "Plugin host with PluginContext",
-        "Every scratchpad plugin gets a PluginContext: complete/completeStructured for LLM access, config, memory, logging, without core importing any provider SDK. Adding a new input source (Readwise, GitHub, Linear) is a PR to the public registry. 10 plugins shipped at launch without a single core change.",
-      ],
-      [
-        "HTTP plugin runtime",
-        "Plugin authors deploy their own serverless function exposing GET /manifest and POST /parse. Kairos calls via lib/plugins/http-adapter.ts: HMAC-signed requests, 5 s timeout, circuit breaker (3 failures / 1 min → 5 min open). Supports version rollback. No third-party code runs inside the Kairos runtime.",
-      ],
-      [
-        "Semantic token enforcement in CI",
-        "A custom ESLint rule (no-raw-colors) bans hex literals and raw Tailwind colour utilities in component files. Components reference semantic tokens only. Theme marketplace themes compile to CSS at install time. Safe to accept community submissions without manual design review.",
-      ],
-      [
-        "LLM provider abstraction",
-        "lib/llm/ is the only place provider SDKs are allowed. All other code goes through PluginContext.complete() or Vercel AI SDK streamText. Switching OpenAI → Anthropic → Ollama is one env var. Self-hosters bring their own keys.",
-      ],
-      [
-        "Collections as coordination, not taxonomy",
-        "Tags handle taxonomy. Google Calendar handles time. Collections handle coordination: grouping tasks into ordered phases (Planning → Build → Review) with progress tracking and bulk-schedule. No collectionId on the tasks table; many-to-many keeps tasks portable across collections.",
-      ],
+    problem: [
+      "To-do lists don’t know how long anything takes or when you’re free, so the list just grows.",
     ],
-    thumbnail: "/work/kairos/tasks.webp",
-    art: {
-      src: "/illustrations/work/kairos.webp",
-      alt: "Illustration: a desk before dawn with a laptop, an open notebook and a phone glowing blue.",
-      caption: "The week, planned before it starts.",
-    },
+    built: [
+      {
+        title: "Plain rules do the planning",
+        body: "Ordinary code decides what goes where. The AI suggests how long things take and drafts goals, and nothing changes until you accept it.",
+      },
+      {
+        title: "It learns how long you take",
+        body: "When a block ends, it asks how it went. After a few answers it suggests planning that kind of task longer or shorter.",
+      },
+    ],
     media: [
-      { src: "/work/kairos/kairos-demo.mp4", type: "video", label: "Core flow · scratchpad → tasks → calendar" },
-      { src: "/work/kairos/mobile.webp", type: "image", label: "Mobile · 375px" },
-      { src: "/work/kairos/schedule.mp4", type: "video", label: "Schedule view · tasks placed on timeline" },
-      { src: "/work/kairos/collections.mp4", type: "video", label: "Collections · phases · Phase 5d" },
-      { src: "/work/kairos/tasks.webp", type: "image", label: "Task list · obsidian-linear theme" },
-      { src: "/work/kairos/scratchpad.mp4", type: "video", label: "Scratchpad · text → extracted candidates" },
+      { src: "/work/kairos/kairos-demo.mp4", type: "video", label: "A walkthrough of an earlier build", poster: "/products/kairos/week.webp" },
+      { src: "/products/kairos/today.webp", type: "image", label: "Today" },
     ],
+    stack: "Next.js, Vercel AI SDK, Google Calendar",
   },
   {
-    slug: "dsec",
-    hidden: true,
-    stat: "190+",
-    sstat: "club members",
-    tag: "Websites",
-    client: "DSEC",
-    kind: "Software engineering club · Deakin",
-    year: "2025",
-    eyebrow: "Student tech club · Deakin University · 2025",
-    headline: "DSEC:\na club site that actually",
-    headlineAccent: "gets students to show up.",
-    description:
-      "Deakin's software engineering club needed a site that communicated events, showcased projects, and recruited members. Not a Wix template: something that looked like it was built by people who know what they're doing.",
-    meta: [
-      { k: "Industry", v: "Education · student tech club" },
-      { k: "Location", v: "Burwood, VIC · Deakin University" },
-      { k: "Scope", v: "Website · events · member recruitment" },
-      { k: "Stack", v: "Next.js 15 · Tailwind v4 · Notion API · Vercel" },
-      { k: "Timeline", v: "3 weeks" },
-      { k: "Live", v: "dsec.dev" },
-    ],
-    results: [
-      ["Members", "190+", "from 60 before the new site launched"],
-      ["Event signups", "3×", "compared to the previous semester"],
-      ["Stack", "Next.js 15", "Notion API · Tailwind v4 · Vercel"],
-    ],
-    brief: {
-      quote:
-        "\"The old site was embarrassing. We're a software engineering club—our website shouldn't look like it was made in 2009. We wanted something that made new students actually want to join.\"",
-      attribution: "President, DSEC",
+    slug: "tapcraft",
+    name: "TapCraft",
+    group: "earlier",
+    role: "Co-founder",
+    line: "A store for 3D-printed NFC keychains.",
+    when: "Feb 2026 → Oct 2026",
+    status: "Business ended, store still up",
+    url: { href: "https://tapcraft.shop", label: "tapcraft.shop" },
+    picture: {
+      src: "/work/tapcraft/new/desktop.webp",
+      alt: "The TapCraft store.",
     },
-    problems: [
-      "The previous site was a static HTML page with no way to update events without editing raw HTML: execs were skipping it entirely.",
-      "Member count stagnated. New students visiting the site had no reason to sign up: no visible community, no clear value prop.",
-      "Events had no recurring home. Announcements were scattered across Discord and Instagram with no canonical source.",
+    facts: [
+      { k: "Our part", v: "Co-founder, and we built the store" },
+      { k: "Ran", v: "February to October 2026" },
     ],
-    decisions: [
-      [
-        "Notion as CMS",
-        "Events and project showcases managed in Notion. Execs update a database, site rebuilds automatically via ISR. No one touches the code to post an event.",
-      ],
-      [
-        "Social proof up front",
-        "Member count, project gallery, and alumni outcomes above the fold. Answers the question 'why join?' before the visitor scrolls.",
-      ],
-      [
-        "One-click membership",
-        "Membership form reduced to email + cohort year. Syncs to a Notion database. No friction, no password, no waiting for an admin to approve.",
-      ],
-      [
-        "Events feed",
-        "Upcoming and past events pulled from Notion in real time. Each event gets its own page with RSVP link, location, and speaker bio.",
-      ],
-      [
-        "Vercel + ISR",
-        "Pages revalidate every 60 seconds. Execs see live changes without a deploy. Site stays fast: no API calls on the critical path.",
-      ],
-      [
-        "Dark mode default",
-        "Design system built dark-first. Looks native to the tools students already use: VS Code, GitHub, Discord. Not a corporate site.",
-      ],
+    problem: ["We sold custom NFC keychains and needed a store that felt as considered as the product."],
+    built: [
+      {
+        title: "A store on Shopify’s engine",
+        body: "A custom storefront with Shopify handling cart and payment underneath.",
+      },
     ],
+    media: [],
+    stack: "Next.js, Shopify",
   },
   {
     slug: "krishnaveni-school",
-    stat: "0 calls",
-    sstat: "runtime CMS calls · content baked at build",
-    tag: "Websites",
-    client: "Krishnaveni School",
-    kind: "School marketing website · India",
-    year: "2026",
-    eyebrow: "School website · India · 2026",
-    headline: "Krishnaveni:\na school site with a CMS",
-    headlineAccent: "staff can actually use.",
-    description:
-      "Indian school stuck on a static HTML site: any content change meant emailing a developer. Delivered a full Next.js 15 marketing website with 13 section types, a Sanity v5 CMS, and a custom content pipeline. Staff now manage all pages, posts, and facilities independently.",
-    meta: [
-      { k: "Industry", v: "Education · K-12 school" },
-      { k: "Location", v: "India" },
-      { k: "Scope", v: "Marketing website · headless CMS · handover" },
-      { k: "Stack", v: "Next.js 15 · Sanity v5 · Tailwind v4 · GSAP · Radix UI · Vercel" },
-      { k: "Delivered", v: "May 2026" },
-      { k: "Live", v: "krishnavenischool.co.in" },
-    ],
-    results: [
-      ["SEO score", "92", "Lighthouse · sitemap, robots, per-page metadata, semantic HTML"],
-      ["Best Practices", "100", "Lighthouse · desktop and mobile · HTTPS, no console errors"],
-      ["Dev touch post-handover", "0", "staff manage all content through Sanity Studio independently"],
-    ],
-    brief: {
-      quote:
-        "\"Any time we needed to update a page or post an announcement, we had to email a developer and wait. We needed to be able to do it ourselves.\"",
-      attribution: "Client, Krishnaveni School",
+    name: "Krishnaveni School",
+    group: "earlier",
+    role: "Website for a client",
+    line: "A school website its staff can run on their own.",
+    when: "2026",
+    status: "Live",
+    picture: {
+      src: "/work/krishnaveni/homepage.webp",
+      alt: "The Krishnaveni School home page.",
     },
-    problems: [
-      "The school was running on a static HTML site. Every content change needed a developer: a new gallery post, an updated facilities list, an announcement. Staff had no autonomy.",
-      "A standard CMS would still break if staff accidentally edited the wrong field or reordered sections. The system needed to be opinionated enough to protect the layout.",
-      "Handover was a hard requirement. The school couldn't rely on ongoing developer availability: staff had to be self-sufficient from day one.",
+    facts: [
+      { k: "Before", v: "Every change meant emailing a developer" },
+      { k: "After", v: "Staff manage pages, posts and facilities themselves" },
     ],
-    decisions: [
-      [
-        "Sanity v5",
-        "Schema-first CMS with typed GROQ queries. Studio is clean and opinionated: staff adopted it without training docs. Validates all content before it reaches the frontend. Custom document types for posts, facilities, and page sections.",
-      ],
-      [
-        "Polymorphic section architecture",
-        "Page body is an array of typed section objects. SectionRenderer maps each _type to its React component. Any page layout can be assembled in Studio by reordering or adding sections: no code change, no redeploy. 13 section types at handover.",
-      ],
-      [
-        "Static data pipeline",
-        "fetch-sanity.mjs pulls a CMS snapshot → generate-data.mjs converts it into a typed TypeScript file baked into the bundle. Site runs with zero runtime CMS dependency. Trade-off: requires a script re-run and redeploy to pick up content changes, but keeps the production site fast and independent.",
-      ],
-      [
-        "GSAP + Radix UI",
-        "GSAP for scroll-driven animations. Radix UI Dialog for the video testimonial lightbox and post media gallery with keyboard navigation (Escape, arrow keys). Radix Accordion for FAQ sections. Scoped JS: no heavy framework overhead on pages that don't need interactivity.",
-      ],
+    problem: ["The school ran on a static site. A new gallery post or an announcement needed a developer."],
+    built: [
+      {
+        title: "Handover built in",
+        body: "Staff edit through a content system set up so they can’t break the layout by accident.",
+      },
     ],
     testimonial: {
       quote:
-        "\"We're not a technical team — we gave Samridh the brief and he handled everything else. What we asked for, he delivered. Then he delivered more.\"",
+        "We’re not a technical team. We gave Samridh the brief and he handled everything else. What we asked for, he delivered. Then he delivered more.",
       name: "Krishnaveni School",
       role: "India",
     },
-    thumbnail: "/work/krishnaveni/homepage.webp",
-    art: {
-      src: "/illustrations/work/krishnaveni-school.webp",
-      alt: "Illustration: a two-storey school building in India with arched verandahs around a tree-shaded courtyard at dusk.",
-      caption: "A school courtyard in India at dusk.",
-    },
     media: [
-      { src: "/work/krishnaveni/homepage.mp4", type: "video", label: "Home · desktop · 1440px" },
-      { src: "/work/krishnaveni/mobile.webp", type: "image", label: "Mobile · 375px" },
-      { src: "/work/krishnaveni/achievements_updates_via_sanity.mp4", type: "video", label: "Achievements · live Sanity update" },
-      { src: "/work/krishnaveni/facilities.mp4", type: "video", label: "Facilities · full scroll" },
-      { src: "/work/krishnaveni/about.mp4", type: "video", label: "About · full scroll" },
+      { src: "/work/krishnaveni/mobile.webp", type: "image", label: "On a phone" },
       { src: "/work/krishnaveni/contact.webp", type: "image", label: "Contact page" },
     ],
+    stack: "Next.js, Sanity",
   },
   {
     slug: "nmmun",
-    stat: "500+",
-    sstat: "delegates served · live MUN conference",
-    tag: "Websites",
-    client: "NMMUN",
-    kind: "Model UN conference · NMS Dwarka",
-    year: "2023",
-    eyebrow: "School MUN conference · New Delhi · 2023",
-    headline: "NMMUN:\na conference site",
-    headlineAccent: "shipped at fifteen.",
-    description:
-      "A full conference website for the New Millennium Model United Nations: councils, schedules, registration funnel, team profiles, gallery. Originally built at fifteen as Head of IT for the 2023 batch, then forked by the 2024-25 batch on the same codebase. 500+ delegates used it across two consecutive conferences.",
-    meta: [
-      { k: "Event", v: "New Millennium Model UN · NMS Dwarka" },
-      { k: "Role", v: "Head of IT · 2023" },
-      { k: "Scope", v: "Conference website · councils · registration · gallery" },
-      { k: "Stack", v: "Next.js 14 · Tailwind · shadcn/ui · Framer Motion · Embla" },
-      { k: "Reuse", v: "Forked for NMMUN 2024-25 by the next batch" },
-      { k: "Repo", v: "github.com/Clupai8o0/nmmun" },
-    ],
-    results: [
-      ["Delegates served", "500+", "across two consecutive conference years"],
-      ["Codebase reuse", "2 yrs", "forked by the 2024-25 batch on the same architecture"],
-      ["Pages shipped", "8", "home, councils, council/[id], info, register, team, gallery, contact"],
-    ],
-    brief: {
-      quote:
-        "\"We needed a conference site that could carry the prestige of an international MUN — councils, chairs, schedules, registration — and still be maintainable by next year's IT lead. No CMS budget, no dev team, just one student.\"",
-      attribution: "NMMUN'23 · New Millennium School Dwarka",
+    name: "NMMUN",
+    group: "earlier",
+    role: "Website for a school conference",
+    line: "A conference site for a Model UN in New Delhi, with registration and schedules.",
+    when: "2023",
+    status: "Ran for two conferences",
+    picture: {
+      src: "/work/nmmun/homepage.webp",
+      alt: "The NMMUN conference home page.",
     },
-    problems: [
-      "Most school MUN sites are static HTML or a one-page Wix build. NMMUN'23 needed councils with per-committee detail pages, chair profiles, schedules, dress code, rules of procedure, and a registration funnel: all polished enough to represent the school internationally.",
-      "Built as a Year 10 student, before any commercial experience. Every architectural choice had to be defensible for the next batch's IT lead to inherit, not just functional for one event weekend.",
-      "Content had to be event-aware. The hero, countdown, and CTAs needed to behave differently before, during, and after the conference without a manual swap on event day.",
+    facts: [
+      { k: "Before", v: "No proper conference website" },
+      { k: "After", v: "Used across two years of the conference" },
     ],
-    decisions: [
-      [
-        "Data-driven content layer",
-        "All councils, teams, table-of-content blocks, and navigation pulled from lib/links.ts; hero copy, event timing, itineraries, and dress code from lib/config.ts. Next year's IT lead edits two files to roll the site forward: no hunting through JSX.",
-      ],
-      [
-        "Event-aware UI via useTime",
-        "Hero countdown, CTA states, and banners derive from eventDate/eventEndDate through a single useTime hook. Pre-event, day-of, and post-event states render automatically: no scheduled deploys on conference morning.",
-      ],
-      [
-        "Per-council dynamic routes",
-        "/council/[id] renders a detail page per committee: topic, background guide, chair bios, from the same data source as the council listing. Adding a new committee is one entry in the array; route, listing, and detail page all update together.",
-      ],
-      [
-        "shadcn/ui + Framer Motion",
-        "Radix primitives via shadcn/ui for accessible accordions, dialogs, and sidebars. Framer Motion for page transitions and entrance animations. Embla carousel for the hero. Production-grade UI without rolling components from scratch.",
-      ],
-      [
-        "Centralised SEO metadata",
-        "lib/metadata.ts generates Open Graph and Twitter tags per route. Councils, registration, gallery: each gets its own preview card when shared across Instagram, WhatsApp, and email, which is where 90% of delegate traffic actually came from.",
-      ],
-      [
-        "Designed for handover from day one",
-        "TODO.md, stable naming conventions, and a clear separation between content (lib/) and components carried the codebase from the 2023 batch to the 2024-25 batch without a rewrite. Still on the same architecture two years later.",
-      ],
+    problem: ["The conference needed committee pages, schedules and registration, polished enough to send to other schools."],
+    built: [
+      {
+        title: "Built for the next team",
+        body: "Content sits in plain data files, so next year’s organisers could take it over. They did.",
+      },
     ],
     testimonial: {
       quote:
-        "\"Samridh took over the role and immediately delivered something well beyond what any of us expected. We'd never had a proper conference website before — this year we have one we're genuinely proud to send out.\"",
+        "Samridh took over the role and immediately delivered something well beyond what any of us expected. We’d never had a proper conference website before. This year we have one we’re genuinely proud to send out.",
       name: "Head Organiser",
-      role: "NMMUN'23 · NMS Dwarka",
+      role: "NMMUN",
     },
-    thumbnail: "/work/nmmun/homepage.webp",
-    art: {
-      src: "/illustrations/work/nmmun.webp",
-      alt: "Illustration: a school auditorium set for a Model United Nations session, desks in a horseshoe facing a blue-lit stage.",
-      caption: "The hall, set for the opening session.",
-    },
-    media: [
-      { src: "/work/nmmun/home.mp4", type: "video", label: "Home · hero carousel · countdown" },
-      { src: "/work/nmmun/mobile.webp", type: "image", label: "Mobile · 375px" },
-      { src: "/work/nmmun/councils.mp4", type: "video", label: "Councils · per-committee detail" },
-      { src: "/work/nmmun/information.mp4", type: "video", label: "Info · itinerary + dress code" },
-      { src: "/work/nmmun/gallery.mp4", type: "video", label: "Gallery" },
-      { src: "/work/nmmun/team.mp4", type: "video", label: "Team page" },
-    ],
-  },
-  {
-    slug: "cuts-and-shavez",
-    stat: "0 deps",
-    sstat: "hand-coded HTML/CSS/JS · designed at fifteen",
-    tag: "Websites",
-    client: "Cuts & Shavez Salon",
-    kind: "Barbershop · Manama, Bahrain",
-    year: "2023",
-    eyebrow: "Self-initiated design + build · Bahrain · 2023",
-    headline: "Cuts & Shavez:\na Bahrain barbershop,",
-    headlineAccent: "designed and shipped from scratch.",
-    description:
-      "A self-initiated design-and-build for Cuts & Shavez Salon, a real barbershop in Manama, Bahrain. Designed end-to-end in Figma at fifteen, then hand-coded in raw HTML, CSS, and vanilla JavaScript: no framework, no CMS, no build step. Not a paid engagement: a real shop, a real address, real services and pricing used as design constraints. Still hosted on Vercel three years later, unchanged.",
-    meta: [
-      { k: "Industry", v: "Hair salon · barbershop" },
-      { k: "Location", v: "Manama, Bahrain" },
-      { k: "Scope", v: "Brand · UI design · static website" },
-      { k: "Stack", v: "Figma · HTML · CSS · vanilla JS · Vercel" },
-      { k: "Timeline", v: "2023 · built at fifteen" },
-      { k: "Live", v: "barbershop-design.vercel.app" },
-    ],
-    results: [
-      ["Designed and shipped at", "15", "first full marketing site we ever shipped end-to-end"],
-      ["Dependencies", "0", "hand-coded HTML, CSS, vanilla JS · no framework, no build step"],
-      ["Still live", "3 yrs", "running unchanged on Vercel since 2023"],
-    ],
-    brief: {
-      quote:
-        "\"Most barbershop sites look like Wix templates — stock photos, beige palette, generic copy. I wanted to design something that looked like a real boutique business, using a real shop in Bahrain as the brief.\"",
-      attribution: "Self-initiated · age 15 · 2023",
-    },
-    problems: [
-      "Most barbershop sites in the region looked like directory listings: stock imagery, default templates, no point of view. The brief we set ourselves was the opposite: make it look like a boutique business worth visiting, not a listing entry.",
-      "No framework experience yet. Every interaction had to be hand-rolled in vanilla JavaScript: the nav, the gallery, the scroll behaviour. No React, no Next.js, no component library to lean on.",
-      "Designing end-to-end for the first time. Hero, services, gallery, reviews, contact: each section had its own visual conventions to learn before we could put a personal stamp on them.",
-    ],
-    decisions: [
-      [
-        "Figma-first design system",
-        "Built the entire visual system in Figma before writing a line of code. Components for buttons, cards, section headers, pricing rows. Forced the design to think about reuse before commit, not after: a habit that still runs the studio today.",
-      ],
-      [
-        "Real shop as design brief",
-        "Picked a real barbershop in Manama with a real address, real services, real BD pricing. Designing against actual constraints (three services, a tight price list, an exact location) produces a different result to lorem ipsum and stock prices.",
-      ],
-      [
-        "Raw HTML, CSS, vanilla JS",
-        "No framework, no build step, no dependencies. Three years before adopting Next.js. Every animation, every interaction, every layout shift hand-rolled in plain HTML/CSS/JS. Forced a deep understanding of the platform before reaching for abstractions.",
-      ],
-      [
-        "Tailwind for utility-first layout",
-        "First project using Tailwind. Skipped the BEM-vs-OOCSS debate entirely and learned the utility-first model from scratch: a pattern that's stayed in every project since.",
-      ],
-      [
-        "Vercel from day one",
-        "Static deploy on Vercel: same platform the studio still uses in 2026. The original 2023 build is still live at barbershop-design.vercel.app, untouched, as a fixed point against the rest of the portfolio.",
-      ],
-    ],
-    thumbnail: "/work/cuts-and-shavez/hero.webp",
-    art: {
-      src: "/illustrations/work/cuts-and-shavez.webp",
-      alt: "Illustration: an empty barbershop at night, a barber chair facing a glowing mirror, a palm tree outside the window.",
-      caption: "A Manama barbershop after closing.",
-    },
-    media: [
-      { src: "/work/cuts-and-shavez/home.mp4", type: "video", label: "Full site scroll · desktop" },
-      { src: "/work/cuts-and-shavez/mobile.webp", type: "image", label: "Mobile · 375px" },
-      { src: "/work/cuts-and-shavez/hero.webp", type: "image", label: "Home · desktop · 1440px" },
-      { src: "/work/cuts-and-shavez/best.webp", type: "image", label: "Best in Bahrain · feature section" },
-      { src: "/work/cuts-and-shavez/gallery.webp", type: "image", label: "Gallery" },
-      { src: "/work/cuts-and-shavez/contact.webp", type: "image", label: "Contact" },
-    ],
-  },
-  {
-    slug: "thurman",
-    stat: "5 pages",
-    sstat: "events marketing site · 2023",
-    tag: "Websites",
-    client: "Thurman Events Management",
-    kind: "Events management · marketing site",
-    year: "2023",
-    eyebrow: "Events startup · marketing site · 2023",
-    headline: "Thurman Events:\na startup marketing site",
-    headlineAccent: "shipped at fifteen.",
-    description:
-      "A five-page marketing site for Thurman Events Management: home, services, team, gallery, contact. Built in 2023 on Next.js 13 with Tailwind, Framer Motion page transitions, and a Nodemailer-backed contact pipeline that drops leads straight into the team's inbox. No CMS, no third-party form provider, no monthly bill.",
-    meta: [
-      { k: "Industry", v: "Events management · startup" },
-      { k: "Scope", v: "Marketing website · gallery · contact funnel" },
-      { k: "Stack", v: "Next.js 13 · React 18 · Tailwind · Framer Motion · Nodemailer" },
-      { k: "Timeline", v: "2023 · built at fifteen" },
-      { k: "Live", v: "thurman.vercel.app" },
-      { k: "Repo", v: "github.com/Clupai8o0/thurman" },
-    ],
-    results: [
-      ["Pages shipped", "5", "home, services, team, gallery, contact"],
-      ["Contact funnel", "Nodemailer", "API route → Gmail transport → direct-to-inbox leads"],
-      ["Still live", "3 yrs", "deployed on Vercel since 2023, archived but online"],
-    ],
-    brief: {
-      quote:
-        "\"We needed a site that could carry an events brand — services, team, gallery, a contact form that actually worked — without the cost of a full agency engagement.\"",
-      attribution: "Thurman Events Management · 2023",
-    },
-    problems: [
-      "Most events-management sites split into two camps: bloated agency builds or template Wix pages with no point of view. Thurman needed something in between: premium feel, real content, but cheap enough for a launching startup to actually ship.",
-      "The contact form had to work end-to-end on day one. No external CRM, no Calendly redirect: every enquiry had to land directly in the team's inbox the moment a visitor hit send.",
-      "Events photography arrives in mixed aspect ratios and irregular volume. A rigid CSS grid would crop awkwardly and look amateur: the gallery needed to scale gracefully as more shoots came in.",
-    ],
-    decisions: [
-      [
-        "Next.js 13 pages router",
-        "File-based routes per section, wrapped in a shared Layout with nav, footer, and a page-transition overlay. Copy and section data live in /config: pages stay thin and content is editable without touching JSX.",
-      ],
-      [
-        "Nodemailer + Gmail transport",
-        "/api/send-email is a Next.js API route that sends through a Gmail app password. Submissions trigger react-toastify feedback on the client and arrive directly in the team's inbox. No third-party form provider, no monthly fee, no data sitting in someone else's database.",
-      ],
-      [
-        "Responsive masonry galleries",
-        "react-responsive-masonry handles the events gallery: drops mixed-aspect images into a balanced multi-column layout that reflows at every breakpoint. CTA links out to the full Google Drive album for visitors who want more.",
-      ],
-      [
-        "Framer Motion page transitions",
-        "Each route mount runs a custom transition overlay. nextjs-toploader handles the top progress bar between pages. Small motion polish that lifts the site above the template tier without dragging in a heavy animation framework.",
-      ],
-      [
-        "next-sitemap in postbuild",
-        "Sitemap and robots.txt regenerate automatically on every build via the postbuild script. SEO basics handled at deploy time, no manual maintenance, no forgotten updates after a content change.",
-      ],
-      [
-        "Built for handover",
-        "Most content lives in /config and reusable /components: route files stay thin. Whoever picked the codebase up next could update copy, swap imagery, or add a section without learning the framework. Same handover pattern still used today.",
-      ],
-    ],
-    thumbnail: "/work/thurman/hero.webp",
-    art: {
-      src: "/illustrations/work/thurman.webp",
-      alt: "Illustration: an empty event hall the night before an event, round tables under strings of small blue lights.",
-      caption: "The room, the night before.",
-    },
-    media: [
-      { src: "/work/thurman/home.mp4", type: "video", label: "Home · full scroll" },
-      { src: "/work/thurman/mobile.webp", type: "image", label: "Mobile · 375px" },
-      { src: "/work/thurman/services.mp4", type: "video", label: "Services · full scroll" },
-      { src: "/work/thurman/gallery.mp4", type: "video", label: "Gallery · masonry reflow" },
-      { src: "/work/thurman/team.webp", type: "image", label: "Team" },
-      { src: "/work/thurman/contact.webp", type: "image", label: "Contact · Nodemailer form" },
-    ],
-  },
-  {
-    slug: "farmers-intuition",
-    hidden: true,
-    stat: "24hr",
-    sstat: "Hack48 · Mar 2026",
-    tag: "Apps",
-    client: "Farmers Intuition",
-    kind: "Hackathon · FastAPI + Gemini",
-    year: "2026",
-    eyebrow: "Hackathon · Hack48 · March 2026",
-    headline: "Farmers Intuition:\nbuilt and shipped in",
-    headlineAccent: "under 24 hours.",
-    description:
-      "An AI-powered farm advisory tool built at Hack48 in March 2026. Farmers describe their conditions in plain language; Gemini returns actionable advice calibrated to soil type, season, and location. FastAPI backend, Next.js front end, deployed to Vercel before the judging window closed.",
-    meta: [
-      { k: "Event", v: "Hack48 · March 2026" },
-      { k: "Category", v: "AgTech · AI tools" },
-      { k: "Scope", v: "Full-stack prototype · AI integration" },
-      { k: "Stack", v: "Next.js 16 · FastAPI · Gemini 2.0 · Vercel" },
-      { k: "Timeline", v: "24 hours" },
-      { k: "Result", v: "Finalist · Best AI Use" },
-    ],
-    results: [
-      ["Build time", "24hr", "concept to deployed product"],
-      ["AI model", "Gemini 2.0", "structured outputs · tool use"],
-      ["Stack", "FastAPI", "Next.js 16 · Gemini · Vercel"],
-    ],
-    brief: {
-      quote:
-        "\"Most farm advice tools are either too generic or require a PhD to operate. We wanted something a farmer could use on their phone between paddocks—describe the problem, get a real answer.\"",
-      attribution: "Team, Farmers Intuition",
-    },
-    problems: [
-      "Existing AgTech tools assumed desktop use and structured data inputs: bad fit for a farmer with muddy hands and a 4G connection.",
-      "Agricultural advice is highly contextual: the right answer depends on soil, season, crop stage, and location. Generic LLM output wasn't good enough.",
-      "24 hours to build, test, and deploy. Every architectural decision had to be cheap to implement and easy to debug under pressure.",
-    ],
-    decisions: [
-      [
-        "Gemini 2.0 structured outputs",
-        "Gemini returns typed JSON: advice category, confidence, recommended actions, caveats. No parsing hacks. The front end renders directly from the schema.",
-      ],
-      [
-        "FastAPI backend",
-        "Thin Python backend handles the Gemini call, injects soil and weather context via tool use, and returns structured advice. Deployed as a Vercel serverless function.",
-      ],
-      [
-        "Plain-language input",
-        "No forms: farmers describe the problem in one text field. System prompt injects location, season, and crop context from a minimal onboarding step.",
-      ],
-      [
-        "Context injection via tools",
-        "Gemini tool use fetches real-time weather and soil data for the farm's GPS coordinates. Advice is grounded in actual conditions, not generic assumptions.",
-      ],
-      [
-        "Mobile-first UI",
-        "Single-column layout, large tap targets, offline-tolerant. Designed for a phone screen in sunlight, not a 1440p monitor in an office.",
-      ],
-      [
-        "Vercel + instant deploy",
-        "Next.js front end and FastAPI functions both on Vercel. One repo, one deploy command, live URL for judges before the presentation slot.",
-      ],
-    ],
+    media: [{ src: "/work/nmmun/mobile.webp", type: "image", label: "On a phone" }],
   },
 ];
 
-export const visibleCases = cases.filter((c) => !c.hidden);
-
-export function getCaseBySlug(slug: string): CaseStudy | undefined {
-  return visibleCases.find((c) => c.slug === slug);
+export function caseBySlug(slug: string): CaseStudy | undefined {
+  return cases.find((c) => c.slug === slug);
 }
+
+export const clientCases = cases.filter((c) => c.group === "client");
+export const productCases = cases.filter((c) => c.group === "product");
+export const earlierCases = cases.filter((c) => c.group === "earlier");

@@ -5,11 +5,11 @@ import LegalPage, { type LegalSection } from "@/components/legal-page";
 export const metadata: Metadata = {
   title: { absolute: "Terms of Service · Clupai" },
   description:
-    "The terms that govern your use of clupai.com, our free tools, enquiries and bookings. Clupai is a Melbourne web, SEO and automation studio.",
+    "The terms that govern your use of clupai.com, the Build Risk Check, enquiries and bookings. Clupai is a software company in Melbourne.",
   alternates: { canonical: "/terms" },
 };
 
-const UPDATED = "2 June 2026";
+const UPDATED = "4 November 2026";
 
 const sections: LegalSection[] = [
   {
@@ -40,8 +40,8 @@ const sections: LegalSection[] = [
           The site is operated by Sam Limbu trading as Clupai (
           <strong>&ldquo;Clupai&rdquo;</strong>,{" "}
           <strong>&ldquo;we&rdquo;</strong>, <strong>&ldquo;us&rdquo;</strong>{" "}
-          or <strong>&ldquo;our&rdquo;</strong>), a web, SEO and automation
-          studio based in Melbourne, Australia.
+          or <strong>&ldquo;our&rdquo;</strong>), a software company based in
+          Melbourne, Australia.
         </p>
         <ul>
           <li>
@@ -106,16 +106,16 @@ const sections: LegalSection[] = [
     ),
   },
   {
-    id: "free-tools",
-    heading: "Free tools and resources",
+    id: "build-risk-check",
+    heading: "The Build Risk Check",
     body: (
       <p>
-        We offer free tools, audits, guides and other resources on the site.
-        These are provided for general information only, on an as-is basis, and
-        without warranty of any kind. They are not professional, legal,
-        financial or technical advice for your specific situation. Any results,
-        scores or recommendations they produce are indicative, and you should
-        use your own judgement before acting on them.
+        The Build Risk Check is free and is provided for general information
+        only, on an as-is basis, and without warranty of any kind. Its score and
+        advice are indicative and are worked out only from your answers. We
+        haven&rsquo;t seen your project. It is not professional, legal, financial
+        or technical advice for your specific situation, and you should use your
+        own judgement before acting on it.
       </p>
     ),
   },
@@ -127,9 +127,10 @@ const sections: LegalSection[] = [
         Submitting a form, requesting a quote or booking a call does not create
         a binding contract for work. Any pricing shown or discussed before a
         signed agreement is indicative only. When we take on a project, we
-        provide a firm, fixed quote in a written agreement. If the scope of a
-        project changes, we will tell you and agree it with you before we bill
-        for the change.
+        provide a firm, fixed price and date in a written agreement. If the scope
+        of a project changes, we will tell you and agree it with you in writing
+        before we bill for the change. Any guarantee we offer applies only as
+        written in a signed agreement.
       </p>
     ),
   },
@@ -252,10 +253,9 @@ const sections: LegalSection[] = [
 export default function TermsPage() {
   return (
     <LegalPage
-      eyebrow="Legal · Terms of Service"
       title="Terms of Service"
       updated={UPDATED}
-      intro="These terms cover how you can use clupai.com, our free tools, and our enquiry and booking forms. Paid work is always governed by a separate written agreement for that project."
+      intro="These terms cover how you can use clupai.com, the Build Risk Check, and our booking form. Paid work is always governed by a separate written agreement for that project."
       sections={sections}
     />
   );

@@ -1,426 +1,129 @@
-import Link from "next/link";
+import type { Metadata } from "next";
 import Image from "next/image";
-import Nav from "@/components/nav";
-import Footer from "@/components/footer";
-import FinalCTA from "@/components/final-cta";
-import SocialLinks from "@/components/social-links";
+import Link from "next/link";
+import CloseBand from "@/components/close-band";
 
-const rules = [
-  ["01", "Fixed price, firm scope", "Quotes are firm. If scope changes, we'll say so before we bill, not after."],
-  ["02", "One AU business day replies", "Non-negotiable. If we're away, you'll know before you book."],
-  ["03", "You own everything", "Code, hosting, ad accounts, analytics: yours from day one."],
-  ["04", "Weekly ship rhythm", "One priority a week. Loom + numbers, no status-report theatre."],
-  ["05", "Outcome over optics", "If it's not changing a number that matters, we won't build it."],
-  ["06", "Fire us if it's not working", "Month-to-month where it applies. 30 days' notice. No guilt, no lock-in."],
+export const metadata: Metadata = {
+  title: "About",
+  description:
+    "Why Clupai sells a date instead of hours, who runs it, and how your build stays in the hands of the person who scoped it.",
+  alternates: { canonical: "/about" },
+};
+
+const reasons = [
+  {
+    title: "A date in writing, with our money on it.",
+    body: "Miss it and everything unpaid is cancelled. We finish the build for free.",
+  },
+  {
+    title: "One person from scope to launch.",
+    body: "The person who sells it scopes it, then builds it or directs the build.",
+  },
+  {
+    title: "Your code, from day one.",
+    body: "It sits in your GitHub while we work. Hosting and domain go in your name.",
+  },
 ];
 
-const goodFit = [
-  "Melbourne SMBs and trades that want a site that books work",
-  "Founders with a new service and a realistic 2-month window",
-  "Ops teams tired of copying data between five tools",
-  "Legal, health, trades, real estate, hospitality, B2B services",
-  "Clients who've used an agency before and want a different shape",
-];
-
-const notFit = [
-  "Crypto, gambling, dropshipping, MLMs: we'll refer you, politely",
-  "Enterprise RFPs with six-month procurement cycles",
-  "WordPress rebuilds that insist on staying on WordPress",
-  "'Agency of record' relationships: we sell the work, not the brand",
-  "Anything requiring 24/7 on-call. We sleep.",
-];
-
-const elsewhere = [
-  ["Portfolio", "samridhlimbu.com", "My personal site: code, experiments, credentialing"],
-  ["Writing", "/writing", "Essays and working notes from the studio"],
-  ["Email", "hello@clupai.com", "Replies within 1 AU business day"],
-  ["Call", "cal.com/clupai", "20-minute scope call, no slideshow"],
-];
-
-export default function AboutPage() {
+export default function AboutPage()
+{
   return (
     <>
-      <Nav page="about" />
-
-      {/* Hero */}
-      <div
-        style={{
-          padding: "64px 48px 80px",
-          display: "grid",
-          gridTemplateColumns: "420px 1fr",
-          gap: 56,
-        }}
-      >
-        <div>
-          <Image
-            src="/sam.jpeg"
-            alt="Sam Limbu"
-            width={380}
-            height={380}
-            style={{ borderRadius: 4, objectFit: "cover", display: "block" }}
-          />
-        </div>
-        <div>
-          <div className="cp-eyebrow" style={{ marginBottom: 12 }}>
-            About · The studio
-          </div>
-          <h1
-            className="cp-display"
-            style={{
-              fontSize: "clamp(3rem, 5.4vw, 5rem)",
-              margin: 0,
-              lineHeight: 1.02,
-            }}
-          >
-            Hi, I&apos;m Sam.
-            <br />I build websites and
-            <br />
-            the things that{" "}
-            <span style={{ color: "var(--accent)" }}>feed them.</span>
-          </h1>
-          <p
-            style={{
-              marginTop: 32,
-              fontSize: 20,
-              color: "var(--text-muted)",
-              maxWidth: 640,
-              lineHeight: 1.5,
-            }}
-          >
-            Full-stack developer and founder, based in Brunswick, Melbourne.
-            Founded clupai in 2024.
-          </p>
-          <div
-            style={{
-              marginTop: 32,
-              display: "flex",
-              gap: 10,
-              flexWrap: "wrap",
-            }}
-          >
-            <span className="cp-chip">ABN registered · Melbourne</span>
-            <span className="cp-chip">Brunswick · VIC · AEST</span>
+      <header className="page-head">
+        <h1 className="page-title">Why we sell a date.</h1>
+        <div className="axis page-lead">
+          <div className="l" />
+          <div className="r">
+            <p className="t-lead" style={{ maxWidth: "30em" }}>
+              When you buy hours, the longer it takes, the more they earn. The only person who loses money when your
+              launch slips is you. So we sell a date.
+            </p>
           </div>
         </div>
-      </div>
+      </header>
 
-      {/* Manifesto */}
-      <div
-        style={{
-          padding: "96px 48px",
-          maxWidth: 1100,
-          margin: "0 auto",
-        }}
-      >
-        <p
-          className="cp-display"
-          style={{
-            fontSize: "clamp(2rem, 3.6vw, 3.25rem)",
-            margin: 0,
-            fontWeight: 400,
-            lineHeight: 1.25,
-            letterSpacing: "-0.02em",
-          }}
-        >
-          <span style={{ color: "var(--text-muted)" }}>
-            A small studio, on purpose.
-          </span>{" "}
-          We don&apos;t hand you off to account managers or a separate
-          delivery team.{" "}
-          <span style={{ color: "var(--accent)" }}>
-            Whoever scopes your project builds it, every day it&apos;s in
-            progress.
-          </span>
-        </p>
-      </div>
-
-      {/* Two columns */}
-      <div
-        style={{
-          padding: "0 48px 80px",
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: 48,
-        }}
-      >
-        <div>
-          <div className="cp-mono" style={{ marginBottom: 14 }}>
-            Background
-          </div>
-          <p
-            style={{
-              fontSize: 17,
-              color: "var(--text-muted)",
-              lineHeight: 1.7,
-              margin: 0,
-            }}
-          >
-            Started freelancing in 2024, turning real client problems into
-            shipped products. Launched Clupai as a formal studio under my ABN
-            the same year.
-          </p>
-          <p
-            style={{
-              fontSize: 17,
-              color: "var(--text-muted)",
-              lineHeight: 1.7,
-              marginTop: 14,
-            }}
-          >
-            I&apos;m also CTO at Hoddle Melbourne, co-founder at TapCraft
-            Studio, and building Kairos, the studio&apos;s in-house scheduling
-            product.
-            Stack: Next.js 15, TypeScript, Tailwind v4, FastAPI, Postgres, n8n.
-            No WordPress. Ever.
-          </p>
-        </div>
-        <div>
-          <div className="cp-mono" style={{ marginBottom: 14 }}>
-            What we believe about this work
-          </div>
-          <p
-            style={{
-              fontSize: 17,
-              color: "var(--text-muted)",
-              lineHeight: 1.7,
-              margin: 0,
-            }}
-          >
-            Most marketing sites are brochures that forgot to ask for the sale.
-            Most agencies sell process when they should be selling outcomes. Most
-            retainers fund someone else&apos;s overhead, not your growth.
-          </p>
-          <p
-            style={{
-              fontSize: 17,
-              color: "var(--text-muted)",
-              lineHeight: 1.7,
-              marginTop: 14,
-            }}
-          >
-            We think a small studio can do better on the projects that
-            actually suit it: operators in Melbourne, work that fits in a small
-            number of sprints. Past that, we&apos;ll refer you.
-          </p>
-        </div>
-      </div>
-
-      {/* How we work */}
-      <div
-        style={{
-          padding: "80px 48px",
-          background: "var(--surface)",
-        }}
-      >
-        <div className="cp-mono" style={{ marginBottom: 12 }}>
-          How we work
-        </div>
-        <h2
-          className="cp-display"
-          style={{
-            fontSize: "var(--fs-h2)",
-            margin: "0 0 48px",
-            maxWidth: 860,
-          }}
-        >
-          Six rules. They&apos;re on every contract.
-          <br />
-          <span style={{ color: "var(--text-muted)" }}>
-            Not because they&apos;re clever. Because they work.
-          </span>
-        </h2>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: 24,
-          }}
-        >
-          {rules.map(([n, h, b]) => (
-            <div key={n} className="cp-card" style={{ padding: "28px 28px 24px" }}>
-              <div
-                className="cp-num"
-                style={{
-                  fontSize: 36,
-                  color: "var(--accent)",
-                  letterSpacing: "-0.04em",
-                  lineHeight: 1,
-                }}
-              >
-                {n}
-              </div>
-              <div
-                style={{
-                  fontFamily:
-                    "var(--font-display), Manrope, ui-sans-serif, system-ui, sans-serif",
-                  fontWeight: 700,
-                  fontSize: 20,
-                  letterSpacing: "-0.02em",
-                  marginTop: 16,
-                }}
-              >
-                {h}
-              </div>
-              <p
-                style={{
-                  marginTop: 10,
-                  color: "var(--text-muted)",
-                  fontSize: 14,
-                  lineHeight: 1.6,
-                }}
-              >
-                {b}
-              </p>
+      <section className="sec" aria-labelledby="founder-title" style={{ paddingTop: 0 }}>
+        <div className="axis">
+          <div className="l rise">
+            <div className="portrait">
+              <Image src="/sam.jpeg" alt="Samridh Limbu, founder of Clupai" fill sizes="(max-width: 860px) 100vw, 42vw" />
             </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Fit */}
-      <div
-        style={{
-          padding: "80px 48px",
-        }}
-      >
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: 56,
-          }}
-        >
-          <div>
-            <div
-              className="cp-mono"
-              style={{ marginBottom: 12, color: "var(--accent)" }}
-            >
-              We&apos;re a good fit for
-            </div>
-            <ul
-              style={{
-                listStyle: "none",
-                padding: 0,
-                margin: 0,
-                display: "flex",
-                flexDirection: "column",
-                gap: 14,
-              }}
-            >
-              {goodFit.map((t) => (
-                <li
-                  key={t}
-                  style={{
-                    display: "flex",
-                    gap: 14,
-                    paddingBottom: 14,
-                  }}
-                >
-                  <span style={{ color: "var(--accent)" }}>✓</span>
-                  <span style={{ fontSize: 15, lineHeight: 1.5 }}>{t}</span>
-                </li>
-              ))}
-            </ul>
           </div>
-          <div>
-            <div
-              className="cp-mono"
-              style={{ marginBottom: 12, color: "var(--text-muted)" }}
-            >
-              We&apos;re not a fit for
-            </div>
-            <ul
-              style={{
-                listStyle: "none",
-                padding: 0,
-                margin: 0,
-                display: "flex",
-                flexDirection: "column",
-                gap: 14,
-              }}
-            >
-              {notFit.map((t) => (
-                <li
-                  key={t}
-                  style={{
-                    display: "flex",
-                    gap: 14,
-                    paddingBottom: 14,
-                  }}
-                >
-                  <span style={{ color: "var(--text-dim)" }}>·</span>
-                  <span
-                    style={{
-                      fontSize: 15,
-                      lineHeight: 1.5,
-                      color: "var(--text-muted)",
-                    }}
-                  >
-                    {t}
-                  </span>
-                </li>
-              ))}
-            </ul>
+          <div className="r stack rise" style={{ maxWidth: "calc(34em + var(--margin))" }}>
+            <h2 className="t-head" id="founder-title">
+              Samridh Limbu, founder.
+            </h2>
+            <p>
+              I’m in my final year of computer science at Deakin, finishing in June 2027. I built Hoddle during
+              semester: six weeks, one developer, and second place at Study Melbourne Leadership 4Impact.
+            </p>
+            <p>
+              GovChat, one of our own products, was a GovHack 2025 winner. You’ll meet me on the call, and I’ll scope
+              your build myself.
+            </p>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Elsewhere */}
-      <div
-        style={{
-          padding: "56px 48px",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginBottom: 20,
-          }}
-        >
-          <div className="cp-mono">Elsewhere</div>
-          <SocialLinks gap={18} />
+      <section className="sec" aria-labelledby="small-title">
+        <div className="axis">
+          <div className="l">
+            <h2 className="t-head rise" id="small-title">
+              Why we’re small.
+            </h2>
+          </div>
+          <div className="r stack rise" style={{ maxWidth: "calc(34em + var(--margin))" }}>
+            <p className="t-lead">
+              The person on your call scopes your build, then builds it or directs the build. At a big agency, the
+              seller goes back to selling.
+            </p>
+            <p>
+              We add developers as each job needs them, and we only run as many builds as we can keep dates on. AI is
+              why we’re fast. A developer still tests and signs off every change.
+            </p>
+          </div>
         </div>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gap: 24,
-          }}
-        >
-          {elsewhere.map(([h, v, d]) => (
-            <div key={h}>
-              <div className="cp-mono" style={{ marginBottom: 8 }}>
-                {h}
-              </div>
-              <div
-                style={{
-                  fontFamily:
-                    "var(--font-display), Manrope, ui-sans-serif, system-ui, sans-serif",
-                  fontWeight: 600,
-                  fontSize: 18,
-                  color: "var(--accent)",
-                  letterSpacing: "-0.01em",
-                }}
-              >
-                {v}
-              </div>
-              <div
-                style={{
-                  color: "var(--text-muted)",
-                  fontSize: 13,
-                  marginTop: 4,
-                }}
-              >
-                {d}
-              </div>
+      </section>
+
+      <section className="on-ink sec" aria-labelledby="reasons-title">
+        <div className="axis sec-head">
+          <div className="l">
+            <h2 className="t-head rise" id="reasons-title">
+              What you get for it.
+            </h2>
+          </div>
+        </div>
+        {reasons.map((reason) => (
+          <article key={reason.title} className="axis risk">
+            <div className="l">
+              <h3 className="rise">{reason.title}</h3>
             </div>
-          ))}
-        </div>
-      </div>
+            <div className="r rise" style={{ maxWidth: "calc(34em + var(--margin))" }}>
+              <p>{reason.body}</p>
+            </div>
+          </article>
+        ))}
+        <article className="axis risk">
+          <div className="l">
+            <h3 className="rise">Software you can click today.</h3>
+          </div>
+          <div className="r rise" style={{ maxWidth: "calc(34em + var(--margin))" }}>
+            <p>
+              Don’t take our word for it. Open{" "}
+              <Link className="tlink" href="/work/hoddle-melbourne">
+                Hoddle
+              </Link>{" "}
+              or{" "}
+              <Link className="tlink" href="/work/king-double-glazing">
+                King Double Glazing’s price tool
+              </Link>{" "}
+              and use them.
+            </p>
+          </div>
+        </article>
+      </section>
 
-      <FinalCTA />
-      <Footer />
+      <CloseBand title="See where your build stands." />
     </>
   );
 }

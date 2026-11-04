@@ -1,822 +1,366 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { type FormEvent, useCallback, useEffect, useRef, useState } from "react";
+import { track } from "@/lib/track";
 
 const TZ = "Australia/Melbourne";
-const DISPLAY = "var(--font-display), Manrope, ui-sans-serif, system-ui, sans-serif";
-const MONO = 'var(--font-mono), "JetBrains Mono", ui-monospace, monospace';
+// Cal.com's minimum notice is 4 hours. The extra 10 minutes covers its cache and filling in the form.
+const MIN_NOTICE_MS = (4 * 60 + 10) * 60 * 1000;
+const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
-// ─── Helpers ───────────────────────────────────────────────────────────────────
+type Slot = { time: string };
+type SlotsMap = Record<string, Slot[]>;
 
-function daysInMonth(y: number, m: number) {
+export type BookingPrefill = {
+  name?: string;
+  email?: string;
+  phone?: string;
+  projectType?: string;
+  budget?: string;
+};
+
+function daysInMonth(y: number, m: number)
+{
   return new Date(y, m, 0).getDate();
 }
 
-function firstDayOffset(y: number, m: number) {
-  const d = new Date(y, m - 1, 1).getDay(); // 0=Sun
-  return d === 0 ? 6 : d - 1; // Mon=0
+function firstDayOffset(y: number, m: number)
+{
+  const d = new Date(y, m - 1, 1).getDay();
+  return d === 0 ? 6 : d - 1;
 }
 
-function toDateStr(y: number, m: number, d: number) {
+function toDateStr(y: number, m: number, d: number)
+{
   return `${y}-${String(m).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
 }
 
-function monthLabel(y: number, m: number) {
-  return new Date(y, m - 1).toLocaleDateString("en-AU", {
-    month: "long",
-    year: "numeric",
-  });
+function monthLabel(y: number, m: number)
+{
+  return new Date(y, m - 1).toLocaleDateString("en-AU", { month: "long", year: "numeric" });
 }
 
-function timeLabel(iso: string) {
+function timeLabel(iso: string)
+{
   return new Date(iso).toLocaleTimeString("en-AU", {
-    hour: "2-digit",
+    hour: "numeric",
     minute: "2-digit",
-    hour12: false,
+    hour12: true,
     timeZone: TZ,
   });
 }
 
-function dateLabel(dateStr: string) {
-  const [y, m, d] = dateStr.split("-").map(Number);
+function dateLabel(dateStr: string)
+{
+  const [y, m, d] = dateStr.split("-").map(Number) as [number, number, number];
   return new Date(y, m - 1, d).toLocaleDateString("en-AU", {
-    weekday: "short",
+    weekday: "long",
     day: "numeric",
     month: "long",
   });
 }
 
-// ─── Field components ──────────────────────────────────────────────────────────
-
-function Label({ children }: { children: React.ReactNode }) {
-  return (
-    <label
-      style={{
-        fontFamily: MONO,
-        fontSize: 10,
-        letterSpacing: "0.08em",
-        textTransform: "uppercase",
-        color: "var(--text-muted)",
-        display: "block",
-        marginBottom: 6,
-      }}
-    >
-      {children}
-    </label>
-  );
+function bookableSlots(slots: SlotsMap, date: string)
+{
+  return (slots[date] ?? []).filter((slot) => new Date(slot.time).getTime() > Date.now() + MIN_NOTICE_MS);
 }
 
-const inputBase: React.CSSProperties = {
-  display: "block",
-  width: "100%",
-  background: "var(--bg)",
-  border: "1px solid var(--border-2)",
-  padding: "11px 13px",
-  color: "var(--text)",
-  fontFamily: DISPLAY,
-  fontWeight: 500,
-  fontSize: 14,
-  borderRadius: "var(--radius)",
-  outline: "none",
-  transition: "border-color 0.15s",
-};
-
-function TextInput({
-  label,
-  value,
-  onChange,
-  placeholder,
-  type = "text",
-  required,
-}: {
-  label: string;
-  value: string;
-  onChange: (v: string) => void;
-  placeholder?: string;
-  type?: string;
-  required?: boolean;
-}) {
-  const [focused, setFocused] = useState(false);
-  return (
-    <div>
-      <Label>
-        {label}
-        {required && <span style={{ color: "var(--accent)", marginLeft: 3 }}>*</span>}
-      </Label>
-      <input
-        type={type}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-        required={required}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        style={{
-          ...inputBase,
-          borderColor: focused ? "var(--accent)" : "var(--border-2)",
-        }}
-      />
-    </div>
-  );
-}
-
-function SelectInput({
-  label,
-  value,
-  onChange,
-  options,
-}: {
-  label: string;
-  value: string;
-  onChange: (v: string) => void;
-  options: string[];
-}) {
-  const [focused, setFocused] = useState(false);
-  return (
-    <div>
-      <Label>{label}</Label>
-      <select
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        style={{
-          ...inputBase,
-          borderColor: focused ? "var(--accent)" : "var(--border-2)",
-          color: value ? "var(--text)" : "var(--text-dim)",
-          cursor: "pointer",
-          appearance: "none",
-          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath d='M2 4l3 3 3-3' stroke='%236b6b6b' stroke-width='1.8' fill='none'/%3E%3C/svg%3E")`,
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "right 12px center",
-          paddingRight: 32,
-        }}
-      >
-        <option value="">Select...</option>
-        {options.map((o) => (
-          <option key={o} value={o}>
-            {o}
-          </option>
-        ))}
-      </select>
-    </div>
-  );
-}
-
-// ─── NavButton ─────────────────────────────────────────────────────────────────
-
-function NavBtn({
-  onClick,
-  disabled,
-  children,
-}: {
-  onClick: () => void;
-  disabled?: boolean;
-  children: React.ReactNode;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      disabled={disabled}
-      style={{
-        background: "transparent",
-        border: "1px solid var(--border)",
-        borderRadius: "var(--radius)",
-        width: 28,
-        height: 28,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        cursor: disabled ? "not-allowed" : "pointer",
-        opacity: disabled ? 0.3 : 1,
-        color: "var(--text)",
-        padding: 0,
-      }}
-    >
-      {children}
-    </button>
-  );
-}
-
-// ─── Types ─────────────────────────────────────────────────────────────────────
-
-type Slot = { time: string };
-type SlotsMap = Record<string, Slot[]>;
-
-interface Form {
-  name: string;
-  email: string;
-  phone: string;
-  projectType: string;
-  budget: string;
-  timeline: string;
-  currentSite: string;
-}
-
-type Prefill = Partial<Form>;
-
-// ─── Main component ────────────────────────────────────────────────────────────
-
-export default function CalBooking({
-  prefill,
-  embedded = false,
-}: {
-  /** Seed the booking form from details already collected (e.g. the funnel). */
-  prefill?: Prefill;
-  /** Drop the outer card chrome so it nests cleanly inside another surface. */
-  embedded?: boolean;
-} = {}) {
-  // When embedded, sit on surface-2 as a panel instead of a standalone card.
-  const shellClass = embedded ? undefined : "cp-card";
-  const shellExtra: React.CSSProperties = embedded
-    ? {
-        border: "1px solid var(--border)",
-        borderRadius: "var(--radius-lg)",
-        background: "var(--surface-2)",
-      }
-    : {};
-
-  const today = new Date();
+export default function CalBooking({ prefill = {} }: { prefill?: BookingPrefill })
+{
+  const [today] = useState(() => new Date());
   const todayStr = toDateStr(today.getFullYear(), today.getMonth() + 1, today.getDate());
 
   const [viewY, setViewY] = useState(today.getFullYear());
   const [viewM, setViewM] = useState(today.getMonth() + 1);
   const [slots, setSlots] = useState<SlotsMap>({});
   const [loading, setLoading] = useState(true);
-  const [slotsErr, setSlotsErr] = useState<string | null>(null);
+  const [loadFailed, setLoadFailed] = useState(false);
 
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
 
-  const [form, setForm] = useState<Form>({
-    name: prefill?.name ?? "",
-    email: prefill?.email ?? "",
-    phone: prefill?.phone ?? "",
-    projectType: prefill?.projectType ?? "",
-    budget: prefill?.budget ?? "",
-    timeline: prefill?.timeline ?? "",
-    currentSite: prefill?.currentSite ?? "",
-  });
+  const [name, setName] = useState(prefill.name ?? "");
+  const [email, setEmail] = useState(prefill.email ?? "");
+  const [phone, setPhone] = useState(prefill.phone ?? "");
   const [submitting, setSubmitting] = useState(false);
   const [submitErr, setSubmitErr] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
-  const [bookedRef, setBookedRef] = useState("");
+  const [booked, setBooked] = useState<{ date: string; slot: string; email: string } | null>(null);
 
-  const fetchSlots = useCallback(async (y: number, m: number) => {
-    setLoading(true);
-    setSlotsErr(null);
-    try {
-      const res = await fetch(
-        `/api/cal/slots?month=${y}-${String(m).padStart(2, "0")}&tz=${encodeURIComponent(TZ)}`
-      );
-      const data = await res.json();
-      if (data?.data?.slots) {
-        setSlots(data.data.slots);
-      } else {
-        setSlotsErr(data?.detail ?? data?.error ?? "Could not load availability");
-      }
-    } catch {
-      setSlotsErr("Network error");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  // Soonest first: open on the first day with a time left, and on next month if this one is full.
+  const openedOnSoonest = useRef(false);
+  const inFlight = useRef(false);
 
   useEffect(() => {
-    fetchSlots(viewY, viewM);
-  }, [viewY, viewM, fetchSlots]);
+    let cancelled = false;
+    fetch(`/api/cal/slots?month=${viewY}-${String(viewM).padStart(2, "0")}&tz=${encodeURIComponent(TZ)}`)
+      .then((res) => res.json())
+      .then((data: { data?: { slots?: SlotsMap } }) => {
+        if (cancelled) {
+          return;
+        }
+        const loaded = data?.data?.slots;
+        if (!loaded) {
+          setLoadFailed(true);
+          return;
+        }
+        setLoadFailed(false);
+        setSlots(loaded);
+        if (!openedOnSoonest.current) {
+          const soonest = Object.keys(loaded)
+            .sort()
+            .find((date) => date >= todayStr && bookableSlots(loaded, date).length > 0);
+          if (soonest) {
+            openedOnSoonest.current = true;
+            setSelectedDate(soonest);
+          } else if (viewY === today.getFullYear() && viewM === today.getMonth() + 1) {
+            setViewY(viewM === 12 ? viewY + 1 : viewY);
+            setViewM(viewM === 12 ? 1 : viewM + 1);
+          } else {
+            openedOnSoonest.current = true;
+          }
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setLoadFailed(true);
+        }
+      })
+      .finally(() => {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [today, todayStr, viewM, viewY]);
 
-  function prevMonth() {
-    const [y, m] = viewM === 1 ? [viewY - 1, 12] : [viewY, viewM - 1];
-    setViewY(y);
-    setViewM(m);
-    setSelectedDate(null);
-    setSelectedSlot(null);
-  }
+  const moveMonth = useCallback(
+    (delta: 1 | -1) => {
+      const next = new Date(viewY, viewM - 1 + delta, 1);
+      openedOnSoonest.current = true;
+      setLoading(true);
+      setViewY(next.getFullYear());
+      setViewM(next.getMonth() + 1);
+      setSelectedDate(null);
+      setSelectedSlot(null);
+    },
+    [viewM, viewY],
+  );
 
-  function nextMonth() {
-    const [y, m] = viewM === 12 ? [viewY + 1, 1] : [viewY, viewM + 1];
-    setViewY(y);
-    setViewM(m);
-    setSelectedDate(null);
-    setSelectedSlot(null);
-  }
-
-  async function handleSubmit(e: React.FormEvent) {
+  async function submit(e: FormEvent)
+  {
     e.preventDefault();
-    if (!selectedSlot) return;
-
+    if (!selectedDate || !selectedSlot || inFlight.current) {
+      return;
+    }
+    inFlight.current = true;
     setSubmitting(true);
     setSubmitErr(null);
-
     try {
       const res = await fetch("/api/cal/bookings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ start: selectedSlot, ...form }),
+        body: JSON.stringify({
+          start: selectedSlot,
+          name,
+          email,
+          phone,
+          projectType: prefill.projectType ?? "",
+          budget: prefill.budget ?? "",
+        }),
       });
-      const data = await res.json();
       if (res.ok) {
-        setBookedRef(data?.data?.uid ?? "confirmed");
-        setSuccess(true);
+        track("Schedule");
+        setBooked({ date: selectedDate, slot: selectedSlot, email });
       } else {
-        setSubmitErr(data.error ?? "Booking failed: please email hello@clupai.com");
+        setSubmitErr("That didn’t go through. Try another time, or email hello@clupai.com.");
       }
     } catch {
-      setSubmitErr("Network error: please try again");
+      setSubmitErr("Your connection dropped. Please try again.");
     } finally {
+      inFlight.current = false;
       setSubmitting(false);
     }
   }
 
-  const days = daysInMonth(viewY, viewM);
-  const offset = firstDayOffset(viewY, viewM);
-  const available = new Set(
-    Object.keys(slots).filter((d) => (slots[d]?.length ?? 0) > 0)
-  );
-  const canPrev = !(viewY === today.getFullYear() && viewM === today.getMonth() + 1);
-  const MIN_NOTICE_MS = (4 * 60 + 10) * 60 * 1000; // 4h10m: 4h minimum + buffer for cache + form fill
-  const dateSlots = selectedDate
-    ? (slots[selectedDate] ?? []).filter(
-        (slot) => new Date(slot.time).getTime() > Date.now() + MIN_NOTICE_MS
-      )
-    : [];
-
-  const slotsScrollRef = useRef<HTMLDivElement>(null);
-  const [slotsOverflow, setSlotsOverflow] = useState(false);
-
-  useEffect(() => {
-    const el = slotsScrollRef.current;
-    if (!el) { setSlotsOverflow(false); return; }
-    const check = () => setSlotsOverflow(el.scrollHeight > el.clientHeight);
-    check();
-    const ro = new ResizeObserver(check);
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, [dateSlots]);
-
-  // ─── Success state ──────────────────────────────────────────────────────────
-
-  if (success) {
+  if (booked) {
     return (
-      <div
-        className={shellClass}
-        style={{
-          padding: "48px 32px",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          textAlign: "center",
-          gap: 20,
-          minHeight: 320,
-          justifyContent: "center",
-          ...shellExtra,
-        }}
-      >
-        <div
-          style={{
-            width: 52,
-            height: 52,
-            borderRadius: "50%",
-            background: "rgba(77,163,255,0.08)",
-            border: "1px solid var(--accent)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            color: "var(--accent)",
-          }}
-        >
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M4 10l5 5 7-8" />
-          </svg>
-        </div>
-        <div>
-          <div
-            style={{
-              fontFamily: DISPLAY,
-              fontWeight: 700,
-              fontSize: 24,
-              letterSpacing: "-0.02em",
-              marginBottom: 8,
-            }}
-          >
-            Request received.
-          </div>
-          <div style={{ color: "var(--text-muted)", fontSize: 15, lineHeight: 1.5 }}>
-            {selectedDate && selectedSlot && (
-              <>{dateLabel(selectedDate)} · {timeLabel(selectedSlot)} AEST</>
-            )}
-          </div>
-        </div>
-        <p style={{ color: "var(--text-muted)", fontSize: 14, maxWidth: 300, margin: 0, lineHeight: 1.6 }}>
-          We&apos;ll confirm your slot shortly. Check {form.email} for the
-          calendar invite once confirmed.
+      <div className="bk bk-done" data-ui>
+        <h3 className="t-state">Request received.</h3>
+        <p>
+          {dateLabel(booked.date)} at {timeLabel(booked.slot)}, Melbourne time.
         </p>
-        <div className="cp-mono" style={{ color: "var(--text-dim)" }}>
-          ref: {bookedRef}
-        </div>
+        <p className="t-small" style={{ marginTop: 10 }}>
+          We’ll confirm your time shortly. The calendar invite goes to {booked.email}.
+        </p>
       </div>
     );
   }
 
-  // ─── Calendar + booking form ────────────────────────────────────────────────
+  const days = daysInMonth(viewY, viewM);
+  const offset = firstDayOffset(viewY, viewM);
+  const canGoBack = !(viewY === today.getFullYear() && viewM === today.getMonth() + 1);
+  const dateSlots = selectedDate ? bookableSlots(slots, selectedDate) : [];
+  const hasTimes = Object.keys(slots).some((date) => date >= todayStr && bookableSlots(slots, date).length > 0);
 
   return (
-    <div className={shellClass} style={{ padding: 0, overflow: "hidden", ...shellExtra }}>
-      {/* Header */}
-      <div
-        style={{
-          padding: "20px 24px",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          flexWrap: "wrap",
-          gap: 12,
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <Image
-            src="/sam-small.jpeg"
-            alt="Sam Limbu"
-            width={40}
-            height={40}
-            style={{ borderRadius: "50%", objectFit: "cover", flexShrink: 0 }}
-          />
-          <div>
-            <div style={{ fontFamily: DISPLAY, fontWeight: 600 }}>
-              Sam Limbu · clupai
-            </div>
-            <div className="cp-mono" style={{ color: "var(--text-muted)" }}>
-              20 min · Google Meet · AEST
-            </div>
-          </div>
-        </div>
-        <div className="cp-mono" style={{ color: "var(--accent)" }}>
-          cal.com/clupai/clupai-consultation
+    <div className="bk" data-ui>
+      <div className="bk-head">
+        <Image src="/sam-small.jpeg" alt="" width={48} height={48} />
+        <div>
+          <p className="bk-who">Samridh Limbu, Clupai</p>
+          <p className="t-small">30 minutes on Google Meet, Melbourne time</p>
         </div>
       </div>
 
-      {/* Prefilled? Reassure them up-front: the form fields only reveal after
-          a slot is picked, so without this it reads as "nothing autofilled". */}
-      {(prefill?.name || prefill?.email) && (
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 10,
-            padding: "12px 24px",
-            background: "rgba(77,163,255,0.06)",
-          }}
-        >
-          <span style={{ color: "var(--accent)", flexShrink: 0, display: "flex" }}>
-            <svg width="15" height="15" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M2 7l4 4 6-7" />
-            </svg>
-          </span>
-          <span className="cp-mono" style={{ color: "var(--text-muted)", lineHeight: 1.5 }}>
-            Your details are filled in{form.name ? `, ${form.name.split(" ")[0]}` : ""}, just pick a time below.
-          </span>
-        </div>
-      )}
+      {prefill.name || prefill.email ? (
+        <p className="bk-note t-small">
+          Your details are filled in{prefill.name ? `, ${prefill.name.split(" ")[0]}` : ""}. Just pick a time.
+        </p>
+      ) : null}
 
-      {/* Calendar body */}
-      <div style={{ padding: "28px 24px" }}>
-        <div
-          className="cp-cal-grid"
-          style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}
-        >
-          {/* Month calendar */}
+      {loadFailed ? (
+        <p className="bk-note">
+          We can’t load times right now. Email{" "}
+          <a className="tlink" href="mailto:hello@clupai.com">
+            hello@clupai.com
+          </a>{" "}
+          and we’ll sort one out.
+        </p>
+      ) : (
+        <div className="bk-grid">
           <div>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                marginBottom: 14,
-              }}
-            >
-              <span className="cp-mono">{monthLabel(viewY, viewM)}</span>
-              <div style={{ display: "flex", gap: 4 }}>
-                <NavBtn onClick={prevMonth} disabled={!canPrev}>
-                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1.8">
-                    <path d="M6 2L3 5l3 3" />
-                  </svg>
-                </NavBtn>
-                <NavBtn onClick={nextMonth}>
-                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1.8">
-                    <path d="M4 2l3 3-3 3" />
-                  </svg>
-                </NavBtn>
+            <div className="bk-month">
+              <p className="bk-who">{monthLabel(viewY, viewM)}</p>
+              <div className="bk-nav">
+                <button
+                  type="button"
+                  onClick={() => moveMonth(-1)}
+                  disabled={!canGoBack || submitting}
+                  aria-label="Previous month"
+                >
+                  ‹
+                </button>
+                <button type="button" onClick={() => moveMonth(1)} disabled={submitting} aria-label="Next month">
+                  ›
+                </button>
               </div>
             </div>
-
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(7, 1fr)",
-                gap: 2,
-              }}
-            >
-              {["M", "T", "W", "T", "F", "S", "S"].map((d, i) => (
-                <div
-                  key={i}
-                  className="cp-mono"
-                  style={{
-                    textAlign: "center",
-                    color: "var(--text-dim)",
-                    fontSize: 10,
-                    padding: "4px 0",
-                  }}
-                >
-                  {d}
-                </div>
+            <div className="bk-days">
+              {WEEKDAYS.map((d) => (
+                <span key={d} className="bk-wd t-small" aria-hidden="true">
+                  {d.charAt(0)}
+                </span>
               ))}
-
               {Array.from({ length: offset }, (_, i) => (
-                <div key={`e${i}`} />
+                <span key={`gap${i}`} />
               ))}
-
               {Array.from({ length: days }, (_, i) => {
-                const day = i + 1;
-                const ds = toDateStr(viewY, viewM, day);
-                const isAvail = available.has(ds);
-                const isSel = selectedDate === ds;
-                const isPast = ds < todayStr;
-                const isToday = ds === todayStr;
-
+                const ds = toDateStr(viewY, viewM, i + 1);
+                const open = ds >= todayStr && bookableSlots(slots, ds).length > 0;
                 return (
                   <button
-                    key={day}
+                    key={ds}
                     type="button"
-                    disabled={!isAvail || isPast}
+                    className="bk-day"
+                    disabled={!open || submitting}
+                    aria-pressed={selectedDate === ds}
+                    aria-label={dateLabel(ds)}
                     onClick={() => {
-                      if (!isAvail || isPast) return;
                       setSelectedDate(ds);
                       setSelectedSlot(null);
                     }}
-                    style={{
-                      padding: "8px 0",
-                      textAlign: "center",
-                      fontFamily: DISPLAY,
-                      fontWeight: 500,
-                      fontSize: 13,
-                      borderRadius: 3,
-                      background: isSel ? "var(--accent)" : "transparent",
-                      color: isSel
-                        ? "var(--accent-ink)"
-                        : isAvail && !isPast
-                        ? isToday
-                          ? "var(--accent)"
-                          : "var(--text)"
-                        : "var(--text-dim)",
-                      border: isToday && !isSel
-                        ? "1px solid var(--border)"
-                        : "1px solid transparent",
-                      cursor: isAvail && !isPast ? "pointer" : "default",
-                      opacity: isPast ? 0.3 : 1,
-                      transition: "background 0.12s",
-                    }}
                   >
-                    {day}
+                    {i + 1}
                   </button>
                 );
               })}
             </div>
-
-            {loading && (
-              <div
-                className="cp-mono"
-                style={{ marginTop: 10, color: "var(--text-dim)" }}
-              >
-                Loading...
-              </div>
-            )}
-            {!loading && slotsErr && (
-              <div
-                className="cp-mono"
-                style={{ marginTop: 10, color: "var(--accent)" }}
-              >
-                {slotsErr}
-              </div>
-            )}
-            {!loading && !slotsErr && available.size === 0 && (
-              <div
-                className="cp-mono"
-                style={{ marginTop: 10, color: "var(--text-dim)" }}
-              >
-                No slots this month
-              </div>
-            )}
+            {!loading && !hasTimes ? (
+              <p className="t-small" style={{ marginTop: 12 }}>
+                No times left this month. Try the next one.
+              </p>
+            ) : null}
           </div>
 
-          {/* Time slots */}
           <div>
-            {!selectedDate ? (
-              <div
-                className="cp-mono"
-                style={{
-                  color: "var(--text-dim)",
-                  paddingTop: 32,
-                  lineHeight: 1.6,
-                }}
-              >
-                {!loading && available.size > 0
-                  ? "Pick a date to see available times"
-                  : ""}
-              </div>
-            ) : (
+            {selectedDate ? (
               <>
-                <div className="cp-mono" style={{ marginBottom: 14 }}>
-                  {dateLabel(selectedDate)} · AEST
-                </div>
+                <p className="bk-who" style={{ marginBottom: 12 }}>
+                  {dateLabel(selectedDate)}
+                </p>
                 {dateSlots.length === 0 ? (
-                  <div className="cp-mono" style={{ color: "var(--text-dim)" }}>
-                    No slots available
-                  </div>
+                  <p className="t-small">No times left on this day.</p>
                 ) : (
-                  <div style={{ position: "relative" }}>
-                    <div
-                      ref={slotsScrollRef}
-                      className="cp-slots-scroll"
-                      style={{
-                        maxHeight: 240,
-                        overflowY: "auto",
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: 6,
-                      }}
-                    >
-                      {dateSlots.map((slot) => {
-                        const isSel = selectedSlot === slot.time;
-                        return (
-                          <button
-                            key={slot.time}
-                            type="button"
-                            onClick={() => setSelectedSlot(slot.time)}
-                            style={{
-                              padding: "10px 14px",
-                              textAlign: "left",
-                              flexShrink: 0,
-                              border: `1px solid ${isSel ? "var(--accent)" : "var(--border)"}`,
-                              background: isSel ? "rgba(77,163,255,0.08)" : "transparent",
-                              borderRadius: 3,
-                              color: isSel ? "var(--accent)" : "var(--text)",
-                              fontFamily: DISPLAY,
-                              fontWeight: 500,
-                              fontSize: 14,
-                              cursor: "pointer",
-                              transition: "border-color 0.12s, background 0.12s",
-                            }}
-                          >
-                            {timeLabel(slot.time)}
-                          </button>
-                        );
-                      })}
-                    </div>
-                    {slotsOverflow && (
-                      <div
-                        style={{
-                          position: "absolute",
-                          bottom: 0,
-                          left: 0,
-                          right: 0,
-                          height: 48,
-                          background: "linear-gradient(to bottom, transparent, var(--surface))",
-                          pointerEvents: "none",
-                        }}
-                      />
-                    )}
+                  <div className="bk-slots">
+                    {dateSlots.map((slot) => (
+                      <button
+                        key={slot.time}
+                        type="button"
+                        className="bk-slot"
+                        aria-pressed={selectedSlot === slot.time}
+                        disabled={submitting}
+                        onClick={() => setSelectedSlot(slot.time)}
+                      >
+                        {timeLabel(slot.time)}
+                      </button>
+                    ))}
                   </div>
                 )}
               </>
+            ) : (
+              <p className="t-small">{loading ? "Loading times" : "Pick a day to see times."}</p>
             )}
           </div>
         </div>
+      )}
 
-        {/* Booking form: shown when slot is chosen */}
-        {selectedSlot && (
-          <form
-            onSubmit={handleSubmit}
-            style={{
-              marginTop: 28,
-              paddingTop: 24,
-            }}
-          >
-            <div className="cp-mono" style={{ marginBottom: 16 }}>
-              A few quick things
-            </div>
-
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: 12,
-              }}
-            >
-              <TextInput
-                label="Your name"
-                value={form.name}
-                onChange={(v) => setForm((f) => ({ ...f, name: v }))}
-                placeholder="Jane Smith"
+      {selectedSlot && selectedDate ? (
+        <form className="bk-form" onSubmit={submit}>
+          <div className="bk-fields">
+            <div className="field">
+              <label htmlFor="bk-name">Your name</label>
+              <input
+                id="bk-name"
+                autoComplete="name"
                 required
+                readOnly={submitting}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
-              <TextInput
-                label="Email"
+            </div>
+            <div className="field">
+              <label htmlFor="bk-email">Email</label>
+              <input
+                id="bk-email"
                 type="email"
-                value={form.email}
-                onChange={(v) => setForm((f) => ({ ...f, email: v }))}
-                placeholder="jane@example.com"
+                autoComplete="email"
                 required
-              />
-              <TextInput
-                label="Phone"
-                type="tel"
-                value={form.phone}
-                onChange={(v) => setForm((f) => ({ ...f, phone: v }))}
-                placeholder="optional"
-              />
-              <SelectInput
-                label="Project type"
-                value={form.projectType}
-                onChange={(v) => setForm((f) => ({ ...f, projectType: v }))}
-                options={[
-                  "Website rebuild",
-                  "New website",
-                  "Google Ads",
-                  "SEO",
-                  "Automation",
-                  "Mobile app",
-                  "Not sure",
-                ]}
-              />
-              <SelectInput
-                label="Budget range"
-                value={form.budget}
-                onChange={(v) => setForm((f) => ({ ...f, budget: v }))}
-                options={[
-                  "Under $3k",
-                  "$3k – $8k",
-                  "$8k – $20k",
-                  "$20k+",
-                  "Not sure yet",
-                ]}
-              />
-              <TextInput
-                label="Timeline"
-                value={form.timeline}
-                onChange={(v) => setForm((f) => ({ ...f, timeline: v }))}
-                placeholder="e.g. Next 2 months"
-              />
-              <TextInput
-                label="Current site URL"
-                value={form.currentSite}
-                onChange={(v) => setForm((f) => ({ ...f, currentSite: v }))}
-                placeholder="example.com.au"
+                readOnly={submitting}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
-
-            {submitErr && (
-              <div
-                style={{
-                  marginTop: 12,
-                  fontFamily: MONO,
-                  fontSize: 10,
-                  letterSpacing: "0.06em",
-                  color: "#ff6b6b",
-                  padding: "8px 10px",
-                  background: "rgba(255,107,107,0.06)",
-                  borderLeft: "2px solid #ff6b6b",
-                }}
-              >
-                {submitErr}
-              </div>
-            )}
-
-            <button
-              type="submit"
-              disabled={submitting || !form.name || !form.email}
-              className="cp-btn cp-btn-primary cp-btn-lg"
-              style={{
-                marginTop: 16,
-                width: "100%",
-                justifyContent: "center",
-                opacity:
-                  submitting || !form.name || !form.email ? 0.55 : 1,
-                cursor:
-                  submitting || !form.name || !form.email
-                    ? "not-allowed"
-                    : "pointer",
-              }}
-            >
-              {submitting
-                ? "Booking..."
-                : `Confirm ${dateLabel(selectedDate!)} · ${timeLabel(selectedSlot)} →`}
-            </button>
-          </form>
-        )}
-      </div>
+            <div className="field">
+              <label htmlFor="bk-phone">Mobile (optional)</label>
+              <input
+                id="bk-phone"
+                type="tel"
+                autoComplete="tel"
+                readOnly={submitting}
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+              />
+            </div>
+          </div>
+          {submitErr ? <p className="field-error">{submitErr}</p> : null}
+          <button type="submit" className="btn" disabled={submitting} style={{ width: "100%", marginTop: 6 }}>
+            {submitting ? "Booking" : `Book ${timeLabel(selectedSlot)}`}
+          </button>
+        </form>
+      ) : null}
     </div>
   );
 }
