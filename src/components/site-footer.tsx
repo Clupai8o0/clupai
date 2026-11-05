@@ -10,6 +10,7 @@ export default function SiteFooter()
       <nav className="site-ft-links" aria-label="Footer">
         <Link href="/work">Work</Link>
         <Link href="/products">Products</Link>
+        <Link href="/how-it-works">How it works</Link>
         <Link href="/about">About</Link>
         <Link href="/contact">Contact</Link>
         <Link href="/start">Build Risk Check</Link>

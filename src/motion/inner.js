@@ -176,6 +176,14 @@ function initPerches(scope, core)
   });
 }
 
+// data-fall: a letter that has come off the wordmark drops and lands where the CSS leaves it.
+function initFall()
+{
+  qa("[data-fall]").forEach((el, i) => {
+    gsap.from(el, { y: -innerHeight, duration: 0.9 + i * 0.08, delay: 0.2 + i * 0.09, ease: "bounce.out" });
+  });
+}
+
 export function init(scope, core)
 {
   const { dot } = core;
@@ -186,6 +194,7 @@ export function init(scope, core)
   initRise();
   initParallax();
   initWipes(scope);
+  initFall();
   initNav(scope);
   initPerches(scope, core);
   ScrollTrigger.refresh();

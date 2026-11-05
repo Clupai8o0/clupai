@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import CloseBand from "@/components/close-band";
-import LedgerRow from "@/components/ledger-row";
-import { clientCases, earlierCases, productCases, type CaseStudy } from "@/data/cases";
+import { caseBySlug, earlierCases, productCases, type CaseStudy } from "@/data/cases";
+import { caseTone } from "@/data/tones";
+import "../inner.css";
 
 export const metadata: Metadata = {
   title: "Work",
@@ -11,110 +13,114 @@ export const metadata: Metadata = {
   alternates: { canonical: "/work" },
 };
 
-const CLIENT_TONES = ["f-sage", "f-orange"];
-const PRODUCT_TONES = ["f-ink", "f-yellow", "f-sage", "f-orange", "f-ink"];
+const CHAPTERS = ["hoddle-melbourne", "king-double-glazing", "krishnaveni-school"]
+  .map((s) => caseBySlug(s))
+  .filter((c): c is CaseStudy => Boolean(c));
 
-function Row({
-  item,
-  tone,
-  flip,
-  loadFirst = false,
-}: {
-  item: CaseStudy;
-  tone: string;
-  flip: boolean;
-  loadFirst?: boolean;
-})
-{
-  return (
-    <LedgerRow
-      name={item.name}
-      href={`/work/${item.slug}`}
-      meta={[item.when, ...(item.took ? [item.took] : []), item.role]}
-      tag={item.status === "In the works" ? item.status : undefined}
-      line={item.line}
-      picture={item.picture}
-      clip={item.clip}
-      tone={tone}
-      flip={flip}
-      loadFirst={loadFirst}
-      links={[
-        { href: `/work/${item.slug}`, label: "Read how we built it" },
-        ...(item.url ? [item.url] : []),
-      ]}
-    >
-      {item.testimonial ? (
-        <blockquote className="rise rise-3">
-          <p>“{item.testimonial.quote}”</p>
-          <cite>
-            {item.testimonial.name}, {item.testimonial.role}
-          </cite>
-        </blockquote>
-      ) : null}
-    </LedgerRow>
-  );
-}
+const SMALL = earlierCases.filter((c) => !CHAPTERS.includes(c));
+
+const LINES: Record<string, string> = {
+  "hoddle-melbourne": "Six weeks. Then pitch day. It held.",
+  "king-double-glazing": "75 to 99. Yes, I checked.",
+  "krishnaveni-school": "Staff run this one. No emails to us.",
+};
 
 export default function WorkPage()
 {
   return (
-    <>
-      <header className="head f-yellow">
-        <h1 className="t-giant">Work, with the dates on it.</h1>
-        <div className="head-lead">
-          <p className="t-lead">Every entry says when it happened and what our part was. Most of it you can click today.</p>
-        </div>
+    <div className="pg tone-ink work">
+      <header className="work-head">
+        <h1 className="g-huge" data-squash>
+          Work, with the dates on it.
+        </h1>
+        <p className="g-state">Every entry says when it happened and what our part was. Most of it you can click today.</p>
       </header>
 
-      <section aria-labelledby="clients-title">
-        <div className="grid group-head">
-          <h2 className="t-head rise" id="clients-title">
-            Clients and ventures.
-          </h2>
-        </div>
-        {clientCases.map((item, i) => (
-          <Row
-            key={item.slug}
-            item={item}
-            tone={CLIENT_TONES[i % CLIENT_TONES.length]!}
-            flip={i % 2 === 1}
-            loadFirst={i === 0}
-          />
+      <section aria-label="Clients and ventures">
+        {CHAPTERS.map((c, i) => (
+          <article key={c.slug} className={`chap chap-${i} ${caseTone(c.slug)}`}>
+            <h2 className="chap-name" data-letters>
+              <Link href={`/work/${c.slug}`}>{c.name}</Link>
+            </h2>
+            <Link
+              className="chap-pic"
+              href={`/work/${c.slug}`}
+              tabIndex={-1}
+              aria-hidden="true"
+              data-wipe
+              data-perch={LINES[c.slug]}
+              data-perch-x="0.9"
+              data-perch-colour={c.slug === "king-double-glazing" ? "ink" : "yellow"}
+            >
+              <Image src={c.picture.src} alt="" fill sizes="(max-width: 720px) 100vw, 60vw" loading={i === 0 ? "eager" : "lazy"} />
+            </Link>
+            <div className="chap-copy">
+              <p className="chap-meta">
+                {c.when}
+                {c.took ? ` · ${c.took}` : ""} · {c.role} · {c.status}
+              </p>
+              <p className="g-lead">{c.line}</p>
+              {c.testimonial ? (
+                <blockquote className="chap-quote">
+                  “{c.testimonial.quote}”<cite>{c.testimonial.name}, {c.testimonial.role}</cite>
+                </blockquote>
+              ) : null}
+              <div className="row-links">
+                <Link className="btn" href={`/work/${c.slug}`}>
+                  Read how we built it
+                </Link>
+                {c.url ? (
+                  <a className="ln-u" href={c.url.href} rel="noreferrer">
+                    {c.url.label}
+                  </a>
+                ) : null}
+              </div>
+            </div>
+          </article>
         ))}
       </section>
 
-      <section aria-labelledby="own-title">
-        <div className="grid group-head">
-          <h2 className="t-head rise" id="own-title">
+      <section className="work-own tone-paper" aria-labelledby="own-title">
+        <div className="work-own-h">
+          <h2 className="g-big" id="own-title" data-letters>
             Our own products.
           </h2>
-          <p>
-            <Link className="tlink" href="/products">
-              See what’s released and what’s in the works
-            </Link>
-          </p>
+          <Link className="ln-u" href="/products">
+            See what’s released and what’s in the works
+          </Link>
         </div>
-        {productCases.map((item, i) => (
-          <Row key={item.slug} item={item} tone={PRODUCT_TONES[i % PRODUCT_TONES.length]!} flip={i % 2 === 1} />
-        ))}
+        <div className="own-grid">
+          {productCases.map((c, i) => (
+            <Link key={c.slug} className={`own own-${i} ${caseTone(c.slug)}`} href={`/work/${c.slug}`}>
+              <span className="own-name">{c.name}</span>
+              <span className="own-line">{c.line}</span>
+              <span className="own-meta">
+                {c.when} · {c.status}
+              </span>
+            </Link>
+          ))}
+        </div>
       </section>
 
-      <section className="plain" aria-labelledby="earlier-title">
-        <h2 className="t-head rise" id="earlier-title">
+      <section className="work-earlier" aria-labelledby="earlier-title">
+        <h2 className="g-big" id="earlier-title" data-letters>
           Earlier work.
         </h2>
-        {earlierCases.map((item) => (
-          <Link key={item.slug} className="plain-item rise" href={`/work/${item.slug}`}>
-            <h3 className="t-head">{item.name}</h3>
-            <strong className="t-small">{item.when}</strong>
-            <p className="plain-line">
-              {item.line} <span className="t-small">{item.role}</span>
-            </p>
-          </Link>
-        ))}
+        <ul>
+          {SMALL.map((c) => (
+            <li key={c.slug}>
+              <Link href={`/work/${c.slug}`}>
+                <span className="er-name">{c.name}</span>
+                <span className="er-line">
+                  {c.line} {c.role}, {c.when}.
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
       </section>
 
-      <CloseBand title="What could sink your build?" />
-    </>
+      <CloseBand title="What could sink your build?" tone="tone-blue" />
+    </div>
   );
 }

@@ -234,6 +234,12 @@ function loadRoute(pathname)
   if (pathname.startsWith("/start")) {
     return import("./funnel");
   }
+  if (pathname === "/products") {
+    return import("./machine");
+  }
+  if (pathname === "/how-it-works") {
+    return import("./how");
+  }
   return import("./inner");
 }
 

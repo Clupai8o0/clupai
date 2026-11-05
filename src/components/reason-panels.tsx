@@ -9,15 +9,15 @@ const PANELS: { tab: string; title: string; body: ReactNode; tone: string; src: 
     tab: "The date",
     title: "A date in writing, with our money on it.",
     body: "Miss it and everything unpaid is cancelled. We finish the build for free.",
-    tone: "f-ink",
-    src: "/products/kairos/week.webp",
-    alt: "A week planned out in Kairos, one of our own products.",
+    tone: "tone-ink",
+    src: "/work/kdg/new/hero.webp",
+    alt: "The King Double Glazing home page, built for a client.",
   },
   {
     tab: "The person",
     title: "The same person, scope to launch.",
     body: "The person who sells it scopes it, then builds it or directs the build.",
-    tone: "f-orange",
+    tone: "tone-red",
     src: "/sam.jpeg",
     alt: "Samridh Limbu, founder of Clupai.",
     face: true,
@@ -26,7 +26,7 @@ const PANELS: { tab: string; title: string; body: ReactNode; tone: string; src: 
     tab: "The code",
     title: "Your code, from day one.",
     body: "It sits in your GitHub while we work. Hosting and domain go in your name.",
-    tone: "f-sage",
+    tone: "tone-blue",
     src: "/products/cstack/cover.webp",
     alt: "The cstack README, one of our own products.",
   },
@@ -36,17 +36,17 @@ const PANELS: { tab: string; title: string; body: ReactNode; tone: string; src: 
     body: (
       <>
         Don’t take our word for it. Open{" "}
-        <Link className="tlink" href="/work/hoddle-melbourne">
+        <Link className="ln-u" href="/work/hoddle-melbourne">
           Hoddle
         </Link>{" "}
         or{" "}
-        <Link className="tlink" href="/work/king-double-glazing">
+        <Link className="ln-u" href="/work/king-double-glazing">
           King Double Glazing’s price tool
         </Link>{" "}
         and use them.
       </>
     ),
-    tone: "f-yellow",
+    tone: "tone-paper",
     src: "/work/hoddle/new/home.webp",
     alt: "The Hoddle home page.",
   },
@@ -72,7 +72,7 @@ export default function ReasonPanels()
           </button>
           <div className="acc-body" id={`reason-${i}`}>
             <div className="acc-text">
-              <h3 className="t-name">{p.title}</h3>
+              <h3 className="acc-t">{p.title}</h3>
               <p>{p.body}</p>
             </div>
             <div className="acc-pic">

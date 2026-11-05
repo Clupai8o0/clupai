@@ -1,0 +1,875 @@
+/* The Build Risk Check: one big question at a time, the tower, the score and booking.
+   The default is the plain flowing page. Everything that moves sits under html.m. */
+
+/* The check has its own top bar. The footer stays on the result, where the page ends. */
+html:has(.fun) .nav {
+  display: none;
+}
+
+@media (scripting: enabled) {
+  html:has(.fun-q) .site-ft {
+    display: none;
+  }
+}
+
+.fun {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.fun :focus-visible {
+  outline: 3px solid var(--yellow);
+  outline-offset: 2px;
+}
+
+.f-soft {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.f-soft img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.3s ease;
+}
+
+.f-soft img.is-on {
+  opacity: 0.46;
+}
+
+.fun-r .f-soft img.is-on {
+  opacity: 0.2;
+}
+
+.f-top {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 2vw;
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.f-logo {
+  display: block;
+  justify-self: start;
+  color: var(--paper);
+  line-height: 0;
+}
+
+.f-count {
+  color: #b5b3ad;
+}
+
+.f-acts {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+}
+
+.f-link {
+  min-height: 24px;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--paper);
+  font: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+}
+
+@media (hover: hover) {
+  .f-link:hover {
+    color: var(--yellow);
+  }
+}
+
+.f-bar {
+  position: relative;
+  z-index: 2;
+  height: 4px;
+  background: #1d1d1b;
+}
+
+.f-bar i {
+  display: block;
+  height: 100%;
+  background: var(--blue);
+  transform-origin: left;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.f-tower {
+  display: none;
+}
+
+html.m .f-tower {
+  display: block;
+  position: fixed;
+  z-index: 0;
+  right: 0;
+  bottom: 0;
+  top: 90px;
+  width: 32vw;
+  overflow: hidden;
+  transition: opacity 0.3s;
+}
+
+.f-tower.is-gone {
+  opacity: 0;
+}
+
+.tb {
+  position: absolute;
+  left: 0;
+  top: 0;
+  will-change: transform;
+}
+
+.f-body {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 7vh 2vw 5vh;
+}
+
+.f-intro {
+  max-width: 40rem;
+  margin-bottom: 3vh;
+  color: #e4e2dd;
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.26;
+  letter-spacing: -0.018em;
+}
+
+.f-q {
+  overflow: hidden;
+  margin-bottom: 5vh;
+  padding-bottom: 0.12em;
+  font-size: min(6.5vw, 12vh);
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+}
+
+/* Only ever focused by script, to move a screen reader along. */
+.f-q:focus,
+.f-q:focus-visible {
+  outline: 0;
+}
+
+.f-q-in {
+  display: block;
+}
+
+.f-ans {
+  margin-top: auto;
+  padding: 0;
+  list-style: none;
+}
+
+html.m .f-q,
+html.m .f-ans,
+html.m .f-form,
+html.m .f-intro {
+  max-width: 62vw;
+}
+
+.ans {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1em;
+  width: 100%;
+  margin-bottom: 4px;
+  padding: 0.9vw 1.3vw 1.05vw;
+  overflow: hidden;
+  background: none;
+  border: 0;
+  color: var(--paper);
+  font: inherit;
+  font-size: min(3.2vw, 6vh);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.ans::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: var(--paper);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ans kbd {
+  font: inherit;
+  font-size: 15px;
+  letter-spacing: 0;
+  opacity: 0.5;
+}
+
+@media (hover: none) {
+  .ans kbd {
+    display: none;
+  }
+}
+
+@media (hover: hover) {
+  .ans:hover::before {
+    transform: scaleX(1);
+  }
+
+  .ans:hover {
+    color: var(--ink);
+  }
+}
+
+.ans[aria-pressed="true"] {
+  color: var(--ink);
+}
+
+.ans[aria-pressed="true"]::before {
+  background: var(--yellow);
+  transform: scaleX(1);
+}
+
+.ans:focus-visible {
+  outline-offset: -3px;
+}
+
+/* A new question comes up out of its mask. Never on first load: the h1 is the largest paint. */
+html.m .fun[data-moved] .f-q-in {
+  animation: f-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
+}
+
+html.m .fun[data-moved] .f-ans li,
+html.m .fun[data-moved] .f-details {
+  animation: f-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
+}
+
+html.m .fun[data-moved] .f-ans li:nth-child(2) {
+  animation-delay: 0.17s;
+}
+
+html.m .fun[data-moved] .f-ans li:nth-child(3) {
+  animation-delay: 0.22s;
+}
+
+html.m .fun[data-moved] .f-ans li:nth-child(4) {
+  animation-delay: 0.27s;
+}
+
+html.m .fun[data-moved] .f-ans li:nth-child(5) {
+  animation-delay: 0.32s;
+}
+
+html.m .is-leaving .f-q-in {
+  transition: transform 0.42s cubic-bezier(0.7, 0, 0.84, 0) 0.2s;
+  transform: translateY(-110%);
+  animation: none !important;
+}
+
+html.m .is-leaving .f-ans li {
+  transition: opacity 0.3s ease-in 0.28s;
+  opacity: 0;
+  animation: none !important;
+}
+
+@keyframes f-up {
+  from {
+    transform: translateY(110%);
+  }
+}
+
+@keyframes f-in {
+  from {
+    opacity: 0;
+    transform: translateY(34px);
+  }
+}
+
+/* Details */
+
+.f-details {
+  margin-top: auto;
+}
+
+.f-form {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.4vw;
+  align-items: end;
+}
+
+.fun .field label {
+  display: block;
+  margin-bottom: 8px;
+  color: #b5b3ad;
+  font-size: 17px;
+  font-weight: 400;
+}
+
+.fun .field {
+  margin: 0;
+}
+
+.fun .field input {
+  display: block;
+  width: 100%;
+  min-height: 56px;
+  padding: 0.5em 0.7em;
+  background: #171716;
+  border: 0;
+  border-radius: 0;
+  color: var(--paper);
+  font: inherit;
+  font-size: max(16px, 1.9vw);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+
+.fun .field input:focus {
+  outline: 3px solid var(--yellow);
+  outline-offset: 2px;
+}
+
+.fun .hp {
+  position: absolute;
+  left: -9999px;
+  overflow: hidden;
+}
+
+.f-wide,
+.f-send {
+  grid-column: 1 / -1;
+}
+
+.f-send {
+  justify-self: start;
+  border: 0;
+  font-family: inherit;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.f-send[disabled] {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.f-small {
+  margin-top: 14px;
+  color: #b5b3ad;
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+.f-small a,
+.fun .tlink {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+/* No JavaScript: all eight questions on one page. */
+@media (scripting: none) {
+  .f-live {
+    display: none;
+  }
+}
+
+.f-plain .f-q {
+  overflow: visible;
+}
+
+.f-set {
+  margin: 0 0 5vh;
+  padding: 0;
+  border: 0;
+}
+
+.f-set legend {
+  margin-bottom: 12px;
+  padding: 0;
+  font-size: max(26px, 3.2vw);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+
+.f-set label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.f-set input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--yellow);
+}
+
+.f-plain .btn {
+  align-self: flex-start;
+  border: 0;
+  font-family: inherit;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* The result */
+
+.r-body {
+  position: relative;
+  z-index: 1;
+  padding: 0 2vw 6vh;
+}
+
+.r-score {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 4vh;
+  min-height: calc(100vh - 84px);
+  min-height: calc(100svh - 84px);
+  padding: 3vh 0 5vh;
+}
+
+.r-title {
+  font-size: max(24px, 2.5vw);
+  font-weight: 500;
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+}
+
+.r-main {
+  display: grid;
+  grid-template-columns: auto minmax(0, 19vw);
+  gap: 2.2vw;
+  align-items: end;
+  justify-content: start;
+}
+
+.r-num {
+  margin: 0;
+  color: var(--yellow);
+  font-size: min(33vw, 62vh);
+  font-weight: 600;
+  line-height: 0.78;
+  letter-spacing: -0.06em;
+  font-variant-numeric: tabular-nums;
+}
+
+.r-of {
+  margin-bottom: 18px;
+  font-size: max(22px, 2.5vw);
+  font-weight: 500;
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+}
+
+.r-note {
+  max-width: 42rem;
+  color: #d6d4cf;
+  font-size: 19px;
+  line-height: 1.32;
+  letter-spacing: -0.012em;
+}
+
+.r-note + .r-note {
+  margin-top: 14px;
+}
+
+.r-risks,
+.r-book,
+.r-more {
+  padding: 10vh 0 6vh;
+}
+
+.r-h {
+  margin-bottom: 18px;
+  font-size: 6.5vw;
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+}
+
+.r-risk {
+  display: grid;
+  grid-template-columns: 44vw 1fr 1fr;
+  gap: 2vw;
+  margin-top: 7vh;
+  align-items: start;
+}
+
+.r-risk h3 {
+  font-size: 3.2vw;
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+
+.r-risk p {
+  color: #d6d4cf;
+  font-size: 19px;
+  line-height: 1.32;
+  letter-spacing: -0.012em;
+}
+
+.r-risk .r-do {
+  color: var(--paper);
+  font-weight: 500;
+}
+
+.r-cal {
+  margin-top: 6vh;
+}
+
+.r-links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 4vh;
+  font-size: max(24px, 3.2vw);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+}
+
+.r-links a {
+  color: var(--paper);
+}
+
+@media (hover: hover) {
+  .r-links a:hover {
+    color: var(--yellow);
+  }
+}
+
+/* Booking */
+
+.bk {
+  color: var(--paper);
+}
+
+.bk--wait {
+  min-height: 460px;
+}
+
+.bk-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.bk-head img {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+}
+
+.bk-who {
+  font-size: 19px;
+  font-weight: 500;
+}
+
+.bk .t-small {
+  color: #b5b3ad;
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+.bk .t-state {
+  font-size: max(32px, 4vw);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  text-transform: none;
+}
+
+.bk-note {
+  margin-bottom: 18px;
+  color: #d6d4cf;
+}
+
+.bk-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 3vw;
+  max-width: 62rem;
+}
+
+.bk-month {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.bk-nav {
+  display: flex;
+  gap: 4px;
+}
+
+.bk-nav button {
+  width: 44px;
+  height: 44px;
+  background: #171716;
+  border: 0;
+  color: var(--paper);
+  font: inherit;
+  cursor: pointer;
+}
+
+.bk-nav button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.bk-days {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 2px;
+}
+
+.bk-wd {
+  padding-bottom: 6px;
+  text-align: center;
+}
+
+.bk-day {
+  aspect-ratio: 1;
+  min-height: 40px;
+  background: #171716;
+  border: 0;
+  color: var(--paper);
+  font: inherit;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+.bk-day:disabled {
+  background: none;
+  color: #5c5b57;
+  cursor: default;
+}
+
+.bk-slots {
+  display: grid;
+  gap: 4px;
+  max-height: 318px;
+  overflow-y: auto;
+}
+
+.bk-slot {
+  min-height: 48px;
+  padding-inline: 14px;
+  background: var(--paper);
+  border: 0;
+  color: var(--ink);
+  font: inherit;
+  font-size: 19px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+}
+
+@media (hover: hover) {
+  .bk-day:hover:not(:disabled),
+  .bk-slot:hover,
+  .bk-nav button:hover:not(:disabled) {
+    background: var(--yellow);
+    color: var(--ink);
+  }
+}
+
+.bk-day[aria-pressed="true"],
+.bk-slot[aria-pressed="true"] {
+  background: var(--yellow);
+  color: var(--ink);
+}
+
+.bk-form {
+  max-width: 62rem;
+  margin-top: 26px;
+}
+
+.bk-fields {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.bk-form .btn {
+  border: 0;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.bk-done p {
+  margin-top: 12px;
+}
+
+.field-error {
+  margin-top: 6px;
+  color: #ff8a8a;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+@media (max-width: 720px) {
+  .f-top {
+    grid-template-columns: auto 1fr auto;
+    gap: 10px;
+    padding: 14px 16px;
+    font-size: 14px;
+  }
+
+  .f-acts {
+    gap: 14px;
+  }
+
+  .f-body {
+    padding: 4vh 16px 3vh;
+  }
+
+  html.m .f-tower {
+    top: 74px;
+    bottom: auto;
+    width: 34vw;
+    height: 36svh;
+  }
+
+  html.m .f-tower::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 4px;
+    background: #2a2a28;
+  }
+
+  .f-intro {
+    font-size: 15px;
+  }
+
+  html.m .f-intro,
+  html.m .f-q {
+    max-width: 60vw;
+  }
+
+  .f-q {
+    font-size: 10.6vw;
+  }
+
+  html.m .f-ans,
+  html.m .f-form {
+    max-width: none;
+  }
+
+  .ans {
+    padding: 11px 14px 13px;
+    font-size: 7vw;
+  }
+
+  .f-form,
+  .bk-grid,
+  .bk-fields {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  .fun .field input {
+    font-size: 18px;
+  }
+
+  .r-body {
+    padding: 0 16px 5vh;
+  }
+
+  html.m .r-title {
+    max-width: 60vw;
+  }
+
+  .r-main {
+    display: block;
+  }
+
+  .r-num {
+    margin: 0 0 22px;
+    font-size: 56vw;
+    line-height: 0.82;
+  }
+
+  html.m .r-score {
+    justify-content: flex-start;
+    gap: 0;
+  }
+
+  html.m .r-main {
+    margin-top: auto;
+  }
+
+  .r-h {
+    font-size: 11vw;
+  }
+
+  .r-risk {
+    display: block;
+    margin-top: 5vh;
+  }
+
+  .r-risk h3 {
+    margin-bottom: 12px;
+    font-size: 7vw;
+  }
+
+  .r-risk p {
+    font-size: 17px;
+  }
+
+  .r-risk .r-do {
+    margin-top: 10px;
+  }
+}

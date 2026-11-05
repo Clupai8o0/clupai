@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import ScreenStrip from "@/components/screen-strip";
+import "@/app/inner.css";
 
 export type LegalSection = {
   id: string;
@@ -7,6 +7,7 @@ export type LegalSection = {
   body: ReactNode;
 };
 
+// Plain and readable on purpose: no motion, no mascot lines, one column.
 export default function LegalPage({
   title,
   updated,
@@ -20,31 +21,20 @@ export default function LegalPage({
 })
 {
   return (
-    <>
-      <header className="head f-sage">
-        <h1 className="t-giant">{title}</h1>
-        <div className="head-lead">
-          <div>
-            <p className="t-lead">{intro}</p>
-            <p className="t-small" style={{ marginTop: 18 }}>
-              Last updated {updated}
-            </p>
-          </div>
-        </div>
+    <div className="pg tone-paper legal">
+      <header className="legal-head">
+        <h1>{title}</h1>
+        <p className="g-lead">{intro}</p>
+        <p className="legal-date">Last updated {updated}</p>
       </header>
-
-      <div className="sec grid">
-        <div className="legal-body">
-          {sections.map((s) => (
-            <section key={s.id} id={s.id} className="rise">
-              <h2>{s.heading}</h2>
-              {s.body}
-            </section>
-          ))}
-        </div>
+      <div className="legal-body">
+        {sections.map((s) => (
+          <section key={s.id} id={s.id}>
+            <h2>{s.heading}</h2>
+            {s.body}
+          </section>
+        ))}
       </div>
-
-      <ScreenStrip />
-    </>
+    </div>
   );
 }

@@ -45,10 +45,10 @@ export function ScoreCount({ score }: { score: number })
   }, [score]);
 
   return (
-    <p className="score-num">
+    <p className="r-num">
       <span aria-hidden="true">{shown}</span>
       <span className="sr-only">{score}</span>
-      <span className="score-of"> out of 100</span>
+      <span className="sr-only"> out of 100</span>
     </p>
   );
 }
@@ -60,7 +60,7 @@ export function NotSentNote()
     return null;
   }
   return (
-    <p className="t-small" style={{ marginTop: 18 }}>
+    <p className="f-small">
       We couldn’t email you a copy just now, so bookmark this page to keep your result.
     </p>
   );

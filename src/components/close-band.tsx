@@ -1,20 +1,20 @@
 import Link from "next/link";
 
-// The last thing on most pages: the question again, loud, on black.
-export default function CloseBand({ title }: { title: string })
+// The last thing on most pages: the question again, loud. The tone comes from the page.
+export default function CloseBand({ title, tone = "tone-ink", perch }: { title: string; tone?: string; perch?: string })
 {
   return (
-    <section className="cta f-ink" aria-labelledby="close-title">
-      <h2 className="t-giant rise" id="close-title">
+    <section className={`band ${tone}`} aria-labelledby="close-title">
+      <h2 className="g-big" id="close-title" data-letters>
         {title}
       </h2>
-      <div className="cta-row">
-        <p className="t-lead rise rise-2">
+      <div className="band-row">
+        <p className="g-lead">
           Free. 2 minutes. Eight questions, and you get a score, your top three risks, and one thing to do about each
           this week.
         </p>
-        <Link className="btn rise rise-3" href="/start">
-          Get your Build Risk Check
+        <Link className="btn js-start" href="/start" data-curtain="#ffe100" data-perch={perch} data-perch-side="left">
+          Start a project
         </Link>
       </div>
     </section>

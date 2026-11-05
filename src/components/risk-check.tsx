@@ -4,6 +4,7 @@ import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { type FormEvent, useCallback, useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
+import { FunnelBack, FunnelTop } from "@/components/funnel-chrome";
 import { writePrefill } from "@/lib/prefill";
 import { encodeAnswers, questions } from "@/lib/risk-check";
 import { track } from "@/lib/track";
@@ -11,6 +12,8 @@ import { track } from "@/lib/track";
 const SAVE_KEY = "clupai-risk-check";
 const SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "";
 const ADVANCE_MS = 140;
+// With motion on, the block has to land and the question has to leave first.
+const ADVANCE_MOTION_MS = 620;
 // If the bot check hasn't answered by now, it's blocked or broken. Let them through; the server decides.
 const TURNSTILE_WAIT_MS = 10000;
 const noopSubscribe = () => () => undefined;
@@ -51,14 +54,13 @@ function loadProgress(): Progress
   }
 }
 
-// The ground changes colour with each question, so moving on feels like moving on.
-const GROUNDS = ["f-orange", "f-sage", "f-yellow"];
-
 function Flow({ restore }: { restore: boolean })
 {
   const router = useRouter();
   const [progress, setProgress] = useState<Progress>(() => (restore ? loadProgress() : START));
   const [picked, setPicked] = useState<number | null>(null);
+  const [moved, setMoved] = useState(false);
+  const [sending, setSending] = useState(false);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const firstRender = useRef(true);
   const advance = useRef<number | undefined>(undefined);
@@ -102,6 +104,7 @@ function Flow({ restore }: { restore: boolean })
       return;
     }
     setPicked(index);
+    const wait = document.documentElement.classList.contains("m") ? ADVANCE_MOTION_MS : ADVANCE_MS;
     advance.current = window.setTimeout(() => {
       advance.current = undefined;
       setProgress((prev) => {
@@ -110,7 +113,8 @@ function Flow({ restore }: { restore: boolean })
         return { answers: next, step: prev.step + 1 };
       });
       setPicked(null);
-    }, ADVANCE_MS);
+      setMoved(true);
+    }, wait);
   }, []);
 
   // A pick still waiting to advance would land on the wrong question, so going back cancels it.
@@ -118,6 +122,7 @@ function Flow({ restore }: { restore: boolean })
     window.clearTimeout(advance.current);
     advance.current = undefined;
     setPicked(null);
+    setMoved(true);
     setProgress((prev) => ({ ...prev, step: Math.max(0, prev.step - 1) }));
   }, []);
 
@@ -144,24 +149,39 @@ function Flow({ restore }: { restore: boolean })
   }, [back, choose, onDetails, step]);
 
   const code = encodeAnswers(answers.slice(0, questions.length));
+  const done = Math.min(step, questions.length);
+  // funnel.js builds the tower from this, so it stays right through Back, a reload and a late start.
+  const tower = [...answers.slice(0, step), ...(picked === null ? [] : [picked])].join("");
+  const label = onDetails ? "Last step" : `Question ${step + 1} of ${questions.length}`;
+  const backButton = step > 0 ? (
+    <button type="button" className="f-link" onClick={back} disabled={sending}>
+      Back
+    </button>
+  ) : null;
 
   return (
-    <div className={`rc ${GROUNDS[step % GROUNDS.length]}`}>
+    <div className="fun fun-q" data-tower={tower} data-moved={moved ? "" : undefined}>
+      <FunnelBack picture={Math.min(2, Math.floor(step / 3))} />
+      <FunnelTop label={label}>{backButton}</FunnelTop>
       <div
-        className="rc-progress"
+        className="f-bar"
         role="progressbar"
         aria-label="Progress through the check"
         aria-valuemin={0}
         aria-valuemax={questions.length}
-        aria-valuenow={Math.min(step, questions.length)}
+        aria-valuenow={done}
       >
-        <i style={{ transform: `scaleX(${Math.min(step, questions.length) / questions.length})` }} />
+        <i style={{ transform: `scaleX(${done / questions.length})` }} />
       </div>
+
+      <noscript>
+        <NoScriptCheck />
+      </noscript>
 
       {onDetails ? (
         <Details
           headingRef={headingRef}
-          onBack={back}
+          onSending={setSending}
           onDone={(path) => {
             try {
               window.localStorage.removeItem(SAVE_KEY);
@@ -173,54 +193,74 @@ function Flow({ restore }: { restore: boolean })
           code={code}
         />
       ) : (
-        <div className="rc-body">
-          <div>
-            <h1 key={step} ref={headingRef} className="rc-q rc-q-enter" tabIndex={-1}>
-              {questions[step]!.title}
-            </h1>
-            <div className="rc-foot">
-              <p className="rc-step t-small">
-                Question {step + 1} of {questions.length}
-              </p>
-              {step > 0 ? (
-                <button type="button" className="rc-back" onClick={back}>
-                  Back
+        <div key={step} className={`f-body f-live${picked === null ? "" : " is-leaving"}`}>
+          {step === 0 ? (
+            <p className="f-intro">
+              Eight questions, two minutes. You get a score, your top three risks, and one thing to do about each this
+              week.
+            </p>
+          ) : null}
+          <h1 ref={headingRef} className="f-q" tabIndex={-1}>
+            <span className="f-q-in">{questions[step]!.title}</span>
+          </h1>
+          <ul className="f-ans">
+            {questions[step]!.answers.map((answer, i) => (
+              <li key={answer.key}>
+                <button
+                  type="button"
+                  className="ans"
+                  aria-pressed={picked === null ? answers[step] === i : picked === i}
+                  onClick={() => choose(i)}
+                >
+                  <span>{answer.label}</span>
+                  <kbd aria-hidden="true">{i + 1}</kbd>
                 </button>
-              ) : null}
-            </div>
-          </div>
-          <div>
-            <ul key={step} className="rc-answers rc-q-enter">
-              {questions[step]!.answers.map((answer, i) => (
-                <li key={answer.key}>
-                  <button
-                    type="button"
-                    className="rc-answer"
-                    aria-pressed={picked === null ? answers[step] === i : picked === i}
-                    onClick={() => choose(i)}
-                  >
-                    <span>{answer.label}</span>
-                    <kbd aria-hidden="true">{i + 1}</kbd>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
+              </li>
+            ))}
+          </ul>
         </div>
       )}
     </div>
   );
 }
 
+// Without JavaScript there's no one-at-a-time flow, so all eight go on one page and the result page does the sum.
+function NoScriptCheck()
+{
+  return (
+    <form className="f-body f-plain" action="/start/result" method="get">
+      <h1 className="f-q">Build Risk Check</h1>
+      <p className="f-intro">
+        Eight questions, two minutes. You get a score, your top three risks, and one thing to do about each this week.
+        Nothing gets emailed from this version, so bookmark your result.
+      </p>
+      {questions.map((q, n) => (
+        <fieldset key={q.id} className="f-set">
+          <legend>{q.title}</legend>
+          {q.answers.map((a, i) => (
+            <label key={a.key}>
+              <input type="radio" name={`q${n}`} value={i} required />
+              <span>{a.label}</span>
+            </label>
+          ))}
+        </fieldset>
+      ))}
+      <button type="submit" className="btn">
+        See my result
+      </button>
+    </form>
+  );
+}
+
 function Details({
   code,
   headingRef,
-  onBack,
+  onSending,
   onDone,
 }: {
   code: string;
   headingRef: React.RefObject<HTMLHeadingElement | null>;
-  onBack: () => void;
+  onSending: (sending: boolean) => void;
   onDone: (path: string) => void;
 })
 {
@@ -250,6 +290,7 @@ function Details({
     }
     inFlight.current = true;
     setSending(true);
+    onSending(true);
     let sent = false;
     try {
       const res = await fetch("/api/start-capture", {
@@ -277,23 +318,13 @@ function Details({
   }
 
   return (
-    <div className="rc-body">
-      <div>
-        <h1 ref={headingRef} className="rc-q rc-q-enter" tabIndex={-1}>
-          Where do we send your result?
-        </h1>
-        <p className="t-lead" style={{ marginTop: 18, maxWidth: "24em" }}>
-          You’ll see it straight away. We email you a copy to keep.
-        </p>
-        <div className="rc-foot">
-          <p className="rc-step t-small">Last step</p>
-          <button type="button" className="rc-back" onClick={onBack} disabled={sending}>
-            Back
-          </button>
-        </div>
-      </div>
-      <div className="rc-q-enter">
-        <form onSubmit={submit} style={{ maxWidth: "30rem" }}>
+    <div className="f-body f-live">
+      <h1 ref={headingRef} className="f-q" tabIndex={-1}>
+        <span className="f-q-in">Where do we send your result?</span>
+      </h1>
+      <p className="f-intro">You’ll see it straight away. We email you a copy to keep.</p>
+      <div className="f-details">
+        <form onSubmit={submit} className="f-form">
           <div className="field">
             <label htmlFor="rc-name">Your name</label>
             <input
@@ -343,7 +374,7 @@ function Details({
             />
           </div>
           {SITE_KEY ? (
-            <div style={{ marginBottom: 18 }}>
+            <div className="f-wide">
               <Turnstile
                 ref={turnstileRef}
                 siteKey={SITE_KEY}
@@ -355,10 +386,10 @@ function Details({
               />
             </div>
           ) : null}
-          <button type="submit" className="btn" disabled={sending || (Boolean(SITE_KEY) && !token && !gaveUpOnCheck)}>
+          <button type="submit" className="btn f-send" disabled={sending || (Boolean(SITE_KEY) && !token && !gaveUpOnCheck)}>
             {sending ? "Working it out" : "See my result"}
           </button>
-          <p className="t-small" style={{ marginTop: 16 }}>
+          <p className="f-small f-wide">
             We use this to send your result and to prepare if you book a call. See our{" "}
             <Link className="tlink" href="/privacy">
               privacy policy

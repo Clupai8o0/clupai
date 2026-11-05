@@ -1,16 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { FunnelBack, FunnelTop } from "@/components/funnel-chrome";
 import { NotSentNote, ResultBooking, ScoreCount } from "@/components/result-parts";
-import ScreenStrip from "@/components/screen-strip";
-import { bookingFieldsFor, decodeAnswers, scoreAnswers } from "@/lib/risk-check";
+import { bookingFieldsFor, decodeAnswers, encodeAnswers, questions, scoreAnswers } from "@/lib/risk-check";
+import "../start.css";
 
 export const metadata: Metadata = {
   title: "Your Build Risk Check",
   robots: { index: false, follow: false },
 };
-
-const RISK_TONES = ["f-sage", "f-yellow", "f-orange"];
 
 export default async function ResultPage({
   searchParams,
@@ -18,8 +17,10 @@ export default async function ResultPage({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 })
 {
-  const { r } = await searchParams;
-  const indexes = decodeAnswers(typeof r === "string" ? r : null);
+  const params = await searchParams;
+  // The no-JavaScript form sends q0 to q7, one field per question, instead of the joined code.
+  const code = typeof params.r === "string" ? params.r : questions.map((_, i) => params[`q${i}`]).join("");
+  const indexes = decodeAnswers(code);
   if (!indexes) {
     redirect("/start");
   }
@@ -28,97 +29,81 @@ export default async function ResultPage({
   const booking = bookingFieldsFor(result);
 
   return (
-    <>
-      <section className="score f-orange" aria-labelledby="score-title">
-        <div className="score-grid">
-          <div className="score-copy">
-            <h1 className="t-head" id="score-title">
-              Your Build Risk Check.
-            </h1>
-            <p>
-              Out of 100, and higher is safer. It’s worked out only from your answers, and we haven’t seen your project
-              yet.
-            </p>
-            <NotSentNote />
-          </div>
-          <ScoreCount score={result.score} />
-        </div>
-      </section>
+    <div className="fun fun-r" data-tower={encodeAnswers(indexes)} data-score={result.score}>
+      <FunnelBack picture={2} />
+      <FunnelTop label="Your result" />
 
-      <section aria-labelledby="risks-title">
-        <div className="grid group-head">
-          <h2 className="t-head rise" id="risks-title">
+      <div className="r-body">
+        <section className="r-score" aria-labelledby="score-title">
+          <h1 className="r-title" id="score-title">
+            Your Build Risk Check.
+          </h1>
+          <div className="r-main">
+            <ScoreCount score={result.score} />
+            <div className="r-side">
+              <p className="r-of">Out of 100, and higher is safer.</p>
+              <p className="r-note">It’s worked out only from your answers, and we haven’t seen your project yet.</p>
+              <NotSentNote />
+            </div>
+          </div>
+        </section>
+
+        <section className="r-risks" aria-labelledby="risks-title">
+          <h2 className="r-h" id="risks-title">
             Your top three risks.
           </h2>
-          <p className="t-lead rise rise-2">
+          <p className="r-note">
             Each one comes with something you can do this week, whether you ever talk to us or not.
           </p>
-        </div>
-        <div className="risks">
-          {result.risks.map((risk, i) => (
-            <article key={risk.area} className={`risk ${RISK_TONES[i % RISK_TONES.length]}`}>
-              <h3 className="t-name rise">{risk.title}</h3>
-              <div>
-                <p className="rise rise-2">{risk.means}</p>
-                <p className="do rise rise-3">This week: {risk.thisWeek}</p>
-              </div>
+          {result.risks.map((risk) => (
+            <article key={risk.area} className="r-risk">
+              <h3>{risk.title}</h3>
+              <p>{risk.means}</p>
+              <p className="r-do">This week: {risk.thisWeek}</p>
             </article>
           ))}
-        </div>
-      </section>
+        </section>
 
-      {result.canBook ? (
-        <section className="f-ink sec grid book-grid" id="book" aria-labelledby="book-title">
-          <div>
-            <h2 className="t-head rise" id="book-title">
+        {result.canBook ? (
+          <section className="r-book" id="book" aria-labelledby="book-title">
+            <h2 className="r-h" id="book-title">
               Talk it through in 30 minutes.
             </h2>
-            <p>
+            <p className="r-note">
               You tell Samridh, our founder, where you’re stuck. You’ll hear straight whether we can build it and what
               scoping would look like. If we’re the wrong people, we’ll say so.
             </p>
-          </div>
-          <div>
-            <ResultBooking projectType={booking.projectType} budget={booking.budget} />
-          </div>
-        </section>
-      ) : (
-        <section className="f-ink sec grid case-grid" aria-labelledby="no-title">
-          <h2 className="t-head rise" id="no-title">
-            We’re not the right fit yet.
-          </h2>
-          <div className="stack">
-            <p className="t-lead">
+            <div className="r-cal">
+              <ResultBooking projectType={booking.projectType} budget={booking.budget} />
+            </div>
+          </section>
+        ) : (
+          <section className="r-book" aria-labelledby="no-title">
+            <h2 className="r-h" id="no-title">
+              We’re not the right fit yet.
+            </h2>
+            <p className="r-note">
               A custom build from us would be a stretch on under A$10k, and we’d rather tell you now than waste your
               month.
             </p>
-            <p>
+            <p className="r-note">
               Start with the three things above. A no-code tool or a freelancer can test the idea for less. When your
               budget grows, come back and take the check again.
             </p>
-          </div>
-        </section>
-      )}
+          </section>
+        )}
 
-      <section aria-labelledby="more-title">
-        <div className="sec grid group-head">
-          <h2 className="t-head rise" id="more-title">
+        <section className="r-more" aria-labelledby="more-title">
+          <h2 className="r-h" id="more-title">
             See what we’ve shipped.
           </h2>
-          <div className="links">
-            <Link className="tlink" href="/work">
-              Work, with the dates on it
-            </Link>
-            <Link className="tlink" href="/products">
-              Our own products
-            </Link>
-            <Link className="tlink" href="/start">
-              Take the check again
-            </Link>
+          <div className="r-links">
+            <Link href="/work">Work, with the dates on it</Link>
+            <Link href="/products">Our own products</Link>
+            <Link href="/start">Take the check again</Link>
           </div>
-        </div>
-        <ScreenStrip />
-      </section>
-    </>
+        </section>
+      </div>
+    </div>
   );
 }

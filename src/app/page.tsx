@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
+import HowTower from "@/components/how-tower";
 import Soft from "@/components/soft";
+import { QUESTIONS } from "@/data/offer";
 import { StaticWord } from "@/components/wordmark";
 import "./home.css";
 
@@ -26,7 +28,7 @@ const BOARD = [
   { name: "cstack", what: "Keeps AI coding tools from clashing", part: "Our own product", when: "Sep 2026", status: "Released", img: "/products/cstack/cover.webp", href: "/work/cstack" },
   { name: "Acknowledgement Force", what: "Blocks your Mac until you read your own rules", part: "Our own product", when: "May 2026", status: "Released", img: "/products/force/preview.webp", href: "/work/acknowledgement-force" },
   { name: "Kairos", what: "Paste your notes and it books your tasks", part: "Our own product", when: "Rebuilding", status: "In the works", img: "/products/kairos/week.webp", href: "/work/kairos" },
-  { name: "morgue", what: "Web animations your AI tools can rebuild", part: "Our own product", when: "Waitlist", status: "In the works", img: "/products/morgue/desktop.webp", href: "/products" },
+  { name: "morgue", what: "Web animations your AI tools can rebuild", part: "Our own product", when: "Waitlist", status: "In the works", img: "/products/morgue/desktop.webp", href: "/products/morgue" },
   { name: "GovChat", what: "Find Australian government data in plain English", part: "Our own product", when: "Demo offline", status: "In the works", img: "/products/govchat/trust.webp", href: "/work/govchat" },
 ];
 
@@ -38,29 +40,6 @@ const FILLS = [
 ];
 
 const STATUS_ICON: Record<string, string> = { Live: "st-live", Released: "st-rel", "In the works": "st-wip" };
-
-const QUESTIONS = [
-  {
-    q: "Aren’t you too small for this?",
-    a: "We’re small on purpose. The person on your call scopes your build, then builds it or directs the build. If we ever vanished, the code is already in your GitHub, so you’d lose a developer and keep the product. No client has used this guarantee yet.",
-  },
-  {
-    q: "Aren’t you a student?",
-    a: "Samridh is. Final year of computer science at Deakin, finishing June 2027. Hoddle went live during semester, and GovChat was a GovHack 2025 winner. Judge us on the software you can click and the date in the contract.",
-  },
-  {
-    q: "Isn’t AI code junk?",
-    a: "Unreviewed AI code often is. We use AI because it’s why we’re fast, and a developer tests and signs off every change. Pay any developer you trust to read the code. It’s yours to show them.",
-  },
-  {
-    q: "I’m not technical. How will I know it’s working?",
-    a: "You click it. The second payment only comes after a working version you’ve used yourself. As Tas at King Double Glazing put it: “I felt in control the whole way through.”",
-  },
-  {
-    q: "Who owns the code?",
-    a: "You do, once it’s paid for, and the contract says so. It sits in your GitHub from day one, with hosting and domain in your name. We’ll talk about keeping it running once you’re live.",
-  },
-];
 
 const RISK_CHECK = "Eight questions, two minutes. You get a score, your top three risks, and one thing to do about each this week.";
 
@@ -187,74 +166,7 @@ export default function HomePage()
         </div>
       </section>
 
-      <section className="how" id="how" aria-label="How it works">
-        <div className="how-l">
-          <article className="st st1">
-            <h3>Scope</h3>
-            <p>Scoping comes first and takes one to two weeks. It’s paid, and it comes off the build. You get a written scope, a clickable prototype, and a fixed price and date. They’re yours to keep, even if you go elsewhere.</p>
-          </article>
-          <article className="st st2 pre">
-            <h3>Sign</h3>
-            <p>You have a scope, a prototype, a price and a date. You sign and pay 50%. Your code sits in your GitHub from day one.</p>
-          </article>
-          <article className="st st3 pre">
-            <h3>Click</h3>
-            <p>First working version. You click it before you pay the next 30%.</p>
-          </article>
-          <article className="st st4 pre">
-            <h3>Live</h3>
-            <p>Live, by the date we agreed. That’s when the last 20% is due.</p>
-          </article>
-          <article className="st st5 pre">
-            <h3>Miss the date?</h3>
-            <p className="big">Everything unpaid is cancelled. We finish it free, you keep what’s built, and money already paid stays paid.</p>
-            <ul>
-              <li>It needs a signed scope.</li>
-              <li>It needs replies from you within 48 hours.</li>
-              <li>Any change to the scope resets the date and price, in writing.</li>
-            </ul>
-            <p className="small">No client has used this guarantee yet.</p>
-          </article>
-        </div>
-        <div className="how-r" id="how-r">
-          <div className="twr" id="twr">
-            <div className="tw tw-20 pre">
-              <div className="tw-i i-20">
-                <b>20%</b>
-                <span className="tw-t">Live</span>
-                <div className="flag" id="flag">
-                  <i>Live</i>
-                </div>
-                <div className="stick">Cancelled</div>
-              </div>
-            </div>
-            <div className="tw tw-30 pre">
-              <div className="tw-i i-30">
-                <b>30%</b>
-                <span className="tw-t">You’ve clicked it</span>
-                <div className="stick">Cancelled</div>
-              </div>
-            </div>
-            <div className="tw tw-50 pre">
-              <div className="tw-i">
-                <b>50%</b>
-                <span className="tw-t">You sign</span>
-                <div className="stick st-a" id="stick-paid">
-                  Paid stays paid
-                </div>
-                <div className="stick st-b" id="stick-free">
-                  We finish it free
-                </div>
-              </div>
-            </div>
-            <div className="tw-pad">Scoping comes off the build</div>
-          </div>
-          <button className="miss pre" id="miss" type="button" disabled>
-            Miss the date
-          </button>
-        </div>
-        <div className="how-fall" id="how-fall" />
-      </section>
+      <HowTower />
 
       <section className="ask" id="ask" aria-labelledby="ask-h">
         <Soft name="i-sun" className="soft-ask" />

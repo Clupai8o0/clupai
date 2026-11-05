@@ -13,11 +13,17 @@ export type Product = {
   image?: { src: string; alt: string };
   /** Large line for a product with no public screens to show. */
   poster?: string;
+  /** Its slot in the machine on /products: row letter, then number. */
+  code: string;
+  /** Its colour class: tone-blue, tone-red and so on, in inner.css. */
+  tone: string;
 };
 
 export const products: Product[] = [
   {
     slug: "tempo",
+    code: "A1",
+    tone: "tone-blue",
     name: "Tempo",
     line: "Log your workouts, see your progress, and let Claude read and log them for you.",
     status: "released",
@@ -29,6 +35,8 @@ export const products: Product[] = [
   },
   {
     slug: "acknowledgement-force",
+    code: "A2",
+    tone: "tone-red",
     name: "Acknowledgement Force",
     line: "Blocks your Mac until you read your own rules and name what matters today.",
     status: "released",
@@ -40,6 +48,8 @@ export const products: Product[] = [
   },
   {
     slug: "cstack",
+    code: "A3",
+    tone: "tone-paper",
     name: "cstack",
     line: "Keeps several AI coding tools from clashing, and cuts what they cost to run.",
     status: "released",
@@ -51,6 +61,8 @@ export const products: Product[] = [
   },
   {
     slug: "kairos",
+    code: "B1",
+    tone: "tone-navy",
     name: "Kairos",
     line: "Paste your notes and it books the tasks into your calendar.",
     status: "in-work",
@@ -61,6 +73,8 @@ export const products: Product[] = [
   },
   {
     slug: "morgue",
+    code: "B2",
+    tone: "tone-ink",
     name: "morgue",
     line: "A library of web animations your AI coding tools can watch and rebuild.",
     status: "in-work",
@@ -71,6 +85,8 @@ export const products: Product[] = [
   },
   {
     slug: "glow-up",
+    code: "B3",
+    tone: "tone-yellow",
     name: "Glow Up",
     line: "A co-op health game. A household logs meals and habits by chat and levels up together.",
     status: "in-work",
@@ -80,6 +96,8 @@ export const products: Product[] = [
   },
   {
     slug: "yap",
+    code: "C1",
+    tone: "tone-red",
     name: "Yap",
     line: "An Android journal that opens straight into a new note and grows a garden as you write.",
     status: "in-work",
@@ -89,6 +107,8 @@ export const products: Product[] = [
   },
   {
     slug: "govchat",
+    code: "C2",
+    tone: "tone-paper",
     name: "GovChat",
     line: "Ask in plain English and find Australian government datasets, with sources.",
     status: "in-work",
@@ -98,6 +118,14 @@ export const products: Product[] = [
     image: { src: "/products/govchat/trust.webp", alt: "GovChat answering a question." },
   },
 ];
+
+/** Products with a page of their own. Glow Up and Yap have nothing public to show yet. */
+export const withPage = products.filter((p) => !p.poster);
+
+export function productBySlug(slug: string): Product | undefined
+{
+  return withPage.find((p) => p.slug === slug);
+}
 
 export const released = products.filter((p) => p.status === "released");
 export const inWork = products.filter((p) => p.status === "in-work");

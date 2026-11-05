@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import RiskCheck from "@/components/risk-check";
+import "./start.css";
 
 export const metadata: Metadata = {
   title: "Build Risk Check",
