@@ -25,7 +25,6 @@ export function init(scope, core)
   const IDLE = ledBox.dataset.idle;
   const slots = qa(".slot", qs("#grid"));
   const stretch = qs(".dot-b", dot.el); // The kit writes .dot-st every frame, so lean the body inside it.
-  const leg = qs(".dot-legs i:first-child", dot.el);
   let typed = "";
   let busy = false;
   let leaning = true;
@@ -72,9 +71,8 @@ export function init(scope, core)
     }),
   });
   scope.cleanup(() => {
-    gsap.killTweensOf([stretch, leg]);
+    gsap.killTweensOf(stretch);
     gsap.set(stretch, { clearProps: "transform,transformOrigin" });
-    gsap.set(leg, { rotation: 0 });
     dot.mood("");
   });
 
@@ -84,16 +82,13 @@ export function init(scope, core)
     const toward = phone ? 1 : -1;
     gsap.timeline()
       .to(stretch, { x: 16 * -toward, rotation: 8 * -toward, duration: 0.22, ease: "power2.out" })
-      .to(leg, { rotation: 62 * -toward, duration: 0.2, ease: "power2.out" }, 0)
       .to(stretch, { x: -6 * -toward, rotation: -6 * -toward, duration: 0.07, ease: "power4.in" })
-      .to(leg, { rotation: -74 * -toward, duration: 0.07, ease: "power4.in" }, "<")
       .add(() => {
         gsap.fromTo(mach, { x: 0, rotation: 0 }, { keyframes: [{ x: -12, rotation: -0.7, duration: 0.05 }, { x: 9, rotation: 0.5, duration: 0.06 }, { x: -5, rotation: -0.25, duration: 0.07 }, { x: 0, rotation: 0, duration: 0.09 }], ease: "none", clearProps: "transform" });
         dot.flash("happy", 1.2);
         after();
       })
-      .to(leg, { rotation: 0, duration: 0.25 }, "+=0.1")
-      .to(stretch, { x: 0, rotation: 0, duration: 0.25 }, "<");
+      .to(stretch, { x: 0, rotation: 0, duration: 0.25 }, "+=0.1");
   }
 
   function follow(a, rect, colour)

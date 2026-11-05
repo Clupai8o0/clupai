@@ -23,26 +23,22 @@ export default function Image()
       >
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
           <div style={{ display: "flex", fontSize: 44, fontWeight: 600, letterSpacing: "-0.05em" }}>clupai</div>
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <div
-              style={{
-                width: 96,
-                height: 96,
-                borderRadius: 48,
-                background: "#070707",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: 12,
-              }}
-            >
-              <div style={{ width: 14, height: 30, background: "#ffe100" }} />
-              <div style={{ width: 14, height: 30, background: "#ffe100" }} />
-            </div>
-            <div style={{ display: "flex", gap: 22 }}>
-              <div style={{ width: 6, height: 44, background: "#070707" }} />
-              <div style={{ width: 6, height: 44, background: "#070707" }} />
-            </div>
+          <div
+            style={{
+              width: 112,
+              height: 112,
+              borderRadius: 56,
+              background: "#070707",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: 10,
+              paddingLeft: 16,
+              paddingBottom: 25,
+            }}
+          >
+            <div style={{ width: 10, height: 28, borderRadius: 5, background: "#ffe100", transform: "rotate(11deg)" }} />
+            <div style={{ width: 10, height: 28, borderRadius: 5, background: "#ffe100", transform: "rotate(11deg)" }} />
           </div>
         </div>
         <div style={{ display: "flex", fontSize: 96, fontWeight: 600, letterSpacing: "-0.05em", lineHeight: 0.96 }}>

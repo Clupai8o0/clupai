@@ -403,7 +403,7 @@ html.m .nav[data-over="true"] .nav-link {
   }
 }
 
-/* The mascot: a round head on two sticks. */
+/* The mascot: one flat shape with two eyes. The shape comes from the morph body in motion/shapes.js. */
 #dot {
   --s: 72px;
   --dot: #ffe100;
@@ -440,198 +440,140 @@ html.m .nav[data-over="true"] .nav-link {
   transform-origin: 50% 50%;
 }
 
-.dot-face {
+.dot-shape {
   position: absolute;
   inset: 0;
-  border-radius: 50%;
-  background: var(--dot);
-  transition: background 0.25s;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
 }
 
+.dot-shape path {
+  fill: var(--dot);
+  transition: fill 0.25s;
+}
+
+.dot-trail {
+  position: fixed;
+  z-index: 94;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+}
+
+.dot-trail line {
+  stroke: var(--dot, #ffe100);
+  stroke-linecap: round;
+}
+
+/* Eyes slide around the body. Every mood is only a size and a tilt, so they change shape smoothly too. */
 .dot-eyes {
   --ex: 0px;
   --ey: 0px;
   position: absolute;
-  inset: 0 0 12% 0;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 13%;
-  transform: translate(var(--ex), var(--ey));
+  gap: calc(var(--s) * 0.085 * var(--es, 1));
+  translate: calc(var(--s) * (var(--ax, 50) - 50) / 100) calc(var(--s) * (var(--ay, 50) - 50) / 100);
+  transform: translate(calc(var(--ex) * 1.2), calc(var(--ey) * 1.2));
 }
 
+/* The i holds the size and takes the blink. Its ::before holds the tilt and colour, because gsap bakes a CSS rotate into its transform. */
 .dot-eyes i {
-  display: block;
-  flex: none;
-  width: 15%;
-  height: calc(var(--s) * 0.3);
-  background: var(--eye);
-  transition: background 0.25s;
-}
-
-.dot-mouth {
-  position: absolute;
-  left: 50%;
-  top: 74%;
-  width: 0;
-  height: 0;
-  background: var(--eye);
-  transform: translate(-50%, -50%);
-}
-
-.dot-face,
-.dot-eyes,
-.dot-mouth {
-  translate: 0 calc(var(--s) * -0.62);
-}
-
-.dot-b[data-mood="smug"] .dot-eyes i {
-  height: calc(var(--s) * 0.13);
-}
-
-.dot-b[data-mood="smug"] .dot-mouth {
-  width: calc(var(--s) * 0.26);
-  height: calc(var(--s) * 0.05);
-  transform: translate(-50%, -50%) rotate(-14deg);
-}
-
-.dot-b[data-mood="wide"] .dot-eyes i {
-  width: 22%;
-  height: calc(var(--s) * 0.38);
-}
-
-.dot-b[data-mood="wide"] .dot-mouth {
-  top: 83%;
-  width: calc(var(--s) * 0.09);
-  height: calc(var(--s) * 0.09);
-}
-
-.dot-b[data-mood="annoyed"] .dot-eyes i {
-  width: 20%;
-  height: calc(var(--s) * 0.2);
-  clip-path: polygon(0 0, 100% 42%, 100% 100%, 0 100%);
-}
-
-.dot-b[data-mood="annoyed"] .dot-eyes i:last-child {
-  clip-path: polygon(0 42%, 100% 0, 100% 100%, 0 100%);
-}
-
-.dot-b[data-mood="annoyed"] .dot-mouth {
-  width: calc(var(--s) * 0.24);
-  height: calc(var(--s) * 0.05);
-}
-
-.dot-b[data-mood="happy"] .dot-eyes i {
-  width: 23%;
-  height: calc(var(--s) * 0.17);
-  clip-path: polygon(0 100%, 50% 0, 100% 100%, 76% 100%, 50% 44%, 24% 100%);
-}
-
-.dot-b[data-mood="happy"] .dot-mouth {
-  top: 76%;
-  width: calc(var(--s) * 0.32);
-  height: calc(var(--s) * 0.16);
-  clip-path: polygon(0 0, 100% 0, 50% 100%);
-}
-
-.dot-b[data-mood="dizzy"] .dot-eyes i {
-  width: 24%;
-  height: calc(var(--s) * 0.24);
-  clip-path: polygon(20% 0, 50% 30%, 80% 0, 100% 20%, 70% 50%, 100% 80%, 80% 100%, 50% 70%, 20% 100%, 0 80%, 30% 50%, 0 20%);
-}
-
-.dot-b[data-mood="dizzy"] .dot-mouth {
-  top: 77%;
-  width: calc(var(--s) * 0.18);
-  height: calc(var(--s) * 0.05);
-  transform: translate(-50%, -50%) rotate(12deg);
-}
-
-.dot-b[data-mood="sleep"] .dot-eyes i {
-  width: 20%;
-  height: calc(var(--s) * 0.045);
-}
-
-.dot-legs {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 26%;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
-  gap: 14%;
-}
-
-.dot-legs i {
+  --w: 0.088;
+  --h: 0.25;
+  --r: 11deg;
   position: relative;
   display: block;
   flex: none;
-  width: 6%;
-  background: var(--dot);
-  transform-origin: 50% 0;
-  transition: background 0.25s;
+  width: calc(var(--s) * var(--w) * var(--es, 1));
+  height: calc(var(--s) * var(--h) * var(--es, 1));
+  transition: width 0.15s, height 0.15s;
 }
 
-.dot-legs i::after {
+.dot-eyes i::before {
   content: "";
   position: absolute;
-  bottom: 0;
-  width: calc(var(--s) * 0.19);
-  height: calc(var(--s) * 0.06);
-  background: var(--dot);
-  transition: background 0.25s;
+  inset: 0;
+  rotate: var(--r);
+  border-radius: 99px;
+  background: var(--eye);
+  transition: rotate 0.15s, background 0.25s;
 }
 
-.dot-legs i:first-child::after {
-  right: 0;
+.dot-eyes i:last-child::before {
+  rotate: var(--r2, var(--r));
 }
 
-.dot-legs i:last-child::after {
-  left: 0;
+.dot-b[data-mood="smug"] .dot-eyes i {
+  --w: 0.13;
+  --h: 0.085;
+  --r: -6deg;
 }
 
-.is-air .dot-legs i:first-child {
-  rotate: 26deg;
+.dot-b[data-mood="wide"] .dot-eyes i {
+  --w: 0.15;
+  --h: 0.31;
+  --r: 0deg;
 }
 
-.is-air .dot-legs i:last-child {
-  rotate: -26deg;
+.dot-b[data-mood="annoyed"] .dot-eyes i {
+  --w: 0.19;
+  --h: 0.06;
+  --r: 20deg;
+  --r2: -20deg;
 }
 
-.is-walk .dot-legs i:first-child {
-  animation: dot-step 0.26s steps(2) infinite alternate;
+.dot-b[data-mood="happy"] .dot-eyes i {
+  --w: 0.17;
+  --h: 0.065;
+  --r: -26deg;
+  --r2: 26deg;
 }
 
-.is-walk .dot-legs i:last-child {
-  animation: dot-step 0.26s steps(2) infinite alternate-reverse;
+.dot-b[data-mood="dizzy"] .dot-eyes i {
+  --w: 0.08;
+  --h: 0.24;
+  --r: 30deg;
 }
 
-.dot-b[data-mood="sleep"] .dot-legs {
-  top: 62%;
+.dot-b[data-mood="dizzy"] .dot-eyes i:last-child {
+  --w: 0.2;
+  --h: 0.065;
+  --r2: -12deg;
 }
 
-.dot-b[data-mood="sleep"] .dot-face,
-.dot-b[data-mood="sleep"] .dot-eyes,
-.dot-b[data-mood="sleep"] .dot-mouth {
-  translate: 0 calc(var(--s) * -0.24);
+.dot-b[data-mood="sleep"] .dot-eyes i {
+  --w: 0.16;
+  --h: 0.035;
+  --r: 0deg;
 }
 
-@keyframes dot-step {
+/* Walking home with no legs: it rocks from corner to corner. */
+.is-walk .dot-sp {
+  transform-origin: 50% 100%;
+  animation: dot-rock 0.22s ease-in-out infinite alternate;
+}
+
+@keyframes dot-rock {
   from {
-    transform: rotate(-28deg);
+    rotate: -7deg;
   }
 
   to {
-    transform: rotate(28deg);
+    rotate: 7deg;
   }
 }
 
 .dot-z {
   position: absolute;
-  left: 80%;
-  bottom: 84%;
+  left: 86%;
+  bottom: 58%;
   display: none;
   color: var(--dot);
   font-weight: 600;

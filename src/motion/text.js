@@ -1,6 +1,5 @@
-// Helpers for text and wipes, shared by the home page and the generic page motion.
+// Helpers for text, shared by the home page and the generic page motion.
 import gsap from "gsap";
-import { clamp } from "./kit";
 
 // Splits an element's text into masked letters. A copy stays for screen readers. Returns a function that undoes it.
 export function splitLetters(el)
@@ -78,41 +77,4 @@ export function scramble(el, duration, delay, rnd)
       el.textContent = target;
     },
   });
-}
-
-// The next thing gets built over the last one, brick by brick, in running bond from the ground up.
-export function brickPath(w, h, prog, { rows, cols })
-{
-  if (prog <= 0) {
-    return "path('M0 0')";
-  }
-  if (prog >= 1) {
-    return "none";
-  }
-  const rh = h / rows;
-  const bw = w / cols;
-  const total = rows * cols + Math.floor(rows / 2);
-  const spread = cols * 1.6;
-  let n = 0;
-  let d = "";
-  for (let r = 0; r < rows; r += 1) {
-    const odd = r % 2 === 1;
-    const count = odd ? cols + 1 : cols;
-    const y0 = h - (r + 1) * rh;
-    for (let c = 0; c < count; c += 1) {
-      // Laid like a bricklayer works: along one row, then back along the next.
-      const col = odd ? count - 1 - c : c;
-      const t = clamp((prog * (total + spread) - n) / spread, 0, 1);
-      n += 1;
-      if (t > 0) {
-        const off = odd ? bw / 2 : 0;
-        const x0 = Math.round(Math.max(0, col * bw - off));
-        const x1 = Math.round(Math.min(w, (col + 1) * bw - off));
-        const top = Math.round(y0 - (1 - t) * (1 - t) * rh * 1.6);
-        const bottom = Math.round(top + rh * Math.min(1, t * 1.5));
-        d += `M${x0} ${top}H${x1}V${bottom}H${x0}Z`;
-      }
-    }
-  }
-  return d ? `path('${d}')` : "path('M0 0')";
 }

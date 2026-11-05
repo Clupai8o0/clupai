@@ -2,6 +2,7 @@
 import gsap from "gsap";
 import Matter from "matter-js";
 import { GLYPHS } from "./glyphs";
+import { MorphBody, SHAPES, makeTrail } from "./shapes";
 
 const { Bodies, Composite, Constraint, Engine, Sleeping } = Matter;
 
@@ -15,7 +16,7 @@ export function navFloor(size)
 {
   const nav = document.querySelector(".nav");
   const bottom = nav ? nav.getBoundingClientRect().bottom : 64;
-  return bottom + size * 1.75;
+  return bottom + size * 1.2;
 }
 export const RED = "#c8102e";
 export const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
@@ -215,8 +216,10 @@ export function grabbable(world, it, toWorld, on = {})
 }
 
 // ---------------------------------------------------------------- the mascot
-// Long legs, the real dot from the i and the only round thing on the site.
+// Shifter, the real dot from the i. One flat shape with two eyes, and its shape is its mood.
 // It hops, talks, sulks, sleeps, and you can throw it. It lives across routes.
+const FACES = { smug: "hex", wide: "bang", annoyed: "tri", happy: "flower", dizzy: "bean", sleep: "mochi" };
+
 export function makeDot()
 {
   // Nothing the mascot starts may belong to a page's gsap context, or leaving the page would revert it.
@@ -232,7 +235,7 @@ export function makeDot()
   const root = document.createElement("div");
   root.id = "dot";
   root.setAttribute("aria-hidden", "true");
-  root.innerHTML = '<span class="dot-st"><span class="dot-b"><span class="dot-sp"><span class="dot-legs"><i></i><i></i></span><span class="dot-face"></span><span class="dot-eyes"><i></i><i></i></span><span class="dot-mouth"></span></span></span></span><span class="dot-z"><i>z</i><i>z</i><i>z</i></span>';
+  root.innerHTML = '<span class="dot-st"><span class="dot-b"><span class="dot-sp"><span class="dot-eyes"><i></i><i></i></span></span></span></span><span class="dot-z"><i>z</i><i>z</i><i>z</i></span>';
   const say = document.createElement("div");
   say.id = "say";
   say.setAttribute("aria-hidden", "true");
@@ -242,6 +245,8 @@ export function makeDot()
   const spin = root.querySelector(".dot-sp");
   const eyes = root.querySelector(".dot-eyes");
   const eyeEls = root.querySelectorAll(".dot-eyes i");
+  const outline = new MorphBody(spin);
+  const trail = makeTrail();
 
   const s = { x: innerWidth * 0.9, y: -120, size: 72, side: "left" };
   let anchor = null;
@@ -262,12 +267,39 @@ export function makeDot()
   let onFloor = false;
   let lastAct = 0;
   const v = { x: 0, y: 0 };
-  const POKES = ["Oi.", "Stop poking me. Start a project.", "I’m the dot on the i. Show some respect.", "Careful. I’m load-bearing.", "Still here. Still no project.", "That’s enough of that."];
+  const POKES = ["I change. Your date doesn’t.", "Oi. Stop poking me. Start a project.", "I’m the dot on the i. Show some respect.", "Careful. I’m load-bearing.", "Still here. Still no project.", "That’s enough of that."];
   const THROWN = ["Rude.", "I bounce. Your deadline won’t.", "That’s going on your invoice.", "Again? Really?", "Fine. Walking back."];
+
+  const anchorAt = { ax: 50, ay: 50, es: 1 };
+  const paintAnchor = () => {
+    root.style.setProperty("--ax", anchorAt.ax);
+    root.style.setProperty("--ay", anchorAt.ay);
+    root.style.setProperty("--es", Math.max(0.001, anchorAt.es));
+  };
+
+  // Turns into a shape, and its eyes slide over to where they sit on that shape.
+  let current = "";
+  const shape = plain((name, snap = false) => {
+    if (name === current) {
+      return;
+    }
+    current = name;
+    const to = SHAPES[name];
+    outline.to(to, snap);
+    gsap.killTweensOf(anchorAt);
+    if (snap) {
+      [anchorAt.ax, anchorAt.ay] = to.eye;
+      anchorAt.es = to.es;
+      paintAnchor();
+      return;
+    }
+    gsap.to(anchorAt, { ax: to.eye[0], ay: to.eye[1], es: to.es, duration: 0.26, ease: "back.out(1.7)", onUpdate: paintAnchor });
+  });
 
   function face(name)
   {
     body.dataset.mood = name || "";
+    shape(FACES[name] || "circle");
   }
 
   function mood(name)
@@ -313,10 +345,10 @@ export function makeDot()
         top = s.under();
       } else if (s.side === "above") {
         left = s.x - w / 2;
-        top = s.y - s.size - h - 16 - s.size * 0.62;
+        top = s.y - s.size - h - 16;
       } else {
         left = (s.side === "right" ? fitsRight || !fitsLeft : !fitsLeft && fitsRight) ? toRight : toLeft;
-        top = s.y - s.size / 2 - h / 2 - s.size * 0.1;
+        top = s.y - s.size / 2 - h / 2;
       }
       left = clamp(left, 10, innerWidth - w - 10);
       top = clamp(top, innerWidth <= 720 ? 62 : 70, innerHeight - h - 10);
@@ -393,7 +425,6 @@ export function makeDot()
   function settleDown()
   {
     mode = "back";
-    root.classList.remove("is-air");
     flying = true;
     turn = ((turn % 360) + 360) % 360;
     gsap.set(spin, { rotation: turn > 180 ? turn - 360 : turn });
@@ -464,15 +495,17 @@ export function makeDot()
     v.y = vy;
     gsap.killTweensOf(spin);
     gsap.set(spin, { clearProps: "transform" });
-    root.classList.add("is-air");
     root.classList.remove("is-walk");
     face("wide");
   }
+
+  shape("circle", true);
 
   let lastScroll = scrollY;
   let scrollV = 0;
   gsap.ticker.add((time, ms) => {
     const dt = Math.min(ms, 40) / 1000;
+    const was = { x: s.x, y: s.y };
     if (mode === "air") {
       stepAir(dt);
     } else if (mode === "free" && anchor && !flying) {
@@ -480,6 +513,8 @@ export function makeDot()
       s.x = lerp(s.x, to.x, 0.4);
       s.y = lerp(s.y, to.y, 0.4);
     }
+    outline.step(dt);
+    trail.step(s.x, s.y - s.size / 2, s.size, mode === "air" && Math.hypot(s.x - was.x, s.y - was.y) / Math.max(dt, 0.001) > 260);
     // Stretches when you scroll fast.
     const dy = scrollY - lastScroll;
     lastScroll = scrollY;
@@ -512,7 +547,6 @@ export function makeDot()
 
   function land()
   {
-    root.classList.remove("is-air");
     gsap.fromTo(body, { scaleX: 1.34, scaleY: 0.62 }, { scaleX: 1, scaleY: 1, duration: 0.65, ease: "elastic.out(1.1, 0.42)" });
   }
 
@@ -548,8 +582,9 @@ export function makeDot()
         }
       },
     });
+    // A jump cut off in mid air must not leave it floating above its spot.
+    gsap.to(body, { y: 0, duration: 0.18, ease: "power2.out" });
     hopT.to(body, { scaleX: 1.22, scaleY: 0.72, duration: 0.09, ease: "power2.out" })
-      .add(() => root.classList.add("is-air"))
       .to(body, { scaleX: 0.86, scaleY: 1.18, duration: 0.11, ease: "power2.out" })
       .to(prog, {
         t: 1,
@@ -573,7 +608,6 @@ export function makeDot()
     if (mode !== "free" || flying) {
       return;
     }
-    root.classList.add("is-air");
     gsap.timeline({ onComplete: land })
       .to(body, { y: -s.size * 0.7, scaleX: 0.88, scaleY: 1.14, duration: 0.2, ease: "power2.out" })
       .to(body, { y: 0, scaleX: 1, scaleY: 1, duration: 0.18, ease: "power2.in" });
@@ -588,6 +622,7 @@ export function makeDot()
     const [c, eye] = onYellow && own[0] === YELLOW ? [INK, YELLOW] : own;
     root.style.setProperty("--dot", c);
     root.style.setProperty("--eye", eye);
+    trail.el.style.setProperty("--dot", c);
   }
 
   function colour(c, eye)
@@ -632,7 +667,6 @@ export function makeDot()
     say.textContent = text;
     say.dataset.theme = opts.theme || "paper";
     say.classList.add("is-on");
-    root.classList.add("is-talk");
     place();
     gsap.fromTo(say, { "--pop": 0.7, opacity: 0 }, { "--pop": 1, opacity: 1, duration: 0.32, ease: "back.out(2.6)" });
     if (opts.ms !== 0) {
@@ -647,7 +681,6 @@ export function makeDot()
       sayCall = null;
     }
     say.classList.remove("is-on");
-    root.classList.remove("is-talk");
   }
 
   function blink()
@@ -701,7 +734,6 @@ export function makeDot()
         mode = "held";
         flying = true;
         root.classList.remove("is-walk");
-        root.classList.add("is-air");
         document.documentElement.classList.add("is-grabbing");
         face("wide");
         talk("Oi. Put me down.", { ms: 1500 });
@@ -764,7 +796,6 @@ export function makeDot()
     base = "";
     if (mode === "free") {
       face("");
-      root.classList.remove("is-air");
       gsap.set(spin, { rotation: 0 });
       gsap.killTweensOf(body);
       gsap.set(body, { scaleX: 1, scaleY: 1, y: 0 });
@@ -779,7 +810,8 @@ export function makeDot()
     keepVisible,
     talk: plain(talk),
     quiet,
-    mood,
+    mood: plain(mood),
+    shape,
     flash: plain(flash),
     wink: plain(wink),
     jump: plain(jump),

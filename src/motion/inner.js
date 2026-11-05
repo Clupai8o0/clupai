@@ -2,7 +2,7 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { BLUE, INK, YELLOW, clamp, isPhone, navFloor } from "./kit";
-import { brickPath, splitLetters } from "./text";
+import { splitLetters } from "./text";
 
 const qa = (s, r = document) => [...r.querySelectorAll(s)];
 const COLOURS = { yellow: [YELLOW, INK], blue: [BLUE, INK], ink: [INK, YELLOW] };
@@ -61,21 +61,14 @@ function initParallax()
   });
 }
 
-// data-wipe: the element gets built brick by brick as it enters. Scrubbed with the scroll.
+// data-wipe: the element is uncovered in one straight edge, from the bottom up, as it enters. Scrubbed with the scroll.
 function initWipes(scope)
 {
-  const bricks = isPhone() ? { rows: 7, cols: 3 } : { rows: 6, cols: 8 };
   qa("[data-wipe]").forEach((el) => {
-    const state = { p: 0 };
-    const paint = () => {
-      const r = el.getBoundingClientRect();
-      el.style.clipPath = brickPath(r.width, r.height, state.p, bricks);
-    };
-    paint();
     scope.cleanup(() => {
       el.style.clipPath = "";
     });
-    gsap.to(state, { p: 1, ease: "none", onUpdate: paint, scrollTrigger: { trigger: el, start: "top bottom", end: "top 40%", scrub: true, onRefresh: paint } });
+    gsap.fromTo(el, { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", ease: "none", scrollTrigger: { trigger: el, start: "top bottom", end: "top 40%", scrub: true } });
   });
 }
 

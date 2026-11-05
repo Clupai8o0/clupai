@@ -49,27 +49,33 @@ export function StaticWord({ className }: { className?: string })
   const { letters, dotX, width } = layOut();
   const S = TITTLE.size * 1.15;
   const feet = -14;
-  const faceY = feet - S / 2 - S * 0.62;
-  const eyeH = S * 0.3;
-  const eyeW = S * 0.15;
-  const eyeGap = S * 0.13;
-  const eyeY = feet - S + S * 0.44 - S * 0.62 - eyeH / 2;
-  const legW = S * 0.06;
-  const legX = S * 0.07;
-  const legTop = feet - S * 0.74;
-  const footW = S * 0.19;
+  // The same face as the live mascot: see SHAPES.circle in motion/shapes.js and .dot-eyes in globals.css.
+  const eyeW = S * 0.088;
+  const eyeH = S * 0.25;
+  const eyeGap = S * 0.085;
+  const eyesX = dotX + S * 0.07;
+  const eyesY = feet - S + S * 0.39;
   return (
-    <svg className={className} viewBox={`0 -70 ${width} 210`} role="img" aria-label="clupai">
+    <svg className={className} viewBox={`0 -70 ${width} 210`} overflow="visible" role="img" aria-label="clupai">
       {letters.map((l) => (
         <path key={l.key} transform={`translate(${l.x} 0)`} d={l.d} fill="currentColor" />
       ))}
-      <rect x={dotX - legX - legW} y={legTop} width={legW} height={feet - legTop} fill="#ffe100" />
-      <rect x={dotX + legX} y={legTop} width={legW} height={feet - legTop} fill="#ffe100" />
-      <rect x={dotX - legX - footW} y={feet - legW} width={footW} height={legW} fill="#ffe100" />
-      <rect x={dotX + legX} y={feet - legW} width={footW} height={legW} fill="#ffe100" />
-      <circle cx={dotX} cy={faceY} r={S / 2} fill="#ffe100" />
-      <rect x={dotX - eyeGap / 2 - eyeW} y={eyeY} width={eyeW} height={eyeH} fill="#070707" />
-      <rect x={dotX + eyeGap / 2} y={eyeY} width={eyeW} height={eyeH} fill="#070707" />
+      <circle cx={dotX} cy={feet - S / 2} r={S / 2} fill="#ffe100" />
+      {[-1, 1].map((side) => {
+        const cx = eyesX + side * (eyeGap + eyeW) / 2;
+        return (
+          <rect
+            key={side}
+            x={cx - eyeW / 2}
+            y={eyesY - eyeH / 2}
+            width={eyeW}
+            height={eyeH}
+            rx={eyeW / 2}
+            transform={`rotate(11 ${cx} ${eyesY})`}
+            fill="#070707"
+          />
+        );
+      })}
     </svg>
   );
 }

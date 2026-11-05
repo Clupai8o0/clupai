@@ -5,7 +5,7 @@ import Matter from "matter-js";
 import { GLYPHS, SPACE, TITTLE } from "./glyphs";
 import { BLUE, INK, YELLOW, clamp, glyphBody, glyphEl, grabbable, isPhone, makeWorld, navFloor, placeShape, sized } from "./kit";
 import { buildHow } from "./tower";
-import { brickPath, scramble, seeded, splitLetters } from "./text";
+import { scramble, seeded, splitLetters } from "./text";
 
 const { Bodies, Body, Sleeping } = Matter;
 const qs = (s, r = document) => r.querySelector(s);
@@ -371,16 +371,11 @@ function buildStage(scope, dot, phone)
   gsap.set("#t-hoddle .what, #t-hoddle .fact, #t-hoddle .quote", { autoAlpha: 0, y: 26 });
   gsap.set(".ch-hoddle", { autoAlpha: 0 });
 
-  // The next chapter gets built over the last one, brick by brick.
+  // The next chapter wipes up over the last one, and the one after opens out from a circle.
   const chK = qs("#ch-kdg");
   const chS = qs("#ch-school");
-  const BRICKS = phone ? { rows: 7, cols: 3 } : { rows: 6, cols: 8 };
-  const walls = { k: 0, s: 0 };
-  const paintWalls = () => {
-    chK.style.clipPath = brickPath(sw, sh, walls.k, BRICKS);
-    chS.style.clipPath = brickPath(sw, sh, walls.s, BRICKS);
-  };
-  paintWalls();
+  gsap.set(chK, { clipPath: "inset(100% 0% 0% 0%)" });
+  gsap.set(chS, { clipPath: "circle(0% at 70% 100%)" });
   scope.cleanup(() => {
     chK.style.clipPath = "";
     chS.style.clipPath = "";
@@ -455,11 +450,11 @@ function buildStage(scope, dot, phone)
     .to("#t-hoddle .what", { autoAlpha: 1, y: 0, duration: 0.4, ease: "power2.out" }, 2.5)
     .to("#t-hoddle .fact", { autoAlpha: 1, y: 0, duration: 0.4, stagger: 0.06, ease: "power2.out" }, 2.55)
     .to("#t-hoddle .quote", { autoAlpha: 1, y: 0, duration: 0.4, ease: "power2.out" }, 2.65)
-    .to(walls, { k: 1, duration: 0.85, ease: "none", onUpdate: paintWalls }, 3.45)
+    .to(chK, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.85, ease: "power3.inOut" }, 3.5)
     .from(".kd-film", { yPercent: 24, duration: 0.95, ease: "power3.out" }, 3.5)
-    .to(nav, navTo("#050505", "#ffe100"), 4.15)
-    .to(kdL, { yPercent: 0, duration: 0.7, stagger: 0.016, ease: "back.out(1.5)" }, 3.95)
-    .from(".kd-num, .kd-side", { autoAlpha: 0, y: 26, duration: 0.45, stagger: 0.08, ease: "power2.out" }, 4.15)
+    .to(nav, navTo("#050505", "#ffe100"), 3.85)
+    .to(kdL, { yPercent: 0, duration: 0.7, stagger: 0.016, ease: "back.out(1.5)" }, 3.75)
+    .from(".kd-num, .kd-side", { autoAlpha: 0, y: 26, duration: 0.45, stagger: 0.08, ease: "power2.out" }, 4.05)
     .to({ v: 75 }, {
       v: 99,
       duration: 0.8,
@@ -467,13 +462,13 @@ function buildStage(scope, dot, phone)
       onUpdate() {
         kdVal.textContent = String(Math.round(this.targets()[0].v));
       },
-    }, 4.25)
-    .to(walls, { s: 1, duration: 0.85, ease: "none", onUpdate: paintWalls }, 5.2)
+    }, 4.2)
+    .to(chS, { clipPath: "circle(145% at 70% 100%)", duration: 1, ease: "power2.inOut" }, 5.2)
     .fromTo("#sc-pic > *", { scale: 1.22 }, { scale: 1, duration: 1.4, ease: "power2.out" }, 5.2)
-    .to(nav, navTo("#ffffff", "#c8102e"), 5.9)
-    .to(scL, { yPercent: 0, duration: 0.7, stagger: 0.018, ease: "back.out(1.5)" }, 5.7)
-    .from(".sc-copy", { autoAlpha: 0, y: 26, duration: 0.45, ease: "power2.out" }, 5.95)
-    .to({}, { duration: 0.4 }, 6.3);
+    .to(nav, navTo("#ffffff", "#c8102e"), 5.55)
+    .to(scL, { yPercent: 0, duration: 0.7, stagger: 0.018, ease: "back.out(1.5)" }, 5.5)
+    .from(".sc-copy", { autoAlpha: 0, y: 26, duration: 0.45, ease: "power2.out" }, 5.8)
+    .to({}, { duration: 0.4 }, 6.2);
 
   return { tl, tittle, onI, letterI };
 }
@@ -864,12 +859,17 @@ function buildPerches(scope, dot, phone, parts)
   const chipStop = qs("#chip-stop");
   const promiseWords = atop("#promise-t", 0.84, -4);
   const redToy = toys.toys[2];
+  const kdgSpot = inView(atop("#kd-num", 0.92, 6));
+  const schoolSpot = inView(phone ? atop("#sc-pic", 0.84, 0) : atop(".sc-copy .quote", 0.8, -6));
   const PERCH = [
     { id: "hero", y: () => -1, at: onI, size: tittle, colour: [YELLOW, INK], line: phone ? "Go on, flick a letter." : "Go on, throw a letter.", side: "left", mood: "" },
     { id: "full", y: () => unitY(0.35), at: () => ({ x: vw() - roam, y: vh() - 10 }), colour: [YELLOW, INK], line: "Real work. Real clients.", side: "left", mood: "smug" },
     { id: "hoddle", y: () => unitY(2.5), at: inView(phone ? atop("#win-hoddle", 0.88, 2) : atop(".hd-name", 0.09, 16)), colour: [YELLOW, INK], line: "The cake. We’ll take it.", side: phone ? "left" : "right", mood: "smug" },
-    { id: "kdg", y: () => unitY(4.4), at: inView(atop("#kd-num", 0.92, 6)), colour: [INK, YELLOW], line: "75 to 99. You’re welcome.", side: "left", mood: "smug" },
-    { id: "school", y: () => unitY(5.95), at: inView(phone ? atop("#sc-pic", 0.84, 0) : atop(".sc-copy .quote", 0.8, -6)), colour: [YELLOW, INK], line: "Their words, not ours.", side: phone ? "left" : "right", mood: "" },
+    // Each wipe clears the stage: it leaves, without a word, as the edge reaches it. The line comes once the chapter is in.
+    { id: "kdg-in", y: () => unitY(3.9), at: kdgSpot, colour: [INK, YELLOW], side: "left", mood: "smug" },
+    { id: "kdg", y: () => unitY(4.4), at: kdgSpot, colour: [INK, YELLOW], line: "75 to 99. You’re welcome.", side: "left", mood: "smug" },
+    { id: "school-in", y: () => unitY(5.55), at: schoolSpot, colour: [YELLOW, INK], side: phone ? "left" : "right", mood: "" },
+    { id: "school", y: () => unitY(5.95), at: schoolSpot, colour: [YELLOW, INK], line: "Their words, not ours.", side: phone ? "left" : "right", mood: "" },
     {
       id: "promise",
       y: () => promiseTl.scrollTrigger.start + vh() * 0.92,
@@ -981,12 +981,17 @@ function buildPerches(scope, dot, phone, parts)
       return;
     }
     current = "hero";
+    // The first time, three dots drop in and pull together into the dot of the i.
+    if (dot.state.y < 0) {
+      dot.shape("dots", true);
+    }
     dot.hop(onI, {
       size: tittle,
       rise: dot.state.y < 0 ? 0 : undefined,
       duration: dot.state.y < 0 ? 0.4 : undefined,
       done: scope.wrap(() => {
         if (current === "hero") {
+          dot.shape("circle");
           dot.talk(PERCH[0].line, { side: "left", ms: 0 });
         }
       }),
