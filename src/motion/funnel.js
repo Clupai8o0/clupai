@@ -177,7 +177,7 @@ export function init(scope, core)
         size,
         done: scope.wrap(() => {
           if (!past) {
-            dot.talk(verdict, { side: "above", ms: 0 });
+            dot.talk(verdict, { side: quipSide(), ms: 0 });
           }
         }),
       });

@@ -20,8 +20,18 @@ body:has(.pg.tone-blue) .nav { --nav: var(--blue); --navf: var(--ink); }
 body:has(.pg.tone-yellow) .nav { --nav: var(--yellow); --navf: var(--ink); }
 body:has(.pg.tone-red) .nav { --nav: var(--red); --navf: #fff; }
 body:has(.pg.tone-navy) .nav { --nav: var(--navy); --navf: var(--paper); }
+body:has(.pg.tone-ink) .nav { --nav: var(--ink); --navf: var(--paper); }
 body:has(.pg.tone-paper) .nav { --nav: var(--paper); --navf: var(--ink); }
 body:has(.pg) .nav { background: var(--nav, var(--ink)); color: var(--navf, var(--paper)); }
+/* Here --nav is the bar and --navf the words, so the button swaps them or it disappears into the bar. */
+body:has(.pg) .nav .btn { background: var(--navf, var(--paper)); color: var(--nav, var(--ink)); }
+@media (hover: hover) {
+  body:has(.pg) .nav .btn:hover { color: var(--ink); }
+}
+/* It would stand on the words people came to read. */
+@media (max-width: 720px) {
+  html:has(.legal-body) #dot { display: none; }
+}
 
 .pg {
   --pad: 2vw;
@@ -84,6 +94,7 @@ body:has(.pg) .nav { background: var(--nav, var(--ink)); color: var(--navf, var(
 .own-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; }
 .own { display: flex; flex-direction: column; min-height: 300px; padding: 16px; grid-column: span 2; transition: transform 0.25s cubic-bezier(0.2, 1.6, 0.4, 1); }
 .own-0, .own-1 { grid-column: span 3; }
+.work-own .own.tone-paper { --c: var(--yellow); }
 .own-name { font-size: clamp(36px, 3.2vw, 60px); line-height: 0.92; letter-spacing: -0.055em; font-weight: 600; margin-bottom: 14px; }
 .own-line { font-size: 19px; line-height: 1.15; font-weight: 500; max-width: 22em; }
 .own-meta { font-size: 15px; font-weight: 500; margin-top: auto; padding-top: 18px; }
@@ -140,7 +151,7 @@ body:has(.pg) .nav { background: var(--nav, var(--ink)); color: var(--navf, var(
 }
 
 /* About */
-.about-head { padding: 10vh var(--pad) 10vh; }
+.about-head { padding: 10vh var(--pad) 19vh; }
 .about-head .g-state { max-width: 23em; margin-top: 6vh; margin-left: auto; }
 .about-founder { display: grid; grid-template-columns: 6fr 6fr; gap: 3vw; padding: 0 var(--pad) 14vh; align-items: end; }
 .about-photo { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--ink); }
@@ -253,3 +264,4 @@ body:has(.pg) .nav { background: var(--nav, var(--ink)); color: var(--navf, var(
 
 /* A product still being built: the case shows no sharp screens. */
 .is-wip .case-fig img, .is-wip .cg-item img, .is-wip video, .wip-next img { filter: blur(14px) saturate(0.8); transform: scale(1.14); }
+.is-wip .cg-lightbox img { filter: blur(14px) saturate(0.8); }

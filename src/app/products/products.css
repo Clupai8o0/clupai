@@ -87,6 +87,8 @@ html.m .market {
     & .rows { display: none; }
     & .grid { grid-template-columns: 1fr 1fr; grid-auto-rows: auto; gap: 6px; }
     & .slot { height: 136px; }
+    /* Three in the top row: the first takes the full width, so no empty cell. */
+    & .slot[data-code="A1"] { grid-column: 1 / -1; }
     & .grp { display: block; grid-column: 1 / -1; margin: 0; padding: 7px 8px; font-weight: 600; font-size: 16px; line-height: 1; letter-spacing: -0.01em; background: var(--yellow); color: var(--ink); }
     & .grp.w { background: var(--paper); margin-top: 6px; }
     & .lip { font-size: 13px; }
@@ -126,6 +128,8 @@ html.m .market {
 @media (max-width: 720px) {
   .prod-grid, .prod-built { grid-template-columns: minmax(0, 1fr); }
   .prod-top { font-size: 16px; }
+  /* Room for the mascot to stand on the picture without covering the link above it. */
+  .prod-pic { margin-top: 84px; }
 }
 
 /* Blue on the blue page, in the plain list. */

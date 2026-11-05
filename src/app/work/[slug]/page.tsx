@@ -69,7 +69,7 @@ export default async function CasePage({ params }: Props)
         </div>
       </header>
 
-      <figure className="case-fig" data-perch="This is the real thing." data-perch-x="0.92" data-perch-colour={tone === "tone-yellow" ? "ink" : "yellow"}>
+      <figure className="case-fig" data-perch={item.status === "In the works" ? "Told you. Still being built." : "This is the real thing."} data-perch-x="0.92" data-perch-y="0.12" data-perch-colour={tone === "tone-yellow" ? "ink" : "yellow"}>
         {item.clip ? (
           <LiveClip src={item.clip.src} poster={item.clip.poster} label={`${item.name} in use.`} />
         ) : (

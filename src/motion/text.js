@@ -5,12 +5,15 @@ import { clamp } from "./kit";
 // Splits an element's text into masked letters. A copy stays for screen readers. Returns a function that undoes it.
 export function splitLetters(el)
 {
-  const text = el.textContent;
-  el.textContent = "";
+  // A heading that is one link keeps its link: the letters go inside it.
+  const link = el.children.length === 1 && el.firstElementChild.tagName === "A" ? el.firstElementChild : null;
+  const box = link || el;
+  const text = box.textContent;
+  box.textContent = "";
   const reader = document.createElement("span");
   reader.className = "sr-only";
   reader.textContent = text;
-  el.appendChild(reader);
+  box.appendChild(reader);
   text.split(" ").forEach((word, wi, all) => {
     const w = document.createElement("span");
     w.className = "wd";
@@ -24,13 +27,13 @@ export function splitLetters(el)
       m.appendChild(c);
       w.appendChild(m);
     });
-    el.appendChild(w);
+    box.appendChild(w);
     if (wi < all.length - 1) {
-      el.appendChild(document.createTextNode(" "));
+      box.appendChild(document.createTextNode(" "));
     }
   });
   return () => {
-    el.textContent = text;
+    box.textContent = text;
     el.style.minHeight = "";
   };
 }

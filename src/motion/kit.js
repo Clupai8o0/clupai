@@ -9,6 +9,14 @@ export const INK = "#070707";
 export const PAPER = "#f3f1ec";
 export const BLUE = "#4da3ff";
 export const YELLOW = "#ffe100";
+
+// The highest its feet may go: it stands below the nav, never over it.
+export function navFloor(size)
+{
+  const nav = document.querySelector(".nav");
+  const bottom = nav ? nav.getBoundingClientRect().bottom : 64;
+  return bottom + size * 1.75;
+}
 export const RED = "#c8102e";
 export const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 export const lerp = (a, b, t) => a + (b - a) * t;
@@ -571,10 +579,48 @@ export function makeDot()
       .to(body, { y: 0, scaleX: 1, scaleY: 1, duration: 0.18, ease: "power2.in" });
   }
 
+  let own = [YELLOW, INK];
+  let onYellow = false;
+  let looks = 0;
+
+  function paintColour()
+  {
+    const [c, eye] = onYellow && own[0] === YELLOW ? [INK, YELLOW] : own;
+    root.style.setProperty("--dot", c);
+    root.style.setProperty("--eye", eye);
+  }
+
   function colour(c, eye)
   {
-    root.style.setProperty("--dot", c);
-    root.style.setProperty("--eye", eye || INK);
+    own = [c, eye || INK];
+    paintColour();
+  }
+
+  // Yellow on yellow is just a pair of eyes, so it goes black over anything yellow.
+  // Called every frame. Looks at what's behind its body five times a second.
+  function keepVisible()
+  {
+    looks += 1;
+    if (looks % 12 !== 0) {
+      return;
+    }
+    const r = body.getBoundingClientRect();
+    const x = r.left + r.width / 2;
+    const y = r.top + r.height / 2;
+    let found = false;
+    if (r.width && x >= 0 && y >= 0 && x < innerWidth && y < innerHeight) {
+      for (const el of document.elementsFromPoint(x, y)) {
+        const bg = el.closest("#dot") ? "transparent" : getComputedStyle(el).backgroundColor;
+        if (bg !== "rgba(0, 0, 0, 0)" && bg !== "transparent") {
+          found = bg === "rgb(255, 225, 0)";
+          break;
+        }
+      }
+    }
+    if (found !== onYellow) {
+      onYellow = found;
+      paintColour();
+    }
   }
 
   function talk(text, opts = {})
@@ -730,6 +776,7 @@ export function makeDot()
     el: root,
     hop: plain(hop),
     colour,
+    keepVisible,
     talk: plain(talk),
     quiet,
     mood,

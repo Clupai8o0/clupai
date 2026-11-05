@@ -13,7 +13,7 @@ export default function CloseBand({ title, tone = "tone-ink", perch }: { title: 
           Free. 2 minutes. Eight questions, and you get a score, your top three risks, and one thing to do about each
           this week.
         </p>
-        <Link className="btn js-start" href="/start" data-curtain="#ffe100" data-perch={perch} data-perch-side="left">
+        <Link className="btn js-start" href="/start" data-curtain="#ffe100" data-perch={perch ?? ""} data-perch-x="0.84" data-perch-at="0.96" data-perch-side="left" data-perch-wide>
           Start a project
         </Link>
       </div>

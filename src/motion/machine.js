@@ -1,6 +1,6 @@
 // /products: the vending machine. The slots are real links, so this only stages what happens on the way there.
 import gsap from "gsap";
-import { BLUE, INK, RED, YELLOW, isPhone } from "./kit";
+import { BLUE, INK, RED, YELLOW, isPhone, navFloor } from "./kit";
 import { init as initInner } from "./inner";
 
 const qs = (s, r = document) => r.querySelector(s);
@@ -51,10 +51,10 @@ export function init(scope, core)
   const lean = () => {
     if (phone) {
       const t = qs(".console").getBoundingClientRect();
-      return { x: innerWidth - 42, y: Math.min(t.top + 5, innerHeight - 90) };
+      return { x: innerWidth - 28, y: Math.max(navFloor(56), Math.min(t.top + 5, innerHeight - 90)) };
     }
     const r = mach.getBoundingClientRect();
-    return { x: r.right + 48, y: Math.min(r.bottom, innerHeight - 6) };
+    return { x: r.right + 58, y: Math.max(navFloor(104), Math.min(r.bottom, innerHeight - 6)) };
   };
   function leanOn()
   {

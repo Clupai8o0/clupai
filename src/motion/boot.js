@@ -114,7 +114,10 @@ function restSpot(dot)
 {
   return () => {
     const size = dot.state.size;
-    return { x: innerWidth - size * 0.9, y: innerHeight - 10 };
+    // It stands on the footer as that comes up, so it never sits on the footer's links.
+    const foot = document.querySelector(".site-ft");
+    const top = foot ? foot.getBoundingClientRect().top - 4 : innerHeight;
+    return { x: innerWidth - size * 0.9, y: Math.min(innerHeight - 10, top) };
   };
 }
 
@@ -129,6 +132,7 @@ function createCore()
   gsap.ticker.lagSmoothing(0);
 
   const dot = makeDot();
+  gsap.ticker.add(dot.keepVisible);
   const curtain = makeCurtain();
   const made = { lenis, dot, curtain, rest: restSpot(dot) };
 
@@ -198,7 +202,7 @@ function createCore()
     const href = a.getAttribute("href") || "";
     const hash = href.startsWith("#") ? href : href.startsWith("/#") && location.pathname === "/" ? href.slice(1) : null;
     if (hash && !a.classList.contains("skip")) {
-      const target = document.querySelector(hash);
+      const target = hashTarget(hash);
       if (target) {
         e.preventDefault();
         e.stopPropagation();
@@ -224,6 +228,16 @@ function createCore()
   }
 
   return made;
+}
+
+// A hash can be anything someone typed, so it never goes near a CSS selector.
+function hashTarget(hash)
+{
+  try {
+    return document.getElementById(decodeURIComponent(hash.slice(1)));
+  } catch {
+    return null;
+  }
 }
 
 function loadRoute(pathname)
@@ -261,12 +275,16 @@ export function boot(pathname)
   let stopped = false;
   let resizeCall = null;
   let width = innerWidth;
+  let latest = 0;
 
   async function start()
   {
+    // A resize can start this again while the last one is still loading. Only the newest may run.
+    latest += 1;
+    const turn = latest;
     const route = await loadRoute(pathname);
     await fontsReady();
-    if (stopped || !document.documentElement.classList.contains("m")) {
+    if (stopped || turn !== latest || !document.documentElement.classList.contains("m")) {
       return;
     }
     const mine = makeScope();
@@ -282,7 +300,7 @@ export function boot(pathname)
     window.__mOk = true;
     core.curtain.out();
     if (location.hash) {
-      const target = document.querySelector(location.hash);
+      const target = hashTarget(location.hash);
       if (target) {
         core.lenis.scrollTo(target, { immediate: true, force: true });
       }
@@ -297,6 +315,13 @@ export function boot(pathname)
     }
   }
 
+  // Undoing the scope clears any text it hid, so the plain page that's left can be read.
+  function failed()
+  {
+    end();
+    document.documentElement.classList.remove("m");
+  }
+
   // Only a real width change rebuilds: a phone's address bar changes the height all the time.
   function onResize()
   {
@@ -309,14 +334,12 @@ export function boot(pathname)
     }
     resizeCall = setTimeout(() => {
       end();
-      start();
+      start().catch(failed);
     }, 280);
   }
   addEventListener("resize", onResize);
 
-  start().catch(() => {
-    document.documentElement.classList.remove("m");
-  });
+  start().catch(failed);
 
   return () => {
     stopped = true;

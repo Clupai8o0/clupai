@@ -67,11 +67,13 @@ export function CaseGallery({ media, client }: { media: MediaItem[]; client: str
     };
     document.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
+    window.dispatchEvent(new CustomEvent("site:lock", { detail: true }));
     closeRef.current?.focus();
     const opener = openerRef.current;
     return () => {
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = "";
+      window.dispatchEvent(new CustomEvent("site:lock", { detail: false }));
       opener?.focus();
     };
   }, [active, close]);

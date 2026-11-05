@@ -3,7 +3,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Matter from "matter-js";
 import { GLYPHS, SPACE, TITTLE } from "./glyphs";
-import { BLUE, INK, YELLOW, clamp, glyphBody, glyphEl, grabbable, isPhone, makeWorld, placeShape, sized } from "./kit";
+import { BLUE, INK, YELLOW, clamp, glyphBody, glyphEl, grabbable, isPhone, makeWorld, navFloor, placeShape, sized } from "./kit";
 import { buildHow } from "./tower";
 import { brickPath, scramble, seeded, splitLetters } from "./text";
 
@@ -17,8 +17,8 @@ const grabbing = (on) => document.documentElement.classList.toggle("is-grabbing"
 
 const TILES = [
   "/work/kdg/new/hero.webp", "/work/hoddle/new/home.webp", "/work/krishnaveni/homepage.webp", "/products/tempo/dashboard.webp",
-  "/products/morgue/desktop.webp", "/work/kdg/gallery.webp", "/work/nmmun/homepage.webp", "/work/hoddle/new/matching.webp",
-  "/work/tapcraft/new/desktop.webp", "/products/kairos/week.webp", "/products/cstack/cover.webp", "/products/govchat/trust.webp",
+  "/products/tempo/session.webp", "/work/kdg/gallery.webp", "/work/nmmun/homepage.webp", "/work/hoddle/new/matching.webp",
+  "/work/tapcraft/new/desktop.webp", "/work/krishnaveni/contact.webp", "/products/cstack/cover.webp", "/products/force/preview.webp",
   "/work/kdg/new/estimate-options.webp", "/products/force/desktop.webp",
 ];
 
@@ -570,15 +570,25 @@ function buildNavThemes(scope)
 {
   const nav = qs(".nav");
   const THEMES = [
-    ["#promise", "#f3f1ec", "#070707"],
-    ["#how", "#070707", "#f3f1ec"],
-    ["#ask", "#f3f1ec", "#070707"],
-    ["#board", "#f3f1ec", "#070707"],
-    ["#founder", "#070707", "#ffe100"],
-    ["#faq", "#f3f1ec", "#070707"],
-    [".close-ask", "#070707", "#f3f1ec"],
-  ].map(([sel, fg, bg]) => ({ el: qs(sel), fg, bg }));
+    ["#promise", "#f3f1ec", "#070707", false],
+    ["#how", "#070707", "#f3f1ec", true],
+    ["#ask", "#f3f1ec", "#070707", true],
+    ["#board", "#f3f1ec", "#070707", true],
+    ["#founder", "#070707", "#ffe100", true],
+    ["#faq", "#f3f1ec", "#070707", true],
+    [".close-ask", "#070707", "#f3f1ec", true],
+  ].map(([sel, fg, bg, solid]) => ({ el: qs(sel), fg, bg, solid }));
   let themeNow = null;
+  let tick = 0;
+  // Sections that scroll under the nav get a bar in their own colour, so text never runs under the logo.
+  const paintBar = () => {
+    if (!themeNow || !themeNow.solid) {
+      nav.style.removeProperty("background");
+      return;
+    }
+    const live = getComputedStyle(themeNow.el).backgroundColor;
+    nav.style.background = live === "rgba(0, 0, 0, 0)" ? themeNow.bg : live;
+  };
   const setColours = (fg, bg) => {
     nav.style.setProperty("--nav", fg);
     nav.style.setProperty("--navf", bg);
@@ -588,10 +598,16 @@ function buildNavThemes(scope)
       const r = t.el.getBoundingClientRect();
       return r.top <= 40 && r.bottom > 40;
     }) || null;
+    tick += 1;
     if (hit === themeNow) {
+      // The tower section turns blue part way through.
+      if (tick % 10 === 0) {
+        paintBar();
+      }
       return;
     }
     themeNow = hit;
+    paintBar();
     if (hit) {
       setColours(hit.fg, hit.bg);
     } else {
@@ -599,6 +615,7 @@ function buildNavThemes(scope)
     }
   });
   scope.cleanup(() => {
+    nav.style.removeProperty("background");
     nav.style.removeProperty("--nav");
     nav.style.removeProperty("--navf");
   });
@@ -811,7 +828,7 @@ function buildEnd(scope, phone)
 // ---------------------------------------------------------------- where the mascot goes as you scroll
 function buildPerches(scope, dot, phone, parts)
 {
-  const { stage, promiseTl, howTl, toys, end } = parts;
+  const { stage, promiseTl, howTl, toys, end, rest } = parts;
   const { tl, onI, tittle } = stage;
   const roam = phone ? 44 : 72;
   const unitY = (t) => {
@@ -826,9 +843,13 @@ function buildPerches(scope, dot, phone, parts)
       return { x: r.left + r.width * fx, y: r.top + dy };
     };
   };
-  const inView = (fn, s = roam) => () => {
-    const p = fn();
-    return { x: clamp(p.x, s / 2 + 8, vw() - s / 2 - 8), y: clamp(p.y, s + 8, vh() - 6) };
+  const inView = (fn, s = roam) => {
+    const at = () => {
+      const p = fn();
+      return { x: clamp(p.x, s / 2 + 8, vw() - s / 2 - 8), y: clamp(p.y, navFloor(s), vh() - 6) };
+    };
+    at.raw = fn;
+    return at;
   };
   const pageTop = (sel) => {
     const el = qs(sel);
@@ -848,7 +869,7 @@ function buildPerches(scope, dot, phone, parts)
     { id: "full", y: () => unitY(0.35), at: () => ({ x: vw() - roam, y: vh() - 10 }), colour: [YELLOW, INK], line: "Real work. Real clients.", side: "left", mood: "smug" },
     { id: "hoddle", y: () => unitY(2.5), at: inView(phone ? atop("#win-hoddle", 0.88, 2) : atop(".hd-name", 0.09, 16)), colour: [YELLOW, INK], line: "The cake. We’ll take it.", side: phone ? "left" : "right", mood: "smug" },
     { id: "kdg", y: () => unitY(4.4), at: inView(atop("#kd-num", 0.92, 6)), colour: [INK, YELLOW], line: "75 to 99. You’re welcome.", side: "left", mood: "smug" },
-    { id: "school", y: () => unitY(5.95), at: inView(atop("#sc-pic", phone ? 0.84 : 0.32, 0)), colour: [YELLOW, INK], line: "Their words, not ours.", side: phone ? "left" : "right", mood: "" },
+    { id: "school", y: () => unitY(5.95), at: inView(phone ? atop("#sc-pic", 0.84, 0) : atop(".sc-copy .quote", 0.8, -6)), colour: [YELLOW, INK], line: "Their words, not ours.", side: phone ? "left" : "right", mood: "" },
     {
       id: "promise",
       y: () => promiseTl.scrollTrigger.start + vh() * 0.92,
@@ -905,6 +926,7 @@ function buildPerches(scope, dot, phone, parts)
     perchY = PERCH.map((p) => p.y());
   };
   let current = null;
+  let goneId = null;
   let tick = 0;
   function perchNow()
   {
@@ -920,11 +942,16 @@ function buildPerches(scope, dot, phone, parts)
       }
     });
     const p = PERCH[idx];
-    if (current === p.id) {
+    // Its spot has scrolled up under the nav, so it hops down to the corner instead of riding up with it.
+    const spotY = p.at.raw ? p.at.raw().y : Infinity;
+    const gone = spotY < navFloor(roam) + (goneId === p.id ? 40 : 0);
+    goneId = gone ? p.id : null;
+    const key = gone ? `${p.id}:gone` : p.id;
+    if (current === key) {
       return;
     }
     const first = current === null;
-    current = p.id;
+    current = key;
     dot.colour(p.colour[0], p.colour[1]);
     dot.mood(p.mood);
     dot.quiet();
@@ -932,7 +959,7 @@ function buildPerches(scope, dot, phone, parts)
       return;
     }
     dot.state.side = p.side;
-    dot.hop(p.at, {
+    dot.hop(gone ? rest : p.at, {
       size: p.size || roam,
       done: scope.wrap(() => {
         if (p.line && current === p.id) {
@@ -992,5 +1019,5 @@ export function init(scope, core)
   buildBoard(scope, phone);
   buildReveals(scope);
   const end = buildEnd(scope, phone);
-  buildPerches(scope, dot, phone, { stage, promiseTl, howTl, toys, end });
+  buildPerches(scope, dot, phone, { stage, promiseTl, howTl, toys, end, rest: core.rest });
 }

@@ -50,6 +50,7 @@ export default function WorkPage()
               data-wipe
               data-perch={LINES[c.slug]}
               data-perch-x="0.9"
+              data-perch-y="0.3"
               data-perch-colour={c.slug === "king-double-glazing" ? "ink" : "yellow"}
             >
               <Image src={c.picture.src} alt="" fill sizes="(max-width: 720px) 100vw, 60vw" loading={i === 0 ? "eager" : "lazy"} />

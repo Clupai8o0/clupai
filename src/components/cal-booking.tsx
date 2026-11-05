@@ -294,7 +294,7 @@ export default function CalBooking({ prefill = {} }: { prefill?: BookingPrefill 
                 {dateSlots.length === 0 ? (
                   <p className="t-small">No times left on this day.</p>
                 ) : (
-                  <div className="bk-slots">
+                  <div className="bk-slots" data-lenis-prevent>
                     {dateSlots.map((slot) => (
                       <button
                         key={slot.time}
