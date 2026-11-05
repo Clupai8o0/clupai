@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import type { CSSProperties } from "react";
+import CloseBand from "@/components/close-band";
 import DealBar from "@/components/deal-bar";
-import LiveClip from "@/components/live-clip";
-import PinnedWork from "@/components/pinned-work";
+import MovingLine from "@/components/moving-line";
+import WorkFolders from "@/components/work-folders";
 import { caseBySlug, clientCases, type CaseStudy } from "@/data/cases";
 import { inWork, released } from "@/data/products";
 
@@ -11,13 +13,6 @@ export const metadata: Metadata = {
   title: { absolute: "Clupai · Your software live by the date we agree" },
   alternates: { canonical: "/" },
 };
-
-const TITLE: { text: string; breakAfter?: "d" | "m" }[] = [
-  { text: "Your software live", breakAfter: "m" },
-  { text: "by the date", breakAfter: "d" },
-  { text: "we agree,", breakAfter: "m" },
-  { text: "or you stop paying." },
-];
 
 const QUESTIONS = [
   {
@@ -42,293 +37,231 @@ const QUESTIONS = [
   },
 ];
 
+const CARDS = [
+  { x: -1.46, y: "26px", r: "-6deg", tone: "f-orange", title: "A date in writing.", body: "With our money on it.", src: "/products/kairos/week.webp" },
+  {
+    x: -0.49,
+    y: "-6px",
+    r: "-2deg",
+    tone: "f-sage",
+    title: "The same person, scope to launch.",
+    body: "The person who sells it scopes it, then builds it or directs the build.",
+    src: "/sam-small.jpeg",
+    face: true,
+  },
+  { x: 0.49, y: "-6px", r: "2deg", tone: "f-yellow", title: "Your code, from day one.", body: "It sits in your GitHub while we work.", src: "/products/cstack/cover.webp" },
+];
+
+const CLIENTS = [
+  { name: "Hoddle Melbourne", href: "/work/hoddle-melbourne" },
+  { name: "King Double Glazing", href: "/work/king-double-glazing" },
+  { name: "TapCraft", href: "/work/tapcraft" },
+  { name: "Krishnaveni School", href: "/work/krishnaveni-school" },
+];
+
 export default function HomePage()
 {
   const tempo = caseBySlug("tempo") as CaseStudy;
-  const pinned = [...clientCases, tempo];
+  const folders = [...clientCases, tempo];
 
   return (
     <>
-      <section aria-labelledby="hero-title">
-        <div className="mosaic" aria-hidden="true">
-          <div className="tile tile--wide-2 tile--tall-2">
-            <LiveClip src="/work/hoddle/loop.mp4" poster="/work/hoddle/poster.jpg" label="" />
-          </div>
-          <div className="tile tile--note tile--cobalt">
-            <strong>Hoddle, live in six weeks.</strong>
-          </div>
-          <div className="tile tile--wide-2 hide-s">
-            <Image src="/work/kdg/new/estimate-options.webp" alt="" fill sizes="33vw" loading="eager" />
-          </div>
-          <div className="tile tile--tall-2 hide-s">
-            <Image src="/products/tempo/log-mobile.webp" alt="" fill sizes="17vw" />
-          </div>
-          <div className="tile">
-            <Image src="/products/kairos/week.webp" alt="" fill sizes="(max-width: 820px) 33vw, 17vw" />
-          </div>
-          <div className="tile tile--note tile--ink hide-s">
-            <strong>King Double Glazing, live in five weeks.</strong>
-          </div>
-          <div className="tile hide-s">
-            <Image src="/work/hoddle/new/home.webp" alt="" fill sizes="17vw" />
-          </div>
-        </div>
-
-        <h1 className="hero-title" id="hero-title">
-          {TITLE.map((part, i) => (
-            <span key={part.text}>
-              <span className="ln">
-                <span style={{ "--i": i } as React.CSSProperties}>{part.text}</span>
-              </span>
-              {part.breakAfter === "d" ? <br className="br-d" /> : null}
-              {part.breakAfter === "m" ? <br className="br-m" /> : null}{" "}
-            </span>
-          ))}
-        </h1>
-
-        <div className="axis hero-foot">
-          <div className="l">
-            <p className="t-small muted">Software built and launched by a fixed date.</p>
-          </div>
-          <div className="r">
-            <p className="t-lead" style={{ maxWidth: "32em" }}>
-              We build and launch first versions for non-technical founders in Australia. Fixed price, fixed date, and
-              the code is yours.
-            </p>
-            <div className="cta-row">
-              <Link className="btn" href="/start">
-                Get your Build Risk Check
-              </Link>
-              <span className="btn-note">Free. 2 minutes.</span>
-            </div>
+      <section className="hero f-orange" aria-labelledby="hero-title">
+        <MovingLine words="Live software, Melbourne">
+          <Image src="/sam.jpeg" alt="Samridh Limbu, founder of Clupai" fill sizes="(max-width: 820px) 70vw, 25vw" loading="eager" />
+        </MovingLine>
+        <div className="hero-copy">
+          <h1 className="t-head" id="hero-title">
+            Live by the date, or you stop paying.
+          </h1>
+          <p className="t-lead">
+            We build and launch first versions for non-technical founders in Australia. Your software, live by the date
+            we agree. Fixed price, and the code is yours.
+          </p>
+          <div className="hero-act">
+            <Link className="btn" href="/start">
+              Get your Build Risk Check
+            </Link>
+            <span className="t-small">Free. 2 minutes.</span>
           </div>
         </div>
       </section>
 
       <section aria-labelledby="work-title">
-        <div className="axis" style={{ paddingTop: "clamp(48px, 7vw, 112px)" }}>
-          <div className="l">
-            <h2 className="t-head rise" id="work-title">
-              Live software, with the dates on it.
-            </h2>
-          </div>
+        <div className="grid work-intro">
+          <h2 className="t-head rise" id="work-title">
+            Live software, with the dates on it.
+          </h2>
+          <p className="t-lead rise rise-2">Each one says when it happened and what our part was.</p>
         </div>
-        <PinnedWork items={pinned} />
+        <WorkFolders items={folders} />
       </section>
 
-      <section className="sec on-field" aria-labelledby="deal-title">
-        <div className="axis">
-          <div className="l">
-            <h2 className="t-head rise" id="deal-title">
-              Three payments, one date.
-            </h2>
-            <p style={{ marginTop: 22, maxWidth: "26em" }}>
-              Miss the date and you stop paying. Scoping comes first and takes one to two weeks. You get a written
-              scope, a clickable prototype, and a fixed price and date. They’re yours to keep, even if you go elsewhere.
+      <section className="f-orange" aria-labelledby="deal-title">
+        <div className="grid deal">
+          <h2 className="t-giant rise" id="deal-title">
+            No show,
+            <br />
+            no more pay.
+          </h2>
+          <div className="deal-l">
+            <p className="t-lead rise">Three payments, one date.</p>
+            <p className="rise rise-2">
+              Miss the date and you stop paying. Scoping comes first and takes one to two weeks. You get a written scope,
+              a clickable prototype, and a fixed price and date. They’re yours to keep, even if you go elsewhere.
             </p>
           </div>
-          <div className="r">
+          <div className="deal-r">
             <DealBar />
           </div>
         </div>
-        <div className="axis" style={{ marginTop: "clamp(56px, 7vw, 104px)" }}>
-          <div className="l">
-            <h3 className="t-state">The guarantee has three conditions.</h3>
-          </div>
-          <div className="r stack">
-            <p className="t-lead">
-              A signed scope. Replies from you within 48 hours. And any change to the scope resets the date and price,
-              in writing.
-            </p>
-            <p>
+        <div className="f-white">
+          <div className="grid terms-head">
+            <h3 className="t-head rise">The guarantee has three conditions.</h3>
+            <p className="rise rise-2">
               Miss the date and everything unpaid is cancelled. We finish it free, you keep what’s built, and money
               already paid stays paid. No client has used this guarantee yet.
             </p>
           </div>
-        </div>
-      </section>
-
-      <section className="sec" aria-labelledby="why-title">
-        <div className="axis">
-          <div className="l">
-            <h2 className="t-head rise" id="why-title">
-              Four things to check first.
-            </h2>
-          </div>
-          <div className="r reasons t-state rise">
-            <p>
-              A date in writing, with our money on it.{" "}
-              <span className="crop">
-                <Image src="/products/kairos/week.webp" alt="" width={160} height={80} />
-              </span>{" "}
-              The person who sells it to you scopes it, then builds it or directs the build.{" "}
-              <span className="crop">
-                <Image src="/sam-small.jpeg" alt="" width={160} height={80} style={{ objectPosition: "center 28%" }} />
-              </span>
-            </p>
-            <p>
-              Code in your GitHub from day one.{" "}
-              <span className="crop">
-                <Image src="/products/cstack/cover.webp" alt="" width={160} height={80} />
-              </span>{" "}
-              And software you can click today, including{" "}
-              <a className="tlink" href="https://hoddle.org" rel="noreferrer">
-                Hoddle
-              </a>{" "}
-              and{" "}
-              <a className="tlink" href="https://kingdoubleglazing.com.au" rel="noreferrer">
-                King Double Glazing
-              </a>
-              .{" "}
-              <span className="crop">
-                <Image src="/products/tempo/dashboard.webp" alt="" width={160} height={80} />
-              </span>
-            </p>
+          <div className="panels">
+            <p className="f-ink rise">A signed scope.</p>
+            <p className="f-sage rise rise-2">Replies from you within 48 hours.</p>
+            <p className="f-yellow rise rise-3">Any change to the scope resets the date and price, in writing.</p>
           </div>
         </div>
       </section>
 
-      <section className="on-ink sec" aria-labelledby="ask-title">
-        <div className="axis">
-          <div className="l">
-            <h2 className="t-head rise" id="ask-title">
-              What you’re about to ask us.
-            </h2>
-          </div>
-          <div className="r">
-            <div className="answers">
-              {QUESTIONS.map((item) => (
-                <p key={item.q} className="rise">
-                  <strong>{item.q}</strong> {item.a}
-                </p>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="sec" aria-labelledby="shipped-title">
-        <div className="axis">
-          <div className="l">
-            <h2 className="t-head rise" id="shipped-title">
-              Also shipped, and still shipping.
-            </h2>
-            <p style={{ marginTop: 18 }}>
-              <Link className="tlink" href="/products">
-                See every product we’ve made
-              </Link>
-            </p>
-          </div>
-          <div className="r names rise">
-            <div>
-              <h3>Released</h3>
-              <ul>
-                {released.map((p) => (
-                  <li key={p.slug}>
-                    <Link href={p.caseSlug ? `/work/${p.caseSlug}` : "/products"}>{p.name}</Link>
-                    <span>{p.since}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h3>Clients and ventures</h3>
-              <ul>
-                <li>
-                  <Link href="/work/hoddle-melbourne">Hoddle Melbourne</Link>
-                  <span>Mar 2026 → Apr 2026, co-founder</span>
-                </li>
-                <li>
-                  <Link href="/work/king-double-glazing">King Double Glazing</Link>
-                  <span>2026</span>
-                </li>
-                <li>
-                  <Link href="/work/tapcraft">TapCraft</Link>
-                  <span>Feb 2026 → Oct 2026, co-founder</span>
-                </li>
-                <li>
-                  <Link href="/work/krishnaveni-school">Krishnaveni School</Link>
-                  <span>2026, website</span>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h3>In the works</h3>
-              <ul>
-                {inWork.map((p) => (
-                  <li key={p.slug}>
-                    <Link href={p.caseSlug ? `/work/${p.caseSlug}` : "/products#in-the-works"}>{p.name}</Link>
-                    <span>{p.since}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section aria-labelledby="sam-title">
-        <div className="axis">
-          <div className="l">
-            <div className="portrait rise">
-              <Image src="/sam.jpeg" alt="Samridh Limbu, founder of Clupai" fill sizes="(max-width: 820px) 100vw, 42vw" />
-            </div>
-          </div>
-          <div className="r" style={{ alignSelf: "center", paddingBlock: "32px" }}>
-            <h2 className="t-head rise" id="sam-title">
-              The person on your call answers for your date.
-            </h2>
-            <p className="t-lead" style={{ marginTop: 22, maxWidth: "30em" }}>
-              I’m Samridh Limbu, founder of Clupai. I take your first call, scope your build, and put my name on the
-              date.
-            </p>
-            <ul className="side-facts">
-              <li>Melbourne, Australia</li>
-              <li>A GovHack 2025 winner</li>
-              <li>2nd at Study Melbourne Leadership 4Impact</li>
-            </ul>
-            <p style={{ marginTop: 18 }}>
-              <Link className="tlink" href="/about">
-                More about us
-              </Link>
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section aria-labelledby="close-title" style={{ marginTop: "var(--section)" }}>
-        <div className="strip" aria-hidden="true">
-          <div className="tile rise">
-            <Image src="/products/tempo/dashboard.webp" alt="" fill sizes="33vw" />
-          </div>
-          <div className="tile rise rise-2">
-            <Image src="/work/kdg/new/hero.webp" alt="" fill sizes="33vw" />
-          </div>
-          <div className="tile rise rise-3">
-            <Image src="/products/morgue/desktop.webp" alt="" fill sizes="33vw" />
-          </div>
-        </div>
-        <div className="close-band on-field">
-          <div className="axis">
-            <div className="l">
-              <h2 className="t-head rise" id="close-title">
-                Find out what could sink your build.
-              </h2>
-            </div>
-            <div className="r">
-              <p className="t-lead" style={{ maxWidth: "30em" }}>
-                Eight questions. You get a score, your top three risks, and one thing to do about each this week.
-              </p>
-              <div className="row">
-                <Link className="btn btn--white" href="/start">
-                  Get your Build Risk Check
-                </Link>
-                <span className="t-small">Free. 2 minutes.</span>
+      <section className="fan f-ink" aria-labelledby="why-title">
+        <div className="fan-stage">
+          <h2 className="t-head" id="why-title">
+            Four things to check first.
+          </h2>
+          <div className="fan-cards">
+            {CARDS.map((c) => (
+              <article
+                key={c.title}
+                className={`fan-card ${c.tone}`}
+                style={{ "--x": c.x, "--y": c.y, "--r": c.r } as CSSProperties}
+              >
+                <h3 className="t-name">{c.title}</h3>
+                <div className="fan-pic">
+                  <Image src={c.src} alt="" fill sizes="340px" className={c.face ? "is-face" : undefined} />
+                </div>
+                <p>{c.body}</p>
+              </article>
+            ))}
+            <article
+              className="fan-card f-white"
+              style={{ "--x": 1.46, "--y": "26px", "--r": "6deg" } as CSSProperties}
+            >
+              <h3 className="t-name">Software you can click.</h3>
+              <div className="fan-pic">
+                <Image src="/products/tempo/dashboard.webp" alt="" fill sizes="340px" />
               </div>
-            </div>
+              <p>
+                Today, including{" "}
+                <a className="tlink" href="https://hoddle.org" rel="noreferrer">
+                  Hoddle
+                </a>{" "}
+                and{" "}
+                <a className="tlink" href="https://kingdoubleglazing.com.au" rel="noreferrer">
+                  King Double Glazing
+                </a>
+                .
+              </p>
+            </article>
           </div>
         </div>
       </section>
+
+      <section className="sec grid" aria-labelledby="ask-title">
+        <div className="faq-head">
+          <h2 className="t-head" id="ask-title">
+            What you’ll ask us.
+          </h2>
+        </div>
+        <div className="faq-tiles">
+          {QUESTIONS.map((item, i) => (
+            <details key={item.q} className="q rise" name="faq" open={i === 0}>
+              <summary>
+                <h3 className="t-name">{item.q}</h3>
+                <span className="plus" aria-hidden="true" />
+              </summary>
+              <p>{item.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <section className="bill-ground f-yellow" aria-labelledby="shipped-title">
+        <div className="bill">
+          <h2 className="t-head" id="shipped-title">
+            Also shipped, and still shipping.
+          </h2>
+          <div className="bill-pic">
+            <Image src="/products/kairos/today.webp" alt="Today’s plan in Kairos, one of our own products." fill sizes="(max-width: 820px) 90vw, 50vw" />
+          </div>
+          <div className="bill-group">
+            <h3>Released</h3>
+            <ul className="bill-names">
+              {released.map((p) => (
+                <li key={p.slug}>
+                  <Link href={p.caseSlug ? `/work/${p.caseSlug}` : "/products"}>{p.name}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="bill-group">
+            <h3>Clients and ventures</h3>
+            <ul className="bill-names">
+              {CLIENTS.map((c) => (
+                <li key={c.href}>
+                  <Link href={c.href}>{c.name}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="bill-group">
+            <h3>In the works</h3>
+            <ul className="bill-names">
+              {inWork.map((p) => (
+                <li key={p.slug}>
+                  <Link href={p.caseSlug ? `/work/${p.caseSlug}` : "/products#in-the-works"}>{p.name}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <Link className="btn" href="/products">
+            See every product we’ve made
+          </Link>
+        </div>
+      </section>
+
+      <section className="sam f-sage" aria-labelledby="sam-title">
+        <div className="sam-pic">
+          <Image src="/sam.jpeg" alt="Samridh Limbu, founder of Clupai" fill sizes="(max-width: 820px) 100vw, 58vw" />
+        </div>
+        <div className="sam-copy">
+          <h2 className="t-head rise" id="sam-title">
+            Who answers for your date.
+          </h2>
+          <p className="t-lead rise rise-2">
+            I’m Samridh Limbu, founder of Clupai. I take your first call, scope your build, and put my name on the date.
+          </p>
+          <ul className="rise rise-3">
+            <li>Melbourne, Australia</li>
+            <li>A GovHack 2025 winner</li>
+            <li>2nd at Study Melbourne Leadership 4Impact</li>
+          </ul>
+          <p className="rise rise-3">
+            <Link className="tlink" href="/about">
+              More about us
+            </Link>
+          </p>
+        </div>
+      </section>
+
+      <CloseBand title="What could sink your build?" />
     </>
   );
 }

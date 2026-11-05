@@ -5,9 +5,12 @@ import { notFound } from "next/navigation";
 import { CaseGallery } from "@/components/case-gallery";
 import CloseBand from "@/components/close-band";
 import LiveClip from "@/components/live-clip";
+import ScreenStrip from "@/components/screen-strip";
 import { caseBySlug, cases } from "@/data/cases";
 
 type Props = { params: Promise<{ slug: string }> };
+
+const TONES = ["f-sage", "f-yellow", "f-orange"];
 
 export function generateStaticParams()
 {
@@ -41,24 +44,22 @@ export default async function CasePage({ params }: Props)
   const next = cases[(index + 1) % cases.length]!;
   const gallery = item.media.filter((m) => m.src !== item.clip?.src);
   const quote = item.testimonial;
+  const tone = TONES[index % TONES.length]!;
+  const nextTone = TONES[(index + 1) % TONES.length]!;
 
   return (
     <>
-      <header className="page-head">
-        <h1 className="page-title">{item.name}</h1>
-        <div className="axis page-lead">
-          <div className="l">
-            <p className="ledger-meta t-small" style={{ marginTop: 0 }}>
-              <strong>{item.when}</strong>
-              {item.took ? <span>{item.took}</span> : null}
-              <span>{item.role}</span>
-              <span className="tag">{item.status}</span>
-            </p>
-          </div>
-          <div className="r">
-            <p className="t-lead" style={{ maxWidth: "30em" }}>
-              {item.line}
-            </p>
+      <header className={`head ${tone}`}>
+        <h1 className="t-giant">{item.name}</h1>
+        <div className="head-lead">
+          <p className="meta t-small">
+            <strong>{item.when}</strong>
+            {item.took ? <span>{item.took}</span> : null}
+            <span>{item.role}</span>
+            <span className="tag">{item.status}</span>
+          </p>
+          <div>
+            <p className="t-lead">{item.line}</p>
             {item.url ? (
               <p style={{ marginTop: 14 }}>
                 <a className="tlink" href={item.url.href} rel="noreferrer">
@@ -78,94 +79,86 @@ export default async function CasePage({ params }: Props)
         )}
       </figure>
 
-      <section className="sec" aria-labelledby="problem-title">
-        <div className="axis">
-          <div className="l">
-            <h2 className="t-head rise" id="problem-title">
-              The problem.
-            </h2>
-            <dl className="facts" style={{ marginTop: "clamp(24px, 3vw, 44px)" }}>
-              {item.facts.map((f) => (
-                <div key={f.k}>
-                  <dt>{f.k}</dt>
-                  <dd>{f.v}</dd>
-                </div>
-              ))}
-              {item.stack ? (
-                <div>
-                  <dt>Built with</dt>
-                  <dd>{item.stack}</dd>
-                </div>
-              ) : null}
-            </dl>
-          </div>
-          <div className="r stack t-lead rise" style={{ maxWidth: "calc(30em + var(--margin))" }}>
-            {item.problem.map((p) => (
-              <p key={p}>{p}</p>
+      <section className="sec grid case-grid" aria-labelledby="problem-title">
+        <div>
+          <h2 className="t-head rise" id="problem-title">
+            The problem.
+          </h2>
+          <dl className="facts">
+            {item.facts.map((f) => (
+              <div key={f.k}>
+                <dt>{f.k}</dt>
+                <dd>{f.v}</dd>
+              </div>
             ))}
-          </div>
+            {item.stack ? (
+              <div>
+                <dt>Built with</dt>
+                <dd>{item.stack}</dd>
+              </div>
+            ) : null}
+          </dl>
+        </div>
+        <div className="stack t-lead rise rise-2">
+          {item.problem.map((p) => (
+            <p key={p}>{p}</p>
+          ))}
         </div>
       </section>
 
-      <section aria-labelledby="built-title" style={{ paddingBottom: "var(--section)" }}>
-        <div className="axis">
-          <div className="l">
-            <h2 className="t-head rise" id="built-title">
-              What we built.
-            </h2>
-          </div>
-          <div className="r" style={{ maxWidth: "calc(36em + var(--margin))" }}>
-            {item.built.map((b) => (
-              <div key={b.title} className="built-item rise">
-                <h3>{b.title}</h3>
-                <p>{b.body}</p>
-              </div>
-            ))}
-          </div>
+      <section className="grid case-grid" aria-labelledby="built-title" style={{ paddingBottom: "var(--section)" }}>
+        <h2 className="t-head rise" id="built-title">
+          What we built.
+        </h2>
+        <div>
+          {item.built.map((b) => (
+            <div key={b.title} className="built-item rise">
+              <h3 className="t-name">{b.title}</h3>
+              <p>{b.body}</p>
+            </div>
+          ))}
         </div>
       </section>
 
       {quote ? (
-        <section className="sec on-field" aria-labelledby="quote-title">
-          <div className="axis">
-            <div className="l">
-              <h2 className="t-head rise" id="quote-title">
-                In their words.
-              </h2>
-            </div>
-            <blockquote className="r big-quote rise">
-              <p>“{quote.quote}”</p>
-              <cite>
-                {quote.name}, {quote.role}
-              </cite>
-            </blockquote>
-          </div>
+        <section className="sec grid case-grid f-ink" aria-labelledby="quote-title">
+          <h2 className="t-head rise" id="quote-title">
+            In their words.
+          </h2>
+          <blockquote className="big-quote rise rise-2">
+            <p>“{quote.quote}”</p>
+            <cite>
+              {quote.name}, {quote.role}
+            </cite>
+          </blockquote>
         </section>
       ) : null}
 
       {gallery.length > 0 ? <CaseGallery media={gallery} client={item.name} /> : null}
 
-      <section className="sec" aria-labelledby="next-title">
-        <div className="axis">
-          <div className="l">
-            <h2 className="t-head" id="next-title">
-              <Link className="case-next" href={`/work/${next.slug}`}>
-                Next: {next.name}
-              </Link>
-            </h2>
-          </div>
-          <div className="r" style={{ alignSelf: "end" }}>
-            <p>{next.line}</p>
-            <p style={{ marginTop: 10 }}>
-              <Link className="tlink" href="/work">
-                All work
-              </Link>
-            </p>
+      <section className={`case-next ${nextTone}`} aria-labelledby="next-title">
+        <div className="case-next-copy">
+          <h2 className="t-head rise" id="next-title">
+            <Link href={`/work/${next.slug}`}>{next.name}</Link>
+          </h2>
+          <p className="rise rise-2">{next.line}</p>
+          <div className="links rise rise-3">
+            <Link className="btn" href={`/work/${next.slug}`}>
+              Next case
+            </Link>
+            <Link className="tlink" href="/work">
+              All work
+            </Link>
           </div>
         </div>
+        <Link className="case-next-pic" href={`/work/${next.slug}`} tabIndex={-1} aria-hidden="true">
+          <Image src={next.picture.src} alt="" fill sizes="(max-width: 1099px) 100vw, 50vw" />
+        </Link>
       </section>
 
-      <CloseBand title="Find out what could sink your build." />
+      <ScreenStrip except={[item.slug, next.slug]} />
+
+      <CloseBand title="What could sink your build?" />
     </>
   );
 }

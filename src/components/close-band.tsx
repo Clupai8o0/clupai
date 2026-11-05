@@ -1,26 +1,21 @@
 import Link from "next/link";
 
+// The last thing on most pages: the question again, loud, on black.
 export default function CloseBand({ title }: { title: string })
 {
   return (
-    <section className="close-band on-field" aria-labelledby="close-title">
-      <div className="axis">
-        <div className="l">
-          <h2 className="t-head rise" id="close-title">
-            {title}
-          </h2>
-        </div>
-        <div className="r">
-          <p className="t-lead" style={{ maxWidth: "30em" }}>
-            Eight questions. You get a score, your top three risks, and one thing to do about each this week.
-          </p>
-          <div className="row">
-            <Link className="btn btn--white" href="/start">
-              Get your Build Risk Check
-            </Link>
-            <span className="t-small">Free. 2 minutes.</span>
-          </div>
-        </div>
+    <section className="cta f-ink" aria-labelledby="close-title">
+      <h2 className="t-giant rise" id="close-title">
+        {title}
+      </h2>
+      <div className="cta-row">
+        <p className="t-lead rise rise-2">
+          Free. 2 minutes. Eight questions, and you get a score, your top three risks, and one thing to do about each
+          this week.
+        </p>
+        <Link className="btn rise rise-3" href="/start">
+          Get your Build Risk Check
+        </Link>
       </div>
     </section>
   );

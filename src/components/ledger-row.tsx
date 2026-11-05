@@ -1,10 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import LiveClip from "@/components/live-clip";
 
 type RowLink = { href: string; label: string; primary?: boolean };
 
-// One dated entry: the name and facts left of the axis, the picture running to the right edge.
+// One dated entry: a colour panel meeting a picture that runs off the edge of the page.
 export default function LedgerRow({
   name,
   href,
@@ -14,6 +15,9 @@ export default function LedgerRow({
   children,
   links,
   picture,
+  clip,
+  tone,
+  flip = false,
   loadFirst = false,
 }: {
   name: string;
@@ -25,30 +29,36 @@ export default function LedgerRow({
   children?: ReactNode;
   links: RowLink[];
   picture: { src: string; alt: string };
+  /** A short loop of the real thing, shown in place of the picture. */
+  clip?: { src: string; poster: string };
+  tone: string;
+  flip?: boolean;
   loadFirst?: boolean;
 })
 {
-  const image = (
+  const image = clip ? (
+    <LiveClip src={clip.src} poster={clip.poster} label={href ? "" : picture.alt} />
+  ) : (
     <Image
       src={picture.src}
       alt={picture.alt}
       fill
-      sizes="(max-width: 820px) 100vw, 58vw"
+      sizes="(max-width: 1099px) 100vw, 50vw"
       loading={loadFirst ? "eager" : "lazy"}
     />
   );
 
   return (
-    <article className="axis ledger-row">
-      <div className="l">
-        <h3 className="t-name">{href ? <Link href={href}>{name}</Link> : name}</h3>
-        <p className="ledger-meta t-small">
+    <article className={`row ${tone}${flip ? " row--flip" : ""}`}>
+      <div className="row-copy">
+        <h3 className="t-head rise">{href ? <Link href={href}>{name}</Link> : name}</h3>
+        <p className="meta t-small rise rise-2">
           {meta.map((m, i) => (i === 0 ? <strong key={m}>{m}</strong> : <span key={m}>{m}</span>))}
           {tag ? <span className="tag">{tag}</span> : null}
         </p>
-        <p>{line}</p>
+        <p className="rise rise-2">{line}</p>
         {children}
-        <div className="ledger-links">
+        <div className="links rise rise-3">
           {links.map((link) =>
             link.primary ? (
               <RowButton key={link.href} link={link} />
@@ -58,15 +68,13 @@ export default function LedgerRow({
           )}
         </div>
       </div>
-      <div className="r">
-        {href ? (
-          <Link className="ledger-pic rise" href={href} tabIndex={-1} aria-hidden="true">
-            {image}
-          </Link>
-        ) : (
-          <div className="ledger-pic rise">{image}</div>
-        )}
-      </div>
+      {href ? (
+        <Link className="row-pic" href={href} tabIndex={-1} aria-hidden="true">
+          {image}
+        </Link>
+      ) : (
+        <div className="row-pic">{image}</div>
+      )}
     </article>
   );
 }

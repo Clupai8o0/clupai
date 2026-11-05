@@ -11,7 +11,20 @@ export const metadata: Metadata = {
   alternates: { canonical: "/work" },
 };
 
-function Row({ item, loadFirst = false }: { item: CaseStudy; loadFirst?: boolean })
+const CLIENT_TONES = ["f-sage", "f-orange"];
+const PRODUCT_TONES = ["f-ink", "f-yellow", "f-sage", "f-orange", "f-ink"];
+
+function Row({
+  item,
+  tone,
+  flip,
+  loadFirst = false,
+}: {
+  item: CaseStudy;
+  tone: string;
+  flip: boolean;
+  loadFirst?: boolean;
+})
 {
   return (
     <LedgerRow
@@ -21,6 +34,9 @@ function Row({ item, loadFirst = false }: { item: CaseStudy; loadFirst?: boolean
       tag={item.status === "In the works" ? item.status : undefined}
       line={item.line}
       picture={item.picture}
+      clip={item.clip}
+      tone={tone}
+      flip={flip}
       loadFirst={loadFirst}
       links={[
         { href: `/work/${item.slug}`, label: "Read how we built it" },
@@ -28,7 +44,7 @@ function Row({ item, loadFirst = false }: { item: CaseStudy; loadFirst?: boolean
       ]}
     >
       {item.testimonial ? (
-        <blockquote>
+        <blockquote className="rise rise-3">
           <p>“{item.testimonial.quote}”</p>
           <cite>
             {item.testimonial.name}, {item.testimonial.role}
@@ -43,72 +59,62 @@ export default function WorkPage()
 {
   return (
     <>
-      <header className="page-head">
-        <h1 className="page-title">Work, with the dates on it.</h1>
-        <div className="axis page-lead">
-          <div className="l" />
-          <div className="r">
-            <p className="t-lead" style={{ maxWidth: "30em" }}>
-              Every entry says when it happened and what our part was. Most of it you can click today.
-            </p>
-          </div>
+      <header className="head f-yellow">
+        <h1 className="t-giant">Work, with the dates on it.</h1>
+        <div className="head-lead">
+          <p className="t-lead">Every entry says when it happened and what our part was. Most of it you can click today.</p>
         </div>
       </header>
 
       <section aria-labelledby="clients-title">
-        <div className="work-sub" style={{ paddingTop: 0, paddingInline: "var(--margin)" }}>
+        <div className="grid group-head">
           <h2 className="t-head rise" id="clients-title">
             Clients and ventures.
           </h2>
         </div>
         {clientCases.map((item, i) => (
-          <Row key={item.slug} item={item} loadFirst={i === 0} />
+          <Row
+            key={item.slug}
+            item={item}
+            tone={CLIENT_TONES[i % CLIENT_TONES.length]!}
+            flip={i % 2 === 1}
+            loadFirst={i === 0}
+          />
         ))}
       </section>
 
       <section aria-labelledby="own-title">
-        <div className="work-sub axis" style={{ paddingInline: 0 }}>
-          <div className="l">
-            <h2 className="t-head rise" id="own-title">
-              Our own products.
-            </h2>
-          </div>
-          <div className="r" style={{ alignSelf: "end" }}>
+        <div className="grid group-head">
+          <h2 className="t-head rise" id="own-title">
+            Our own products.
+          </h2>
+          <p>
             <Link className="tlink" href="/products">
               See what’s released and what’s in the works
             </Link>
-          </div>
+          </p>
         </div>
-        {productCases.map((item) => (
-          <Row key={item.slug} item={item} />
+        {productCases.map((item, i) => (
+          <Row key={item.slug} item={item} tone={PRODUCT_TONES[i % PRODUCT_TONES.length]!} flip={i % 2 === 1} />
         ))}
       </section>
 
-      <section className="sec" aria-labelledby="earlier-title">
-        <div className="axis">
-          <div className="l">
-            <h2 className="t-head rise" id="earlier-title">
-              Earlier work.
-            </h2>
-          </div>
-          <div className="r earlier rise">
-            {earlierCases.map((item) => (
-              <div key={item.slug}>
-                <h3>
-                  <Link href={`/work/${item.slug}`}>{item.name}</Link>
-                </h3>
-                <p className="ledger-meta t-small">
-                  <strong>{item.when}</strong>
-                  <span>{item.role}</span>
-                </p>
-                <p style={{ marginTop: 10 }}>{item.line}</p>
-              </div>
-            ))}
-          </div>
-        </div>
+      <section className="plain" aria-labelledby="earlier-title">
+        <h2 className="t-head rise" id="earlier-title">
+          Earlier work.
+        </h2>
+        {earlierCases.map((item) => (
+          <Link key={item.slug} className="plain-item rise" href={`/work/${item.slug}`}>
+            <h3 className="t-head">{item.name}</h3>
+            <strong className="t-small">{item.when}</strong>
+            <p className="plain-line">
+              {item.line} <span className="t-small">{item.role}</span>
+            </p>
+          </Link>
+        ))}
       </section>
 
-      <CloseBand title="Find out what could sink your build." />
+      <CloseBand title="What could sink your build?" />
     </>
   );
 }

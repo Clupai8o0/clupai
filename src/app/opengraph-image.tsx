@@ -11,8 +11,8 @@ export default function Image()
     (
       <div
         style={{
-          background: "#1f2de6",
-          color: "#ffffff",
+          background: "#fe7141",
+          color: "#000000",
           width: "100%",
           height: "100%",
           padding: "64px 72px",
@@ -21,14 +21,14 @@ export default function Image()
           justifyContent: "space-between",
         }}
       >
-        <div style={{ display: "flex", fontSize: 40, fontWeight: 700, letterSpacing: "-0.03em" }}>clupai</div>
+        <div style={{ display: "flex", fontSize: 40, fontWeight: 700, letterSpacing: "-0.01em" }}>CLUPAI</div>
         <div
           style={{
             display: "flex",
-            fontSize: 88,
+            fontSize: 92,
             fontWeight: 700,
-            letterSpacing: "-0.035em",
-            lineHeight: 1.04,
+            letterSpacing: "-0.02em",
+            lineHeight: 1,
           }}
         >
           Your software live by the date we agree, or you stop paying.

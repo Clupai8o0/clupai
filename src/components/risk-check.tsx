@@ -40,6 +40,9 @@ function loadProgress(): Progress
   }
 }
 
+// The ground changes colour with each question, so moving on feels like moving on.
+const GROUNDS = ["f-orange", "f-sage", "f-yellow"];
+
 function Flow({ restore }: { restore: boolean })
 {
   const router = useRouter();
@@ -124,7 +127,7 @@ function Flow({ restore }: { restore: boolean })
   const code = encodeAnswers(answers.slice(0, questions.length));
 
   return (
-    <div className="rc">
+    <div className={`rc ${GROUNDS[step % GROUNDS.length]}`}>
       <div
         className="rc-progress"
         role="progressbar"
@@ -151,8 +154,8 @@ function Flow({ restore }: { restore: boolean })
           code={code}
         />
       ) : (
-        <div className="axis rc-body">
-          <div className="l">
+        <div className="rc-body">
+          <div>
             <h1 key={step} ref={headingRef} className="rc-q rc-q-enter" tabIndex={-1}>
               {questions[step]!.title}
             </h1>
@@ -167,7 +170,7 @@ function Flow({ restore }: { restore: boolean })
               ) : null}
             </div>
           </div>
-          <div className="r">
+          <div>
             <ul key={step} className="rc-answers rc-q-enter">
               {questions[step]!.answers.map((answer, i) => (
                 <li key={answer.key}>
@@ -255,8 +258,8 @@ function Details({
   }
 
   return (
-    <div className="axis rc-body">
-      <div className="l">
+    <div className="rc-body">
+      <div>
         <h1 ref={headingRef} className="rc-q rc-q-enter" tabIndex={-1}>
           Where do we send your result?
         </h1>
@@ -270,7 +273,7 @@ function Details({
           </button>
         </div>
       </div>
-      <div className="r rc-q-enter">
+      <div className="rc-q-enter">
         <form onSubmit={submit} style={{ maxWidth: "30rem" }}>
           <div className="field">
             <label htmlFor="rc-name">Your name</label>

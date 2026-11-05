@@ -24,6 +24,7 @@ const nextConfig: NextConfig = {
       ["/work/dsec", "/work"],
       ["/work/cuts-and-shavez", "/work"],
       ["/work/thurman", "/work"],
+      ["/work/farmers-intuition", "/work"],
     ].map(([source, destination]) => ({ source, destination, permanent: true }));
   },
 };

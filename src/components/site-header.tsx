@@ -53,23 +53,27 @@ export default function SiteHeader()
     };
   }, [open]);
 
-  const isCurrent = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
+  // "page" only on the page itself. Deeper pages, like a single case, mark their section with "true".
+  const currentState = (href: string) => {
+    if (pathname === href) {
+      return "page";
+    }
+    return pathname.startsWith(`${href}/`) ? "true" : undefined;
+  };
 
   return (
     <>
       <header className="hd">
-        <div className="hd-left">
-          <Link className="hd-mark" href="/" aria-label="Clupai home" onClick={() => setOpen(false)}>
-            clup<span>ai</span>
-          </Link>
-          <nav className="hd-tab" aria-label="Main">
-            {links.map((l) => (
-              <Link key={l.href} href={l.href} aria-current={isCurrent(l.href) ? "page" : undefined}>
-                {l.label}
-              </Link>
-            ))}
-          </nav>
-        </div>
+        <Link className="hd-mark" href="/" aria-label="Clupai home" onClick={() => setOpen(false)}>
+          CLUPAI
+        </Link>
+        <nav className="hd-tab" aria-label="Main">
+          {links.map((l) => (
+            <Link key={l.href} href={l.href} aria-current={currentState(l.href)}>
+              {l.label}
+            </Link>
+          ))}
+        </nav>
         {pathname.startsWith("/start") ? null : (
           <Link className="hd-cta" href="/start">
             {CTA_LABEL}
@@ -87,7 +91,7 @@ export default function SiteHeader()
         </button>
       </header>
       {open && (
-        <div className="sheet on-field" id="site-menu" ref={sheet}>
+        <div className="sheet f-orange" id="site-menu" ref={sheet}>
           <nav aria-label="Menu">
             <ul>
               {links.map((l) => (
@@ -100,7 +104,7 @@ export default function SiteHeader()
             </ul>
           </nav>
           <div>
-            <Link className="btn btn--white" href="/start" onClick={() => setOpen(false)}>
+            <Link className="btn" href="/start" onClick={() => setOpen(false)}>
               {CTA_LABEL}
             </Link>
             <p className="t-small" style={{ marginTop: 10 }}>

@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import CloseBand from "@/components/close-band";
 import LedgerRow from "@/components/ledger-row";
+import { caseBySlug } from "@/data/cases";
 import { inWork, released } from "@/data/products";
 
 export const metadata: Metadata = {
@@ -12,19 +13,23 @@ export const metadata: Metadata = {
   alternates: { canonical: "/products" },
 };
 
+const RELEASED_TONES = ["f-orange", "f-yellow", "f-sage"];
+const POSTER_TONES = ["f-yellow", "f-orange"];
+
 export default function ProductsPage()
 {
+  let posters = 0;
+
   return (
     <>
-      <header className="page-head">
-        <h1 className="page-title">Software we made for ourselves.</h1>
-        <div className="axis page-lead">
-          <div className="l" />
-          <div className="r">
-            <p className="t-lead" style={{ maxWidth: "30em" }}>
+      <header className="head f-sage">
+        <h1 className="t-giant">Software we made for ourselves.</h1>
+        <div className="head-lead">
+          <div>
+            <p className="t-lead">
               We build our own products the same way we build yours. Some are out. Some are still in the works.
             </p>
-            <div className="ledger-links">
+            <div className="links">
               <a className="tlink" href="#released">
                 Released ({released.length})
               </a>
@@ -37,7 +42,7 @@ export default function ProductsPage()
       </header>
 
       <section id="released" aria-labelledby="released-title">
-        <div className="work-sub" style={{ paddingTop: "clamp(32px, 5vw, 72px)", paddingInline: "var(--margin)" }}>
+        <div className="grid group-head">
           <h2 className="t-head rise" id="released-title">
             Released.
           </h2>
@@ -51,6 +56,9 @@ export default function ProductsPage()
             tag={p.badge}
             line={p.line}
             picture={p.image as { src: string; alt: string }}
+            clip={p.caseSlug ? caseBySlug(p.caseSlug)?.clip : undefined}
+            tone={RELEASED_TONES[i % RELEASED_TONES.length]!}
+            flip={i % 2 === 1}
             loadFirst={i === 0}
             links={[
               ...(p.link ? [{ ...p.link, primary: true }] : []),
@@ -60,42 +68,36 @@ export default function ProductsPage()
         ))}
       </section>
 
-      <section className="on-ink" id="in-the-works" aria-labelledby="works-title" style={{ marginTop: "var(--section)" }}>
-        <div className="axis sec-head" style={{ paddingTop: "var(--section)" }}>
-          <div className="l">
-            <h2 className="t-head rise" id="works-title">
-              In the works.
-            </h2>
-          </div>
-          <div className="r">
-            <p className="t-lead" style={{ maxWidth: "30em" }}>
-              What’s on the bench right now, and how far along each one is.
-            </p>
-          </div>
+      <section className="f-ink" id="in-the-works" aria-labelledby="works-title">
+        <div className="grid works-head">
+          <h2 className="t-head rise" id="works-title">
+            In the works.
+          </h2>
+          <p className="t-lead rise rise-2">What’s on the bench right now, and how far along each one is.</p>
         </div>
         <div className="works-mosaic">
           {inWork.map((p) => (
             <article key={p.slug}>
               {p.image ? (
-                <div className="works-pic rise">
-                  <Image src={p.image.src} alt={p.image.alt} fill sizes="(max-width: 720px) 100vw, 50vw" />
+                <div className="works-pic">
+                  <Image src={p.image.src} alt={p.image.alt} fill sizes="(max-width: 820px) 100vw, 58vw" />
                 </div>
               ) : (
-                <div className="works-pic works-pic--flat rise">
+                <div className={`works-pic works-pic--flat ${POSTER_TONES[posters++ % POSTER_TONES.length]}`}>
                   <p className="t-head">{p.poster}</p>
                 </div>
               )}
               <div className="works-entry">
-                <h3 className="t-name">
+                <h3 className="t-name rise">
                   {p.caseSlug ? <Link href={`/work/${p.caseSlug}`}>{p.name}</Link> : p.name}
                 </h3>
-                <p className="ledger-meta t-small">
+                <p className="meta t-small rise rise-2">
                   <strong>{p.since}</strong>
                   <span className="tag">{p.badge}</span>
                 </p>
-                <p>{p.line}</p>
+                <p className="rise rise-2">{p.line}</p>
                 {p.link || p.caseSlug ? (
-                  <div className="ledger-links">
+                  <div className="links rise rise-3">
                     {p.link ? (
                       <a className="tlink" href={p.link.href} rel="noreferrer">
                         {p.link.label}

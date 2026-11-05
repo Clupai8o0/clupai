@@ -1,22 +1,39 @@
 import Link from "next/link";
+import type { CSSProperties } from "react";
+
+const BLOCKS = [
+  { letter: "C", h: "100%", block: "var(--ink)", color: "var(--paper)" },
+  { letter: "L", h: "74%", block: "var(--accent)", color: "var(--ink)" },
+  { letter: "U", h: "88%", block: "var(--sage)", color: "var(--ink)" },
+  { letter: "P", h: "66%", block: "var(--yellow)", color: "var(--ink)" },
+  { letter: "A", h: "100%", block: "var(--ink)", color: "var(--paper)" },
+  { letter: "I", h: "80%", block: "var(--accent)", color: "var(--ink)" },
+];
 
 export default function SiteFooter()
 {
   return (
-    <footer className="ft on-ink">
+    <footer className="ft f-white">
       <div className="ft-mark" aria-hidden="true">
-        clup<span>ai</span>
+        {BLOCKS.map((b) => (
+          <span
+            key={b.letter}
+            style={{ "--h": b.h, "--block": b.block, color: b.color } as CSSProperties}
+          >
+            {b.letter}
+          </span>
+        ))}
       </div>
       <div className="ft-grid">
-        <div className="ft-big">
-          <p>
+        <div className="rise">
+          <p className="ft-big">
             <a className="tlink" href="mailto:hello@clupai.com">
               hello@clupai.com
             </a>
           </p>
-          <p>Melbourne, Australia</p>
+          <p className="ft-place">Melbourne, Australia</p>
         </div>
-        <div>
+        <div className="rise rise-2">
           <h2>Clupai</h2>
           <ul>
             <li>
@@ -35,13 +52,18 @@ export default function SiteFooter()
               </Link>
             </li>
             <li>
+              <Link className="tlink" href="/contact">
+                Contact
+              </Link>
+            </li>
+            <li>
               <Link className="tlink" href="/start">
                 Build Risk Check
               </Link>
             </li>
           </ul>
         </div>
-        <div>
+        <div className="rise rise-3">
           <h2>Elsewhere</h2>
           <ul>
             <li>

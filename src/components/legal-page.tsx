@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import ScreenStrip from "@/components/screen-strip";
 
 export type LegalSection = {
   id: string;
@@ -20,14 +21,11 @@ export default function LegalPage({
 {
   return (
     <>
-      <header className="page-head">
-        <h1 className="page-title">{title}</h1>
-        <div className="axis page-lead">
-          <div className="l" />
-          <div className="r">
-            <p className="t-lead" style={{ maxWidth: "30em" }}>
-              {intro}
-            </p>
+      <header className="head f-sage">
+        <h1 className="t-giant">{title}</h1>
+        <div className="head-lead">
+          <div>
+            <p className="t-lead">{intro}</p>
             <p className="t-small" style={{ marginTop: 18 }}>
               Last updated {updated}
             </p>
@@ -35,19 +33,18 @@ export default function LegalPage({
         </div>
       </header>
 
-      <div className="sec" style={{ paddingTop: 0 }}>
-        <div className="axis">
-          <div className="l" />
-          <div className="r legal-body">
-            {sections.map((s) => (
-              <section key={s.id} id={s.id}>
-                <h2>{s.heading}</h2>
-                {s.body}
-              </section>
-            ))}
-          </div>
+      <div className="sec grid">
+        <div className="legal-body">
+          {sections.map((s) => (
+            <section key={s.id} id={s.id} className="rise">
+              <h2>{s.heading}</h2>
+              {s.body}
+            </section>
+          ))}
         </div>
       </div>
+
+      <ScreenStrip />
     </>
   );
 }

@@ -8,8 +8,8 @@ export default function manifest(): MetadataRoute.Manifest
     description: "We build software for Australian founders and launch it by the date we agree, or you stop paying.",
     start_url: "/",
     display: "standalone",
-    background_color: "#eef0f3",
-    theme_color: "#eef0f3",
+    background_color: "#ffffff",
+    theme_color: "#fe7141",
     icons: [
       { src: "/icon-192.png", type: "image/png", sizes: "192x192" },
       { src: "/icon-512.png", type: "image/png", sizes: "512x512" },

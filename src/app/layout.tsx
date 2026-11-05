@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+import { Big_Shoulders, Public_Sans } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
@@ -7,12 +7,17 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import SiteHeader from "@/components/site-header";
 import SiteFooter from "@/components/site-footer";
 
-const erode = localFont({
-  src: [
-    { path: "../fonts/Erode-Variable.woff2", style: "normal", weight: "300 700" },
-    { path: "../fonts/Erode-VariableItalic.woff2", style: "italic", weight: "300 700" },
-  ],
-  variable: "--font-erode",
+const display = Big_Shoulders({
+  subsets: ["latin"],
+  axes: ["opsz"],
+  variable: "--font-display",
+  display: "swap",
+});
+
+const text = Public_Sans({
+  subsets: ["latin"],
+  weight: ["400", "600"],
+  variable: "--font-text",
   display: "swap",
 });
 
@@ -74,7 +79,7 @@ export default function RootLayout({
 }>)
 {
   return (
-    <html lang="en-AU" className={erode.variable}>
+    <html lang="en-AU" className={`${display.variable} ${text.variable}`}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: STRIP_PREFILL }} />
       </head>
