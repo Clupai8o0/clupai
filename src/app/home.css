@@ -1,0 +1,2142 @@
+/* The home page. Three parts:
+   1. .home: type and colour, always true.
+   2. html:not(.m) .home: the plain flowing page, for no JS and reduced motion. Nothing pinned, nothing hidden.
+   3. html.m .home: the staged page. Pinned screens and hidden start states exist only here, so taking
+      html.m away (the failsafe) brings back the plain page. */
+
+.home {
+  --fg: var(--paper);
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 16px;
+  line-height: normal;
+
+  & a:not(.btn) {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  & img,
+  & video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Oversized so a drifting picture never shows its edge. */
+  & .soft img {
+    width: 108%;
+    height: 108%;
+  }
+
+  & .btn {
+    --btn-bg: var(--paper);
+    --btn-fg: var(--ink);
+  }
+
+  & .soft-hero img {
+    opacity: 0.72;
+  }
+
+  & .soft-hero::before {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 30%, var(--ink) 62%);
+  }
+
+  & .soft-promise img {
+    opacity: 0.62;
+  }
+
+  & .soft-ask {
+    transform: scaleX(-1);
+  }
+
+  & .soft-ask img {
+    opacity: 0.94;
+  }
+
+  & .soft-end img {
+    opacity: 0.55;
+  }
+
+  /* Hero */
+  & .hero-top h1 {
+    font-weight: 500;
+    font-size: 6.5vw;
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+  }
+
+  & .ln {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.12em;
+    margin-bottom: -0.12em;
+  }
+
+  & .ln > span {
+    display: block;
+  }
+
+  & .hero-sub p {
+    font-size: 19px;
+    line-height: 1.32;
+    letter-spacing: -0.012em;
+    color: #e4e2dd;
+    margin-bottom: 20px;
+  }
+
+  & .film {
+    overflow: hidden;
+    background: #111;
+  }
+
+  & .cut {
+    object-position: 50% 8%;
+  }
+
+  /* Chapters */
+  & .ch-name {
+    font-weight: 600;
+    letter-spacing: -0.06em;
+    line-height: 0.86;
+  }
+
+  & .fact {
+    font-size: 17px;
+    line-height: 1.3;
+    letter-spacing: -0.008em;
+    font-weight: 500;
+  }
+
+  & .fact span {
+    display: block;
+    opacity: 0.68;
+    font-weight: 400;
+  }
+
+  & .quote {
+    font-size: 2.45vw;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    font-weight: 500;
+  }
+
+  & .quote cite {
+    display: block;
+    font-style: normal;
+    font-size: 16px;
+    letter-spacing: -0.005em;
+    font-weight: 400;
+    margin-top: 14px;
+    opacity: 0.75;
+    line-height: 1.3;
+  }
+
+  & .what {
+    font-size: 2.45vw;
+    line-height: 1.06;
+    letter-spacing: -0.03em;
+    font-weight: 500;
+  }
+
+  & .hd-name {
+    font-size: 12.4vw;
+  }
+
+  & .ch-kdg {
+    --fg: #050505;
+    background: var(--yellow);
+    color: #050505;
+  }
+
+  & .kd-name {
+    font-size: 11.6vw;
+  }
+
+  & .kd-film {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 1280 / 760;
+    background: #fff;
+  }
+
+  & .kd-film video {
+    position: absolute;
+    inset: 0;
+  }
+
+  & .kd-num {
+    font-weight: 600;
+    font-size: 11.6vw;
+    line-height: 0.85;
+    letter-spacing: -0.06em;
+  }
+
+  & .kd-num i {
+    font-style: normal;
+    opacity: 0.32;
+  }
+
+  & .kd-side .quote {
+    font-size: 1.85vw;
+    line-height: 1.12;
+    letter-spacing: -0.022em;
+  }
+
+  & .ch-school {
+    background: var(--red);
+    color: #fff;
+  }
+
+  & .sc-pic {
+    overflow: hidden;
+  }
+
+  & .sc-pic img {
+    object-position: 42% 0;
+  }
+
+  & .sc-name {
+    font-size: 8.8vw;
+  }
+
+  & .sc-copy .quote {
+    margin-bottom: 26px;
+    font-size: 3vw;
+  }
+
+  /* Promise */
+  & .promise {
+    position: relative;
+    background: var(--ink);
+    overflow: hidden;
+  }
+
+  & .promise-t {
+    position: relative;
+    z-index: 1;
+    font-weight: 500;
+    font-size: 10.8vw;
+    line-height: 0.93;
+    letter-spacing: -0.055em;
+  }
+
+  & .fw {
+    position: relative;
+  }
+
+  & .chip {
+    position: relative;
+    display: inline-block;
+    isolation: isolate;
+    padding: 0 0.1em;
+    margin: 0 -0.02em;
+    white-space: nowrap;
+  }
+
+  & .chip-bg {
+    position: absolute;
+    z-index: -1;
+    inset: 0.06em 0 0.02em 0;
+  }
+
+  & .c-y .chip-bg {
+    background: var(--yellow);
+  }
+
+  & .c-y .fw {
+    color: var(--ink);
+  }
+
+  & .c-r .chip-bg {
+    background: var(--red);
+  }
+
+  & .promise-end {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 4vh;
+    font-size: 21px;
+    letter-spacing: -0.015em;
+    color: #e4e2dd;
+  }
+
+  /* How it works */
+  & .how {
+    --fg: #070707;
+    position: relative;
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  & .st h3 {
+    font-weight: 600;
+    font-size: 12.5vw;
+    line-height: 0.9;
+    letter-spacing: -0.06em;
+    margin-bottom: 4vh;
+  }
+
+  & .st p {
+    font-size: 2vw;
+    line-height: 1.16;
+    letter-spacing: -0.025em;
+    font-weight: 500;
+  }
+
+  & .st5 h3 {
+    font-size: 9.6vw;
+    white-space: nowrap;
+    margin-bottom: 4vh;
+  }
+
+  & .st5 .big {
+    font-size: 3vw;
+    line-height: 1.08;
+    letter-spacing: -0.035em;
+    margin-bottom: 4vh;
+  }
+
+  & .st5 ul {
+    list-style: none;
+    padding: 0;
+    font-size: 21px;
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+    max-width: 42vw;
+  }
+
+  & .st5 li + li {
+    margin-top: 8px;
+  }
+
+  & .st5 .small {
+    margin-top: 3vh;
+    font-size: 21px;
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+  }
+
+  & .twr {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  & .tw {
+    position: relative;
+    transform-origin: 50% 100%;
+  }
+
+  & .tw-i {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transform-origin: 50% 100%;
+  }
+
+  & .tw-i b {
+    font-weight: 600;
+    letter-spacing: -0.06em;
+    line-height: 0.9;
+  }
+
+  & .tw-i > span {
+    font-weight: 500;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+  }
+
+  & .tw-20 {
+    width: 15vw;
+    height: 17vh;
+  }
+
+  & .i-20 {
+    isolation: isolate;
+    color: var(--ink);
+    justify-content: flex-end;
+    padding-bottom: 1.2vh;
+  }
+
+  & .i-20::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    background: var(--yellow);
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  }
+
+  & .i-20 b {
+    font-size: 2.6vw;
+  }
+
+  & .tw-30 {
+    width: 20vw;
+    height: 20vh;
+  }
+
+  & .i-30 {
+    background: var(--red);
+    color: #fff;
+  }
+
+  & .i-30 b {
+    font-size: 4.8vw;
+  }
+
+  & .tw-50 {
+    width: 26vw;
+    height: 34vh;
+  }
+
+  & .tw-50 .tw-i {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  & .tw-50 b {
+    font-size: 8vw;
+  }
+
+  & .tw-pad {
+    width: 32vw;
+    height: 3.4vh;
+    background: var(--blue);
+    color: var(--ink);
+    text-align: center;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 3.4vh;
+    letter-spacing: -0.01em;
+  }
+
+  & .flag {
+    position: absolute;
+    left: 50%;
+    bottom: 100%;
+    width: 3px;
+    height: 8.5vh;
+    background: var(--ink);
+    transform-origin: 50% 100%;
+  }
+
+  & .flag i {
+    position: absolute;
+    left: 3px;
+    top: 0;
+    font-style: normal;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 15px;
+    font-weight: 500;
+    padding: 6px 12px 7px;
+    line-height: 1;
+  }
+
+  & .stick {
+    position: absolute;
+    z-index: 2;
+    left: 50%;
+    top: 50%;
+    padding: 0.35em 0.6em 0.4em;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 1.5vw;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  & .i-20 .stick,
+  & .i-30 .stick {
+    top: 80%;
+  }
+
+  & .st-a {
+    top: 13%;
+    background: var(--yellow);
+  }
+
+  & .st-b {
+    top: 88%;
+  }
+
+  /* The first question */
+  & .ask {
+    position: relative;
+    overflow: hidden;
+    background: var(--ink);
+  }
+
+  & .ask h2 {
+    position: relative;
+    z-index: 1;
+    font-weight: 500;
+    font-size: 6.5vw;
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+  }
+
+  & .ask-sub {
+    position: relative;
+    z-index: 1;
+    margin-top: 2.6vh;
+    max-width: 40vw;
+    font-size: 21px;
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+    color: #e4e2dd;
+    font-weight: 500;
+  }
+
+  & .lbl {
+    display: block;
+    text-align: center;
+    font-weight: 500;
+    font-size: 2.1vw;
+    line-height: 1;
+    letter-spacing: -0.035em;
+    color: var(--ink);
+  }
+
+  & .toy-0 .toy-bg {
+    background: var(--blue);
+  }
+
+  & .toy-1 .toy-bg {
+    background: var(--yellow);
+  }
+
+  & .toy-2 .toy-bg {
+    background: var(--red);
+  }
+
+  & .toy-2 .lbl {
+    color: #fff;
+  }
+
+  & .toy-3 .toy-bg {
+    background: var(--paper);
+  }
+
+  /* Launch board */
+  & .board {
+    position: relative;
+    padding: 15vh 2vw 13vh;
+    background: var(--ink);
+  }
+
+  & .board-h {
+    font-weight: 500;
+    font-size: 6.5vw;
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+    margin-bottom: 8vh;
+    max-width: 74vw;
+  }
+
+  & .board-head,
+  & .b-row {
+    display: grid;
+    grid-template-columns: 37vw 26.5vw 13.5vw 8.5vw 1fr;
+    column-gap: 0;
+    align-items: baseline;
+  }
+
+  & .board-head {
+    font-size: 15px;
+    color: var(--dim);
+    padding: 0 0.8vw 14px;
+  }
+
+  & .b-row {
+    position: relative;
+    padding: 1.15vw 0.8vw 1.25vw;
+    isolation: isolate;
+  }
+
+  & .b-row::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    background: var(--fill);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  & .r-name {
+    font-size: 3.5vw;
+    line-height: 1;
+    letter-spacing: -0.045em;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  & .r-dim {
+    color: var(--dim);
+    font-size: 17px;
+    line-height: 1.25;
+    letter-spacing: -0.008em;
+    padding-right: 1.5vw;
+  }
+
+  & .r-st {
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: -0.008em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  & .st-i {
+    flex: none;
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    background: currentColor;
+  }
+
+  & .st-rel {
+    background: none;
+    box-shadow: inset 0 0 0 2.5px currentColor;
+  }
+
+  & .st-wip {
+    height: 5px;
+  }
+
+  & .is-live {
+    color: var(--blue);
+  }
+
+  & .b-row:focus-visible::before {
+    transform: scaleY(1);
+  }
+
+  & .b-row:focus-visible {
+    color: var(--on, var(--ink));
+  }
+
+  & .b-row:focus-visible .r-dim {
+    color: var(--on, #2b2b29);
+  }
+
+  & .b-row:focus-visible .is-live {
+    color: inherit;
+  }
+
+  & .peek {
+    position: fixed;
+    z-index: 40;
+    left: 0;
+    top: 0;
+    width: 26vw;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  & .peek img {
+    object-position: top;
+  }
+
+  & .peek img.is-wip {
+    filter: blur(14px);
+    transform: scale(1.12);
+  }
+
+  /* Founder */
+  & .founder {
+    --fg: #070707;
+    position: relative;
+    display: grid;
+    grid-template-columns: 46vw 1fr;
+    min-height: 100vh;
+    background: var(--yellow);
+    color: var(--ink);
+    padding-top: 13vh;
+  }
+
+  & .founder-pic {
+    position: relative;
+    overflow: hidden;
+    align-self: end;
+    height: 87vh;
+    margin: 0 0 0 2vw;
+    background: #111;
+  }
+
+  & .founder-img {
+    position: absolute;
+    inset: -6% 0;
+  }
+
+  & .founder-img img {
+    object-position: 50% 20%;
+  }
+
+  & .founder-copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0 2vw 4vh 3vw;
+  }
+
+  & .founder-q {
+    font-size: 4.5vw;
+    line-height: 1;
+    letter-spacing: -0.045em;
+    font-weight: 500;
+  }
+
+  & .founder-meta {
+    font-size: 19px;
+    line-height: 1.4;
+    letter-spacing: -0.012em;
+    font-weight: 400;
+  }
+
+  & .founder-meta b {
+    display: block;
+    font-weight: 500;
+    font-size: 26px;
+    letter-spacing: -0.025em;
+    margin-bottom: 10px;
+  }
+
+  /* Questions */
+  & .faq {
+    padding: 15vh 2vw;
+    background: var(--ink);
+    display: grid;
+    grid-template-columns: 32vw 1fr;
+  }
+
+  & .faq-side {
+    position: sticky;
+    top: 13vh;
+    align-self: start;
+  }
+
+  & .faq h2 {
+    font-weight: 500;
+    font-size: 4.5vw;
+    line-height: 1;
+    letter-spacing: -0.045em;
+  }
+
+  & .faq-soft {
+    position: relative;
+    inset: auto;
+    width: 23vw;
+    aspect-ratio: 3 / 4;
+    margin-top: 5vh;
+  }
+
+  & .faq details {
+    padding: 1.2vw 0 1.3vw;
+  }
+
+  & .faq summary {
+    list-style: none;
+    cursor: pointer;
+    font-size: 3.2vw;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    font-weight: 500;
+    display: flex;
+    gap: 0.4em;
+    align-items: flex-start;
+    transition: color 0.25s;
+  }
+
+  & .faq summary::-webkit-details-marker {
+    display: none;
+  }
+
+  & .faq summary::before {
+    content: "";
+    flex: none;
+    width: 0.56em;
+    height: 0.56em;
+    margin-top: 0.24em;
+    background: var(--blue);
+    transition: background 0.3s, transform 0.5s cubic-bezier(0.2, 1.6, 0.4, 1);
+  }
+
+  & .faq details[open] summary::before {
+    background: var(--yellow);
+    transform: rotate(45deg);
+  }
+
+  & .faq details:not([open]) summary {
+    color: #77776f;
+  }
+
+  & .faq details p {
+    margin-top: 16px;
+    max-width: 46vw;
+    margin-left: calc(3.2vw * 0.96);
+    font-size: 21px;
+    line-height: 1.34;
+    letter-spacing: -0.012em;
+    color: #d6d4cf;
+  }
+
+  /* Close */
+  & .close {
+    --fg: #070707;
+    position: relative;
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  & .close-ask {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3vw;
+    padding: 13vh 2vw 9vh;
+    align-items: start;
+  }
+
+  & .close-t {
+    font-weight: 600;
+    font-size: 12vw;
+    line-height: 0.86;
+    letter-spacing: -0.06em;
+  }
+
+  & .close-sub {
+    margin-top: 6vh;
+    max-width: 34vw;
+    font-size: 22px;
+    line-height: 1.26;
+    letter-spacing: -0.018em;
+    font-weight: 500;
+  }
+
+  & .close-soft {
+    position: relative;
+    inset: auto;
+    z-index: auto;
+    width: 37vw;
+    aspect-ratio: 16 / 9;
+    margin-top: 5vh;
+    mix-blend-mode: multiply;
+  }
+
+  & .close-soft::after {
+    display: none;
+  }
+
+  & .close-q {
+    font-size: 3.2vw;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    font-weight: 500;
+    margin-bottom: 3vh;
+  }
+
+  & .close-ans {
+    list-style: none;
+    padding: 0;
+  }
+
+  & .close-btn {
+    display: block;
+    position: relative;
+    width: 100%;
+    padding: 1.15vw 1.4vw;
+    font-size: 2.3vw;
+    letter-spacing: -0.035em;
+    font-weight: 500;
+    line-height: 1.1;
+    background: #e4e1d9;
+    margin-bottom: 8px;
+    isolation: isolate;
+    overflow: hidden;
+    transition: color 0.25s;
+  }
+
+  & .close-btn::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    background: var(--ink);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  & .close-btn:focus-visible::before {
+    transform: scaleX(1);
+  }
+
+  & .close-btn:focus-visible {
+    color: var(--paper);
+  }
+
+  & .close-end {
+    --fg: var(--paper);
+    position: relative;
+    overflow: hidden;
+    background: var(--ink);
+    color: #fff;
+  }
+
+  @media (hover: hover) {
+    & .b-row:hover::before {
+      transform: scaleY(1);
+    }
+
+    & .b-row:hover {
+      color: var(--on, var(--ink));
+    }
+
+    & .b-row:hover .r-dim {
+      color: var(--on, #2b2b29);
+    }
+
+    & .b-row:hover .is-live {
+      color: inherit;
+    }
+
+    & .faq details:not([open]) summary:hover {
+      color: var(--paper);
+    }
+
+    & .close-btn:hover::before {
+      transform: scaleX(1);
+    }
+
+    & .close-btn:hover {
+      color: var(--paper);
+    }
+
+    & .miss:hover {
+      background: #e01535;
+    }
+  }
+
+  @media (max-width: 720px) {
+    & .hero-top h1 {
+      font-size: 12.7vw;
+    }
+
+    & .hero-sub p {
+      font-size: 17px;
+      margin-bottom: 14px;
+    }
+
+    & .hero-sub .btn {
+      font-size: 16px;
+    }
+
+    & .what {
+      font-size: 6vw;
+    }
+
+    & .quote {
+      font-size: 5.6vw;
+    }
+
+    & .quote cite {
+      font-size: 14px;
+      margin-top: 8px;
+    }
+
+    & .fact {
+      font-size: 14px;
+    }
+
+    & .hd-name {
+      font-size: 20vw;
+    }
+
+    & .kd-name {
+      font-size: 17.5vw;
+    }
+
+    & .kd-film {
+      aspect-ratio: 1 / 0.7;
+    }
+
+    & .kd-num {
+      font-size: 26vw;
+    }
+
+    & .kd-side .fact {
+      margin-bottom: 14px;
+    }
+
+    & .kd-side .quote {
+      font-size: 5vw;
+    }
+
+    & .sc-name {
+      font-size: 17vw;
+    }
+
+    & .sc-copy .quote {
+      font-size: 7vw;
+      margin-bottom: 18px;
+    }
+
+    & .promise-t {
+      font-size: 15.6vw;
+    }
+
+    & .promise-end {
+      display: block;
+      font-size: 17px;
+    }
+
+    & .st h3 {
+      font-size: 22vw;
+      margin-bottom: 12px;
+    }
+
+    & .st p {
+      font-size: 5.2vw;
+    }
+
+    & .st5 h3 {
+      font-size: 13.4vw;
+      margin-bottom: 12px;
+    }
+
+    & .st5 .big {
+      font-size: 5vw;
+      margin-bottom: 12px;
+    }
+
+    & .st5 ul {
+      font-size: 14px;
+      max-width: none;
+    }
+
+    & .st5 li + li {
+      margin-top: 3px;
+    }
+
+    & .st5 .small {
+      margin-top: 8px;
+      font-size: 14px;
+    }
+
+    & .tw-20 {
+      width: 28vw;
+      height: 9svh;
+    }
+
+    & .i-20 {
+      padding-bottom: 0.5svh;
+    }
+
+    & .i-20 b {
+      font-size: 4.6vw;
+    }
+
+    & .tw-30 {
+      width: 32vw;
+      height: 10svh;
+    }
+
+    & .i-30 b {
+      font-size: 8vw;
+    }
+
+    & .tw-50 {
+      width: 42vw;
+      height: 15svh;
+    }
+
+    & .tw-50 b {
+      font-size: 14vw;
+    }
+
+    & .tw-i > span {
+      font-size: 11px;
+    }
+
+    & .tw-pad {
+      width: 48vw;
+      height: 22px;
+      line-height: 22px;
+      font-size: 12px;
+    }
+
+    & .flag {
+      height: 5.5svh;
+    }
+
+    & .flag i {
+      font-size: 12px;
+      padding: 4px 8px 5px;
+    }
+
+    & .stick {
+      font-size: 3.6vw;
+    }
+
+    & .ask h2 {
+      font-size: 15vw;
+    }
+
+    & .ask-sub {
+      max-width: none;
+      font-size: 16px;
+    }
+
+    & .lbl {
+      font-size: 5vw;
+    }
+
+    & .board {
+      padding: 19vh 16px 10vh;
+    }
+
+    & .board-h {
+      font-size: 12.7vw;
+      max-width: none;
+      margin-bottom: 5vh;
+    }
+
+    & .board-head {
+      display: none;
+    }
+
+    & .b-row {
+      grid-template-columns: 1fr auto;
+      column-gap: 14px;
+      padding: 12px 0 14px;
+    }
+
+    & .r-name {
+      font-size: 7.4vw;
+      white-space: normal;
+      grid-column: 1;
+    }
+
+    & .r-st {
+      grid-column: 2;
+      grid-row: 1;
+      font-size: 14px;
+    }
+
+    & .r-what {
+      grid-column: 1 / -1;
+      font-size: 15px;
+      margin-top: 4px;
+    }
+
+    & .r-part {
+      grid-column: 1 / -1;
+      font-size: 14px;
+      margin-top: 2px;
+    }
+
+    & .r-when {
+      grid-column: 1 / -1;
+      font-size: 14px;
+      margin-top: 2px;
+    }
+
+    & .peek {
+      display: none;
+    }
+
+    & .founder {
+      display: block;
+      padding-top: 11vh;
+    }
+
+    & .founder-pic {
+      height: 56svh;
+      margin: 0 16px;
+    }
+
+    & .founder-copy {
+      padding: 26px 16px 40px;
+      display: block;
+    }
+
+    & .founder-q {
+      font-size: 10vw;
+      margin-bottom: 22px;
+    }
+
+    & .founder-meta {
+      font-size: 16px;
+    }
+
+    & .founder-meta b {
+      font-size: 22px;
+    }
+
+    & .faq {
+      display: block;
+      padding: 11vh 16px;
+    }
+
+    & .faq-side {
+      position: static;
+    }
+
+    & .faq h2 {
+      font-size: 12.7vw;
+      margin-bottom: 3vh;
+    }
+
+    & .faq-soft {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      margin: 0 0 4vh;
+    }
+
+    & .faq summary {
+      font-size: 7.4vw;
+    }
+
+    & .faq details {
+      padding: 10px 0 12px;
+    }
+
+    & .faq details p {
+      max-width: none;
+      font-size: 17px;
+      margin-left: 0;
+    }
+
+    & .close-ask {
+      display: block;
+      padding: 11vh 16px 7vh;
+    }
+
+    & .close-t {
+      font-size: 23vw;
+    }
+
+    & .close-sub {
+      max-width: none;
+      font-size: 18px;
+      margin-bottom: 3vh;
+    }
+
+    & .close-soft {
+      width: 100%;
+      margin: 0 0 4vh;
+    }
+
+    & .close-q {
+      font-size: 8.4vw;
+      margin-bottom: 16px;
+    }
+
+    & .close-btn {
+      font-size: 6vw;
+      padding: 13px 18px;
+    }
+  }
+}
+
+@supports (interpolate-size: allow-keywords) {
+  .home .faq details {
+    interpolate-size: allow-keywords;
+  }
+
+  .home .faq details::details-content {
+    height: 0;
+    overflow: clip;
+    transition: height 0.5s cubic-bezier(0.16, 1, 0.3, 1), content-visibility 0.5s allow-discrete;
+  }
+
+  .home .faq details[open]::details-content {
+    height: auto;
+  }
+}
+
+/* The hero's phone and desktop home-page cuts. */
+.home .cut-home-p {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .home .cut-home-d {
+    display: none;
+  }
+
+  .home .cut-home-p {
+    display: block;
+  }
+}
+
+/* ---------------------------------------------------- plain: no JS, reduced motion, failsafe */
+html:not(.m) .home {
+  & .wordmark,
+  & .end-word,
+  & .ch-hoddle,
+  & .how-fall,
+  & .miss,
+  & video {
+    display: none;
+  }
+
+  & .stage {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--ink);
+    padding-top: 6vh;
+  }
+
+  & .soft-hero {
+    height: 100svh;
+    bottom: auto;
+  }
+
+  & .hero-top {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    column-gap: 4vw;
+    align-items: end;
+    padding: 0 2vw;
+  }
+
+  & .hero-sub {
+    width: 25vw;
+    padding-bottom: 0.5vw;
+  }
+
+  & .static-word {
+    position: relative;
+    z-index: 2;
+    display: block;
+    width: 96vw;
+    margin: 6vh 2vw 2vh;
+    color: #fff;
+  }
+
+  & .film {
+    position: relative;
+    z-index: 2;
+    width: 96vw;
+    margin: 4vh 2vw 0;
+    aspect-ratio: 1280 / 760;
+  }
+
+  & .film > * {
+    position: absolute;
+    inset: 0;
+  }
+
+  & .cut:not(.cut-home) {
+    display: none;
+  }
+
+  & .ch-text {
+    position: relative;
+    z-index: 1;
+    margin-top: -18vw;
+    padding: calc(18vw + 6vh) 2vw 10vh;
+    background: var(--navy);
+    color: #fff;
+  }
+
+  & .hd-line,
+  & .hd-facts,
+  & .hd-quote {
+    margin-top: 5vh;
+    max-width: 70vw;
+  }
+
+  & .hd-facts {
+    display: flex;
+    gap: 34px;
+  }
+
+  & .ch-kdg,
+  & .ch-school {
+    position: relative;
+    padding: 10vh 2vw;
+  }
+
+  & .kd-film,
+  & .kd-num,
+  & .kd-side,
+  & .sc-pic,
+  & .sc-copy {
+    margin-top: 5vh;
+  }
+
+  & .kd-film {
+    width: 70vw;
+  }
+
+  & .kd-side {
+    display: grid;
+    grid-template-columns: 1fr 1.25fr;
+    gap: 3vw;
+    align-items: end;
+  }
+
+  & .sc-name {
+    margin-top: 4vh;
+  }
+
+  & .sc-pic {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    width: 70vw;
+  }
+
+  & .promise {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100svh;
+    padding: 10vh 2vw;
+  }
+
+  & .how {
+    display: grid;
+    grid-template-columns: 56vw 1fr;
+    align-items: start;
+    padding: 12vh 2vw;
+  }
+
+  & .st {
+    margin-bottom: 8vh;
+  }
+
+  & .st:last-child {
+    margin-bottom: 0;
+  }
+
+  & .how-r {
+    position: sticky;
+    top: 12vh;
+    padding-top: 10vh;
+  }
+
+  /* The stickers belong to the Miss the date game and would cover the bricks' labels. Their words are all in the copy beside the tower. */
+  & .stick {
+    display: none;
+  }
+
+  & .ask {
+    padding: 13vh 2vw;
+  }
+
+  & .toys {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-top: 6vh;
+  }
+
+  & .toy {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 22vh;
+    padding: 2vw;
+  }
+
+  & .toy-bg {
+    position: absolute;
+    inset: 0;
+  }
+
+  & .lbl-w,
+  & .lbl {
+    position: relative;
+  }
+
+  & .close-end {
+    padding: 14vh 2vw 6vh;
+  }
+
+  & .close-end .static-word {
+    margin: 0;
+  }
+
+  @media (max-width: 720px) {
+    & .stage {
+      padding-top: 4vh;
+    }
+
+    & .hero-top {
+      display: block;
+      padding: 0 16px;
+    }
+
+    & .hero-sub {
+      width: auto;
+      margin-top: 16px;
+    }
+
+    & .static-word {
+      width: calc(100vw - 32px);
+      margin: 6vh 16px 2vh;
+    }
+
+    & .film {
+      width: calc(100vw - 32px);
+      margin: 4vh 16px 0;
+      aspect-ratio: 1 / 0.7;
+    }
+
+    & .ch-text {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+
+    & .hd-line,
+    & .hd-facts,
+    & .hd-quote {
+      max-width: none;
+    }
+
+    & .hd-facts {
+      gap: 24px;
+    }
+
+    & .ch-kdg,
+    & .ch-school {
+      padding: 8vh 16px;
+    }
+
+    & .kd-film,
+    & .sc-pic {
+      width: 100%;
+    }
+
+    & .kd-side {
+      display: block;
+    }
+
+    & .promise {
+      padding: 8vh 16px;
+    }
+
+    & .how {
+      display: block;
+      padding: 8vh 16px;
+    }
+
+    & .how-r {
+      position: relative;
+      top: auto;
+      display: flex;
+      justify-content: center;
+      padding-top: 12vh;
+    }
+
+    & .ask {
+      padding: 10vh 16px;
+    }
+
+    & .toys {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    & .toy {
+      min-height: 24vh;
+      padding: 12px;
+    }
+
+    & .close-end {
+      padding: 10vh 16px 4vh;
+    }
+  }
+}
+
+/* ---------------------------------------------------- staged: what motion needs */
+html.m .home {
+  & .static-word {
+    display: none;
+  }
+
+  & .stage {
+    position: relative;
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden;
+    background: var(--ink);
+  }
+
+  & .hero-top {
+    position: absolute;
+    z-index: 2;
+    left: 2vw;
+    right: 2vw;
+    top: 84px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    column-gap: 4vw;
+    align-items: end;
+  }
+
+  & .ln > span {
+    animation: home-rise 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+  }
+
+  & .ln:nth-child(2) > span {
+    animation-delay: 0.19s;
+  }
+
+  & .hero-sub {
+    width: 25vw;
+    padding-bottom: 0.5vw;
+    animation: home-fade 0.8s ease-out 0.45s both;
+  }
+
+  & .soft-hero {
+    animation: home-fade 1.4s ease-out both;
+  }
+
+  & .wordmark {
+    position: absolute;
+    z-index: 4;
+    inset: 0;
+    color: #fff;
+    mix-blend-mode: difference;
+    pointer-events: none;
+  }
+
+  & .w-group {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  & .film {
+    position: absolute;
+    z-index: 3;
+    will-change: left, top, width, height;
+  }
+
+  & .film > * {
+    position: absolute;
+    inset: 0;
+  }
+
+  & .cut {
+    visibility: hidden;
+  }
+
+  & .cut.is-on {
+    visibility: visible;
+  }
+
+  & #v-hoddle {
+    opacity: 0;
+  }
+
+  & .ch {
+    position: absolute;
+    inset: 0;
+  }
+
+  & .ch-hoddle {
+    z-index: 1;
+    background: var(--navy);
+    color: #fff;
+  }
+
+  & .ch-text {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    color: #fff;
+    pointer-events: none;
+  }
+
+  & .ch-name {
+    position: absolute;
+  }
+
+  & .win {
+    position: absolute;
+    left: 39vw;
+    top: 84px;
+    width: 59vw;
+    aspect-ratio: 1280 / 760;
+  }
+
+  & .hd-line,
+  & .hd-facts,
+  & .hd-quote {
+    position: absolute;
+  }
+
+  & .hd-line {
+    left: 2vw;
+    top: 84px;
+    width: 33vw;
+  }
+
+  & .hd-facts {
+    left: 2vw;
+    top: 28vh;
+    width: 33vw;
+    display: flex;
+    gap: 34px;
+  }
+
+  & .hd-quote {
+    left: 44vw;
+    bottom: 3.4vh;
+    width: 47vw;
+  }
+
+  & .hd-name {
+    left: 1.4vw;
+    bottom: 3.4vh;
+  }
+
+  & .ch-kdg {
+    z-index: 5;
+  }
+
+  & .kd-name {
+    left: 1.6vw;
+    top: 74px;
+  }
+
+  & .kd-film {
+    position: absolute;
+    left: 2vw;
+    bottom: 3vh;
+    width: 50vw;
+  }
+
+  & .kd-num {
+    position: absolute;
+    left: 55vw;
+    bottom: 22vh;
+  }
+
+  & .kd-side {
+    position: absolute;
+    left: 55vw;
+    bottom: 3vh;
+    right: 2vw;
+    display: grid;
+    grid-template-columns: 1fr 1.25fr;
+    gap: 3vw;
+    align-items: end;
+  }
+
+  & .ch-school {
+    z-index: 6;
+  }
+
+  & .sc-pic {
+    position: absolute;
+    left: 42vw;
+    top: 27vh;
+    right: 0;
+    bottom: 0;
+  }
+
+  & .sc-name {
+    left: 1.6vw;
+    top: 74px;
+  }
+
+  & .sc-copy {
+    position: absolute;
+    left: 2vw;
+    bottom: 4vh;
+    width: 36vw;
+  }
+
+  /* Promise */
+  & .promise {
+    height: 100vh;
+    height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 2vw;
+  }
+
+  & .fw {
+    color: #262624;
+  }
+
+  /* How */
+  & .how {
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden;
+  }
+
+  & .how-l {
+    position: absolute;
+    left: 2vw;
+    top: 88px;
+    bottom: 3vh;
+    width: 50vw;
+  }
+
+  & .st {
+    position: absolute;
+    inset: 0;
+  }
+
+  & .how-r {
+    position: absolute;
+    left: 50vw;
+    right: 0;
+    bottom: 0;
+    top: 0;
+  }
+
+  & .twr {
+    position: absolute;
+    left: 12vw;
+    width: 26vw;
+    bottom: 3vh;
+  }
+
+  & .tw-i {
+    will-change: transform;
+  }
+
+  & .how-fall {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  & .how-fall .tw-t {
+    visibility: hidden;
+  }
+
+  & .how-fall .tw-i {
+    position: absolute;
+  }
+
+  & .how.is-missed .tw-50 .tw-t {
+    visibility: hidden;
+  }
+
+  & .miss {
+    position: absolute;
+    z-index: 4;
+    left: 1.6vw;
+    bottom: 8vh;
+    width: 9.6vw;
+    height: 9.6vw;
+    background: var(--red);
+    color: #fff;
+    font-weight: 600;
+    font-size: 1.5vw;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1vw;
+    border: 0;
+    cursor: pointer;
+    transition: background 0.25s;
+  }
+
+  /* Toys */
+  & .ask {
+    height: 100vh;
+    height: 100svh;
+    padding: 13vh 2vw 0;
+  }
+
+  & .toy {
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    cursor: grab;
+    touch-action: pan-y;
+    user-select: none;
+    -webkit-user-drag: none;
+    will-change: transform;
+  }
+
+  & .toy-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  & .toy-0 .toy-bg {
+    clip-path: polygon(0 0, 50% 0, 50% 45%, 100% 45%, 100% 100%, 0 100%);
+  }
+
+  & .toy-1 .toy-bg {
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  }
+
+  & .lbl-w {
+    position: absolute;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+  }
+
+  & .lbl {
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: translate(-50%, -50%);
+    width: 15vw;
+  }
+
+  /* Close */
+  & .close-end {
+    height: calc(100vh - var(--ft-h));
+    height: calc(100svh - var(--ft-h));
+  }
+
+  & .end-word {
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+  }
+
+  & .tile {
+    position: absolute;
+    z-index: 3;
+    left: 0;
+    top: 0;
+    overflow: hidden;
+    will-change: transform;
+    cursor: grab;
+    touch-action: pan-y;
+  }
+
+  & .tile img {
+    object-position: top;
+    pointer-events: none;
+    -webkit-user-drag: none;
+  }
+
+  /* Letters: the wordmark and the end word */
+  & .blk {
+    position: absolute;
+    left: 0;
+    top: 0;
+    pointer-events: none;
+    will-change: transform;
+    touch-action: pan-y;
+  }
+
+  & .blk svg {
+    display: block;
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  & .blk svg * {
+    pointer-events: visiblePainted;
+    cursor: grab;
+    touch-action: pan-y;
+  }
+
+  & .blk svg .hit {
+    pointer-events: all;
+    fill: transparent;
+  }
+
+  & .end-word .blk svg * {
+    cursor: default;
+  }
+
+  @media (max-width: 720px) {
+    & .hero-top {
+      display: block;
+      left: 16px;
+      right: 16px;
+      top: 72px;
+    }
+
+    & .hero-sub {
+      width: auto;
+      margin-top: 16px;
+    }
+
+    & .win {
+      left: 16px;
+      right: 16px;
+      width: auto;
+      top: 22svh;
+    }
+
+    & .hd-name {
+      left: 13px;
+      top: 70px;
+      bottom: auto;
+    }
+
+    & .hd-line {
+      left: 16px;
+      right: 16px;
+      width: auto;
+      top: calc(22svh + 53vw + 18px);
+    }
+
+    & .hd-facts {
+      left: 16px;
+      right: 16px;
+      top: auto;
+      width: auto;
+      bottom: 26px;
+      gap: 24px;
+    }
+
+    & .hd-quote {
+      left: 16px;
+      right: 16px;
+      width: auto;
+      bottom: 86px;
+    }
+
+    & .kd-name {
+      left: 13px;
+      top: 70px;
+    }
+
+    & .kd-film {
+      left: 16px;
+      right: 16px;
+      width: auto;
+      top: calc(70px + 33vw + 14px);
+      bottom: auto;
+    }
+
+    & .kd-num {
+      left: 16px;
+      bottom: auto;
+      top: calc(70px + 33vw + 14px + 64.4vw + 16px);
+    }
+
+    & .kd-side {
+      left: 16px;
+      right: 16px;
+      bottom: 22px;
+      display: block;
+    }
+
+    & .sc-pic {
+      left: 0;
+      top: calc(70px + 40vw);
+      bottom: auto;
+      height: 100vw;
+    }
+
+    & .sc-name {
+      left: 13px;
+      top: 70px;
+    }
+
+    & .sc-copy {
+      left: 16px;
+      right: 16px;
+      width: auto;
+      bottom: 22px;
+    }
+
+    & .promise {
+      padding: 0 16px;
+    }
+
+    & .how-l {
+      left: 16px;
+      right: 16px;
+      width: auto;
+      top: 70px;
+    }
+
+    & .how-r {
+      left: 0;
+    }
+
+    & .twr {
+      left: 50vw;
+      width: 46vw;
+      bottom: 12px;
+    }
+
+    & .miss {
+      left: 16px;
+      bottom: 16px;
+      width: 27vw;
+      height: 27vw;
+      font-size: 4.4vw;
+    }
+
+    & .ask {
+      padding: 10vh 16px 0;
+    }
+
+    & .lbl {
+      width: 32vw;
+    }
+
+    & .r-part {
+      display: none;
+    }
+  }
+}
+
+@keyframes home-rise {
+  from {
+    transform: translateY(110%);
+  }
+
+  to {
+    transform: none;
+  }
+}
+
+@keyframes home-fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

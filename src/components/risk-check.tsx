@@ -3,7 +3,7 @@
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { type FormEvent, useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { type FormEvent, useCallback, useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
 import { writePrefill } from "@/lib/prefill";
 import { encodeAnswers, questions } from "@/lib/risk-check";
 import { track } from "@/lib/track";
@@ -18,6 +18,17 @@ const noopSubscribe = () => () => undefined;
 type Progress = { answers: number[]; step: number };
 
 const START: Progress = { answers: [], step: 0 };
+
+// A toy or answer on the home page lands here with ?what=<key>: that answer is question one, done.
+function answerFromLink(saved: Progress): Progress
+{
+  const what = new URLSearchParams(window.location.search).get("what");
+  const picked = questions[0]!.answers.findIndex((a) => a.key === what);
+  if (picked < 0 || saved.answers[0] === picked) {
+    return saved;
+  }
+  return { answers: [picked], step: 1 };
+}
 
 function loadProgress(): Progress
 {
@@ -54,6 +65,14 @@ function Flow({ restore }: { restore: boolean })
 
   const { answers, step } = progress;
   const onDetails = step >= questions.length;
+
+  // Not in useState: on a client-side navigation the address bar only changes after the first render.
+  useLayoutEffect(() => {
+    if (restore) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- the address bar is outside React, and a layout effect paints no wrong question first.
+      setProgress(answerFromLink);
+    }
+  }, [restore]);
 
   // The server-rendered pass starts empty, so it must not write over saved progress.
   useEffect(() => {

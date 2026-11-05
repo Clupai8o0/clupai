@@ -3,14 +3,16 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { Mark } from "@/components/wordmark";
 
 const links = [
   { label: "Work", href: "/work" },
   { label: "Products", href: "/products" },
+  { label: "How it works", href: "/how-it-works" },
   { label: "About", href: "/about" },
 ];
 
-export const CTA_LABEL = "Get your Build Risk Check";
+export const CTA_LABEL = "Start a project";
 
 export default function SiteHeader()
 {
@@ -26,7 +28,7 @@ export default function SiteHeader()
     }
     const button = menuButton.current;
     const behind = document.querySelectorAll<HTMLElement>("main, footer");
-    const wide = window.matchMedia("(min-width: 821px)");
+    const wide = window.matchMedia("(min-width: 721px)");
     const close = () => setOpen(false);
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -35,6 +37,7 @@ export default function SiteHeader()
     };
 
     document.body.style.overflow = "hidden";
+    window.dispatchEvent(new CustomEvent("site:lock", { detail: true }));
     behind.forEach((el) => {
       el.inert = true;
     });
@@ -44,6 +47,7 @@ export default function SiteHeader()
 
     return () => {
       document.body.style.overflow = "";
+      window.dispatchEvent(new CustomEvent("site:lock", { detail: false }));
       behind.forEach((el) => {
         el.inert = false;
       });
@@ -63,35 +67,35 @@ export default function SiteHeader()
 
   return (
     <>
-      <header className="hd">
-        <Link className="hd-mark" href="/" aria-label="Clupai home" onClick={() => setOpen(false)}>
-          CLUPAI
+      <header className="nav" data-over={pathname === "/"}>
+        <Link className="nav-logo" href="/" aria-label="Clupai home" onClick={() => setOpen(false)}>
+          <Mark height={30} className="nav-mark" />
         </Link>
-        <nav className="hd-tab" aria-label="Main">
+        <nav className="nav-r" aria-label="Main">
           {links.map((l) => (
-            <Link key={l.href} href={l.href} aria-current={currentState(l.href)}>
+            <Link className="nav-link" key={l.href} href={l.href} aria-current={currentState(l.href)}>
               {l.label}
             </Link>
           ))}
+          {pathname.startsWith("/start") ? null : (
+            <Link className="btn nav-btn js-start" href="/start" data-curtain="#ffe100">
+              {CTA_LABEL}
+            </Link>
+          )}
+          <button
+            type="button"
+            className="nav-menu"
+            ref={menuButton}
+            aria-expanded={open}
+            aria-controls="site-menu"
+            onClick={() => setOpen((v) => !v)}
+          >
+            {open ? "Close" : "Menu"}
+          </button>
         </nav>
-        {pathname.startsWith("/start") ? null : (
-          <Link className="hd-cta" href="/start">
-            {CTA_LABEL}
-          </Link>
-        )}
-        <button
-          type="button"
-          className="hd-menu"
-          ref={menuButton}
-          aria-expanded={open}
-          aria-controls="site-menu"
-          onClick={() => setOpen((v) => !v)}
-        >
-          {open ? "Close" : "Menu"}
-        </button>
       </header>
       {open && (
-        <div className="sheet f-orange" id="site-menu" ref={sheet}>
+        <div className="nav-sheet" id="site-menu" ref={sheet}>
           <nav aria-label="Menu">
             <ul>
               {links.map((l) => (
@@ -103,14 +107,9 @@ export default function SiteHeader()
               ))}
             </ul>
           </nav>
-          <div>
-            <Link className="btn" href="/start" onClick={() => setOpen(false)}>
-              {CTA_LABEL}
-            </Link>
-            <p className="t-small" style={{ marginTop: 10 }}>
-              Free. 2 minutes.
-            </p>
-          </div>
+          <Link className="btn" href="/start" onClick={() => setOpen(false)}>
+            {CTA_LABEL}
+          </Link>
         </div>
       )}
     </>

@@ -1,23 +1,17 @@
 import type { Metadata } from "next";
-import { Big_Shoulders, Public_Sans } from "next/font/google";
+import { Inter_Tight } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import SiteHeader from "@/components/site-header";
 import SiteFooter from "@/components/site-footer";
+import SiteMotion from "@/components/site-motion";
 
-const display = Big_Shoulders({
+const inter = Inter_Tight({
   subsets: ["latin"],
-  axes: ["opsz"],
-  variable: "--font-display",
-  display: "swap",
-});
-
-const text = Public_Sans({
-  subsets: ["latin"],
-  weight: ["400", "600"],
-  variable: "--font-text",
+  weight: ["400", "500", "600"],
+  variable: "--font-inter",
   display: "swap",
 });
 
@@ -72,6 +66,10 @@ const SHOULD_LOAD_PIXEL = Boolean(META_PIXEL_ID) && process.env.NODE_ENV !== "de
 // link from our email, so they never reach GA or the pixel. See src/lib/booking-link.ts.
 const STRIP_PREFILL = `(function(){var h=location.hash;if(location.pathname==="/start/result"&&h.indexOf("#p=")===0){try{sessionStorage.setItem("clupai-prefill",h.slice(3))}catch(e){}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}})()`;
 
+// Motion is opt-in: the plain page is the default, for no JS and for reduced motion.
+// If motion hasn't booted 6 seconds after load, the class comes off and the plain page shows.
+const MOTION_ON = `(function(){try{var d=document.documentElement;if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;d.classList.add("m");window.addEventListener("load",function(){setTimeout(function(){if(!window.__mOk)d.classList.remove("m")},6000)})}catch(e){}})()`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -79,9 +77,10 @@ export default function RootLayout({
 }>)
 {
   return (
-    <html lang="en-AU" className={`${display.variable} ${text.variable}`}>
+    <html lang="en-AU" className={inter.variable} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: STRIP_PREFILL }} />
+        <script dangerouslySetInnerHTML={{ __html: MOTION_ON }} />
       </head>
       <body>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
@@ -112,6 +111,7 @@ fbq('track','PageView');`}
         <SiteHeader />
         <main id="main">{children}</main>
         <SiteFooter />
+        <SiteMotion />
         <Analytics />
         <SpeedInsights />
       </body>

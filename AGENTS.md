@@ -7,7 +7,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 # Voice & copy rules
 
 - The company is always **"we"**. Never describe clupai as a "one-person" anything or use solo framing in user-facing copy (pages, meta, footer, emails, marketing). Say "company", not "studio".
-- Samridh Limbu may be named as founder. "I" is fine for Sam's own story (the founder section on /about), but identity statements ("a software company in Melbourne") stay collective.
+- Samridh Limbu may be named as founder. "I" is fine for Sam's own story (the founder section on /about), but identity statements ("a development agency in Melbourne") stay collective.
 - Every claim has to be true and checkable. The guarantee only ever applies as written in a signed agreement. No prices of ours on the site.
 
 # Email design rules
