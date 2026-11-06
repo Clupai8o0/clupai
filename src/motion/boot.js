@@ -5,6 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import { SHIFTER } from "./glyphs";
 import { makeDot } from "./kit";
+import { loadRoute } from "./routes";
 
 let core = null;
 
@@ -241,21 +242,15 @@ function hashTarget(hash)
   }
 }
 
-function loadRoute(pathname)
+// The first page load opens behind the loader (layout.tsx). It wipes up once, then stays gone.
+function liftLoader()
 {
-  if (pathname === "/") {
-    return import("./home");
+  const d = document.documentElement;
+  if (d.classList.contains("m-in")) {
+    return;
   }
-  if (pathname.startsWith("/start")) {
-    return import("./funnel");
-  }
-  if (pathname === "/products") {
-    return import("./shelf");
-  }
-  if (pathname === "/how-it-works") {
-    return import("./how");
-  }
-  return import("./inner");
+  d.classList.add("m-in");
+  setTimeout(() => d.classList.add("m-done"), 1000);
 }
 
 function fontsReady()
@@ -308,6 +303,7 @@ export function boot(pathname)
       main.dataset.ready = "1";
     }
     window.__mOk = true;
+    liftLoader();
     core.curtain.out();
     if (location.hash) {
       const target = hashTarget(location.hash);

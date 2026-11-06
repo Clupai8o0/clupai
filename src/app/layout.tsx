@@ -7,6 +7,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import SiteHeader from "@/components/site-header";
 import SiteFooter from "@/components/site-footer";
 import SiteMotion from "@/components/site-motion";
+import { Mark } from "@/components/wordmark";
 
 const inter = Inter_Tight({
   subsets: ["latin"],
@@ -70,6 +71,11 @@ const STRIP_PREFILL = `(function(){var h=location.hash;if(location.pathname==="/
 // If motion hasn't booted 6 seconds after load, the class comes off and the plain page shows.
 const MOTION_ON = `(function(){try{var d=document.documentElement;if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;d.classList.add("m");window.addEventListener("load",function(){setTimeout(function(){if(!window.__mOk)d.classList.remove("m")},6000)})}catch(e){}})()`;
 
+// Marks each picture once it has arrived, so globals.css can show a placeholder until then on a slow connection.
+// Until React has hydrated, they wait in a queue: an attribute React didn't render would be a hydration mismatch.
+// site-motion.tsx empties the queue once hydrated.
+const IMG_WAIT = `(function(){var q=[];window.__imgQ=q;function m(e){var t=e.target;if(!t||t.tagName!=="IMG")return;if(window.__imgQ)window.__imgQ.push(t);else t.setAttribute("data-loaded","")}document.addEventListener("load",m,true);document.addEventListener("error",m,true)})()`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -81,6 +87,7 @@ export default function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: STRIP_PREFILL }} />
         <script dangerouslySetInnerHTML={{ __html: MOTION_ON }} />
+        <script dangerouslySetInnerHTML={{ __html: IMG_WAIT }} />
       </head>
       <body>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
@@ -105,6 +112,15 @@ fbq('init','${META_PIXEL_ID}');
 fbq('track','PageView');`}
           </Script>
         )}
+        {/* First load only, and only with motion on: covers the page until boot.js has staged it. */}
+        <div className="loader" aria-hidden="true">
+          <Mark height={64} className="loader-mark" />
+          <i className="loader-bar" />
+          <p className="loader-line">
+            <span>Built by a date we both sign.</span>
+            <span>Still loading the work.</span>
+          </p>
+        </div>
         <a className="skip" href="#main">
           Skip to content
         </a>
