@@ -19,8 +19,44 @@ export default function SiteHeader()
 {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [away, setAway] = useState(false);
   const menuButton = useRef<HTMLButtonElement>(null);
   const sheet = useRef<HTMLDivElement>(null);
+
+  // The nav slides away while you scroll down and comes back as soon as you scroll up.
+  useEffect(() => {
+    let last = window.scrollY;
+    let queued = false;
+    const check = () => {
+      queued = false;
+      const y = window.scrollY;
+      if (y < 80) {
+        setAway(false);
+        last = y;
+        return;
+      }
+      if (Math.abs(y - last) < 8) {
+        return;
+      }
+      setAway(y > last);
+      last = y;
+    };
+    const onScroll = () => {
+      if (!queued) {
+        queued = true;
+        requestAnimationFrame(check);
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // A new page starts with the nav showing.
+  const [awayPath, setAwayPath] = useState(pathname);
+  if (awayPath !== pathname) {
+    setAwayPath(pathname);
+    setAway(false);
+  }
 
   // While the menu covers the page, the page can't take focus or scroll.
   useEffect(() => {
@@ -68,10 +104,10 @@ export default function SiteHeader()
 
   return (
     <>
-      <header className="nav" data-over={pathname === "/"}>
+      <header className="nav" data-over={pathname === "/"} data-away={away && !open}>
         <Link className="nav-logo" href="/" aria-label="Clupai home" onClick={() => setOpen(false)}>
-          <Logo size={34} className="nav-tile" />
-          <Mark height={28} className="nav-mark" />
+          <Logo size={28} className="nav-tile" />
+          <Mark height={22} className="nav-mark" />
         </Link>
         <nav className="nav-r" aria-label="Main">
           {links.map((l) => (

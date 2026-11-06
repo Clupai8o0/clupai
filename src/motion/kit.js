@@ -509,6 +509,10 @@ export function makeDot()
   let lastScroll = scrollY;
   let scrollV = 0;
   gsap.ticker.add((time, ms) => {
+    // Hidden, it does nothing: no style writes and no reads every frame.
+    if (away) {
+      return;
+    }
     const dt = Math.min(ms, 40) / 1000;
     const was = { x: s.x, y: s.y };
     if (mode === "air") {
@@ -635,6 +639,9 @@ export function makeDot()
   // Called every frame. Looks at what's behind its body five times a second.
   function keepVisible()
   {
+    if (away) {
+      return;
+    }
     looks += 1;
     if (looks % 12 !== 0) {
       return;

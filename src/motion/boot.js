@@ -250,7 +250,7 @@ function loadRoute(pathname)
     return import("./funnel");
   }
   if (pathname === "/products") {
-    return import("./machine");
+    return import("./shelf");
   }
   if (pathname === "/how-it-works") {
     return import("./how");
@@ -294,6 +294,12 @@ export function boot(pathname)
     scope = mine;
     core.dot.park(core.rest);
     core.dot.hide(!SHIFTER || pathname !== "/");
+    // The film grain on soft pictures only moves while you can see it, so it isn't repainting all page long.
+    const grain = new IntersectionObserver((seen) => {
+      seen.forEach((e) => e.target.classList.toggle("is-live", e.isIntersecting));
+    });
+    document.querySelectorAll(".soft").forEach((el) => grain.observe(el));
+    mine.cleanup(() => grain.disconnect());
     mine.run(() => {
       route.init(mine, core);
     });

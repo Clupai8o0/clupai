@@ -52,10 +52,10 @@ export default async function ProductPage({ params }: Props)
     <div className={`pg ${p.tone} prod`}>
       <div className="prod-top">
         <span>
-          {p.code}. {out ? "Out now" : "In the works"}
+          {out ? "Out now" : "In the works"}
         </span>
         <Link className="ln-u" href="/products">
-          Back to the machine
+          Back to the shelf
         </Link>
       </div>
       <h1 className="fit-name" style={{ "--len": p.name.length } as CSSProperties} data-squash>
@@ -114,9 +114,9 @@ export default async function ProductPage({ params }: Props)
         </section>
       ) : null}
 
-      <section className={`prod-next ${next.tone}`} aria-label="Next in the machine">
+      <section className={`prod-next ${next.tone}`} aria-label="Next on the shelf">
         <Link href={`/products/${next.slug}`}>
-          <span className="chap-meta">Next, {next.code}</span>
+          <span className="chap-meta">Next on the shelf</span>
           <span className="g-big">{next.name}</span>
         </Link>
       </section>

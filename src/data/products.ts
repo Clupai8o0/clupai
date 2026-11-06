@@ -13,8 +13,6 @@ export type Product = {
   image?: { src: string; alt: string };
   /** Large line for a product with no public screens to show. */
   poster?: string;
-  /** Its slot in the machine on /products: row letter, then number. */
-  code: string;
   /** Its colour class: tone-blue, tone-red and so on, in inner.css. */
   tone: string;
 };
@@ -22,7 +20,6 @@ export type Product = {
 export const products: Product[] = [
   {
     slug: "tempo",
-    code: "A1",
     tone: "tone-blue",
     name: "Tempo",
     line: "Log your workouts, see your progress, and let Claude read and log them for you.",
@@ -35,7 +32,6 @@ export const products: Product[] = [
   },
   {
     slug: "acknowledgement-force",
-    code: "A2",
     tone: "tone-red",
     name: "Acknowledgement Force",
     line: "Blocks your Mac until you read your own rules and name what matters today.",
@@ -48,7 +44,6 @@ export const products: Product[] = [
   },
   {
     slug: "cstack",
-    code: "A3",
     tone: "tone-paper",
     name: "cstack",
     line: "Keeps several AI coding tools from clashing, and cuts what they cost to run.",
@@ -61,7 +56,6 @@ export const products: Product[] = [
   },
   {
     slug: "kairos",
-    code: "B1",
     tone: "tone-navy",
     name: "Kairos",
     line: "Paste your notes and it books the tasks into your calendar.",
@@ -73,7 +67,6 @@ export const products: Product[] = [
   },
   {
     slug: "morgue",
-    code: "B2",
     tone: "tone-ink",
     name: "morgue",
     line: "A library of web animations your AI coding tools can watch and rebuild.",
@@ -85,7 +78,6 @@ export const products: Product[] = [
   },
   {
     slug: "glow-up",
-    code: "B3",
     tone: "tone-yellow",
     name: "Glow Up",
     line: "A co-op health game. A household logs meals and habits by chat and levels up together.",
@@ -96,7 +88,6 @@ export const products: Product[] = [
   },
   {
     slug: "yap",
-    code: "C1",
     tone: "tone-red",
     name: "Yap",
     line: "An Android journal that opens straight into a new note and grows a garden as you write.",
@@ -107,7 +98,6 @@ export const products: Product[] = [
   },
   {
     slug: "govchat",
-    code: "C2",
     tone: "tone-paper",
     name: "GovChat",
     line: "Ask in plain English and find Australian government datasets, with sources.",

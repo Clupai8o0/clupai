@@ -322,9 +322,11 @@ function buildStage(scope, dot, phone)
     .to(nav, { yPercent: -100, autoAlpha: 0, duration: 0.3, ease: "power2.in" }, 0.5)
     .set(".ch-hoddle", { autoAlpha: 1 }, 1.45)
     .set(wordEl, { autoAlpha: 0 }, 1.45)
-    .to(film, { ...win, duration: 0.9, ease: "power3.inOut" }, 1.95)
+    // fromTo: a plain .to() would take its start from whenever it first rendered (the word's box at load),
+    // so the picture snapped back to that box before flying into the window.
+    .fromTo(film, { left: 0, top: 0, width: sw, height: sh }, { ...win, duration: 0.9, ease: "power3.inOut", immediateRender: false }, 1.95)
     .to(hoddleFilm, { opacity: 1, duration: 0.3 }, 2.45)
-    .to(nav, { yPercent: 0, autoAlpha: 1, duration: 0.25, ease: "power2.out" }, 2.25)
+    .fromTo(nav, { yPercent: -100, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.25, ease: "power2.out", immediateRender: false }, 2.25)
     .to(hdL, { yPercent: 0, duration: 0.7, stagger: 0.035, ease: "back.out(1.5)" }, 2.2)
     .to("#t-hoddle .what", { autoAlpha: 1, y: 0, duration: 0.4, ease: "power2.out" }, 2.5)
     .to("#t-hoddle .fact", { autoAlpha: 1, y: 0, duration: 0.4, stagger: 0.06, ease: "power2.out" }, 2.55)
