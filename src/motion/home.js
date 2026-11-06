@@ -59,30 +59,20 @@ function unloadFilm(v)
 
 // ---------------------------------------------------------------- the hero and the client chapters
 const PAPER = "#f3f1ec";
-// On a phone "ai" drops to a second row, this far below the first, and sits on the right.
-const ROW2 = 150;
+// On a phone the label goes under the word, in this much room.
+const PHONE_LABEL = 70;
 
-// Where each letter of the word sits, in glyph units: the x-height is 100 and the first baseline is y = 100.
-function wordLayout(phone)
+// Where each letter of the word sits, in glyph units: the x-height is 100 and the baseline is y = 100.
+// One line everywhere, phones included.
+function wordLayout()
 {
   const letters = [];
   let x = 0;
-  [..."clup"].forEach((ch) => {
+  [..."clupai"].forEach((ch) => {
     letters.push({ ch, x, y: 0 });
     x += GLYPHS[ch].w + SPACE;
   });
-  const clupW = x - SPACE;
-  let ax = phone ? clupW - (GLYPHS.a.w + SPACE + GLYPHS.i.w) : x;
-  [..."ai"].forEach((ch) => {
-    letters.push({ ch, x: ax, y: phone ? ROW2 : 0 });
-    ax += GLYPHS[ch].w + SPACE;
-  });
-  return {
-    letters,
-    width: phone ? clupW : ax - SPACE,
-    top: GLYPHS.l.top,
-    bottom: phone ? ROW2 + GLYPHS.a.bottom : GLYPHS.p.bottom,
-  };
+  return { letters, width: x - SPACE, top: GLYPHS.l.top, bottom: GLYPHS.p.bottom };
 }
 
 function buildStage(scope, dot, phone)
@@ -94,7 +84,7 @@ function buildStage(scope, dot, phone)
   const stageRect = stage.getBoundingClientRect();
 
   // ------------------------------------------------------------ the word: holes in the paper, onto our apps
-  const W = wordLayout(phone);
+  const W = wordLayout();
   const marginX = phone ? 12 : sw * 0.02;
   const below = phone ? 12 : Math.max(18, sw * 0.016);
   // The word is as wide as the screen allows, as long as it stays clear of the copy above it: on a desktop the
@@ -103,7 +93,7 @@ function buildStage(scope, dot, phone)
   const room = sh - below;
   const fitW = (sw - 2 * marginX) / W.width;
   const fitH = phone
-    ? (room - under(".hero-top") - 20) / (W.bottom - W.top)
+    ? (room - PHONE_LABEL - under(".hero-top") - 60) / (W.bottom - W.top)
     : Math.min(
       (room - under(".hero-top h1") - 24) / (W.bottom - W.top),
       (room - under(".hero-top h1") - 12 - 85) / (W.bottom + 8),
@@ -111,7 +101,7 @@ function buildStage(scope, dot, phone)
     );
   const s0 = Math.max(Math.min(fitW, fitH), fitW * 0.35);
   const x0 = marginX;
-  const y0 = sh - below - W.bottom * s0;
+  const y0 = sh - below - (phone ? PHONE_LABEL : 0) - W.bottom * s0;
 
   const wordEl = qs("#wordmark");
   const holePaths = W.letters.map((l) => `<g transform="translate(${l.x} ${l.y})"><path d="${GLYPHS[l.ch].d}"/></g>`).join("");
@@ -149,12 +139,8 @@ function buildStage(scope, dot, phone)
   };
   place();
 
-  // The letters open one by one, up from their baseline, and overshoot a little.
-  letterEls.forEach((el, i) => {
-    const g = GLYPHS[W.letters[i].ch];
-    gsap.set(el, { transformOrigin: `50% ${((100 - g.top) / (g.bottom - g.top)) * 100}%` });
-    gsap.fromTo(el, { scaleX: 1.15, scaleY: 0.001 }, { scaleX: 1, scaleY: 1, duration: 0.95, delay: 0.2 + i * 0.075, ease: "elastic.out(1, 0.5)" });
-  });
+  // The letters rise into place one by one, solid, with no stretch and no bounce.
+  gsap.from(letterEls, { y: 70, opacity: 0, duration: 0.8, delay: 0.2, stagger: 0.06, ease: "power4.out" });
 
   // The mascot stands on the i, wherever the word has grown to.
   const I = W.letters[5];
@@ -187,11 +173,10 @@ function buildStage(scope, dot, phone)
   const nowName = qs(".now-name", now);
   const nowWhat = qs(".now-what", now);
   const ticks = qa(".now-ticks i", now);
-  // Its label sits over the c, beside the l. On a phone it's under "clup", on the baseline of "ai",
-  // so the mascot's line beside the i has the space above it.
+  // Its label sits over the c, beside the l. On a phone it's under the word.
   now.style.setProperty("--wu", `${s0}px`);
   if (phone) {
-    gsap.set(now, { left: x0, bottom: sh - (y0 + (ROW2 + 100) * s0), width: (W.letters[4].x - 10) * s0 });
+    gsap.set(now, { left: x0, bottom: below, width: W.width * s0 * 0.75 });
   } else {
     gsap.set(now, { left: x0, bottom: sh - (y0 - 8 * s0), width: (L.x - 10) * s0 });
   }
@@ -793,7 +778,7 @@ function buildPerches(scope, dot, phone, parts)
   const kdgSpot = inView(liftedBy(schoolEdge, heldBy(kdgEdge, atop("#kd-num", 0.92, 6))));
   const schoolSpot = inView(onCircle(phone ? atop("#sc-pic", 0.84, 0) : atop(".sc-copy .quote", 0.8, -6)));
   const PERCH = [
-    { id: "hero", y: () => -1, at: onI, size: tittle, colour: [YELLOW, INK], line: "Scroll down. I brought receipts.", side: "left", mood: "", theme: "ink" },
+    { id: "hero", y: () => -1, at: onI, size: tittle, colour: [YELLOW, INK], line: "Scroll down. I brought receipts.", side: phone ? "above" : "left", mood: "", theme: "ink" },
     { id: "full", y: () => unitY(0.35), at: () => ({ x: vw() - roam, y: vh() - 10 }), colour: [YELLOW, INK], line: "These are all live. Go and check.", side: "left", mood: "smug" },
     { id: "hoddle", y: () => unitY(2.5), at: inView(liftedBy(kdgEdge, phone ? atop("#win-hoddle", 0.88, 2) : atop(".hd-name", 0.09, 16))), colour: [YELLOW, INK], line: "The cake. We’ll take it.", side: phone ? "left" : "right", mood: "smug" },
     // At each wipe the incoming edge carries it up, then it hops across without a word. The line comes once the chapter is in.
@@ -929,7 +914,7 @@ function buildPerches(scope, dot, phone, parts)
       done: scope.wrap(() => {
         if (current === "hero") {
           dot.shape("circle");
-          dot.talk(PERCH[0].line, { side: "left", theme: PERCH[0].theme, ms: 0 });
+          dot.talk(PERCH[0].line, { side: PERCH[0].side, theme: PERCH[0].theme, ms: 0 });
         }
       }),
     });
