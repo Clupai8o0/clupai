@@ -57,28 +57,6 @@ function resample(pts, n)
   return clockwise(out);
 }
 
-// A polygon with its corners rounded off.
-function poly(pts, r)
-{
-  const dense = [];
-  pts.forEach((p, i) => {
-    const a = pts[(i - 1 + pts.length) % pts.length];
-    const b = pts[(i + 1) % pts.length];
-    const la = Math.hypot(a[0] - p[0], a[1] - p[1]);
-    const lb = Math.hypot(b[0] - p[0], b[1] - p[1]);
-    const da = Math.min(r, la * 0.49);
-    const db = Math.min(r, lb * 0.49);
-    const s = [p[0] + ((a[0] - p[0]) / la) * da, p[1] + ((a[1] - p[1]) / la) * da];
-    const e = [p[0] + ((b[0] - p[0]) / lb) * db, p[1] + ((b[1] - p[1]) / lb) * db];
-    for (let k = 0; k <= 12; k += 1) {
-      const t = k / 12;
-      const u = 1 - t;
-      dense.push([u * u * s[0] + 2 * u * t * p[0] + t * t * e[0], u * u * s[1] + 2 * u * t * p[1] + t * t * e[1]]);
-    }
-  });
-  return dense;
-}
-
 function ell(cx, cy, r)
 {
   const pts = [];
@@ -89,57 +67,70 @@ function ell(cx, cy, r)
   return pts;
 }
 
-// A radius for every angle, then seated so it stands on y = 100.
-function polar(fn)
-{
-  const pts = [];
-  for (let i = 0; i < 480; i += 1) {
-    const t = (i / 480) * Math.PI * 2;
-    const r = fn(t);
-    pts.push([Math.cos(t) * r, Math.sin(t) * r]);
-  }
-  const xs = pts.map((p) => p[0]);
-  const dx = 50 - (Math.min(...xs) + Math.max(...xs)) / 2;
-  const dy = 100 - Math.max(...pts.map((p) => p[1]));
-  return pts.map((p) => [p[0] + dx, p[1] + dy]);
-}
-
-// A closed run of cubic curves: each segment is [control, control, end].
-function curves(start, segments)
-{
-  const pts = [];
-  let a = start;
-  segments.forEach(([b, c, d]) => {
-    for (let k = 0; k < 64; k += 1) {
-      const t = k / 64;
-      const u = 1 - t;
-      const at = (i) => u * u * u * a[i] + 3 * u * u * t * b[i] + 3 * u * t * t * c[i] + t * t * t * d[i];
-      pts.push([at(0), at(1)]);
-    }
-    a = d;
-  });
-  return pts;
-}
-
 function mk(main, parts, eye, es = 1)
 {
   return { main: resample(main, N), parts: parts.map((p) => resample(p, M)), eye, es };
 }
 
+// An ellipse that stands on y = 100.
+function oval(rx, ry)
+{
+  const pts = [];
+  for (let i = 0; i < 180; i += 1) {
+    const t = (i / 180) * Math.PI * 2;
+    pts.push([50 + Math.cos(t) * rx, 100 - ry + Math.sin(t) * ry]);
+  }
+  return pts;
+}
+
+// The round body with anime bumps swelling out of its head, blended in so there's no corner where they meet.
+// Each bump is [radius, how far its centre sits from the body's centre].
+function bumped(bumps, deg = -104)
+{
+  const a = (deg * Math.PI) / 180;
+  const ux = Math.cos(a);
+  const uy = Math.sin(a);
+  const blend = (d1, d2, k) => {
+    const h = Math.max(k - Math.abs(d1 - d2), 0) / k;
+    return Math.min(d1, d2) - h * h * k * 0.25;
+  };
+  const sdf = (x, y) => {
+    let d = Math.hypot(x - 50, y - 50) - 50;
+    bumps.forEach(([r, at]) => {
+      d = blend(d, Math.hypot(x - 50 - ux * at, y - 50 - uy * at) - r, 14);
+    });
+    return d;
+  };
+  const pts = [];
+  for (let i = 0; i < 480; i += 1) {
+    const t = (i / 480) * Math.PI * 2;
+    const dx = Math.cos(t);
+    const dy = Math.sin(t);
+    let lo = 0;
+    let hi = 120;
+    for (let k = 0; k < 28; k += 1) {
+      const mid = (lo + hi) / 2;
+      if (sdf(50 + dx * mid, 50 + dy * mid) <= 0) {
+        lo = mid;
+      } else {
+        hi = mid;
+      }
+    }
+    pts.push([50 + dx * lo, 50 + dy * lo]);
+  }
+  return pts;
+}
+
 // eye: where the eyes sit in the box. es: how big they are. Zero-ish means this shape has none.
+// Every shape is soft and round, so a change of mood reads as a squish and not as a new animal.
 export const SHAPES = {
   circle: mk(ell(50, 50, 50), [], [57, 39]),
-  hex: mk(poly([[25, 13.4], [75, 13.4], [100, 56.7], [75, 100], [25, 100], [0, 56.7]], 13), [], [54, 50]),
-  tri: mk(poly([[50, 6], [106, 100], [-6, 100]], 15), [], [50, 68], 0.92),
-  mochi: mk(poly([[-9, 46], [109, 46], [109, 100], [-9, 100]], 27), [], [52, 72], 0.85),
-  flower: mk(polar((t) => 34 * (1 + 0.42 * Math.abs(Math.cos(2.5 * t + 0.31)) ** 0.7)), [], [50, 52], 0.92),
-  bean: mk(curves([30, 8], [
-    [[62, -6], [100, 14], [94, 46]],
-    [[91, 64], [72, 58], [62, 68]],
-    [[52, 79], [52, 100], [28, 99]],
-    [[2, 98], [-4, 22], [30, 8]],
-  ]), [], [46, 40], 0.92),
-  bang: mk(poly([[37, 0], [63, 0], [57, 68], [43, 68]], 9), [ell(50, 88, 12)], [50, 30], 0.001),
+  puff: mk(oval(55, 45), [], [57, 50]),
+  egg: mk(oval(43, 56), [], [55, 36]),
+  plump: mk(oval(52, 48), [], [57, 42]),
+  mochi: mk(oval(58, 30), [], [53, 72], 0.85),
+  bump: mk(bumped([[21, 55]]), [], [57, 42]),
+  bump2: mk(bumped([[26, 58]], -98), [], [57, 43]),
   dots: mk(ell(50, 84, 13), [ell(16, 84, 10), ell(84, 84, 10)], [50, 84], 0.001),
 };
 
@@ -178,7 +169,7 @@ function bestOffset(cur, off, tgt, n)
 
 export class MorphBody
 {
-  constructor(parent, { k = 210, c = 15, vary = 0.22 } = {})
+  constructor(parent, { k = 95, c = 12.5, vary = 0.28 } = {})
   {
     this.svg = document.createElementNS(NS, "svg");
     this.svg.setAttribute("viewBox", "0 0 100 100");

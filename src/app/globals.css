@@ -481,6 +481,7 @@ html.m .nav[data-over="true"] .nav-link {
   gap: calc(var(--s) * 0.085 * var(--es, 1));
   translate: calc(var(--s) * (var(--ax, 50) - 50) / 100) calc(var(--s) * (var(--ay, 50) - 50) / 100);
   transform: translate(calc(var(--ex) * 1.2), calc(var(--ey) * 1.2));
+  transition: transform 0.35s ease-out;
 }
 
 /* The i holds the size and takes the blink. Its ::before holds the tilt and colour, because gsap bakes a CSS rotate into its transform. */
@@ -493,7 +494,7 @@ html.m .nav[data-over="true"] .nav-link {
   flex: none;
   width: calc(var(--s) * var(--w) * var(--es, 1));
   height: calc(var(--s) * var(--h) * var(--es, 1));
-  transition: width 0.15s, height 0.15s;
+  transition: width 0.4s ease-in-out, height 0.4s ease-in-out;
 }
 
 .dot-eyes i::before {
@@ -503,7 +504,7 @@ html.m .nav[data-over="true"] .nav-link {
   rotate: var(--r);
   border-radius: 99px;
   background: var(--eye);
-  transition: rotate 0.15s, background 0.25s;
+  transition: rotate 0.4s ease-in-out, background 0.25s;
 }
 
 .dot-eyes i:last-child::before {
@@ -527,6 +528,14 @@ html.m .nav[data-over="true"] .nav-link {
   --h: 0.06;
   --r: 20deg;
   --r2: -20deg;
+}
+
+/* Squeezed shut, the way anyone looks just after a knock on the head. */
+.dot-b[data-mood="hurt"] .dot-eyes i {
+  --w: 0.17;
+  --h: 0.05;
+  --r: 28deg;
+  --r2: -28deg;
 }
 
 .dot-b[data-mood="happy"] .dot-eyes i {
@@ -557,16 +566,16 @@ html.m .nav[data-over="true"] .nav-link {
 /* Walking home with no legs: it rocks from corner to corner. */
 .is-walk .dot-sp {
   transform-origin: 50% 100%;
-  animation: dot-rock 0.22s ease-in-out infinite alternate;
+  animation: dot-rock 0.42s ease-in-out infinite alternate;
 }
 
 @keyframes dot-rock {
   from {
-    rotate: -7deg;
+    rotate: -4deg;
   }
 
   to {
-    rotate: 7deg;
+    rotate: 4deg;
   }
 }
 

@@ -926,6 +926,7 @@ function buildPerches(scope, dot, phone, parts)
     perchY = PERCH.map((p) => p.y());
   };
   let current = null;
+  let lastTo = null;
   let goneId = null;
   let tick = 0;
   function perchNow()
@@ -959,20 +960,25 @@ function buildPerches(scope, dot, phone, parts)
       return;
     }
     dot.state.side = p.side;
-    dot.hop(gone ? rest : p.at, {
-      size: p.size || roam,
-      done: scope.wrap(() => {
-        if (p.line && current === p.id) {
-          dot.talk(p.line, { side: p.side, theme: p.theme, ms: p.id === "end" ? 0 : 3400 });
-        }
-        if (p.id === "end") {
-          // It lands on the i, and the whole word feels it.
-          gsap.fromTo(".end-word .blk svg", { y: 0 }, { y: -end.eu * 7, duration: 0.15, yoyo: true, repeat: 1, stagger: { each: 0.05, from: "end" }, ease: "power2.out" });
-          dot.flash("happy", 1.5);
-          dot.wink();
-        }
-      }),
+    const to = gone ? rest : p.at;
+    const done = scope.wrap(() => {
+      if (p.line && current === p.id) {
+        dot.talk(p.line, { side: p.side, theme: p.theme, ms: p.id === "end" ? 0 : 3400 });
+      }
+      if (p.id === "end") {
+        // It lands on the i, and the whole word feels it.
+        gsap.fromTo(".end-word .blk svg", { y: 0 }, { y: -end.eu * 7, duration: 0.15, yoyo: true, repeat: 1, stagger: { each: 0.05, from: "end" }, ease: "power2.out" });
+        dot.flash("happy", 1.5);
+        dot.wink();
+      }
     });
+    // Already standing there: it just speaks, no hop on the spot.
+    if (to === lastTo && !first) {
+      done();
+      return;
+    }
+    lastTo = to;
+    dot.hop(to, { size: p.size || roam, done });
   }
 
   // The mascot arrives last: it lands on the i, then wakes up.
