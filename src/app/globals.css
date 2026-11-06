@@ -130,7 +130,7 @@ html.m:not(.m-done) .loader {
   }
 }
 
-html.m-in .loader {
+html.m.m-in:not(.m-done) .loader {
   clip-path: inset(0 0 100% 0);
   transition: clip-path 0.75s cubic-bezier(0.76, 0, 0.24, 1) 0.18s;
 
