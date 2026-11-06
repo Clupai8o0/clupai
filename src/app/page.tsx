@@ -86,7 +86,7 @@ export default function HomePage()
           <span className="now-what">{WINDOW[0]!.what}</span>
         </div>
 
-        <div className="ch ch-hoddle">
+        <div className="ch ch-hoddle pre">
           <div className="win" id="win-hoddle" />
         </div>
 

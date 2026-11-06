@@ -1526,6 +1526,7 @@ html:not(.m) .home {
 
   & .close-end .static-word {
     margin: 0;
+    color: inherit;
   }
 
   @media (max-width: 720px) {
