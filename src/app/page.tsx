@@ -102,13 +102,14 @@ export default function HomePage()
               fill
               sizes="100vw"
               loading={i === 0 ? "eager" : undefined}
+              fetchPriority={i === 0 ? "high" : "low"}
               style={{ objectPosition: a.at }}
               data-name={a.name}
               data-what={a.what}
             />
           ))}
-          <Image className="cut cut-home cut-home-d" src="/work/hoddle/new/home.webp" alt="Hoddle’s home page." fill sizes="100vw" />
-          <Image className="cut cut-home cut-home-p" src="/work/hoddle/new/phone-home.webp" alt="Hoddle’s home page." fill sizes="100vw" />
+          <Image className="cut cut-home cut-home-d" src="/work/hoddle/new/home.webp" alt="Hoddle’s home page." fill sizes="100vw" fetchPriority="low" />
+          <Image className="cut cut-home cut-home-p" src="/work/hoddle/new/phone-home.webp" alt="Hoddle’s home page." fill sizes="100vw" fetchPriority="low" />
           <video id="v-hoddle" data-src="/work/hoddle/loop.mp4" data-poster="/work/hoddle/poster.jpg" muted loop playsInline preload="none" aria-hidden="true" />
         </div>
 
