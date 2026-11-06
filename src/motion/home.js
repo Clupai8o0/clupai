@@ -972,8 +972,8 @@ function buildPerches(scope, dot, phone, parts)
         dot.wink();
       }
     });
-    // Already standing there: it just speaks, no hop on the spot.
-    if (to === lastTo && !first) {
+    // Already standing there: it just speaks, no hop on the spot. Mid-hop or thrown, the hop carries the line to the landing.
+    if (to === lastTo && !first && dot.settled()) {
       done();
       return;
     }

@@ -711,6 +711,8 @@ export function makeDot()
     if (mode !== "free") {
       return;
     }
+    // A slow idle glance must not fight the cursor.
+    gsap.killTweensOf(eyes);
     const dx = e.clientX - s.x;
     const dy = e.clientY - (s.y - s.size / 2);
     const d = Math.max(1, Math.hypot(dx, dy));
@@ -806,6 +808,8 @@ export function makeDot()
   return {
     state: s,
     el: root,
+    // Standing still on its spot: not mid-hop, held, thrown or walking home.
+    settled: () => mode === "free" && !flying,
     hop: plain(hop),
     colour,
     keepVisible,
