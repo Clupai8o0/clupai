@@ -169,7 +169,7 @@ function bestOffset(cur, off, tgt, n)
 
 export class MorphBody
 {
-  constructor(parent, { k = 95, c = 12.5, vary = 0.28 } = {})
+  constructor(parent, { k = 160, c = 15, vary = 0.25 } = {})
   {
     this.svg = document.createElementNS(NS, "svg");
     this.svg.setAttribute("viewBox", "0 0 100 100");

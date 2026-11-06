@@ -86,7 +86,6 @@ function buildStage(scope, dot, phone)
     const it = heroW.add(el, body, x, top);
     it.ch = ch;
     it.home = { x: body.position.x, y: body.position.y, a: 0 };
-    it.grabEl = el.querySelector("svg");
     letters.push(it);
     return it;
   }
@@ -117,10 +116,9 @@ function buildStage(scope, dot, phone)
   scope.cleanup(() => {
     clup.textContent = "";
     ai.textContent = "";
-    grabbing(false);
   });
 
-  // On a phone the top row has nothing under it, so letters at home hold still until grabbed.
+  // The letters stay put once they've landed. On a phone the top row has nothing under it, so they're pinned.
   const settle = (it) => {
     if (phone) {
       Body.setStatic(it.body, true);
@@ -170,158 +168,12 @@ function buildStage(scope, dot, phone)
     });
   });
 
-  const isOff = (it) => Math.hypot(it.body.position.x - it.home.x, it.body.position.y - it.home.y) > 6 || Math.abs(it.body.angle) > 0.05;
-
-  function sendHome(it, dur = 0.55)
-  {
-    homing(it, true);
-    Sleeping.set(it.body, false);
-    const b = it.body;
-    const p = { x: b.position.x, y: b.position.y, a: ((b.angle + Math.PI) % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2) - Math.PI };
-    const still = () => {
-      Body.setVelocity(b, { x: 0, y: 0 });
-      Body.setAngularVelocity(b, 0);
-    };
-    still();
-    it.homeT = gsap.to(p, {
-      x: it.home.x,
-      y: it.home.y,
-      a: 0,
-      duration: dur,
-      ease: "back.out(1.4)",
-      onUpdate() {
-        Body.setPosition(b, { x: p.x, y: p.y });
-        Body.setAngle(b, p.a);
-        still();
-      },
-      onComplete() {
-        it.homeT = null;
-        homing(it, false);
-        Body.setPosition(b, { x: it.home.x, y: it.home.y });
-        Body.setAngle(b, 0);
-        settle(it);
-        squash(it, 0.6);
-      },
-    });
-  }
-
   const tittle = Math.max(TITTLE.size * u * 1.15, 40);
   const onI = () => {
     const b = letterI.body;
     const up = 50 * u + 14 * u;
     return { x: b.position.x + Math.sin(b.angle) * up, y: b.position.y - Math.cos(b.angle) * up };
   };
-
-  // The mascot cleans up: it jumps from letter to letter, and each one snaps home as it lands.
-  let fixing = false;
-  function fixUp()
-  {
-    if (fixing) {
-      return;
-    }
-    fixing = true;
-    dot.mood("smug");
-    dot.talk("Fine. I’ll fix it. On time.", { ms: 2800, side: "left" });
-    const stray = () => letters.filter((it) => !it.homeT && isOff(it));
-    let queue = stray();
-    let pass = 0;
-    const next = scope.wrap(() => {
-      if (!fixing) {
-        return;
-      }
-      if (!queue.length) {
-        queue = pass < 2 ? stray() : [];
-        pass += 1;
-      }
-      if (!queue.length) {
-        fixing = false;
-        dot.mood("");
-        dot.hop(onI, {
-          size: tittle,
-          done() {
-            dot.flash("happy", 1.3);
-            dot.wink();
-          },
-        });
-        return;
-      }
-      const it = queue.shift();
-      dot.hop(() => ({ x: it.body.position.x, y: it.body.bounds.min.y + 2 }), {
-        size: phone ? 42 : 60,
-        rise: 130,
-        duration: 0.36,
-        done: scope.wrap(() => {
-          if (fixing) {
-            sendHome(it);
-            gsap.delayedCall(0.34, next);
-          }
-        }),
-      });
-    });
-    next();
-  }
-
-  let quietTimer = null;
-  // Scrolled away mid-mess: everything goes back at once.
-  function forceHome()
-  {
-    fixing = false;
-    if (quietTimer) {
-      quietTimer.kill();
-      quietTimer = null;
-    }
-    letters.forEach((it) => {
-      if (it.homeT) {
-        it.homeT.kill();
-        it.homeT = null;
-      }
-      homing(it, false);
-      if (phone) {
-        Body.setStatic(it.body, false);
-      }
-      Body.setPosition(it.body, { x: it.home.x, y: it.home.y });
-      Body.setAngle(it.body, 0);
-      Body.setVelocity(it.body, { x: 0, y: 0 });
-      Body.setAngularVelocity(it.body, 0);
-      settle(it);
-      heroW.render(it);
-    });
-  }
-
-  let thrown = 0;
-  letters.forEach((it) => {
-    const release = grabbable(heroW, it, (e) => ({ x: e.clientX, y: e.clientY + scrollY }), {
-      allow: () => scrollY < 8 && !fixing && !it.homeT,
-      down() {
-        Body.setStatic(it.body, false);
-        grabbing(true);
-        dot.flash("wide", 1.4);
-        if (quietTimer) {
-          quietTimer.kill();
-        }
-      },
-      up: scope.wrap((_, moved, cancelled) => {
-        grabbing(false);
-        // A finger that turned into a scroll: it was never a throw.
-        if (cancelled && moved < 7) {
-          settle(it);
-          return;
-        }
-        thrown += 1;
-        if (moved < 7) {
-          Body.setVelocity(it.body, { x: (Math.random() - 0.5) * 3, y: -11 });
-          Body.setAngularVelocity(it.body, (Math.random() - 0.5) * 0.16);
-        }
-        dot.talk(thrown === 1 ? "Put that back." : "Really?", { ms: 2200, side: "left" });
-        quietTimer = gsap.delayedCall(4.6, () => {
-          if (scrollY < 8 && letters.some(isOff)) {
-            fixUp();
-          }
-        });
-      }),
-    });
-    scope.cleanup(release);
-  });
 
   // ------------------------------------------------------------ the film tile
   const film = qs("#film");
@@ -410,9 +262,6 @@ function buildStage(scope, dot, phone)
         if (self.progress > 0.003) {
           cutLock = true;
           heroW.pause();
-          if (fixing || letters.some(isOff)) {
-            forceHome();
-          }
         } else {
           cutLock = false;
           heroW.resume();
@@ -444,7 +293,6 @@ function buildStage(scope, dot, phone)
     .to(film, { ...win, duration: 0.9, ease: "power3.inOut" }, 1.95)
     .to(hoddleFilm, { opacity: 1, duration: 0.3 }, 2.45)
     .set(nav, { "--nav": "#ffffff", "--navf": "#06183a" }, 2.2)
-    .set(".nav-logo", { opacity: 1 }, 2.2)
     .to(nav, { yPercent: 0, autoAlpha: 1, duration: 0.25, ease: "power2.out" }, 2.25)
     .to(hdL, { yPercent: 0, duration: 0.7, stagger: 0.035, ease: "back.out(1.5)" }, 2.2)
     .to("#t-hoddle .what", { autoAlpha: 1, y: 0, duration: 0.4, ease: "power2.out" }, 2.5)
@@ -737,7 +585,7 @@ function buildReveals(scope)
   gsap.from(".close-sub, .close-q, .close-btn", { y: 24, autoAlpha: 0, duration: 0.9, stagger: 0.06, delay: 0.2, ease: "expo.out", scrollTrigger: { trigger: close, start: "top 62%" } });
 }
 
-// ---------------------------------------------------------------- the closing name: throw the work at it
+// ---------------------------------------------------------------- the closing name: the work piles up on it
 function buildEnd(scope, phone)
 {
   const end = qs("#close-end");
@@ -859,17 +707,52 @@ function buildPerches(scope, dot, phone, parts)
   const chipStop = qs("#chip-stop");
   const promiseWords = atop("#promise-t", 0.84, -4);
   const redToy = toys.toys[2];
-  const kdgSpot = inView(atop("#kd-num", 0.92, 6));
-  const schoolSpot = inView(phone ? atop("#sc-pic", 0.84, 0) : atop(".sc-copy .quote", 0.8, -6));
+  // A chapter wiping in is a floor. Its edge lifts the mascot off the chapter going away,
+  // and it stands on that edge until its own spot is uncovered, so it never hangs in the air.
+  const chK = qs("#ch-kdg");
+  const chS = qs("#ch-school");
+  const kdgEdge = () => {
+    const r = chK.getBoundingClientRect();
+    const m = /inset\(([\d.]+)%/.exec(chK.style.clipPath);
+    return r.top + r.height * (m ? parseFloat(m[1]) / 100 : 0);
+  };
+  const schoolCircle = () => {
+    const r = chS.getBoundingClientRect();
+    const m = /circle\(([\d.]+)%/.exec(chS.style.clipPath);
+    return { cx: r.left + r.width * 0.7, cy: r.bottom, rad: ((m ? parseFloat(m[1]) : 145) / 100) * Math.hypot(r.width, r.height) / Math.SQRT2 };
+  };
+  const arcY = (c, x) => c.cy - Math.sqrt(Math.max(0, c.rad * c.rad - (x - c.cx) ** 2));
+  const schoolEdge = (x) => {
+    const c = schoolCircle();
+    return Math.abs(x - c.cx) < c.rad ? arcY(c, x) : Infinity;
+  };
+  const liftedBy = (edge, fn) => () => {
+    const p = fn();
+    return { x: p.x, y: Math.min(p.y, edge(p.x)) };
+  };
+  const heldBy = (edge, fn) => () => {
+    const p = fn();
+    return { x: p.x, y: Math.max(p.y, edge(p.x)) };
+  };
+  // On the circle it rides the curve, as close to its spot as the circle reaches so far.
+  const onCircle = (fn) => () => {
+    const p = fn();
+    const c = schoolCircle();
+    const x = clamp(p.x, c.cx - c.rad * 0.85, c.cx + c.rad * 0.85);
+    const y = arcY(c, x);
+    return { x, y: x === p.x ? Math.max(p.y, y) : y };
+  };
+  const kdgSpot = inView(liftedBy(schoolEdge, heldBy(kdgEdge, atop("#kd-num", 0.92, 6))));
+  const schoolSpot = inView(onCircle(phone ? atop("#sc-pic", 0.84, 0) : atop(".sc-copy .quote", 0.8, -6)));
   const PERCH = [
-    { id: "hero", y: () => -1, at: onI, size: tittle, colour: [YELLOW, INK], line: phone ? "Go on, flick a letter." : "Go on, throw a letter.", side: "left", mood: "" },
-    { id: "full", y: () => unitY(0.35), at: () => ({ x: vw() - roam, y: vh() - 10 }), colour: [YELLOW, INK], line: "Real work. Real clients.", side: "left", mood: "smug" },
-    { id: "hoddle", y: () => unitY(2.5), at: inView(phone ? atop("#win-hoddle", 0.88, 2) : atop(".hd-name", 0.09, 16)), colour: [YELLOW, INK], line: "The cake. We’ll take it.", side: phone ? "left" : "right", mood: "smug" },
-    // Each wipe clears the stage: it leaves, without a word, as the edge reaches it. The line comes once the chapter is in.
+    { id: "hero", y: () => -1, at: onI, size: tittle, colour: [YELLOW, INK], line: "Scroll down. I brought receipts.", side: "left", mood: "" },
+    { id: "full", y: () => unitY(0.35), at: () => ({ x: vw() - roam, y: vh() - 10 }), colour: [YELLOW, INK], line: "These are all live. Go and check.", side: "left", mood: "smug" },
+    { id: "hoddle", y: () => unitY(2.5), at: inView(liftedBy(kdgEdge, phone ? atop("#win-hoddle", 0.88, 2) : atop(".hd-name", 0.09, 16))), colour: [YELLOW, INK], line: "The cake. We’ll take it.", side: phone ? "left" : "right", mood: "smug" },
+    // At each wipe the incoming edge carries it up, then it hops across without a word. The line comes once the chapter is in.
     { id: "kdg-in", y: () => unitY(3.9), at: kdgSpot, colour: [INK, YELLOW], side: "left", mood: "smug" },
     { id: "kdg", y: () => unitY(4.4), at: kdgSpot, colour: [INK, YELLOW], line: "75 to 99. You’re welcome.", side: "left", mood: "smug" },
     { id: "school-in", y: () => unitY(5.55), at: schoolSpot, colour: [YELLOW, INK], side: phone ? "left" : "right", mood: "" },
-    { id: "school", y: () => unitY(5.95), at: schoolSpot, colour: [YELLOW, INK], line: "Their words, not ours.", side: phone ? "left" : "right", mood: "" },
+    { id: "school", y: () => unitY(5.95), at: schoolSpot, colour: [YELLOW, INK], line: "Yes, that’s a real quote.", side: phone ? "left" : "right", mood: "" },
     {
       id: "promise",
       y: () => promiseTl.scrollTrigger.start + vh() * 0.92,
@@ -881,7 +764,7 @@ function buildPerches(scope, dot, phone, parts)
         return { x: r.right + roam * 0.75, y: r.bottom - 4 };
       }),
       colour: [YELLOW, INK],
-      line: "Yes, really. It’s in the contract.",
+      line: "It’s in the contract. Read it.",
       side: phone ? "left" : "right",
       mood: "smug",
     },
@@ -899,7 +782,7 @@ function buildPerches(scope, dot, phone, parts)
         return { x: r.left + b.position.x, y: r.top + b.bounds.min.y + 2 };
       }),
       colour: [YELLOW, INK],
-      line: "Pick one. Or throw one.",
+      line: "Pick the closest one.",
       side: "right",
       mood: "",
     },
@@ -916,7 +799,7 @@ function buildPerches(scope, dot, phone, parts)
       },
       size: end.eTittle,
       colour: [YELLOW, INK],
-      line: "Make a mess. We’ll fix it by the date.",
+      line: "Yours goes on the pile next.",
       side: "left",
       mood: "",
     },

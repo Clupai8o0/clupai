@@ -294,7 +294,7 @@ export function makeDot()
       paintAnchor();
       return;
     }
-    gsap.to(anchorAt, { ax: to.eye[0], ay: to.eye[1], es: to.es, duration: 0.6, ease: "sine.inOut", onUpdate: paintAnchor });
+    gsap.to(anchorAt, { ax: to.eye[0], ay: to.eye[1], es: to.es, duration: 0.35, ease: "power2.out", onUpdate: paintAnchor });
   });
 
   function face(name)
@@ -436,7 +436,7 @@ export function makeDot()
       talk(THROWN[thrownN % THROWN.length], { ms: 2000 });
       thrownN += 1;
     }
-    gsap.delayedCall(1.4, walkBack);
+    gsap.delayedCall(1, walkBack);
   }
 
   // Walks along the floor until it's under where it should be, then hops up.
@@ -444,7 +444,7 @@ export function makeDot()
   {
     const to = anchor ? anchor() : { x: s.x, y: s.y };
     const x = clamp(to.x, s.size * 0.6, innerWidth - s.size * 0.6);
-    const dur = clamp(Math.abs(x - s.x) / 360, 0, 1.8);
+    const dur = clamp(Math.abs(x - s.x) / 540, 0, 1.2);
     face("hurt");
     const done = () => {
       root.classList.remove("is-walk");
@@ -512,7 +512,7 @@ export function makeDot()
     } else if (mode === "free" && anchor && !flying) {
       // It floats after its spot rather than being bolted to it.
       const to = anchor();
-      const f = 1 - Math.exp(-dt * 9);
+      const f = 1 - Math.exp(-dt * 16);
       s.x = lerp(s.x, to.x, f);
       s.y = lerp(s.y, to.y, f);
     }
@@ -550,7 +550,7 @@ export function makeDot()
 
   function land()
   {
-    gsap.fromTo(body, { scaleX: 1.14, scaleY: 0.86 }, { scaleX: 1, scaleY: 1, duration: 0.9, ease: "elastic.out(0.8, 0.55)" });
+    gsap.fromTo(body, { scaleX: 1.24, scaleY: 0.78 }, { scaleX: 1, scaleY: 1, duration: 0.7, ease: "elastic.out(1, 0.5)" });
   }
 
   // Jumps along an arc to wherever the anchor is now, squashing on take-off and landing.
@@ -570,8 +570,8 @@ export function makeDot()
     const size = opts.size || s.size;
     const first = anchor();
     const dist = Math.hypot(first.x - from.x, first.y - from.y);
-    const rise = opts.rise ?? clamp(dist * 0.2, 30, 150);
-    const dur = opts.duration ?? clamp(0.55 + dist / 1500, 0.65, 1.15);
+    const rise = opts.rise ?? clamp(dist * 0.3, 64, 220);
+    const dur = opts.duration ?? clamp(0.38 + dist / 1800, 0.46, 0.82);
     const prog = { t: 0 };
     flying = true;
     gsap.killTweensOf(body);
@@ -587,21 +587,21 @@ export function makeDot()
     });
     // A jump cut off in mid air must not leave it floating above its spot.
     gsap.to(body, { y: 0, duration: 0.18, ease: "power2.out" });
-    // A soft gather, then a glide: the arc eases in and out, so it never snaps off or into a spot.
-    hopT.to(body, { scaleX: 1.1, scaleY: 0.9, duration: 0.16, ease: "sine.out" })
-      .to(body, { scaleX: 0.95, scaleY: 1.06, duration: 0.24, ease: "sine.inOut" })
-      .to(body, { scaleX: 1, scaleY: 1, duration: dur * 0.6, ease: "sine.inOut" })
+    // A real jump: crouch, spring up stretched, round out in the air, squash on landing.
+    hopT.to(body, { scaleX: 1.2, scaleY: 0.78, duration: 0.1, ease: "power2.out" })
+      .to(body, { scaleX: 0.88, scaleY: 1.16, duration: 0.12, ease: "power2.out" })
+      .to(body, { scaleX: 1, scaleY: 1, duration: dur * 0.55, ease: "sine.inOut" })
       .to(prog, {
         t: 1,
         duration: dur,
-        ease: "sine.inOut",
+        ease: "power1.inOut",
         onUpdate() {
           const to = anchor();
           s.x = lerp(from.x, to.x, prog.t);
           s.y = lerp(from.y, to.y, prog.t) - 4 * rise * prog.t * (1 - prog.t);
           s.size = lerp(from.size, size, prog.t);
         },
-      }, 0.12);
+      }, 0.1);
   }
 
   function jump()
@@ -610,8 +610,9 @@ export function makeDot()
       return;
     }
     gsap.timeline({ onComplete: land })
-      .to(body, { y: -s.size * 0.4, scaleX: 0.94, scaleY: 1.07, duration: 0.3, ease: "sine.out" })
-      .to(body, { y: 0, scaleX: 1, scaleY: 1, duration: 0.3, ease: "sine.in" });
+      .to(body, { scaleX: 1.16, scaleY: 0.82, duration: 0.08, ease: "power2.out" })
+      .to(body, { y: -s.size * 0.75, scaleX: 0.88, scaleY: 1.14, duration: 0.22, ease: "power2.out" })
+      .to(body, { y: 0, scaleX: 1, scaleY: 1, duration: 0.2, ease: "power2.in" });
   }
 
   let own = [YELLOW, INK];
@@ -669,7 +670,7 @@ export function makeDot()
     say.dataset.theme = opts.theme || "paper";
     say.classList.add("is-on");
     place();
-    gsap.fromTo(say, { "--pop": 0.85, opacity: 0 }, { "--pop": 1, opacity: 1, duration: 0.45, ease: "back.out(1.4)" });
+    gsap.fromTo(say, { "--pop": 0.75, opacity: 0 }, { "--pop": 1, opacity: 1, duration: 0.32, ease: "back.out(2)" });
     if (opts.ms !== 0) {
       sayCall = gsap.delayedCall((opts.ms || 3800) / 1000, quiet);
     }
@@ -689,8 +690,8 @@ export function makeDot()
     const f = body.dataset.mood;
     if (f !== "dizzy" && f !== "hurt" && f !== "sleep" && f !== "happy") {
       gsap.timeline()
-        .to(eyeEls, { scaleY: 0.08, duration: 0.08, ease: "sine.in" })
-        .to(eyeEls, { scaleY: 1, duration: 0.14, ease: "sine.out" }, "+=0.04");
+        .to(eyeEls, { scaleY: 0.08, duration: 0.05 })
+        .to(eyeEls, { scaleY: 1, duration: 0.08 }, "+=0.04");
     }
     gsap.delayedCall(3 + Math.random() * 3, blink);
   }
@@ -701,9 +702,9 @@ export function makeDot()
   {
     if (performance.now() - lastMove > 3500 && mode === "free") {
       const a = Math.random() * Math.PI * 2;
-      gsap.to(eyes, { "--ex": `${Math.cos(a) * 0.08 * s.size}px`, "--ey": `${Math.sin(a) * 0.05 * s.size}px`, duration: 0.7, ease: "sine.inOut" });
+      gsap.to(eyes, { "--ex": `${Math.cos(a) * 0.09 * s.size}px`, "--ey": `${Math.sin(a) * 0.05 * s.size}px`, duration: 0.3, ease: "power2.out" });
     }
-    gsap.delayedCall(3.5 + Math.random() * 3, glance);
+    gsap.delayedCall(2.5 + Math.random() * 2.5, glance);
   }());
 
   addEventListener("pointermove", (e) => {

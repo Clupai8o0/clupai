@@ -1953,7 +1953,7 @@ html.m .home {
     -webkit-user-drag: none;
   }
 
-  /* Letters: the wordmark and the end word */
+  /* Letters: the wordmark and the end word. They sit still; nothing on them is grabbable. */
   & .blk {
     position: absolute;
     left: 0;
@@ -1969,19 +1969,8 @@ html.m .home {
     pointer-events: none;
   }
 
-  & .blk svg * {
-    pointer-events: visiblePainted;
-    cursor: grab;
-    touch-action: pan-y;
-  }
-
   & .blk svg .hit {
-    pointer-events: all;
     fill: transparent;
-  }
-
-  & .end-word .blk svg * {
-    cursor: default;
   }
 
   @media (max-width: 720px) {
