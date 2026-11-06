@@ -135,6 +135,7 @@ function buildStage(scope, dot, phone)
   const glide = gsap.parseEase("power2.out");
   const view = { S: s0, x: x0, y: y0 };
   const zoom = { k: 0 };
+  let fitFilm = () => {};
   const place = () => {
     const S = s0 * Math.pow(sEnd / s0, grow(zoom.k));
     const g = glide(Math.min(1, zoom.k * 1.4));
@@ -144,6 +145,7 @@ function buildStage(scope, dot, phone)
     view.x = px + (sw / 2 - px) * g - pivot.x * S;
     view.y = py + (sh / 2 - py) * g - pivot.y * S;
     holes.setAttribute("transform", `translate(${view.x} ${view.y}) scale(${S})`);
+    fitFilm();
   };
   place();
 
@@ -163,7 +165,18 @@ function buildStage(scope, dot, phone)
   // ------------------------------------------------------------ what's showing through the word
   // The pictures fill the word's box, a little bigger so a letter's overshoot never runs past the edge.
   const film = qs("#film");
-  gsap.set(film, { left: x0 - 4 * s0, top: y0 + (W.top - 18) * s0, width: (W.width + 8) * s0, height: (W.bottom - W.top + 22) * s0 });
+  // On scroll the box opens out to the screen, and never lags behind the letters, so no letter shows paper.
+  const wordBox = ({ S, x, y }) => ({ l: x - 4 * S, t: y + (W.top - 18) * S, r: x + (W.width + 4) * S, b: y + (W.bottom + 4) * S });
+  const box = wordBox(view);
+  fitFilm = () => {
+    const w = wordBox(view);
+    const l = Math.min(box.l, Math.max(0, w.l));
+    const t = Math.min(box.t, Math.max(0, w.t));
+    const r = Math.max(box.r, Math.min(sw, w.r));
+    const b = Math.max(box.b, Math.min(sh, w.b));
+    gsap.set(film, { left: l, top: t, width: r - l, height: b - t });
+  };
+  fitFilm();
   const win = (() => {
     const r = qs("#win-hoddle").getBoundingClientRect();
     return { left: r.left - stageRect.left, top: r.top - stageRect.top, width: r.width, height: r.height };
@@ -213,6 +226,7 @@ function buildStage(scope, dot, phone)
   });
   scope.cleanup(() => {
     fills.forEach((f) => f.classList.remove("is-on"));
+    film.classList.remove("is-held");
     ticks.forEach((t) => t.classList.remove("is-on"));
     nowName.textContent = fills[0].dataset.name;
     nowWhat.textContent = fills[0].dataset.what;
@@ -296,6 +310,8 @@ function buildStage(scope, dot, phone)
         const lock = self.progress > 0.003;
         if (lock !== cutLock) {
           cutLock = lock;
+          // Held on Hoddle for the chapter, so the change to it is quick.
+          film.classList.toggle("is-held", lock);
           if (lock) {
             showFill(0);
           }
@@ -311,7 +327,7 @@ function buildStage(scope, dot, phone)
   tl.to(".hero-top", { y: -sh * 0.34, autoAlpha: 0, duration: 0.55, ease: "power2.in" }, 0)
     .to(now, { y: -24, autoAlpha: 0, duration: 0.3, ease: "power2.in" }, 0)
     .to(zoom, { k: 1, duration: 1.4, onUpdate: place }, 0)
-    .to(film, { left: 0, top: 0, width: sw, height: sh, duration: 1.12, ease: "power2.out" }, 0)
+    .to(box, { l: 0, t: 0, r: sw, b: sh, duration: 1.12, ease: "power2.out", onUpdate: fitFilm }, 0)
     .fromTo(homeCuts, { opacity: 0 }, { opacity: 1, duration: 0.35 }, 0.59)
     .to(nav, { yPercent: -100, autoAlpha: 0, duration: 0.3, ease: "power2.in" }, 0.5)
     .set(".ch-hoddle", { autoAlpha: 1 }, 1.45)

@@ -1699,6 +1699,10 @@ html.m .home {
     opacity: 1;
   }
 
+  & .film.is-held .fill {
+    transition-duration: 0.3s;
+  }
+
   & #v-hoddle {
     opacity: 0;
   }

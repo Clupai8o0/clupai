@@ -39,6 +39,8 @@ const WINDOW = [
   { name: "Tempo", what: "Log your workouts and see your progress. Our own product.", tick: "#070707", fill: "/home/window/tempo.webp", at: "50% 50%" },
   { name: "Krishnaveni School", what: "A school website its staff run themselves. Live.", tick: "#c8102e", fill: "/home/window/krishnaveni.webp", at: "50% 50%" },
 ];
+// The label beside the word changes every few seconds, so it's hidden from screen readers. They get the list here.
+const WINDOW_LABEL = `clupai, with ${WINDOW.slice(0, -1).map((a) => a.name).join(", ")} and ${WINDOW[WINDOW.length - 1]!.name} showing through it`;
 
 const FILLS = [
   ["#4da3ff", "#070707"],
@@ -130,7 +132,7 @@ export default function HomePage()
           </blockquote>
         </div>
 
-        <div className="wordmark pre" id="wordmark" role="img" aria-label="clupai" />
+        <div className="wordmark pre" id="wordmark" role="img" aria-label={WINDOW_LABEL} />
 
         <div className="ch ch-kdg pre" id="ch-kdg">
           <h2 className="ch-name kd-name">King Double Glazing</h2>
