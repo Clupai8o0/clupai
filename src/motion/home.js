@@ -247,6 +247,27 @@ function buildStage(scope, dot, phone)
   });
 
   const navTo = (fg, bg) => ({ "--nav": fg, "--navf": bg, duration: 0.05 });
+  // The nav takes the next chapter's colours when that chapter's edge reaches the logo, not when the wipe starts.
+  const timeFor = (ease, p) => {
+    const e = gsap.parseEase(ease);
+    let lo = 0;
+    let hi = 1;
+    for (let i = 0; i < 24; i++) {
+      const m = (lo + hi) / 2;
+      if (e(m) < p) {
+        lo = m;
+      } else {
+        hi = m;
+      }
+    }
+    return hi;
+  };
+  const logo = qs(".nav-logo");
+  const logoX = logo.offsetLeft + logo.offsetWidth / 2;
+  const logoY = nav.offsetHeight / 2;
+  const kdgNavAt = 3.5 + 0.85 * timeFor("power3.inOut", 1 - logoY / sh);
+  const reach = Math.hypot(sw * 0.7 - logoX, sh - logoY) / (Math.hypot(sw, sh) / Math.SQRT2);
+  const schoolNavAt = 5.2 + timeFor("power2.inOut", Math.min(1, reach / 1.45));
   let drifting = true;
   const tl = gsap.timeline({
     defaults: { ease: "none" },
@@ -300,7 +321,7 @@ function buildStage(scope, dot, phone)
     .to("#t-hoddle .quote", { autoAlpha: 1, y: 0, duration: 0.4, ease: "power2.out" }, 2.65)
     .to(chK, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.85, ease: "power3.inOut" }, 3.5)
     .from(".kd-film", { yPercent: 24, duration: 0.95, ease: "power3.out" }, 3.5)
-    .to(nav, navTo("#050505", "#ffe100"), 3.85)
+    .to(nav, navTo("#050505", "#ffe100"), kdgNavAt)
     .to(kdL, { yPercent: 0, duration: 0.7, stagger: 0.016, ease: "back.out(1.5)" }, 3.75)
     .from(".kd-num, .kd-side", { autoAlpha: 0, y: 26, duration: 0.45, stagger: 0.08, ease: "power2.out" }, 4.05)
     .to({ v: 75 }, {
@@ -313,7 +334,7 @@ function buildStage(scope, dot, phone)
     }, 4.2)
     .to(chS, { clipPath: "circle(145% at 70% 100%)", duration: 1, ease: "power2.inOut" }, 5.2)
     .fromTo("#sc-pic > *", { scale: 1.22 }, { scale: 1, duration: 1.4, ease: "power2.out" }, 5.2)
-    .to(nav, navTo("#ffffff", "#c8102e"), 5.55)
+    .to(nav, navTo("#ffffff", "#c8102e"), schoolNavAt)
     .to(scL, { yPercent: 0, duration: 0.7, stagger: 0.018, ease: "back.out(1.5)" }, 5.5)
     .from(".sc-copy", { autoAlpha: 0, y: 26, duration: 0.45, ease: "power2.out" }, 5.8)
     .to({}, { duration: 0.4 }, 6.2);

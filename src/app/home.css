@@ -80,6 +80,7 @@
 
   & .ln > span {
     display: block;
+    text-wrap: balance;
   }
 
   & .hero-sub p {
