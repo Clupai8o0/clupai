@@ -30,17 +30,23 @@ export function init(scope)
   const box = towerEl.getBoundingClientRect();
   const W = box.width;
   const H = box.height;
-  const world = scope.world(makeWorld({ gravity: 1.5 }));
+  // Heavy and firm, like the shelf: blocks land flat and stay put. No bounce, no tumbling.
+  const world = scope.world(makeWorld({ gravity: 2.2, sleep: true }));
+  world.engine.positionIterations = 14;
+  world.engine.velocityIterations = 10;
   world.walls(W, H);
   Events.on(world.engine, "collisionStart", scope.wrap((ev) => {
     if (ev.pairs.some((p) => Math.abs(p.bodyA.velocity.y - p.bodyB.velocity.y) > 7)) {
-      gsap.fromTo(towerEl, { y: 7 }, { y: 0, duration: 0.24, ease: "power2.out", overwrite: true });
+      gsap.fromTo(towerEl, { y: 4 }, { y: 0, duration: 0.24, ease: "power3.out", overwrite: true });
     }
   }));
 
   const blocks = [];
   const later = (seconds, fn) => gsap.delayedCall(seconds, scope.wrap(fn));
+  const FIRM = { restitution: 0, friction: 0.8, frictionStatic: 1.2, frictionAir: 0.02, slop: 0.01, density: 0.002, sleepThreshold: 30 };
 
+  // Every block lands level. How steady an answer is shows in the block's width and how far off centre it sits,
+  // so a shaky set of answers builds a narrow, crooked tower that the result page can knock over.
   function addBlock(q, a)
   {
     const steady = steadiness(q, a);
@@ -48,35 +54,41 @@ export function init(scope)
     const el = document.createElement("div");
     el.className = "tb";
     el.style.background = colours[(q + a) % colours.length];
-    const h0 = clamp(H * 0.13, 34, 112);
-    const x = W * (0.5 + (q % 2 ? 0.05 : -0.05));
-    let b;
+    // On a phone the tower is a narrow strip, so sizes follow its width as well as its height.
+    const h0 = clamp(Math.min(H * 0.13, W * 0.16), 22, 112);
+    const side = q % 2 ? 1 : -1;
     let w;
     let h;
+    let off;
     if (steady <= 0.3) {
-      // Risky answers stand on a corner. They don't stay where you put them.
-      w = h0;
-      h = w;
-      b = Bodies.rectangle(x, -h, w, h, { restitution: 0.3, friction: 0.3, density: 0.002 });
+      // Risky: a small block, a little off centre.
+      w = Math.min(W * 0.3, h0 * 1.1);
+      h = h0 * 0.8;
+      off = 0.035;
     } else if (steady < 0.75) {
-      // Wobbly: a triangle. Nothing sits well on top of one.
-      w = Math.min(W * 0.46, h0 * 1.9);
-      h = h0 * 1.25;
-      el.style.clipPath = "polygon(50% 0, 100% 100%, 0 100%)";
-      b = Bodies.fromVertices(x, -h, [[{ x: 0, y: -h * 2 / 3 }, { x: w / 2, y: h / 3 }, { x: -w / 2, y: h / 3 }]], { restitution: 0.14, friction: 0.5, density: 0.002 });
+      // Wobbly: narrower, barely off centre.
+      w = Math.min(W * 0.46, h0 * 2.1);
+      h = h0 * 0.82;
+      off = 0.02;
     } else {
-      // Steady: a wide flat block.
+      // Steady: a wide flat block, dead centre.
       w = Math.min(W * 0.62, h0 * 3.2);
       h = h0 * 0.86;
-      b = Bodies.rectangle(W / 2, -h, w, h, { restitution: 0.06, friction: 0.9, density: 0.002 });
+      off = 0;
     }
+    // Off centre, but always over the block below, so the tower leans and never falls on its own.
+    const below = blocks.length ? blocks[blocks.length - 1] : null;
+    const base = below ? below.item.body.position.x : W / 2;
+    const reach = below ? below.w * 0.15 : W;
+    const x = clamp(base + side * clamp(W * off, 0, reach), w / 2 + 2, W - w / 2 - 2);
+    // A short drop onto the top of the stack: placed, not thrown from the top of the screen.
+    const top = blocks.reduce((y, it) => Math.min(y, it.item.body.bounds.min.y), H);
+    const y = Math.max(-h, top - h0 * 2.4 - h / 2);
+    const b = Bodies.rectangle(x, y, w, h, FIRM);
     towerEl.appendChild(el);
+    gsap.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "power2.out" });
     const item = placeShape(world, el, 0, 0, w, h, b);
-    if (steady <= 0.3) {
-      // After placeShape, which measures its box from the body's bounds.
-      Body.setAngle(b, Math.PI / 4);
-    }
-    blocks.push({ answer: a, item });
+    blocks.push({ answer: a, item, w });
   }
 
   function dropLast()

@@ -6,6 +6,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import SiteHeader from "@/components/site-header";
 import SiteFooter from "@/components/site-footer";
+import StartNudge from "@/components/start-nudge";
 import SiteMotion from "@/components/site-motion";
 import { STAR } from "@/components/logo";
 
@@ -130,6 +131,7 @@ fbq('track','PageView');`}
         <SiteHeader />
         <main id="main">{children}</main>
         <SiteFooter />
+        <StartNudge />
         <SiteMotion />
         <Analytics />
         <SpeedInsights />

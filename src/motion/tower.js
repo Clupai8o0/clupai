@@ -42,7 +42,9 @@ export function buildHow(scope, phone)
       el.removeAttribute("style");
       parent.appendChild(el);
     });
-    gsap.killTweensOf([".stick", blocks.b50]);
+    gsap.killTweensOf(".stick");
+    // Only its shake. Its y and opacity belong to the scroll timeline, which must keep them.
+    gsap.killTweensOf(blocks.b50, "x");
     gsap.set(".stick", { scale: 0, xPercent: -50, yPercent: -50, rotation: -5 });
     gsap.set(blocks.b50, { x: 0 });
     // Back in its slot. Opacity and scale belong to the scroll timeline, which has finished showing it by now.
