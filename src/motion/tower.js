@@ -8,6 +8,7 @@ const qs = (s, r = document) => r.querySelector(s);
 const qa = (s, r = document) => [...r.querySelectorAll(s)];
 const vh = () => innerHeight;
 
+// dot is null on the home page, where Shifter keeps off the middle of the page.
 export function buildHow(scope, dot, phone)
 {
   const blocks = { b20: qs(".tw-20"), b30: qs(".tw-30"), b50: qs(".tw-50"), pad: qs(".tw-pad") };
@@ -92,7 +93,7 @@ export function buildHow(scope, dot, phone)
   {
     if (missed) {
       resetMiss();
-      dot.talk("Good. Now you know.", { ms: 2200, side: phone ? "above" : "left" });
+      dot?.talk("Good. Now you know.", { ms: 2200, side: phone ? "above" : "left" });
       return;
     }
     missed = true;
@@ -133,9 +134,9 @@ export function buildHow(scope, dot, phone)
     gsap.fromTo(blocks.b50, { y: 0 }, { y: 7, duration: 0.07, yoyo: true, repeat: 3 });
     missBtn.textContent = "Put it back";
     gsap.fromTo(missBtn, { scaleX: 1.2, scaleY: 0.72 }, { scaleX: 1, scaleY: 1, duration: 0.65, ease: "elastic.out(1, 0.4)" });
-    dot.talk("See? You stop paying.", { ms: 3200, side: phone ? "above" : "left" });
+    dot?.talk("See? You stop paying.", { ms: 3200, side: phone ? "above" : "left" });
     // The button goes off under the mascot as well.
-    dot.fling(phone ? 120 : 260, -1400, { silent: true });
+    dot?.fling(phone ? 120 : 260, -1400, { silent: true });
   }
 
   missBtn.disabled = false;

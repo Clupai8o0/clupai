@@ -373,8 +373,8 @@ export function makeDot()
   function hit(axis)
   {
     gsap.killTweensOf(body);
-    // A knock, not a squish: a small shove back from the wall it hit.
-    const d = axis === "x" ? { x: 4 } : { y: 4 };
+    // A knock, not a squish: a small shove the way it bounced, away from the wall.
+    const d = axis === "x" ? { x: Math.sign(v.x) * 4 } : { y: Math.sign(v.y) * 4 };
     gsap.fromTo(body, d, { x: 0, y: 0, duration: 0.3, ease: "power2.out" });
   }
 
@@ -488,7 +488,7 @@ export function makeDot()
     }
     stopHop();
     gsap.killTweensOf(body);
-    gsap.set(body, { scaleX: 1, scaleY: 1, y: 0 });
+    gsap.set(body, { scaleX: 1, scaleY: 1, x: 0, y: 0 });
     silent = !!opts.silent;
     mode = "air";
     flying = true;
@@ -798,7 +798,7 @@ export function makeDot()
       face("");
       gsap.set(spin, { rotation: 0 });
       gsap.killTweensOf(body);
-      gsap.set(body, { scaleX: 1, scaleY: 1, y: 0 });
+      gsap.set(body, { scaleX: 1, scaleY: 1, x: 0, y: 0 });
     }
   }
 
