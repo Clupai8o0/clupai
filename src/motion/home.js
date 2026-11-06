@@ -116,6 +116,8 @@ function buildStage(scope, dot, phone)
   scope.cleanup(() => {
     clup.textContent = "";
     ai.textContent = "";
+    // The toys and the end tiles can still be grabbed, so a release outside the window can't leave the class behind.
+    grabbing(false);
   });
 
   // The letters stay put once they've landed. On a phone the top row has nothing under it, so they're pinned.
