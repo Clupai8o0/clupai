@@ -19,7 +19,7 @@ const PANELS: { tab: string; title: string; body: ReactNode; tone: string; src: 
     body: "Whoever sells you the build scopes it too, then builds it or directs the build until it’s live.",
     tone: "tone-red",
     src: "/sam.jpeg",
-    alt: "Samridh Limbu, founder of Clupai.",
+    alt: "Samridh Limbu, founder of clupai.",
     face: true,
   },
   {

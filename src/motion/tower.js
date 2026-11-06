@@ -15,12 +15,25 @@ export function buildHow(scope, phone)
   const missBtn = qs("#miss");
   const fallLayer = qs("#how-fall");
   const howEl = qs("#how");
+  const missWord = qs(".miss-w", missBtn);
+  const missCue = qs(".miss-k", missBtn);
   const homes = [];
   let missWorld = null;
   let missed = false;
+  let missTl = null;
+
+  function label(word, cue)
+  {
+    missWord.textContent = word;
+    missCue.textContent = cue;
+  }
 
   function resetMiss()
   {
+    if (missTl) {
+      missTl.kill();
+      missTl = null;
+    }
     if (missWorld) {
       missWorld.stop();
       missWorld = null;
@@ -29,11 +42,14 @@ export function buildHow(scope, phone)
       el.removeAttribute("style");
       parent.appendChild(el);
     });
-    gsap.killTweensOf(".stick");
+    gsap.killTweensOf([".stick", blocks.b50]);
     gsap.set(".stick", { scale: 0, xPercent: -50, yPercent: -50, rotation: -5 });
-    howEl.classList.remove("is-missed");
+    gsap.set(blocks.b50, { x: 0 });
+    // Back in its slot. Opacity and scale belong to the scroll timeline, which has finished showing it by now.
+    gsap.set(missBtn, { x: 0, y: 0, rotation: 0, opacity: 1, scale: 1 });
+    howEl.classList.remove("is-missed", "is-hit");
     missed = false;
-    missBtn.textContent = "Miss the date";
+    label("Miss the date", "Press it");
   }
 
   gsap.set(stepEls.slice(1), { autoAlpha: 0 });
@@ -41,7 +57,7 @@ export function buildHow(scope, phone)
   gsap.set(blocks.pad, { scaleX: 0 });
   gsap.set("#flag", { scaleY: 0 });
   gsap.set(".tw-t", { opacity: 0 });
-  gsap.set(missBtn, { autoAlpha: 0, scale: 0.2 });
+  gsap.set(missBtn, { autoAlpha: 0, scale: 0.92 });
   gsap.set(".stick", { scale: 0, xPercent: -50, yPercent: -50, rotation: -5 });
   const howTl = gsap.timeline({
     defaults: { ease: "none" },
@@ -63,14 +79,16 @@ export function buildHow(scope, phone)
       .fromTo(stepEls[b], { autoAlpha: 0, x: 40 }, { autoAlpha: 1, x: 0, duration: 0.22, ease: "power3.out", immediateRender: false }, at + 0.1);
   };
   const inner = (b) => qs(".tw-i", b);
+  // Blocks land like something heavy: they speed up as they fall and stop dead. Nothing changes shape;
+  // the block underneath takes the weight with a 3px knock.
   const drop = (b, below, at) => {
     howTl.to(b, { y: 0, duration: 0.3, ease: "power3.in" }, at);
-    howTl.fromTo(inner(b), { scaleX: 1.14, scaleY: 0.76 }, { scaleX: 1, scaleY: 1, duration: 0.34, ease: "elastic.out(1, 0.45)", immediateRender: false }, at + 0.3);
     if (below) {
-      howTl.fromTo(inner(below), { scaleY: 0.92 }, { scaleY: 1, duration: 0.26, ease: "elastic.out(1, 0.5)", immediateRender: false }, at + 0.3);
+      howTl.to(below, { y: 3, duration: 0.03, ease: "power1.out" }, at + 0.3)
+        .to(below, { y: 0, duration: 0.12, ease: "power2.out" }, at + 0.33);
     }
   };
-  howTl.to(blocks.pad, { scaleX: 1, duration: 0.3, ease: "back.out(1.6)" }, 0.05);
+  howTl.to(blocks.pad, { scaleX: 1, duration: 0.3, ease: "power3.out" }, 0.05);
   swap(0, 1, 0.75);
   drop(blocks.b50, null, 0.78);
   howTl.to(".tw-50 .tw-t", { opacity: 1, duration: 0.1 }, 1.1);
@@ -80,16 +98,19 @@ export function buildHow(scope, phone)
   swap(2, 3, 2.4);
   drop(blocks.b20, blocks.b30, 2.43);
   howTl.to(".tw-20 .tw-t", { opacity: 1, duration: 0.1 }, 2.75);
-  howTl.to("#flag", { scaleY: 1, duration: 0.2, ease: "back.out(2)" }, 2.82);
+  howTl.to("#flag", { scaleY: 1, duration: 0.2, ease: "power3.out" }, 2.82);
   swap(3, 4, 3.3);
   howTl.to(howEl, { backgroundColor: "#4da3ff", duration: 0.2 }, 3.3);
   howTl.to(blocks.pad, { backgroundColor: "#070707", color: "#f3f1ec", duration: 0.2 }, 3.3);
-  howTl.to(missBtn, { autoAlpha: 1, scale: 1, duration: 0.2, ease: "back.out(2.4)" }, 3.46);
+  howTl.to(missBtn, { autoAlpha: 1, scale: 1, duration: 0.2, ease: "power3.out" }, 3.46);
   howTl.to({}, { duration: 0.75 }, 3.66);
 
-  // Press it: the unpaid blocks really do fall off.
+  // Press it: the missed date flies into the tower like a missile, and the unpaid blocks come apart.
   function pressMiss()
   {
+    if (missTl) {
+      return;
+    }
     if (missed) {
       resetMiss();
       return;
@@ -97,7 +118,34 @@ export function buildHow(scope, phone)
     missed = true;
     howEl.classList.add("is-missed");
     const hr = howEl.getBoundingClientRect();
-    missWorld = makeWorld({ gravity: 1.6 });
+    const br = missBtn.getBoundingClientRect();
+    const tr = qs(".i-30").getBoundingClientRect();
+    // It hits the 30% block on the side facing it, half way up.
+    const from = { x: br.left + br.width / 2, y: br.top + br.height / 2 };
+    const side = tr.left + tr.width / 2 > from.x ? 1 : -1;
+    const hit = { x: side > 0 ? tr.left + tr.width * 0.12 : tr.right - tr.width * 0.12, y: tr.top + tr.height / 2 };
+    const dx = hit.x - from.x;
+    const dy = hit.y - from.y;
+    const aim = gsap.utils.clamp(-35, 35, (Math.atan2(dy, dx * side) * 180) / Math.PI) * side;
+
+    missTl = gsap.timeline({ onComplete() { missTl = null; } });
+    // A short pull back, then it goes.
+    missTl.to(missBtn, { x: -dx * 0.04, y: -dy * 0.04, rotation: aim, duration: 0.18, ease: "power2.out" })
+      .to(missBtn, { x: dx, y: dy, duration: 0.32, ease: "power3.in" })
+      .add(() => explode(hr, side))
+      .to(missBtn, { opacity: 0, duration: 0.08 }, ">")
+      // When the pieces have landed it comes back to its slot as the way to undo.
+      .add(() => {
+        gsap.set(missBtn, { x: 0, y: 0, rotation: 0 });
+        label("Put it back", "Press again");
+      }, "+=0.9")
+      .to(missBtn, { opacity: 1, duration: 0.3, ease: "power2.out" });
+  }
+
+  function explode(hr, side)
+  {
+    howEl.classList.add("is-hit");
+    missWorld = makeWorld({ gravity: 1.8 });
     missWorld.walls(hr.width, hr.height);
     const solidOf = (el) => {
       const r = el.getBoundingClientRect();
@@ -105,8 +153,9 @@ export function buildHow(scope, phone)
     };
     solidOf(blocks.b50);
     solidOf(blocks.pad);
-    solidOf(missBtn);
-    [[".i-30", 1.3], [".i-20", -1.2]].forEach(([sel, dir], n) => {
+    const k = phone ? 0.5 : 1;
+    // The 30% takes the hit and is thrown away from it; the roof goes up and over.
+    [[".i-30", 15, -9, 0.16], [".i-20", 8, -15, -0.12]].forEach(([sel, vx, vy, spin], n) => {
       const el = qs(sel);
       const r = el.getBoundingClientRect();
       homes.push([el, el.parentElement]);
@@ -116,22 +165,24 @@ export function buildHow(scope, phone)
       el.style.width = `${r.width}px`;
       el.style.height = `${r.height}px`;
       fallLayer.appendChild(el);
-      const o = { restitution: 0.3, friction: 0.5, density: 0.002 };
+      const o = { restitution: 0.1, friction: 0.6, density: 0.002 };
       const cx0 = r.left + r.width / 2 - hr.left;
       // The 20% is the roof: a triangle, so it falls like one.
       const b = sel === ".i-20"
         ? Bodies.fromVertices(cx0, r.top + (r.height * 2) / 3 - hr.top, [[{ x: 0, y: -(r.height * 2) / 3 }, { x: r.width / 2, y: r.height / 3 }, { x: -r.width / 2, y: r.height / 3 }]], o)
         : Bodies.rectangle(cx0, r.top + r.height / 2 - hr.top, r.width, r.height, o);
       missWorld.add(el, b, r.left - hr.left, r.top - hr.top);
-      Body.setVelocity(b, { x: dir * (phone ? 3 : 8), y: -7 - n * 6 });
-      Body.setAngularVelocity(b, dir * 0.07);
-      gsap.to(qs(".stick", el), { scale: 1, duration: 0.5, delay: 0.28 + n * 0.08, ease: "back.out(3)" });
+      Body.setVelocity(b, { x: side * vx * k, y: vy * (phone ? 0.7 : 1) });
+      Body.setAngularVelocity(b, side * spin);
+      gsap.to(qs(".stick", el), { scale: 1, duration: 0.35, delay: 0.5 + n * 0.08, ease: "power3.out" });
     });
-    gsap.to("#stick-paid", { scale: 1, duration: 0.5, delay: 0.5, ease: "back.out(3)" });
-    gsap.to("#stick-free", { scale: 1, duration: 0.5, delay: 0.66, ease: "back.out(3)" });
-    gsap.fromTo(blocks.b50, { y: 0 }, { y: 7, duration: 0.07, yoyo: true, repeat: 3 });
-    missBtn.textContent = "Put it back";
-    gsap.fromTo(missBtn, { scaleX: 1.2, scaleY: 0.72 }, { scaleX: 1, scaleY: 1, duration: 0.65, ease: "elastic.out(1, 0.4)" });
+    gsap.to("#stick-paid", { scale: 1, duration: 0.35, delay: 0.7, ease: "power3.out" });
+    gsap.to("#stick-free", { scale: 1, duration: 0.35, delay: 0.86, ease: "power3.out" });
+    // The paid half stays up, but feels it.
+    gsap.timeline()
+      .to(blocks.b50, { x: side * 9, duration: 0.05, ease: "power2.out" })
+      .to(blocks.b50, { x: side * -5, duration: 0.07, ease: "power1.inOut" })
+      .to(blocks.b50, { x: 0, duration: 0.18, ease: "power2.out" });
   }
 
   missBtn.disabled = false;

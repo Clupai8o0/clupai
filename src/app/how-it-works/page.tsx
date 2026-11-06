@@ -10,7 +10,7 @@ import "../inner.css";
 export const metadata: Metadata = {
   title: "How it works",
   description:
-    "How a Clupai build runs from scope to launch, when each payment is due, and what happens if we miss the date.",
+    "How a clupai build runs from scope to launch, when each payment is due, and what happens if we miss the date.",
   alternates: { canonical: "/how-it-works" },
 };
 

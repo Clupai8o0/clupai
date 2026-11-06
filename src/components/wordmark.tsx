@@ -7,7 +7,7 @@ const WORD = [..."clupai"];
 // Where "ai" starts, for the blue accent.
 const AI = WORD.length - 2;
 
-function layOut()
+function layOut(gap = SPACE)
 {
   let x = 0;
   let dotX = 0;
@@ -16,31 +16,41 @@ function layOut()
     if (ch === "i") {
       dotX = x + G[ch].w / 2;
     }
-    x += G[ch].w + SPACE;
+    x += G[ch].w + gap;
     return { key: `${ch}${i}`, x: at, d: G[ch].d };
   });
-  return { letters, dotX, width: x - SPACE };
+  return { letters, dotX, width: x - gap };
 }
 
-// The small logotype. With accent, "ai" and the dot are blue, as in the header, the footer and the emails.
+// How much the small logotype is thickened: a stroke this wide, in glyph units, round each letter.
+// It takes the Inter Tight 600 outlines to about a bold, like the live site's logo.
+const BOLD = 6;
+
+// The small logotype. With accent, "ai" and the dot take --mark-ai: blue on dark bars, a deeper blue on light ones.
 export function Mark({ height, className, accent = false }: { height: number; className?: string; accent?: boolean })
 {
-  const { letters, dotX, width } = layOut();
-  const top = TITTLE.y - TITTLE.size / 2 - 2;
-  const bottom = G.p.bottom + 1;
+  // The stroke grows each letter by half of it on every side, so the gaps grow by as much to stay open.
+  const { letters, dotX, width } = layOut(SPACE + BOLD);
+  const pad = BOLD / 2;
+  const top = TITTLE.y - TITTLE.size / 2 - pad - 1;
+  const bottom = G.p.bottom + pad + 1;
   const u = height / (bottom - top);
+  const ai = "var(--mark-ai, var(--blue))";
+  const paint = (blue: boolean) => ({ fill: blue ? ai : "currentColor", stroke: blue ? ai : "currentColor" });
   return (
     <svg
       className={className}
-      viewBox={`0 ${top} ${width} ${bottom - top}`}
+      viewBox={`${-pad} ${top} ${width + BOLD} ${bottom - top}`}
       height={height}
-      width={width * u}
+      width={(width + BOLD) * u}
+      strokeWidth={BOLD}
+      strokeLinejoin="round"
       aria-hidden="true"
     >
       {letters.map((l, i) => (
-        <path key={l.key} transform={`translate(${l.x} 0)`} d={l.d} fill={accent && i >= AI ? "var(--blue)" : "currentColor"} />
+        <path key={l.key} transform={`translate(${l.x} 0)`} d={l.d} {...paint(accent && i >= AI)} />
       ))}
-      <circle cx={dotX} cy={TITTLE.y} r={TITTLE.size / 2} fill={accent ? "var(--blue)" : "currentColor"} />
+      <circle cx={dotX} cy={TITTLE.y} r={TITTLE.size / 2} {...paint(accent)} />
     </svg>
   );
 }

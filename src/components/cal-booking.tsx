@@ -210,7 +210,7 @@ export default function CalBooking({ prefill = {} }: { prefill?: BookingPrefill 
       <div className="bk-head">
         <Image src="/sam-small.jpeg" alt="" width={48} height={48} />
         <div>
-          <p className="bk-who">Samridh Limbu, Clupai</p>
+          <p className="bk-who">Samridh Limbu, clupai</p>
           <p className="t-small">30 minutes on Google Meet, Melbourne time</p>
         </div>
       </div>

@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Logo } from "@/components/logo";
 import { Mark } from "@/components/wordmark";
 
 const COLUMNS = [
@@ -47,8 +46,7 @@ export default function SiteFooter()
     <footer className="site-ft">
       <div className="site-ft-top">
         <div className="site-ft-brand">
-          <Link className="site-ft-logo" href="/" aria-label="Clupai home">
-            <Logo size={28} tone="light" />
+          <Link className="site-ft-logo" href="/" aria-label="clupai home">
             <Mark height={22} accent />
           </Link>
           <p>Software built and launched by a fixed date. From Melbourne, Australia.</p>
@@ -68,7 +66,7 @@ export default function SiteFooter()
         ))}
       </div>
       <div className="site-ft-base">
-        <span>© 2026 Sam Limbu · trading as Clupai</span>
+        <span>© 2026 Sam Limbu · trading as clupai</span>
         <Link href="/privacy">Privacy</Link>
         <Link href="/terms">Terms</Link>
         <a className="site-ft-up" href="#main">Back to top</a>

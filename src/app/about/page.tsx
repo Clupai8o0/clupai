@@ -8,7 +8,7 @@ import "../inner.css";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Why Clupai sells you a launch date, who Samridh Limbu is, and why the person who scopes your build stays on it until it’s live.",
+    "Why clupai sells you a launch date, who Samridh Limbu is, and why the person who scopes your build stays on it until it’s live.",
   alternates: { canonical: "/about" },
 };
 
@@ -28,7 +28,7 @@ export default function AboutPage()
 
       <section className="about-founder" aria-labelledby="founder-title">
         <div className="about-photo">
-          <Image src="/sam.jpeg" alt="Samridh Limbu, founder of Clupai" fill sizes="(max-width: 720px) 100vw, 48vw" loading="eager" />
+          <Image src="/sam.jpeg" alt="Samridh Limbu, founder of clupai" fill sizes="(max-width: 720px) 100vw, 48vw" loading="eager" />
         </div>
         <div className="about-copy">
           <h2 className="g-big" id="founder-title">

@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 import { C, STAR } from "@/components/logo";
 
 export const runtime = "edge";
-export const alt = "Clupai. Your software live by the date we agree, or you stop paying.";
+export const alt = "clupai. Your software live by the date we agree, or you stop paying.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

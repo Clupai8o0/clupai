@@ -3,9 +3,9 @@ import Link from "next/link";
 import LegalPage, { type LegalSection } from "@/components/legal-page";
 
 export const metadata: Metadata = {
-  title: { absolute: "Terms of Service · Clupai" },
+  title: { absolute: "Terms of Service · clupai" },
   description:
-    "The terms that govern your use of clupai.com, the Build Risk Check, enquiries and bookings. Clupai is a software company in Melbourne.",
+    "The terms that govern your use of clupai.com, the Build Risk Check, enquiries and bookings. clupai is a software company in Melbourne.",
   alternates: { canonical: "/terms" },
 };
 
@@ -37,8 +37,8 @@ const sections: LegalSection[] = [
     body: (
       <>
         <p>
-          The site is operated by Sam Limbu trading as Clupai (
-          <strong>&ldquo;Clupai&rdquo;</strong>,{" "}
+          The site is operated by Sam Limbu trading as clupai (
+          <strong>&ldquo;clupai&rdquo;</strong>,{" "}
           <strong>&ldquo;we&rdquo;</strong>, <strong>&ldquo;us&rdquo;</strong>{" "}
           or <strong>&ldquo;our&rdquo;</strong>), a software company based in
           Melbourne, Australia.

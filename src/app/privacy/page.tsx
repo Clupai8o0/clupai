@@ -3,9 +3,9 @@ import Link from "next/link";
 import LegalPage, { type LegalSection } from "@/components/legal-page";
 
 export const metadata: Metadata = {
-  title: { absolute: "Privacy Policy · Clupai" },
+  title: { absolute: "Privacy Policy · clupai" },
   description:
-    "How Clupai, a software company in Melbourne, collects, uses and protects your personal information. Written to follow the Australian Privacy Principles.",
+    "How clupai, a software company in Melbourne, collects, uses and protects your personal information. Written to follow the Australian Privacy Principles.",
   alternates: { canonical: "/privacy" },
 };
 
@@ -19,7 +19,7 @@ const sections: LegalSection[] = [
       <>
         <p>
           This site, <strong>clupai.com</strong>, is operated by Sam Limbu
-          trading as Clupai (<strong>&ldquo;Clupai&rdquo;</strong>,{" "}
+          trading as clupai (<strong>&ldquo;clupai&rdquo;</strong>,{" "}
           <strong>&ldquo;we&rdquo;</strong>, <strong>&ldquo;us&rdquo;</strong>{" "}
           or <strong>&ldquo;our&rdquo;</strong>), a software company based in
           Brunswick, Victoria, Australia.

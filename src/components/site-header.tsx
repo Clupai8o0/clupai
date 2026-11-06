@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { Logo } from "@/components/logo";
 import { Mark } from "@/components/wordmark";
 
 const links = [
@@ -105,8 +104,7 @@ export default function SiteHeader()
   return (
     <>
       <header className="nav" data-over={pathname === "/"} data-away={away && !open}>
-        <Link className="nav-logo" href="/" aria-label="Clupai home" onClick={() => setOpen(false)}>
-          <Logo size={28} className="nav-tile" />
+        <Link className="nav-logo" href="/" aria-label="clupai home" onClick={() => setOpen(false)}>
           <Mark height={22} className="nav-mark" accent />
         </Link>
         <nav className="nav-r" aria-label="Main">

@@ -15,6 +15,17 @@ const vh = () => innerHeight;
 const widthOf = (word) => [...word].reduce((sum, ch) => sum + GLYPHS[ch].w, 0);
 const grabbing = (on) => document.documentElement.classList.toggle("is-grabbing", on);
 
+// The logo's "ai" on a bar of colour bg (#rrggbb): blue on dark, a deeper blue on light, plain on red where blue clashes.
+function markAi(bg)
+{
+  const n = parseInt(bg.slice(1), 16);
+  const [r, g, b] = [n >> 16, (n >> 8) & 255, n & 255];
+  if (r > 150 && g < 80 && b < 80) {
+    return "currentColor";
+  }
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b > 140 ? "var(--blue-deep)" : "var(--blue)";
+}
+
 const TILES = [
   "/work/kdg/new/hero.webp", "/work/hoddle/new/home.webp", "/work/krishnaveni/homepage.webp", "/products/tempo/dashboard.webp",
   "/products/tempo/session.webp", "/work/kdg/gallery.webp", "/work/nmmun/homepage.webp", "/work/hoddle/new/matching.webp",
@@ -327,13 +338,13 @@ function buildStage(scope, dot, phone)
     .fromTo(film, { left: 0, top: 0, width: sw, height: sh }, { ...win, duration: 0.9, ease: "power3.inOut", immediateRender: false }, 1.95)
     .to(hoddleFilm, { opacity: 1, duration: 0.3 }, 2.45)
     .fromTo(nav, { yPercent: -100, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.25, ease: "power2.out", immediateRender: false }, 2.25)
-    .to(hdL, { yPercent: 0, duration: 0.7, stagger: 0.035, ease: "back.out(1.5)" }, 2.2)
+    .to(hdL, { yPercent: 0, duration: 0.7, stagger: 0.035, ease: "expo.out" }, 2.2)
     .to("#t-hoddle .what", { autoAlpha: 1, y: 0, duration: 0.4, ease: "power2.out" }, 2.5)
     .to("#t-hoddle .fact", { autoAlpha: 1, y: 0, duration: 0.4, stagger: 0.06, ease: "power2.out" }, 2.55)
     .to("#t-hoddle .quote", { autoAlpha: 1, y: 0, duration: 0.4, ease: "power2.out" }, 2.65)
     .to(chK, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.85, ease: "power3.inOut" }, 3.5)
     .from(".kd-film", { yPercent: 24, duration: 0.95, ease: "power3.out" }, 3.5)
-    .to(kdL, { yPercent: 0, duration: 0.7, stagger: 0.016, ease: "back.out(1.5)" }, 3.75)
+    .to(kdL, { yPercent: 0, duration: 0.7, stagger: 0.016, ease: "expo.out" }, 3.75)
     .from(".kd-num, .kd-side", { autoAlpha: 0, y: 26, duration: 0.45, stagger: 0.08, ease: "power2.out" }, 4.05)
     .to({ v: 75 }, {
       v: 99,
@@ -345,7 +356,7 @@ function buildStage(scope, dot, phone)
     }, 4.2)
     .to(chS, { clipPath: "circle(145% at 70% 100%)", duration: 1, ease: "power2.inOut" }, 5.2)
     .fromTo("#sc-pic > *", { scale: 1.22 }, { scale: 1, duration: 1.4, ease: "power2.out" }, 5.2)
-    .to(scL, { yPercent: 0, duration: 0.7, stagger: 0.018, ease: "back.out(1.5)" }, 5.5)
+    .to(scL, { yPercent: 0, duration: 0.7, stagger: 0.018, ease: "expo.out" }, 5.5)
     .from(".sc-copy", { autoAlpha: 0, y: 26, duration: 0.45, ease: "power2.out" }, 5.8)
     .to({}, { duration: 0.4 }, 6.2);
 
@@ -366,9 +377,9 @@ function buildPromise()
   });
   promiseTl.fromTo(".soft-promise", { opacity: 0 }, { opacity: 1, duration: 1.05, ease: "power1.in" }, 0);
   promiseTl.fromTo(".soft-promise img", { scale: 1.16 }, { scale: 1, duration: 1.3, ease: "none" }, 0);
-  promiseTl.to(".c-y .chip-bg", { scaleX: 1, rotation: -2, duration: 0.14, ease: "back.out(1.8)" }, 0.4);
-  promiseTl.fromTo("#chip-stop", { scale: 1.5, rotation: -8 }, { scale: 1, rotation: -2, duration: 0.14, ease: "back.out(3)" }, 0.8);
-  promiseTl.to(".c-r .chip-bg", { scaleX: 1, duration: 0.04 }, 0.8);
+  // The two highlights draw in level, left to right, like a marker. No tilt and no stamp.
+  promiseTl.to(".c-y .chip-bg", { scaleX: 1, duration: 0.2, ease: "power2.inOut" }, 0.36);
+  promiseTl.to(".c-r .chip-bg", { scaleX: 1, duration: 0.24, ease: "power2.inOut" }, 0.74);
   promiseTl.from(".promise-end", { autoAlpha: 0, y: 18, duration: 0.14 }, 0.96);
   promiseTl.to({}, { duration: 0.2 }, 1.1);
   return promiseTl;
@@ -411,6 +422,7 @@ function buildToys(scope, phone)
     }, {
       down() {
         grabbing(true);
+        ask.classList.add("is-touched");
       },
       up() {
         grabbing(false);
@@ -435,7 +447,7 @@ function buildToys(scope, phone)
       }
     },
   });
-  gsap.from("#ask-h, .ask-sub", { yPercent: 16, autoAlpha: 0, duration: 1, stagger: 0.1, ease: "expo.out", scrollTrigger: { trigger: ask, start: "top 70%" } });
+  gsap.from("#ask-h, .ask-sub, .ask-cue", { yPercent: 16, autoAlpha: 0, duration: 1, stagger: 0.1, ease: "expo.out", scrollTrigger: { trigger: ask, start: "top 70%" } });
   return { ask, toys };
 }
 
@@ -467,6 +479,7 @@ function buildNavThemes(scope, stage)
   const setColours = (fg, bg) => {
     nav.style.setProperty("--nav", fg);
     nav.style.setProperty("--navf", bg);
+    nav.style.setProperty("--mark-ai", markAi(bg));
   };
   scope.ticker(() => {
     const hit = THEMES.find((t) => {
@@ -501,6 +514,7 @@ function buildNavThemes(scope, stage)
     nav.style.removeProperty("background");
     nav.style.removeProperty("--nav");
     nav.style.removeProperty("--navf");
+    nav.style.removeProperty("--mark-ai");
   });
   ScrollTrigger.create({
     trigger: "#close",
@@ -548,7 +562,7 @@ function buildBoard(scope, phone)
       onEnter: scope.wrap(() => {
         cells.forEach((c, n) => scramble(c, c.classList.contains("r-name") ? 0.8 : 0.5, n * 0.05, rnd));
         gsap.to(qa(".r-what,.r-part", row), { autoAlpha: 1, duration: 0.6, delay: 0.15, ease: "power1.out" });
-        gsap.fromTo(qa(".st-i", row), { autoAlpha: 1, scale: 0 }, { autoAlpha: 1, scale: 1, duration: 0.5, delay: 0.5, ease: "back.out(3)" });
+        gsap.fromTo(qa(".st-i", row), { autoAlpha: 1, scale: 0 }, { autoAlpha: 1, scale: 1, duration: 0.5, delay: 0.5, ease: "power4.out" });
         gsap.delayedCall(1.1, () => {
           row.style.height = "";
         });
@@ -621,7 +635,7 @@ function buildReveals(scope)
   gsap.fromTo(".soft-end img", { scale: 1.16 }, { scale: 1, ease: "none", scrollTrigger: { trigger: "#close-end", start: "top bottom", end: "bottom bottom", scrub: true } });
   const closeT = qs(".close-t");
   scope.cleanup(splitLetters(closeT));
-  gsap.from(closeT.querySelectorAll(".lc"), { yPercent: 110, duration: 1, stagger: 0.022, ease: "back.out(1.4)", scrollTrigger: { trigger: close, start: "top 62%" } });
+  gsap.from(closeT.querySelectorAll(".lc"), { yPercent: 110, duration: 1, stagger: 0.022, ease: "expo.out", scrollTrigger: { trigger: close, start: "top 62%" } });
   gsap.from(".close-sub, .close-q, .close-btn", { y: 24, autoAlpha: 0, duration: 0.9, stagger: 0.06, delay: 0.2, ease: "expo.out", scrollTrigger: { trigger: close, start: "top 62%" } });
 }
 

@@ -562,6 +562,28 @@
     color: var(--ink);
   }
 
+  /* "Start" and an arrow under each answer, so the shapes read as buttons. */
+  & .go {
+    display: block;
+    margin-top: 0.6em;
+    font-size: 0.56em;
+    letter-spacing: -0.01em;
+    opacity: 0.8;
+  }
+
+  & .go i {
+    display: inline-block;
+    font-style: normal;
+    transition: translate 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  & .ask-cue {
+    margin-top: 1.2em;
+    font-size: 15px;
+    font-weight: 500;
+    color: #b5b3ad;
+  }
+
   & .toy-0 .toy-bg {
     background: var(--blue);
   }
@@ -1918,7 +1940,33 @@ html.m .home {
     padding: 1vw;
     border: 0;
     cursor: pointer;
-    transition: background 0.25s;
+    flex-direction: column;
+    gap: 0.45em;
+    transition: background 0.25s, filter 0.15s;
+  }
+
+  & .miss-k {
+    font-size: 0.62em;
+    font-weight: 500;
+    opacity: 0.85;
+  }
+
+  /* A ring that keeps going out from the button until it's pressed, so it reads as something to press. */
+  & .miss::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 2px solid var(--red);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  & .how:not(.is-missed) .miss::after {
+    animation: home-ring 2.2s cubic-bezier(0.2, 0.8, 0.2, 1) 0.6s infinite;
+  }
+
+  & .miss:active {
+    filter: brightness(0.88);
   }
 
   /* Toys */
@@ -1944,6 +1992,27 @@ html.m .home {
     position: absolute;
     inset: 0;
     pointer-events: none;
+    transition: filter 0.2s;
+  }
+
+  /* Until you touch one, each shape's arrow gives a small push to the right now and then: these are buttons. */
+  & .ask:not(.is-touched) .go i {
+    animation: home-nudge 2.6s cubic-bezier(0.2, 0.8, 0.2, 1) 1.4s infinite;
+  }
+
+  & .toy:active .toy-bg {
+    filter: brightness(0.88);
+  }
+
+  @media (hover: hover) {
+    & .toy:hover .toy-bg {
+      filter: brightness(1.08);
+    }
+
+    & .toy:hover .go i {
+      translate: 5px 0;
+      animation: none;
+    }
   }
 
   & .toy-0 .toy-bg {
@@ -2152,6 +2221,31 @@ html.m .home {
     & .r-part {
       display: none;
     }
+  }
+}
+
+@keyframes home-ring {
+  0% {
+    opacity: 0.9;
+    scale: 1;
+  }
+
+  70%,
+  100% {
+    opacity: 0;
+    scale: 1.28;
+  }
+}
+
+@keyframes home-nudge {
+  0%,
+  45%,
+  100% {
+    translate: 0 0;
+  }
+
+  22% {
+    translate: 6px 0;
   }
 }
 

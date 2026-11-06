@@ -684,7 +684,7 @@ export function makeDot()
     say.dataset.theme = opts.theme || "paper";
     say.classList.add("is-on");
     place();
-    gsap.fromTo(say, { "--pop": 0.75, opacity: 0 }, { "--pop": 1, opacity: 1, duration: 0.32, ease: "back.out(2)" });
+    gsap.fromTo(say, { "--pop": 0.75, opacity: 0 }, { "--pop": 1, opacity: 1, duration: 0.32, ease: "power3.out" });
     if (opts.ms !== 0) {
       sayCall = gsap.delayedCall((opts.ms || 3800) / 1000, quiet);
     }

@@ -18,27 +18,26 @@ function initLetters(scope)
   qa("[data-letters]").forEach((el) => {
     const lc = letterDrop(scope, el);
     gsap.set(lc, { yPercent: 130 });
-    gsap.to(lc, { yPercent: 0, duration: 0.9, stagger: 0.02, ease: "back.out(1.5)", scrollTrigger: { trigger: el, start: "top 86%", once: true } });
+    gsap.to(lc, { yPercent: 0, duration: 0.9, stagger: 0.02, ease: "expo.out", scrollTrigger: { trigger: el, start: "top 86%", once: true } });
   });
 }
 
-// Letters drop from above and squash on landing. Never hides the text first if it's above the fold. data-squash
+// A page's big heading: its letters rise into place and settle, with no bounce and no change of shape, and
+// whatever follows it in the same block comes up just after, so the head arrives as one piece.
+// CSS hides all of it until motion is ready, so the text is never shown and then snatched away. data-squash
 function initSquash(scope)
 {
   qa("[data-squash]").forEach((el) => {
     const lc = letterDrop(scope, el);
-    gsap.fromTo(lc, { y: "-0.9em", opacity: 0 }, {
-      y: 0,
-      opacity: 1,
-      duration: 0.42,
-      ease: "power3.in",
-      stagger: 0.03,
-      onStart() {
-        el.style.minHeight = `${el.getBoundingClientRect().height}px`;
-      },
-      scrollTrigger: { trigger: el, start: "top 90%", once: true },
-    });
-    gsap.fromTo(lc, { scaleX: 1.12, scaleY: 0.78, transformOrigin: "50% 100%" }, { scaleX: 1, scaleY: 1, duration: 0.7, ease: "elastic.out(1, 0.45)", stagger: 0.03, delay: 0.42, scrollTrigger: { trigger: el, start: "top 90%", once: true } });
+    const rest = [];
+    for (let n = el.nextElementSibling; n; n = n.nextElementSibling) {
+      rest.push(n);
+    }
+    const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: "top 90%", once: true } });
+    tl.fromTo(lc, { y: "0.32em", opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "expo.out", stagger: 0.018 });
+    if (rest.length) {
+      tl.fromTo(rest, { y: 18, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.9, ease: "expo.out", stagger: 0.08 }, 0.25);
+    }
   });
 }
 

@@ -9,7 +9,7 @@ import { StaticWord } from "@/components/wordmark";
 import "./home.css";
 
 export const metadata: Metadata = {
-  title: { absolute: "Clupai · Your software live by the date we agree" },
+  title: { absolute: "clupai · Your software live by the date we agree" },
   alternates: { canonical: "/" },
 };
 
@@ -61,7 +61,7 @@ export default function HomePage()
         <div className="hero-top">
           <h1>
             <span className="ln">
-              <span>Clupai builds software</span>
+              <span>clupai builds software</span>
             </span>{" "}
             <span className="ln">
               <span>by a date we both sign.</span>
@@ -200,12 +200,18 @@ export default function HomePage()
         <Soft name="i-sun" className="soft-ask" />
         <h2 id="ask-h">What are you building?</h2>
         <p className="ask-sub">{RISK_CHECK}</p>
+        <p className="ask-cue">Pick the one that fits to start. ↓</p>
         <div className="toys">
           {ANSWERS.map((a, i) => (
             <Link key={a.key} className={`toy toy-${i} pre`} href={`/start?what=${a.key}`} data-curtain={a.colour} draggable={false}>
               <i className="toy-bg" />
               <span className="lbl-w">
-                <span className="lbl">{a.label}</span>
+                <span className="lbl">
+                  {a.label}
+                  <span className="go" aria-hidden="true">
+                    Start <i>→</i>
+                  </span>
+                </span>
               </span>
             </Link>
           ))}
@@ -249,7 +255,7 @@ export default function HomePage()
       <section className="founder" id="founder" aria-label="Who answers for your date">
         <div className="founder-pic" id="founder-pic">
           <div className="founder-img">
-            <Image src="/sam.jpeg" alt="Samridh Limbu, founder of Clupai" fill sizes="(max-width: 720px) 100vw, 46vw" />
+            <Image src="/sam.jpeg" alt="Samridh Limbu, founder of clupai" fill sizes="(max-width: 720px) 100vw, 46vw" />
           </div>
         </div>
         <div className="founder-copy">

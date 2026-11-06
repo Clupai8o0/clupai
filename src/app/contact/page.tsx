@@ -5,7 +5,7 @@ import "../inner.css";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: "Email Clupai for referrals, partners, press and anything that isn’t a build.",
+  description: "Email clupai for referrals, partners, press and anything that isn’t a build.",
   alternates: { canonical: "/contact" },
 };
 

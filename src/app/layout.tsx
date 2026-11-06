@@ -17,21 +17,21 @@ const inter = Inter_Tight({
 });
 
 const DESCRIPTION =
-  "Clupai is a development agency in Melbourne. We build first versions of apps and platforms for founders, with a fixed price and a launch date in the contract.";
+  "clupai is a development agency in Melbourne. We build first versions of apps and platforms for founders, with a fixed price and a launch date in the contract.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://clupai.com"),
   title: {
-    default: "Clupai · Your software live by the date we agree",
-    template: "%s · Clupai",
+    default: "clupai · Your software live by the date we agree",
+    template: "%s · clupai",
   },
   description: DESCRIPTION,
-  applicationName: "Clupai",
+  applicationName: "clupai",
   authors: [{ name: "Samridh Limbu" }],
   openGraph: {
     type: "website",
     locale: "en_AU",
-    siteName: "Clupai",
+    siteName: "clupai",
     url: "https://clupai.com",
     title: "Your software live by the date we agree, or you stop paying.",
     description: DESCRIPTION,
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
-  name: "Clupai",
+  name: "clupai",
   url: "https://clupai.com",
   email: "hello@clupai.com",
   description: DESCRIPTION,

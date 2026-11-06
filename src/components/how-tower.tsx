@@ -65,7 +65,8 @@ export default function HowTower()
             <div className="tw-pad">Scoping comes off the build</div>
           </div>
           <button className="miss pre" id="miss" type="button" disabled>
-            Miss the date
+            <span className="miss-w">Miss the date</span>
+            <span className="miss-k" aria-hidden="true">Press it</span>
           </button>
         </div>
         <div className="how-fall" id="how-fall" />

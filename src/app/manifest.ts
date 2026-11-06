@@ -3,8 +3,8 @@ import type { MetadataRoute } from "next";
 export default function manifest(): MetadataRoute.Manifest
 {
   return {
-    name: "Clupai · Software live by the date we agree",
-    short_name: "Clupai",
+    name: "clupai · Software live by the date we agree",
+    short_name: "clupai",
     description: "We build software for Australian founders and launch it by the date we agree, or you stop paying.",
     start_url: "/",
     display: "standalone",
