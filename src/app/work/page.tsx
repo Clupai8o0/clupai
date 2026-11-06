@@ -19,12 +19,6 @@ const CHAPTERS = ["hoddle-melbourne", "king-double-glazing", "krishnaveni-school
 
 const SMALL = earlierCases.filter((c) => !CHAPTERS.includes(c));
 
-const LINES: Record<string, string> = {
-  "hoddle-melbourne": "Six weeks, then pitch day. It held.",
-  "king-double-glazing": "75 to 99. Yes, I checked.",
-  "krishnaveni-school": "Staff run this one. No emails to us.",
-};
-
 export default function WorkPage()
 {
   return (
@@ -48,10 +42,6 @@ export default function WorkPage()
               tabIndex={-1}
               aria-hidden="true"
               data-wipe
-              data-perch={LINES[c.slug]}
-              data-perch-x="0.9"
-              data-perch-y="0.3"
-              data-perch-colour={c.slug === "king-double-glazing" ? "ink" : "yellow"}
             >
               <Image src={c.picture.src} alt="" fill sizes="(max-width: 720px) 100vw, 60vw" loading={i === 0 ? "eager" : "lazy"} />
             </Link>

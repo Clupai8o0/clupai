@@ -80,9 +80,6 @@ export default async function ProductPage({ params }: Props)
         {p.image ? (
           <div
             className={`prod-pic ${out ? "" : "blurred"}`}
-            data-perch={out ? "Hot off the coil." : "No peeking yet."}
-            data-perch-x="0.9"
-            data-perch-colour={p.tone === "tone-yellow" ? "ink" : "yellow"}
           >
             <Image src={p.image.src} alt={p.image.alt} fill sizes="(max-width: 720px) 100vw, 62vw" loading="eager" />
             {out ? null : <span className="prod-tag">Blurred. Still being built.</span>}

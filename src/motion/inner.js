@@ -1,11 +1,9 @@
 // Generic motion for any page, driven by data attributes. The list is in the brief's "Motion contract".
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { BLUE, INK, YELLOW, clamp, isPhone, navFloor } from "./kit";
 import { splitLetters } from "./text";
 
 const qa = (s, r = document) => [...r.querySelectorAll(s)];
-const COLOURS = { yellow: [YELLOW, INK], blue: [BLUE, INK], ink: [INK, YELLOW] };
 
 function letterDrop(scope, el)
 {
@@ -107,73 +105,6 @@ function initNav(scope)
   });
 }
 
-// data-perch="A line": the mascot hops onto this element when it reaches the screen and says the line.
-// Optional: data-perch-x and data-perch-y (0 to 1 across the element, default 0.5 and 0, the top edge),
-// data-perch-at (how far up the screen its top has to be before the mascot goes, default 0.7),
-// data-perch-side (left, right, above), data-perch-mood, data-perch-colour (yellow, blue, ink),
-// data-perch-wide (not on a phone, where it would cover the words above the element).
-function initPerches(scope, core)
-{
-  const { dot } = core;
-  const roam = () => (isPhone() ? 44 : 72);
-  const perches = qa(isPhone() ? "[data-perch]:not([data-perch-wide])" : "[data-perch]").map((el) => ({
-    el,
-    line: el.dataset.perch,
-    fx: Number(el.dataset.perchX ?? 0.5),
-    fy: Number(el.dataset.perchY ?? 0),
-    at: Number(el.dataset.perchAt ?? 0.7),
-    side: el.dataset.perchSide || "left",
-    mood: el.dataset.perchMood || "",
-    colour: COLOURS[el.dataset.perchColour] || COLOURS.yellow,
-  }));
-  let current = null;
-
-  const spot = (p) => () => {
-    const r = p.el.getBoundingClientRect();
-    const s = roam();
-    return {
-      x: clamp(r.left + r.width * p.fx, s / 2 + 8, innerWidth - s / 2 - 8),
-      y: clamp(r.top + r.height * p.fy, navFloor(s), innerHeight - 6),
-    };
-  };
-
-  dot.colour(YELLOW, INK);
-  scope.ticker(() => {
-    // The last perch that has reached the upper 70% of the screen and hasn't gone up under the nav.
-    const floor = navFloor(roam());
-    let hit = null;
-    perches.forEach((p) => {
-      const r = p.el.getBoundingClientRect();
-      const y = r.top + r.height * p.fy;
-      if (r.top < innerHeight * p.at && y > floor - (p === current ? 40 : 0)) {
-        hit = p;
-      }
-    });
-    if (hit === current) {
-      return;
-    }
-    current = hit;
-    dot.quiet();
-    const colour = hit ? hit.colour : COLOURS.yellow;
-    dot.colour(colour[0], colour[1]);
-    if (!hit) {
-      dot.mood("");
-      dot.hop(core.rest, { size: roam() });
-      return;
-    }
-    dot.mood(hit.mood);
-    dot.state.side = hit.side;
-    dot.hop(spot(hit), {
-      size: roam(),
-      done: scope.wrap(() => {
-        if (current === hit && hit.line) {
-          dot.talk(hit.line, { side: hit.side, ms: 3400 });
-        }
-      }),
-    });
-  });
-}
-
 // data-fall: a letter that has come off the wordmark drops and lands where the CSS leaves it.
 function initFall()
 {
@@ -182,11 +113,9 @@ function initFall()
   });
 }
 
-export function init(scope, core)
+// Shifter isn't on these pages: it only lives on the home page, as the dot of the i (boot.js hides it).
+export function init(scope)
 {
-  const { dot } = core;
-  dot.colour(YELLOW, INK);
-  dot.hop(core.rest, { size: isPhone() ? 44 : 72 });
   initLetters(scope);
   initSquash(scope);
   initRise();
@@ -194,6 +123,5 @@ export function init(scope, core)
   initWipes(scope);
   initFall();
   initNav(scope);
-  initPerches(scope, core);
   ScrollTrigger.refresh();
 }

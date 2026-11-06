@@ -267,6 +267,8 @@ export function makeDot()
   let turn = 0;
   let onFloor = false;
   let lastAct = 0;
+  // Away: off this page entirely. It only lives on the home page, as the dot of the i.
+  let away = false;
   const v = { x: 0, y: 0 };
   const POKES = ["I change. Your date doesn’t.", "Oi. Stop poking me. Start a project.", "I’m the dot on the i. Show some respect.", "Careful. I’m load-bearing.", "Still here. Still no project.", "That’s enough of that."];
   const THROWN = ["Rude.", "I bounce. Your deadline won’t.", "That’s going on your invoice.", "Again? Really?", "Fine. Walking back."];
@@ -658,6 +660,9 @@ export function makeDot()
 
   function talk(text, opts = {})
   {
+    if (away) {
+      return;
+    }
     if (sayCall) {
       sayCall.kill();
     }
@@ -802,9 +807,21 @@ export function makeDot()
     }
   }
 
+  function hide(on)
+  {
+    away = on;
+    root.style.visibility = on ? "hidden" : "";
+    trail.el.style.visibility = on ? "hidden" : "";
+    if (on) {
+      quiet();
+    }
+  }
+
   return {
     state: s,
     el: root,
+    hide,
+    away: () => away,
     // Standing still on its spot: not mid-hop, held, thrown or walking home.
     settled: () => mode === "free" && !flying,
     hop: plain(hop),

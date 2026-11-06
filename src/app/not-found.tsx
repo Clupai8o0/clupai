@@ -12,7 +12,7 @@ const FALLEN = ["c", "l", "u", "p", "a", "i"];
 export default function NotFound()
 {
   return (
-    <div className="pg tone-red lost" data-perch="Nothing here. I checked." data-perch-x="0.86" data-perch-y="0.82">
+    <div className="pg tone-red lost">
       <div className="lost-copy">
         <h1 className="g-huge">This page isn’t here.</h1>
         <p className="g-lead">It may have moved when we rebuilt the site. Try one of these instead.</p>

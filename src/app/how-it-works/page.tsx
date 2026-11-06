@@ -52,7 +52,7 @@ export default function HowItWorksPage()
             </p>
           ))}
         </div>
-        <p className="hiw-yet" data-perch="Nobody’s needed it yet. Good." data-perch-x="0.2" data-perch-side="right">
+        <p className="hiw-yet">
           No client has used this guarantee yet.
         </p>
         <p className="hiw-fine">

@@ -1,6 +1,6 @@
 // /products: the vending machine. The slots are real links, so this only stages what happens on the way there.
 import gsap from "gsap";
-import { BLUE, INK, RED, YELLOW, isPhone, navFloor } from "./kit";
+import { BLUE, INK, RED, YELLOW } from "./kit";
 import { init as initInner } from "./inner";
 
 const qs = (s, r = document) => r.querySelector(s);
@@ -12,10 +12,8 @@ const COLOURS = { "tone-blue": BLUE, "tone-red": RED, "tone-yellow": YELLOW, "to
 
 export function init(scope, core)
 {
-  initInner(scope, core);
-  const { dot, curtain } = core;
-  const phone = isPhone();
-  const side = phone ? "left" : "above";
+  initInner(scope);
+  const { curtain } = core;
   const root = qs(".market");
   const mach = qs("#mach");
   const pad = qs("#pad");
@@ -24,10 +22,8 @@ export function init(scope, core)
   const ledB = qs("#ledB");
   const IDLE = ledBox.dataset.idle;
   const slots = qa(".slot", qs("#grid"));
-  const stretch = qs(".dot-b", dot.el); // The kit writes .dot-st every frame, so lean the body inside it.
   let typed = "";
   let busy = false;
-  let leaning = true;
 
   const led = (a, b) => {
     ledA.textContent = a;
@@ -46,49 +42,10 @@ export function init(scope, core)
     });
   });
 
-  // Mascot, leaning on the side of the machine.
-  const lean = () => {
-    if (phone) {
-      const t = qs(".console").getBoundingClientRect();
-      return { x: innerWidth - 28, y: Math.max(navFloor(56), Math.min(t.top + 5, innerHeight - 90)) };
-    }
-    const r = mach.getBoundingClientRect();
-    return { x: r.right + 58, y: Math.max(navFloor(104), Math.min(r.bottom, innerHeight - 6)) };
-  };
-  function leanOn()
-  {
-    if (!phone && leaning) {
-      gsap.to(stretch, { rotation: -15, transformOrigin: "50% 100%", duration: 0.3, ease: "back.out(2)" });
-    }
-    dot.mood("smug");
-  }
-  dot.colour(YELLOW, INK);
-  dot.hop(lean, {
-    size: phone ? 56 : 104,
-    done: scope.wrap(() => {
-      // After the landing squash, which owns the stretch until it settles.
-      gsap.delayedCall(0.7, scope.wrap(leanOn));
-    }),
-  });
-  scope.cleanup(() => {
-    gsap.killTweensOf(stretch);
-    gsap.set(stretch, { clearProps: "transform,transformOrigin" });
-    dot.mood("");
-  });
-
+  // A jam fixes itself with one thump on the side of the machine.
   function kick(after)
   {
-    gsap.set(stretch, { rotation: 0 });
-    const toward = phone ? 1 : -1;
-    gsap.timeline()
-      .to(stretch, { x: 16 * -toward, rotation: 8 * -toward, duration: 0.22, ease: "power2.out" })
-      .to(stretch, { x: -6 * -toward, rotation: -6 * -toward, duration: 0.07, ease: "power4.in" })
-      .add(() => {
-        gsap.fromTo(mach, { x: 0, rotation: 0 }, { keyframes: [{ x: -12, rotation: -0.7, duration: 0.05 }, { x: 9, rotation: 0.5, duration: 0.06 }, { x: -5, rotation: -0.25, duration: 0.07 }, { x: 0, rotation: 0, duration: 0.09 }], ease: "none", clearProps: "transform" });
-        dot.flash("happy", 1.2);
-        after();
-      })
-      .to(stretch, { x: 0, rotation: 0, duration: 0.25 }, "+=0.1");
+    gsap.fromTo(mach, { x: 0, rotation: 0 }, { keyframes: [{ x: -12, rotation: -0.7, duration: 0.05 }, { x: 9, rotation: 0.5, duration: 0.06 }, { x: -5, rotation: -0.25, duration: 0.07 }, { x: 0, rotation: 0, duration: 0.09 }], ease: "none", clearProps: "transform", onComplete: scope.wrap(after) });
   }
 
   function follow(a, rect, colour)
@@ -140,7 +97,6 @@ export function init(scope, core)
           v.remove();
           gsap.to("#flap", { rotationX: 62, duration: 0.2, ease: "power2.out", transformPerspective: 400 });
           if (shut) {
-            dot.talk("Nothing to show yet. Back it goes.", { ms: 2400, side });
             gsap.delayedCall(1.1, scope.wrap(() => {
               gsap.set("#flap", { rotationX: 0 });
               it.classList.remove("empty");
@@ -150,7 +106,6 @@ export function init(scope, core)
             }));
             return;
           }
-          dot.quiet();
           follow(s, qs("#tray").getBoundingClientRect(), COLOURS[toneOf] || YELLOW);
         }),
       });
@@ -167,11 +122,8 @@ export function init(scope, core)
         .to(v, { rotation: 10, y: r.height * 0.29, duration: 0.12, ease: "power1.out" })
         .add(() => {
           led(code, "Jammed.");
-          dot.flash("annoyed", 1.2);
-          dot.talk("Stuck. Watch this.", { ms: 1500, side });
         })
         .add(() => kick(() => {
-          dot.talk("Fixed. That’s the job.", { ms: 1400, side });
           led(code, "Unjammed.");
           drop();
         }), "+=1.2");
@@ -242,11 +194,4 @@ export function init(scope, core)
       key(k);
     }
   });
-
-  const hello = gsap.delayedCall(1.6, scope.wrap(() => {
-    if (!busy) {
-      dot.talk("No coins. Just press.", { ms: 2800, side });
-    }
-  }));
-  scope.cleanup(() => hello.kill());
 }

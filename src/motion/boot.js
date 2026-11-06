@@ -172,7 +172,7 @@ function createCore()
   let toldStart = false;
   document.addEventListener("mouseover", (e) => {
     const a = e.target.closest ? e.target.closest(".js-start") : null;
-    if (!a || a.contains(e.relatedTarget)) {
+    if (!a || a.contains(e.relatedTarget) || dot.away()) {
       return;
     }
     dot.flash("happy", 1.1);
@@ -290,6 +290,7 @@ export function boot(pathname)
     const mine = makeScope();
     scope = mine;
     core.dot.park(core.rest);
+    core.dot.hide(pathname !== "/");
     mine.run(() => {
       route.init(mine, core);
     });

@@ -18,7 +18,7 @@ export default function ContactPage()
           Talk to us.
         </h1>
         <p className="contact-mail">
-          <a href="mailto:hello@clupai.com" data-perch="It goes to a person." data-perch-x="0.9" data-perch-side="left">
+          <a href="mailto:hello@clupai.com">
             hello@clupai.com
           </a>
         </p>

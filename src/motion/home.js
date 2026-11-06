@@ -840,7 +840,7 @@ export function init(scope, core)
   }
   dot.colour(YELLOW, INK);
   const promiseTl = buildPromise();
-  const howTl = buildHow(scope, null, phone);
+  const howTl = buildHow(scope, phone);
   const toys = buildToys(scope, phone);
   buildNavThemes(scope, stage);
   buildBoard(scope, phone);

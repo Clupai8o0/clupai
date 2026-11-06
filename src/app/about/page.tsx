@@ -27,7 +27,7 @@ export default function AboutPage()
       </header>
 
       <section className="about-founder" aria-labelledby="founder-title">
-        <div className="about-photo" data-perch="That’s Samridh. Your first call." data-perch-x="0.92" data-perch-side="left">
+        <div className="about-photo">
           <Image src="/sam.jpeg" alt="Samridh Limbu, founder of Clupai" fill sizes="(max-width: 720px) 100vw, 48vw" loading="eager" />
         </div>
         <div className="about-copy">
