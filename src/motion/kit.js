@@ -218,8 +218,9 @@ export function grabbable(world, it, toWorld, on = {})
 // ---------------------------------------------------------------- the mascot
 // Shifter, the real dot from the i. One flat shape with two eyes, and its shape is its mood.
 // It hops, talks, sulks, sleeps, and you can throw it. It lives across routes.
-// Every mood is a soft squish of the circle. Hurt it and a bump swells out of its head, then goes down again.
-const FACES = { smug: "puff", wide: "egg", happy: "plump", hurt: "bump", dizzy: "bump2", sleep: "mochi" };
+// It stays a solid circle: no squash, no stretch, no mood shapes. Its eyes do the talking.
+// The one exception: hurt it and a bump swells out of its head, then goes down again.
+const FACES = { hurt: "bump", dizzy: "bump2" };
 
 export function makeDot()
 {
@@ -241,7 +242,6 @@ export function makeDot()
   say.id = "say";
   say.setAttribute("aria-hidden", "true");
   document.body.append(root, say);
-  const stretch = root.querySelector(".dot-st");
   const body = root.querySelector(".dot-b");
   const spin = root.querySelector(".dot-sp");
   const eyes = root.querySelector(".dot-eyes");
@@ -373,7 +373,9 @@ export function makeDot()
   function hit(axis)
   {
     gsap.killTweensOf(body);
-    gsap.fromTo(body, axis === "x" ? { scaleX: 0.8, scaleY: 1.14 } : { scaleX: 1.18, scaleY: 0.8 }, { scaleX: 1, scaleY: 1, duration: 0.8, ease: "elastic.out(0.9, 0.5)" });
+    // A knock, not a squish: a small shove back from the wall it hit.
+    const d = axis === "x" ? { x: 4 } : { y: 4 };
+    gsap.fromTo(body, d, { x: 0, y: 0, duration: 0.3, ease: "power2.out" });
   }
 
   // Thrown: its own small physics, against the edges of the screen.
@@ -518,12 +520,10 @@ export function makeDot()
     }
     outline.step(dt);
     trail.step(s.x, s.y - s.size / 2, s.size, mode === "air" && Math.hypot(s.x - was.x, s.y - was.y) / Math.max(dt, 0.001) > 260);
-    // Stretches when you scroll fast.
+    // Its eyes look the way you scroll.
     const dy = scrollY - lastScroll;
     lastScroll = scrollY;
     scrollV += (dy - scrollV) * 0.06;
-    const k = mode === "free" && !flying ? clamp(Math.abs(scrollV) / 120, 0, 0.12) : 0;
-    stretch.style.transform = `scale(${1 - k * 0.55}, ${1 + k})`;
     if (mode === "free" && Math.abs(scrollV) > 3) {
       eyes.style.setProperty("--ey", `${Math.sign(scrollV) * 0.1 * s.size}px`);
     }
@@ -550,7 +550,7 @@ export function makeDot()
 
   function land()
   {
-    gsap.fromTo(body, { scaleX: 1.24, scaleY: 0.78 }, { scaleX: 1, scaleY: 1, duration: 0.7, ease: "elastic.out(1, 0.5)" });
+    gsap.set(body, { scaleX: 1, scaleY: 1 });
   }
 
   // Jumps along an arc to wherever the anchor is now, squashing on take-off and landing.
@@ -587,11 +587,8 @@ export function makeDot()
     });
     // A jump cut off in mid air must not leave it floating above its spot.
     gsap.to(body, { y: 0, duration: 0.18, ease: "power2.out" });
-    // A real jump: crouch, spring up stretched, round out in the air, squash on landing.
-    hopT.to(body, { scaleX: 1.2, scaleY: 0.78, duration: 0.1, ease: "power2.out" })
-      .to(body, { scaleX: 0.88, scaleY: 1.16, duration: 0.12, ease: "power2.out" })
-      .to(body, { scaleX: 1, scaleY: 1, duration: dur * 0.55, ease: "sine.inOut" })
-      .to(prog, {
+    // A real jump along an arc, and the body stays a circle the whole way.
+    hopT.to(prog, {
         t: 1,
         duration: dur,
         ease: "power1.inOut",
@@ -601,7 +598,7 @@ export function makeDot()
           s.y = lerp(from.y, to.y, prog.t) - 4 * rise * prog.t * (1 - prog.t);
           s.size = lerp(from.size, size, prog.t);
         },
-      }, 0.1);
+      });
   }
 
   function jump()
@@ -610,9 +607,8 @@ export function makeDot()
       return;
     }
     gsap.timeline({ onComplete: land })
-      .to(body, { scaleX: 1.16, scaleY: 0.82, duration: 0.08, ease: "power2.out" })
-      .to(body, { y: -s.size * 0.75, scaleX: 0.88, scaleY: 1.14, duration: 0.22, ease: "power2.out" })
-      .to(body, { y: 0, scaleX: 1, scaleY: 1, duration: 0.2, ease: "power2.in" });
+      .to(body, { y: -s.size * 0.75, duration: 0.24, ease: "power2.out" })
+      .to(body, { y: 0, duration: 0.2, ease: "power2.in" });
   }
 
   let own = [YELLOW, INK];
