@@ -35,18 +35,6 @@
     --btn-fg: var(--ink);
   }
 
-  & .soft-hero img {
-    opacity: 0.72;
-  }
-
-  & .soft-hero::before {
-    content: "";
-    position: absolute;
-    z-index: 1;
-    inset: 0;
-    background: linear-gradient(to bottom, transparent 30%, var(--ink) 62%);
-  }
-
   & .soft-promise img {
     opacity: 0.62;
   }
@@ -63,10 +51,23 @@
     opacity: 0.55;
   }
 
-  /* Hero */
+  /* Hero: ink on paper, so the word below can be a window onto our apps. */
+  & .stage {
+    background: var(--paper);
+  }
+
+  & .hero-top {
+    color: var(--ink);
+  }
+
+  & .hero-top .btn {
+    --btn-bg: var(--ink);
+    --btn-fg: var(--paper);
+  }
+
   & .hero-top h1 {
     font-weight: 500;
-    font-size: 6.5vw;
+    font-size: 4.6vw;
     line-height: 0.98;
     letter-spacing: -0.045em;
   }
@@ -87,8 +88,50 @@
     font-size: 19px;
     line-height: 1.32;
     letter-spacing: -0.012em;
-    color: #e4e2dd;
+    color: #3a3935;
     margin-bottom: 20px;
+  }
+
+  /* The label for what's showing in the word. --wu is one glyph unit in pixels, set by the motion. */
+  & .now {
+    display: flex;
+    flex-direction: column;
+    color: var(--ink);
+    pointer-events: none;
+  }
+
+  & .now-ticks {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 9px;
+  }
+
+  & .now-ticks i {
+    width: 10px;
+    height: 10px;
+    background: var(--ink);
+    opacity: 0.16;
+    transition: opacity 0.4s, background-color 0.4s;
+  }
+
+  & .now-ticks i.is-on {
+    opacity: 1;
+    background: var(--c);
+  }
+
+  & .now-name {
+    font-size: clamp(17px, calc(var(--wu, 3px) * 8.2), 28px);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 7px;
+  }
+
+  & .now-what {
+    font-size: clamp(13px, calc(var(--wu, 3px) * 4.8), 16px);
+    line-height: 1.35;
+    letter-spacing: -0.005em;
+    text-wrap: balance;
   }
 
   & .film {
@@ -1298,6 +1341,7 @@
 /* ---------------------------------------------------- plain: no JS, reduced motion, failsafe */
 html:not(.m) .home {
   & .wordmark,
+  & .now,
   & .end-word,
   & .ch-hoddle,
   & .how-fall,
@@ -1310,13 +1354,7 @@ html:not(.m) .home {
     position: relative;
     display: flex;
     flex-direction: column;
-    background: var(--ink);
     padding-top: 6vh;
-  }
-
-  & .soft-hero {
-    height: 100svh;
-    bottom: auto;
   }
 
   & .hero-top {
@@ -1325,13 +1363,13 @@ html:not(.m) .home {
     display: grid;
     grid-template-columns: 1fr auto;
     column-gap: 4vw;
-    align-items: end;
+    align-items: start;
     padding: 0 2vw;
   }
 
   & .hero-sub {
     width: 25vw;
-    padding-bottom: 0.5vw;
+    padding-top: 0.5vw;
   }
 
   & .static-word {
@@ -1340,7 +1378,7 @@ html:not(.m) .home {
     display: block;
     width: 96vw;
     margin: 6vh 2vw 2vh;
-    color: #fff;
+    color: var(--ink);
   }
 
   & .film {
@@ -1592,19 +1630,18 @@ html.m .home {
     height: 100vh;
     height: 100svh;
     overflow: hidden;
-    background: var(--ink);
   }
 
   & .hero-top {
     position: absolute;
-    z-index: 2;
+    z-index: 5;
     left: 2vw;
     right: 2vw;
     top: 84px;
     display: grid;
     grid-template-columns: 1fr auto;
     column-gap: 4vw;
-    align-items: end;
+    align-items: start;
   }
 
   & .ln > span {
@@ -1617,27 +1654,25 @@ html.m .home {
 
   & .hero-sub {
     width: 25vw;
-    padding-bottom: 0.5vw;
+    padding-top: 0.5vw;
     animation: home-fade 0.8s ease-out 0.45s both;
   }
 
-  & .soft-hero {
-    animation: home-fade 1.4s ease-out both;
-  }
-
+  /* Paper over the whole stage, with the word cut out of it. The film behind shows through the letters. */
   & .wordmark {
     position: absolute;
     z-index: 4;
     inset: 0;
-    color: #fff;
-    mix-blend-mode: difference;
     pointer-events: none;
   }
 
-  & .w-group {
+  & .wordmark svg {
+    display: block;
+  }
+
+  & .now {
     position: absolute;
-    inset: 0;
-    pointer-events: none;
+    z-index: 5;
   }
 
   & .film {
@@ -1652,11 +1687,15 @@ html.m .home {
   }
 
   & .cut {
-    visibility: hidden;
+    opacity: 0;
   }
 
-  & .cut.is-on {
-    visibility: visible;
+  & .fill {
+    transition: opacity 0.9s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  & .fill.is-on {
+    opacity: 1;
   }
 
   & #v-hoddle {

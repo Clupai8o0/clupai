@@ -7,7 +7,7 @@ import { BLUE, INK, YELLOW, clamp, glyphBody, glyphEl, grabbable, isPhone, makeW
 import { buildHow } from "./tower";
 import { scramble, seeded, splitLetters } from "./text";
 
-const { Bodies, Body, Sleeping } = Matter;
+const { Bodies, Body } = Matter;
 const qs = (s, r = document) => r.querySelector(s);
 const qa = (s, r = document) => [...r.querySelectorAll(s)];
 const vw = () => innerWidth;
@@ -58,152 +58,165 @@ function unloadFilm(v)
 }
 
 // ---------------------------------------------------------------- the hero and the client chapters
+const PAPER = "#f3f1ec";
+// On a phone "ai" drops to a second row, this far below the first, and sits on the right.
+const ROW2 = 150;
+
+// Where each letter of the word sits, in glyph units: the x-height is 100 and the first baseline is y = 100.
+function wordLayout(phone)
+{
+  const letters = [];
+  let x = 0;
+  [..."clup"].forEach((ch) => {
+    letters.push({ ch, x, y: 0 });
+    x += GLYPHS[ch].w + SPACE;
+  });
+  const clupW = x - SPACE;
+  let ax = phone ? clupW - (GLYPHS.a.w + SPACE + GLYPHS.i.w) : x;
+  [..."ai"].forEach((ch) => {
+    letters.push({ ch, x: ax, y: phone ? ROW2 : 0 });
+    ax += GLYPHS[ch].w + SPACE;
+  });
+  return {
+    letters,
+    width: phone ? clupW : ax - SPACE,
+    top: GLYPHS.l.top,
+    bottom: phone ? ROW2 + GLYPHS.a.bottom : GLYPHS.p.bottom,
+  };
+}
+
 function buildStage(scope, dot, phone)
 {
   const stage = qs(".stage");
   const nav = qs(".nav");
   const sw = vw();
   const sh = stage.offsetHeight;
-  const TILE_W = phone ? 186 : 112;
-  const widthsRow = phone ? widthOf("clup") + 3 * SPACE : widthOf("clup") + 3 * SPACE + 20 + TILE_W + 22 + widthOf("ai") + SPACE;
-  const u = (sw - (phone ? 24 : sw * 0.04)) / widthsRow;
+  const stageRect = stage.getBoundingClientRect();
+
+  // ------------------------------------------------------------ the word: holes in the paper, onto our apps
+  const W = wordLayout(phone);
   const marginX = phone ? 12 : sw * 0.02;
-  const floorY = sh - 38 * u - (phone ? 10 : 12);
-  const heroW = scope.world(makeWorld({ sleep: true, gravity: 1.3 }));
-  heroW.walls(sw, floorY);
-  const letters = [];
-  const clup = qs(".w-clup");
-  const ai = qs(".w-ai");
+  const below = phone ? 12 : Math.max(18, sw * 0.016);
+  // The word is as wide as the screen allows, as long as it stays clear of the copy above it: on a desktop the
+  // l and the label under the headline, the mascot on the i under the column on the right.
+  const under = (sel) => qs(sel).getBoundingClientRect().bottom - stageRect.top;
+  const room = sh - below;
+  const fitW = (sw - 2 * marginX) / W.width;
+  const fitH = phone
+    ? (room - under(".hero-top") - 20) / (W.bottom - W.top)
+    : Math.min(
+      (room - under(".hero-top h1") - 24) / (W.bottom - W.top),
+      (room - under(".hero-top h1") - 12 - 85) / (W.bottom + 8),
+      (room - under(".hero-sub") - 12) / (W.bottom + 46),
+    );
+  const s0 = Math.max(Math.min(fitW, fitH), fitW * 0.35);
+  const x0 = marginX;
+  const y0 = sh - below - W.bottom * s0;
+
   const wordEl = qs("#wordmark");
-
-  function setLetter(ch, x, baseline, group)
-  {
-    const g = GLYPHS[ch];
-    const top = baseline - (100 - g.top) * u;
-    const el = glyphEl(ch, u);
-    group.appendChild(el);
-    const body = glyphBody(ch, x, top, u);
-    const it = heroW.add(el, body, x, top);
-    it.ch = ch;
-    it.home = { x: body.position.x, y: body.position.y, a: 0 };
-    letters.push(it);
-    return it;
-  }
-
-  let cx = marginX;
-  const row1Base = phone ? floorY - 152 * u : floorY;
-  [..."clup"].forEach((ch) => {
-    setLetter(ch, cx, row1Base, clup);
-    cx += (GLYPHS[ch].w + SPACE) * u;
-  });
-  // The film tile sits in the word, as tall as the l. On a phone it starts the second row.
-  let slot;
-  if (phone) {
-    slot = { left: marginX, width: TILE_W * u, height: 133 * u, top: floorY - 133 * u };
-    cx = marginX + (TILE_W + 12) * u;
-  } else {
-    cx += (20 - SPACE) * u;
-    slot = { left: cx, width: TILE_W * u, height: 133 * u, top: floorY - 133 * u };
-    cx += (TILE_W + 22) * u;
-  }
-  const lettersAi = [];
-  [..."ai"].forEach((ch) => {
-    lettersAi.push(setLetter(ch, cx, floorY, ai));
-    cx += (GLYPHS[ch].w + SPACE) * u;
-  });
-  const letterI = lettersAi[1];
-  heroW.solid(Bodies.rectangle(slot.left + slot.width / 2, slot.top + slot.height / 2, slot.width, slot.height, { isStatic: true }));
+  const holePaths = W.letters.map((l) => `<g transform="translate(${l.x} ${l.y})"><path d="${GLYPHS[l.ch].d}"/></g>`).join("");
+  wordEl.innerHTML = `<svg width="${sw}" height="${sh}" viewBox="0 0 ${sw} ${sh}" aria-hidden="true"><defs>`
+    + `<mask id="word-holes" maskUnits="userSpaceOnUse" x="0" y="0" width="${sw}" height="${sh}">`
+    + `<rect width="${sw}" height="${sh}" fill="#fff"/><g class="holes" fill="#000">${holePaths}</g></mask></defs>`
+    + `<rect width="${sw}" height="${sh}" fill="${PAPER}" mask="url(#word-holes)"/></svg>`;
+  const holes = qs(".holes", wordEl);
+  const letterEls = qa(".holes path", wordEl);
   scope.cleanup(() => {
-    clup.textContent = "";
-    ai.textContent = "";
+    wordEl.textContent = "";
     // The toys and the end tiles can still be grabbed, so a release outside the window can't leave the class behind.
     grabbing(false);
   });
 
-  // The letters stay put once they've landed. On a phone the top row has nothing under it, so they're pinned.
-  const settle = (it) => {
-    if (phone) {
-      Body.setStatic(it.body, true);
-    } else {
-      Sleeping.set(it.body, true);
+  // On scroll the word grows around the stem of the l, and the stem comes to the middle, until it's the whole screen.
+  const L = W.letters[1];
+  const pivot = { x: L.x + GLYPHS.l.w / 2, y: (GLYPHS.l.top + GLYPHS.l.bottom) / 2 };
+  const sEnd = Math.max(s0 * 30, 1.2 * Math.max(sw / GLYPHS.l.w, sh / (GLYPHS.l.bottom - GLYPHS.l.top)));
+  const grow = gsap.parseEase("power2.inOut");
+  const glide = gsap.parseEase("power2.out");
+  const view = { S: s0, x: x0, y: y0 };
+  const zoom = { k: 0 };
+  const place = () => {
+    const S = s0 * Math.pow(sEnd / s0, grow(zoom.k));
+    const g = glide(Math.min(1, zoom.k * 1.4));
+    const px = x0 + pivot.x * s0;
+    const py = y0 + pivot.y * s0;
+    view.S = S;
+    view.x = px + (sw / 2 - px) * g - pivot.x * S;
+    view.y = py + (sh / 2 - py) * g - pivot.y * S;
+    holes.setAttribute("transform", `translate(${view.x} ${view.y}) scale(${S})`);
+  };
+  place();
+
+  // The letters open one by one, up from their baseline, and overshoot a little.
+  letterEls.forEach((el, i) => {
+    const g = GLYPHS[W.letters[i].ch];
+    gsap.set(el, { transformOrigin: `50% ${((100 - g.top) / (g.bottom - g.top)) * 100}%` });
+    gsap.fromTo(el, { scaleX: 1.15, scaleY: 0.001 }, { scaleX: 1, scaleY: 1, duration: 0.95, delay: 0.2 + i * 0.075, ease: "elastic.out(1, 0.5)" });
+  });
+
+  // The mascot stands on the i, wherever the word has grown to.
+  const I = W.letters[5];
+  const iX = I.x + GLYPHS.i.w / 2;
+  const tittle = Math.max(TITTLE.size * s0 * 1.15, 40);
+  const onI = () => ({ x: view.x + iX * view.S, y: view.y + (I.y - 14) * view.S });
+
+  // ------------------------------------------------------------ what's showing through the word
+  // The pictures fill the word's box, a little bigger so a letter's overshoot never runs past the edge.
+  const film = qs("#film");
+  gsap.set(film, { left: x0 - 4 * s0, top: y0 + (W.top - 18) * s0, width: (W.width + 8) * s0, height: (W.bottom - W.top + 22) * s0 });
+  const win = (() => {
+    const r = qs("#win-hoddle").getBoundingClientRect();
+    return { left: r.left - stageRect.left, top: r.top - stageRect.top, width: r.width, height: r.height };
+  })();
+  const fills = qa(".fill", film);
+  const homeCuts = qa(".cut-home", film);
+  const now = qs("#now");
+  const nowName = qs(".now-name", now);
+  const nowWhat = qs(".now-what", now);
+  const ticks = qa(".now-ticks i", now);
+  // Its label sits over the c, beside the l. On a phone it's under "clup", on the baseline of "ai",
+  // so the mascot's line beside the i has the space above it.
+  now.style.setProperty("--wu", `${s0}px`);
+  if (phone) {
+    gsap.set(now, { left: x0, bottom: sh - (y0 + (ROW2 + 100) * s0), width: (W.letters[4].x - 10) * s0 });
+  } else {
+    gsap.set(now, { left: x0, bottom: sh - (y0 - 8 * s0), width: (L.x - 10) * s0 });
+  }
+  let fillAt = -1;
+  const showFill = (i) => {
+    if (i === fillAt) {
+      return;
+    }
+    const first = fillAt < 0;
+    fillAt = i;
+    fills.forEach((f, n) => f.classList.toggle("is-on", n === i));
+    ticks.forEach((t, n) => t.classList.toggle("is-on", n === i));
+    nowName.textContent = fills[i].dataset.name;
+    nowWhat.textContent = fills[i].dataset.what;
+    if (!first) {
+      gsap.fromTo([nowName, nowWhat], { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.5, stagger: 0.06, ease: "power3.out", overwrite: true });
     }
   };
-  letters.forEach((it) => {
-    Sleeping.set(it.body, true);
-    settle(it);
-  });
-
-  const homing = (it, on) => {
-    it.body.collisionFilter.mask = on ? 0 : 0xFFFFFFFF;
-  };
-
-  // A letter landing: it squashes on its baseline and the word takes the hit.
-  function squash(it, k = 1)
-  {
-    const g = GLYPHS[it.ch];
-    const svg = it.el.querySelector("svg");
-    gsap.set(svg, { transformOrigin: `50% ${((100 - g.top) / (g.bottom - g.top)) * 100}%` });
-    gsap.fromTo(svg, { scaleX: 1 + 0.16 * k, scaleY: 1 - 0.26 * k }, { scaleX: 1, scaleY: 1, duration: 0.75, ease: "elastic.out(1, 0.45)", overwrite: true });
-  }
-
-  // Letters drop in, one by one.
-  letters.forEach((it, i) => {
-    homing(it, true);
-    const p = { y: -sh * 0.62 };
-    Body.setPosition(it.body, { x: it.home.x, y: it.home.y + p.y });
-    heroW.render(it);
-    gsap.to(p, {
-      y: 0,
-      duration: 0.55,
-      delay: 0.2 + i * 0.075,
-      ease: "power3.in",
-      onUpdate() {
-        Body.setPosition(it.body, { x: it.home.x, y: it.home.y + p.y });
-        heroW.render(it);
-      },
-      onComplete() {
-        homing(it, false);
-        settle(it);
-        squash(it);
-        gsap.fromTo(wordEl, { y: 6 }, { y: 0, duration: 0.2, ease: "power2.out", overwrite: true });
-      },
-    });
-  });
-
-  const tittle = Math.max(TITTLE.size * u * 1.15, 40);
-  const onI = () => {
-    const b = letterI.body;
-    const up = 50 * u + 14 * u;
-    return { x: b.position.x + Math.sin(b.angle) * up, y: b.position.y - Math.cos(b.angle) * up };
-  };
-
-  // ------------------------------------------------------------ the film tile
-  const film = qs("#film");
-  gsap.set(film, { left: slot.left, top: slot.top, width: slot.width, height: slot.height });
-  const stageRect = stage.getBoundingClientRect();
-  const winEl = qs("#win-hoddle").getBoundingClientRect();
-  const win = { left: winEl.left - stageRect.left, top: winEl.top - stageRect.top, width: winEl.width, height: winEl.height };
-
-  // Fast cuts of real work, in a plain sharp window. The last one is the Hoddle home page, on its way to full screen.
-  const cuts = qa(".cut").filter((c) => getComputedStyle(c).display !== "none");
+  showFill(0);
+  // The label comes in once the letters have opened. Its children, so the scroll timeline keeps the label itself.
+  gsap.from(now.children, { autoAlpha: 0, y: 12, duration: 0.6, stagger: 0.06, delay: 0.75, ease: "power3.out" });
+  // A slow change, not a flicker. Once you scroll it holds on the first app, which is the chapter coming up.
   let cutLock = false;
-  let cutIndex = 0;
-  const showCut = (i) => {
-    cuts.forEach((c, n) => c.classList.toggle("is-on", n === i));
-  };
-  showCut(0);
   gsap.to({}, {
-    duration: 0.78,
+    duration: 2.6,
     repeat: -1,
     onRepeat() {
       if (!cutLock) {
-        cutIndex = (cutIndex + 1) % (cuts.length - 1);
-        showCut(cutIndex);
+        showFill((fillAt + 1) % fills.length);
       }
     },
   });
   scope.cleanup(() => {
-    cuts.forEach((c) => c.classList.remove("is-on"));
+    fills.forEach((f) => f.classList.remove("is-on"));
+    ticks.forEach((t) => t.classList.remove("is-on"));
+    nowName.textContent = fills[0].dataset.name;
+    nowWhat.textContent = fills[0].dataset.what;
+    now.style.removeProperty("--wu");
   });
 
   // ------------------------------------------------------------ names, as letters in a mask
@@ -214,9 +227,6 @@ function buildStage(scope, dot, phone)
   const hdL = nameLetters(qs(".hd-name"));
   const kdL = nameLetters(qs(".kd-name"));
   const scL = nameLetters(qs(".sc-name"));
-
-  gsap.fromTo(film, { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.8, delay: 0.9, ease: "expo.inOut" });
-  const drift = gsap.to(".soft-hero img", { scale: 1.09, xPercent: -2, duration: 15, ease: "none", yoyo: true, repeat: -1 });
 
   // ------------------------------------------------------------ the scrubbed stage
   gsap.set(hdL, { yPercent: 130 });
@@ -248,7 +258,6 @@ function buildStage(scope, dot, phone)
     nav.classList.remove("has-btn");
   });
 
-  const navTo = (fg, bg) => ({ "--nav": fg, "--navf": bg, duration: 0.05 });
   // The nav takes the next chapter's colours when that chapter's edge reaches the logo, not when the wipe starts.
   const timeFor = (ease, p) => {
     const e = gsap.parseEase(ease);
@@ -270,7 +279,9 @@ function buildStage(scope, dot, phone)
   const kdgNavAt = 3.5 + 0.85 * timeFor("power3.inOut", 1 - logoY / sh);
   const reach = Math.hypot(sw * 0.7 - logoX, sh - logoY) / (Math.hypot(sw, sh) / Math.SQRT2);
   const schoolNavAt = 5.2 + timeFor("power2.inOut", Math.min(1, reach / 1.45));
-  let drifting = true;
+  // Ink on the paper hero, then each chapter's own. The nav themes read this while the stage is under the nav.
+  const NAV = [[INK, PAPER], ["#ffffff", "#06183a"], ["#050505", "#ffe100"], ["#ffffff", "#c8102e"]];
+  const navAt = (t) => NAV[t < 2.2 ? 0 : t < kdgNavAt ? 1 : t < schoolNavAt ? 2 : 3];
   const tl = gsap.timeline({
     defaults: { ease: "none" },
     scrollTrigger: {
@@ -282,40 +293,31 @@ function buildStage(scope, dot, phone)
       scrub: true,
       onUpdate(self) {
         nav.classList.toggle("has-btn", self.progress > 0.015);
-        if (self.progress > 0.003) {
-          cutLock = true;
-          heroW.pause();
-        } else {
-          cutLock = false;
-          heroW.resume();
+        const lock = self.progress > 0.003;
+        if (lock !== cutLock) {
+          cutLock = lock;
+          if (lock) {
+            showFill(0);
+          }
         }
         const t = self.progress * tl.duration();
         playHoddle(t);
         playKdg(t);
-        const keep = self.progress < 0.3;
-        if (keep !== drifting) {
-          drifting = keep;
-          drift.paused(!keep);
-        }
       },
     },
   });
-  const origin = `${slot.left + slot.width / 2}px ${floorY}px`;
-  gsap.set(clup, { transformOrigin: origin });
-  gsap.set(ai, { transformOrigin: origin });
+  // The word grows until the l's stem is the screen, the box behind it opens out to full screen,
+  // and Hoddle's own home page comes up through the stem. Then it's Hoddle's chapter.
   tl.to(".hero-top", { y: -sh * 0.34, autoAlpha: 0, duration: 0.55, ease: "power2.in" }, 0)
-    .to(film, { left: 0, top: 0, width: sw, height: sh, duration: 1.4, ease: "power2.inOut" }, 0)
-    .to(clup, { x: -sw * (phone ? 2.6 : 1.1), scale: 2.1, duration: 1.4, ease: "power2.in" }, 0)
-    .to(ai, { x: sw * 1.1, scale: 2.1, duration: 1.4, ease: "power2.in" }, 0)
-    .add(() => {
-      showCut(cuts.length - 1);
-    }, 0.08)
+    .to(now, { y: -24, autoAlpha: 0, duration: 0.3, ease: "power2.in" }, 0)
+    .to(zoom, { k: 1, duration: 1.4, onUpdate: place }, 0)
+    .to(film, { left: 0, top: 0, width: sw, height: sh, duration: 1.12, ease: "power2.out" }, 0)
+    .fromTo(homeCuts, { opacity: 0 }, { opacity: 1, duration: 0.35 }, 0.59)
     .to(nav, { yPercent: -100, autoAlpha: 0, duration: 0.3, ease: "power2.in" }, 0.5)
     .set(".ch-hoddle", { autoAlpha: 1 }, 1.45)
     .set(wordEl, { autoAlpha: 0 }, 1.45)
     .to(film, { ...win, duration: 0.9, ease: "power3.inOut" }, 1.95)
     .to(hoddleFilm, { opacity: 1, duration: 0.3 }, 2.45)
-    .set(nav, { "--nav": "#ffffff", "--navf": "#06183a" }, 2.2)
     .to(nav, { yPercent: 0, autoAlpha: 1, duration: 0.25, ease: "power2.out" }, 2.25)
     .to(hdL, { yPercent: 0, duration: 0.7, stagger: 0.035, ease: "back.out(1.5)" }, 2.2)
     .to("#t-hoddle .what", { autoAlpha: 1, y: 0, duration: 0.4, ease: "power2.out" }, 2.5)
@@ -323,7 +325,6 @@ function buildStage(scope, dot, phone)
     .to("#t-hoddle .quote", { autoAlpha: 1, y: 0, duration: 0.4, ease: "power2.out" }, 2.65)
     .to(chK, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.85, ease: "power3.inOut" }, 3.5)
     .from(".kd-film", { yPercent: 24, duration: 0.95, ease: "power3.out" }, 3.5)
-    .to(nav, navTo("#050505", "#ffe100"), kdgNavAt)
     .to(kdL, { yPercent: 0, duration: 0.7, stagger: 0.016, ease: "back.out(1.5)" }, 3.75)
     .from(".kd-num, .kd-side", { autoAlpha: 0, y: 26, duration: 0.45, stagger: 0.08, ease: "power2.out" }, 4.05)
     .to({ v: 75 }, {
@@ -336,12 +337,11 @@ function buildStage(scope, dot, phone)
     }, 4.2)
     .to(chS, { clipPath: "circle(145% at 70% 100%)", duration: 1, ease: "power2.inOut" }, 5.2)
     .fromTo("#sc-pic > *", { scale: 1.22 }, { scale: 1, duration: 1.4, ease: "power2.out" }, 5.2)
-    .to(nav, navTo("#ffffff", "#c8102e"), schoolNavAt)
     .to(scL, { yPercent: 0, duration: 0.7, stagger: 0.018, ease: "back.out(1.5)" }, 5.5)
     .from(".sc-copy", { autoAlpha: 0, y: 26, duration: 0.45, ease: "power2.out" }, 5.8)
     .to({}, { duration: 0.4 }, 6.2);
 
-  return { tl, tittle, onI, letterI };
+  return { tl, tittle, onI, navAt };
 }
 
 // ---------------------------------------------------------------- the promise, filling in word by word
@@ -432,7 +432,7 @@ function buildToys(scope, phone)
 }
 
 // ---------------------------------------------------------------- nav colour by section
-function buildNavThemes(scope)
+function buildNavThemes(scope, stage)
 {
   const nav = qs(".nav");
   const THEMES = [
@@ -445,6 +445,7 @@ function buildNavThemes(scope)
     [".close-ask", "#070707", "#f3f1ec", true],
   ].map(([sel, fg, bg, solid]) => ({ el: qs(sel), fg, bg, solid }));
   let themeNow = null;
+  let stageNav = null;
   let tick = 0;
   // Sections that scroll under the nav get a bar in their own colour, so text never runs under the logo.
   const paintBar = () => {
@@ -464,6 +465,16 @@ function buildNavThemes(scope)
       const r = t.el.getBoundingClientRect();
       return r.top <= 40 && r.bottom > 40;
     }) || null;
+    // Under the nav is the stage: its colours follow how far through it you are.
+    if (!hit) {
+      const c = stage.navAt(stage.tl.time());
+      if (c !== stageNav) {
+        stageNav = c;
+        setColours(c[0], c[1]);
+      }
+    } else {
+      stageNav = null;
+    }
     tick += 1;
     if (hit === themeNow) {
       // The tower section turns blue part way through.
@@ -476,8 +487,6 @@ function buildNavThemes(scope)
     paintBar();
     if (hit) {
       setColours(hit.fg, hit.bg);
-    } else {
-      setColours("#ffffff", "#c8102e");
     }
   });
   scope.cleanup(() => {
@@ -768,7 +777,7 @@ function buildPerches(scope, dot, phone, parts)
   const kdgSpot = inView(liftedBy(schoolEdge, heldBy(kdgEdge, atop("#kd-num", 0.92, 6))));
   const schoolSpot = inView(onCircle(phone ? atop("#sc-pic", 0.84, 0) : atop(".sc-copy .quote", 0.8, -6)));
   const PERCH = [
-    { id: "hero", y: () => -1, at: onI, size: tittle, colour: [YELLOW, INK], line: "Scroll down. I brought receipts.", side: "left", mood: "" },
+    { id: "hero", y: () => -1, at: onI, size: tittle, colour: [YELLOW, INK], line: "Scroll down. I brought receipts.", side: "left", mood: "", theme: "ink" },
     { id: "full", y: () => unitY(0.35), at: () => ({ x: vw() - roam, y: vh() - 10 }), colour: [YELLOW, INK], line: "These are all live. Go and check.", side: "left", mood: "smug" },
     { id: "hoddle", y: () => unitY(2.5), at: inView(liftedBy(kdgEdge, phone ? atop("#win-hoddle", 0.88, 2) : atop(".hd-name", 0.09, 16))), colour: [YELLOW, INK], line: "The cake. We’ll take it.", side: phone ? "left" : "right", mood: "smug" },
     // At each wipe the incoming edge carries it up, then it hops across without a word. The line comes once the chapter is in.
@@ -904,7 +913,7 @@ function buildPerches(scope, dot, phone, parts)
       done: scope.wrap(() => {
         if (current === "hero") {
           dot.shape("circle");
-          dot.talk(PERCH[0].line, { side: "left", ms: 0 });
+          dot.talk(PERCH[0].line, { side: "left", theme: PERCH[0].theme, ms: 0 });
         }
       }),
     });
@@ -925,14 +934,14 @@ export function init(scope, core)
   // Its first ever arrival is from above the i. Coming back from another page, it jumps across from where it is.
   if (dot.state.y < 0) {
     dot.state.size = stage.tittle;
-    dot.state.x = stage.letterI.home.x;
+    dot.state.x = stage.onI().x;
     dot.state.y = -80;
   }
   dot.colour(YELLOW, INK);
   const promiseTl = buildPromise();
   const howTl = buildHow(scope, dot, phone);
   const toys = buildToys(scope, phone);
-  buildNavThemes(scope);
+  buildNavThemes(scope, stage);
   buildBoard(scope, phone);
   buildReveals(scope);
   const end = buildEnd(scope, phone);

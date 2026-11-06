@@ -264,7 +264,10 @@ html.m .soft::after {
   cursor: pointer;
 }
 
+/* The home page opens on paper, so the floating nav starts in ink. */
 html.m .nav[data-over="true"] {
+  --nav: var(--ink);
+  --navf: var(--paper);
   position: fixed;
   left: 0;
   right: 0;

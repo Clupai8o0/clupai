@@ -44,9 +44,12 @@ export function Mark({ height, className }: { height: number; className?: string
 }
 
 // The full word with the mascot standing on the i, for a page that isn't moving.
-export function StaticWord({ className }: { className?: string })
+// With a fill, the letters are a window onto that picture, as the moving home page has them.
+export function StaticWord({ className, fill }: { className?: string; fill?: string })
 {
   const { letters, dotX, width } = layOut();
+  const top = G.l.top;
+  const bottom = G.p.bottom;
   const S = TITTLE.size * 1.15;
   const feet = -14;
   // The same face as the live mascot: see SHAPES.circle in motion/shapes.js and .dot-eyes in globals.css.
@@ -60,6 +63,24 @@ export function StaticWord({ className }: { className?: string })
       {letters.map((l) => (
         <path key={l.key} transform={`translate(${l.x} 0)`} d={l.d} fill="currentColor" />
       ))}
+      {fill && (
+        <>
+          <clipPath id="static-word-fill">
+            {letters.map((l) => (
+              <path key={l.key} transform={`translate(${l.x} 0)`} d={l.d} />
+            ))}
+          </clipPath>
+          <image
+            href={fill}
+            x={0}
+            y={top}
+            width={width}
+            height={bottom - top}
+            preserveAspectRatio="xMidYMid slice"
+            clipPath="url(#static-word-fill)"
+          />
+        </>
+      )}
       <circle cx={dotX} cy={feet - S / 2} r={S / 2} fill="#ffe100" />
       {[-1, 1].map((side) => {
         const cx = eyesX + side * (eyeGap + eyeW) / 2;

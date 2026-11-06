@@ -32,6 +32,14 @@ const BOARD = [
   { name: "GovChat", what: "Find Australian government data in plain English", part: "Our own product", when: "Demo offline", status: "In the works", img: "/products/govchat/trust.webp", href: "/work/govchat" },
 ];
 
+// The apps that play inside the word, in turn. The first is the chapter that comes next, so it's the one the word opens onto.
+const WINDOW = [
+  { name: "Hoddle", what: "A mentoring platform for international students. Live.", tick: "#4da3ff", fill: "/home/window/hoddle.webp", at: "50% 40%" },
+  { name: "King Double Glazing", what: "A brand, a site and an instant price tool. Live.", tick: "#e0c400", fill: "/home/window/kdg.webp", at: "50% 50%" },
+  { name: "Tempo", what: "Log your workouts and see your progress. Our own product.", tick: "#070707", fill: "/home/window/tempo.webp", at: "50% 50%" },
+  { name: "Krishnaveni School", what: "A school website its staff run themselves. Live.", tick: "#c8102e", fill: "/home/window/krishnaveni.webp", at: "50% 50%" },
+];
+
 const FILLS = [
   ["#4da3ff", "#070707"],
   ["#ffe100", "#070707"],
@@ -48,7 +56,6 @@ export default function HomePage()
   return (
     <div className="home">
       <section className="stage" id="stage" aria-label="What we do">
-        <Soft name="tram" phone="walker" className="soft-hero" eager />
         <div className="hero-top">
           <h1>
             <span className="ln">
@@ -66,17 +73,38 @@ export default function HomePage()
           </div>
         </div>
 
-        <StaticWord className="static-word" />
+        <StaticWord className="static-word" fill={WINDOW[0]!.fill} />
+
+        {/* What's showing in the word right now. The film below says it again in full, so it's hidden from screen readers. */}
+        <div className="now pre" id="now" aria-hidden="true">
+          <span className="now-ticks">
+            {WINDOW.map((a) => (
+              <i key={a.name} style={{ "--c": a.tick } as CSSProperties} />
+            ))}
+          </span>
+          <span className="now-name">{WINDOW[0]!.name}</span>
+          <span className="now-what">{WINDOW[0]!.what}</span>
+        </div>
 
         <div className="ch ch-hoddle">
           <div className="win" id="win-hoddle" />
         </div>
 
         <div className="film pre" id="film">
-          <Image className="cut" src="/work/kdg/new/hero.webp" alt="" fill sizes="100vw" loading="eager" />
-          <Image className="cut" src="/work/krishnaveni/homepage.webp" alt="" fill sizes="100vw" />
-          <Image className="cut" src="/work/hoddle/new/matching.webp" alt="" fill sizes="100vw" />
-          <Image className="cut" src="/work/kdg/gallery.webp" alt="" fill sizes="100vw" />
+          {WINDOW.map((a, i) => (
+            <Image
+              key={a.name}
+              className="cut fill"
+              src={a.fill}
+              alt=""
+              fill
+              sizes="100vw"
+              loading={i === 0 ? "eager" : undefined}
+              style={{ objectPosition: a.at }}
+              data-name={a.name}
+              data-what={a.what}
+            />
+          ))}
           <Image className="cut cut-home cut-home-d" src="/work/hoddle/new/home.webp" alt="Hoddle’s home page." fill sizes="100vw" />
           <Image className="cut cut-home cut-home-p" src="/work/hoddle/new/phone-home.webp" alt="Hoddle’s home page." fill sizes="100vw" />
           <video id="v-hoddle" data-src="/work/hoddle/loop.mp4" data-poster="/work/hoddle/poster.jpg" muted loop playsInline preload="none" aria-hidden="true" />
@@ -102,10 +130,7 @@ export default function HomePage()
           </blockquote>
         </div>
 
-        <div className="wordmark pre" id="wordmark" role="img" aria-label="clupai">
-          <div className="w-group w-clup" />
-          <div className="w-group w-ai" />
-        </div>
+        <div className="wordmark pre" id="wordmark" role="img" aria-label="clupai" />
 
         <div className="ch ch-kdg pre" id="ch-kdg">
           <h2 className="ch-name kd-name">King Double Glazing</h2>
