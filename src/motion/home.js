@@ -60,7 +60,7 @@ function unloadFilm(v)
 // ---------------------------------------------------------------- the hero and the client chapters
 const PAPER = "#f3f1ec";
 // On a phone the label goes under the word, in this much room.
-const PHONE_LABEL = 70;
+const PHONE_LABEL = 60;
 
 // Where each letter of the word sits, in glyph units: the x-height is 100 and the baseline is y = 100.
 // One line everywhere, phones included.
@@ -92,8 +92,9 @@ function buildStage(scope, dot, phone)
   const under = (sel) => qs(sel).getBoundingClientRect().bottom - stageRect.top;
   const room = sh - below;
   const fitW = (sw - 2 * marginX) / W.width;
+  // A phone always gets the word at full width, on one line.
   const fitH = phone
-    ? (room - PHONE_LABEL - under(".hero-top") - 60) / (W.bottom - W.top)
+    ? fitW
     : Math.min(
       (room - under(".hero-top h1") - 24) / (W.bottom - W.top),
       (room - under(".hero-top h1") - 12 - 85) / (W.bottom + 8),
@@ -147,6 +148,8 @@ function buildStage(scope, dot, phone)
   const iX = I.x + GLYPHS.i.w / 2;
   const tittle = Math.max(TITTLE.size * s0 * 1.15, 40);
   const onI = () => ({ x: view.x + iX * view.S, y: view.y + (I.y - 14) * view.S });
+  // On a phone the mascot's line goes above it, clear of the l, when there's room under the copy for it.
+  const lineSide = phone && onI().y - tittle - 16 - 64 > under(".hero-top") ? "above" : "left";
 
   // ------------------------------------------------------------ what's showing through the word
   // The pictures fill the word's box, a little bigger so a letter's overshoot never runs past the edge.
@@ -342,7 +345,7 @@ function buildStage(scope, dot, phone)
     .from(".sc-copy", { autoAlpha: 0, y: 26, duration: 0.45, ease: "power2.out" }, 5.8)
     .to({}, { duration: 0.4 }, 6.2);
 
-  return { tl, tittle, onI, navAt };
+  return { tl, tittle, onI, navAt, lineSide };
 }
 
 // ---------------------------------------------------------------- the promise, filling in word by word
@@ -705,7 +708,7 @@ function buildEnd(scope, phone)
 function buildPerches(scope, dot, phone, parts)
 {
   const { stage, promiseTl, howTl, toys, end, rest } = parts;
-  const { tl, onI, tittle } = stage;
+  const { tl, onI, tittle, lineSide } = stage;
   const roam = phone ? 44 : 72;
   const unitY = (t) => {
     const st = tl.scrollTrigger;
@@ -778,7 +781,7 @@ function buildPerches(scope, dot, phone, parts)
   const kdgSpot = inView(liftedBy(schoolEdge, heldBy(kdgEdge, atop("#kd-num", 0.92, 6))));
   const schoolSpot = inView(onCircle(phone ? atop("#sc-pic", 0.84, 0) : atop(".sc-copy .quote", 0.8, -6)));
   const PERCH = [
-    { id: "hero", y: () => -1, at: onI, size: tittle, colour: [YELLOW, INK], line: "Scroll down. I brought receipts.", side: phone ? "above" : "left", mood: "", theme: "ink" },
+    { id: "hero", y: () => -1, at: onI, size: tittle, colour: [YELLOW, INK], line: "Scroll down. I brought receipts.", side: lineSide, mood: "", theme: "ink" },
     { id: "full", y: () => unitY(0.35), at: () => ({ x: vw() - roam, y: vh() - 10 }), colour: [YELLOW, INK], line: "These are all live. Go and check.", side: "left", mood: "smug" },
     { id: "hoddle", y: () => unitY(2.5), at: inView(liftedBy(kdgEdge, phone ? atop("#win-hoddle", 0.88, 2) : atop(".hd-name", 0.09, 16))), colour: [YELLOW, INK], line: "The cake. We’ll take it.", side: phone ? "left" : "right", mood: "smug" },
     // At each wipe the incoming edge carries it up, then it hops across without a word. The line comes once the chapter is in.
