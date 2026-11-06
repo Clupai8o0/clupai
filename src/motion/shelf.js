@@ -52,8 +52,9 @@ function buildRows(shelf)
   const rows = [];
   byTop.forEach(({ bays, h }) => {
     const W = sr.width;
-    const eng = Engine.create({ enableSleeping: true });
-    eng.gravity.y = 1.1;
+    // More solver passes and a heavier pull: boxes land and stop like card, instead of sinking in and springing back.
+    const eng = Engine.create({ enableSleeping: true, positionIterations: 14, velocityIterations: 10 });
+    eng.gravity.y = 2.2;
     Composite.add(eng.world, [
       Bodies.rectangle(W / 2, h + 30, W + 600, 60, { isStatic: true, friction: 1 }),
       Bodies.rectangle(-30, h / 2 - 400, 60, h + 1200, { isStatic: true }),
@@ -66,7 +67,7 @@ function buildRows(shelf)
         const w = el.offsetWidth;
         const bh = el.offsetHeight;
         const home = { x: left + el.offsetLeft + w / 2, y: el.offsetTop + bh / 2 };
-        const body = Bodies.rectangle(home.x, home.y, w, bh, { friction: 0.8, frictionStatic: 1.2, restitution: 0.08, density: 0.0016, sleepThreshold: 40 });
+        const body = Bodies.rectangle(home.x, home.y, w, bh, { friction: 0.8, frictionStatic: 1.2, restitution: 0, frictionAir: 0.02, slop: 0.01, density: 0.0016, sleepThreshold: 30 });
         Composite.add(eng.world, body);
         Sleeping.set(body, true);
         row.boxes.push({ el, body, home, w, h: bh, row });
@@ -187,7 +188,7 @@ export function init(scope)
     const d = e.clientX - drag.last;
     drag.last = e.clientX;
     Sleeping.set(b.body, false);
-    Body.setAngularVelocity(b.body, gsap.utils.clamp(-0.09, 0.09, b.body.angularVelocity + d * 0.0016));
+    Body.setAngularVelocity(b.body, gsap.utils.clamp(-0.07, 0.07, b.body.angularVelocity + d * 0.0016));
     Body.applyForce(b.body, { x: b.body.position.x, y: b.body.position.y - b.h * 0.4 }, { x: d * 0.0009 * b.body.mass * 0.05, y: 0 });
   }, { passive: true });
 
@@ -205,7 +206,7 @@ export function init(scope)
     b.el.style.transform = "";
   }
 
-  // Stand them back up: the physics waits while each box springs home, then they all go back to sleep.
+  // Stand them back up: the physics waits while each box glides home, then they all go back to sleep.
   if (tidy) {
     scope.on(tidy, "click", () => {
       tidy.hidden = true;
@@ -229,8 +230,8 @@ export function init(scope)
             x: b.home.x,
             y: b.home.y,
             a: 0,
-            duration: 0.6,
-            ease: "back.out(1.4)",
+            duration: 0.55,
+            ease: "power3.inOut",
             onUpdate() {
               place(b, s.x, s.y, s.a);
             },

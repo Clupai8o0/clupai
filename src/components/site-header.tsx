@@ -107,7 +107,7 @@ export default function SiteHeader()
       <header className="nav" data-over={pathname === "/"} data-away={away && !open}>
         <Link className="nav-logo" href="/" aria-label="Clupai home" onClick={() => setOpen(false)}>
           <Logo size={28} className="nav-tile" />
-          <Mark height={22} className="nav-mark" />
+          <Mark height={22} className="nav-mark" accent />
         </Link>
         <nav className="nav-r" aria-label="Main">
           {links.map((l) => (

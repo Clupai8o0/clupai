@@ -1971,8 +1971,8 @@ html.m .home {
 
   /* Close */
   & .close-end {
-    height: calc(100vh - var(--ft-h));
-    height: calc(100svh - var(--ft-h));
+    height: 100vh;
+    height: 100svh;
   }
 
   & .end-word {

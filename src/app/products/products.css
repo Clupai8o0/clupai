@@ -18,12 +18,11 @@ html.m .how-m { display: inline; }
 .tk b { display: block; margin-bottom: 3px; font-weight: 600; font-size: 17px; }
 
 /* A box: the product's colours, its name, a picture or a line, a barcode, and tape if it isn't out yet. */
-.bx { position: relative; z-index: 2; width: calc(var(--bw) * 100%); height: calc(var(--h) * 1vw); display: flex; flex-direction: column; padding: 12px 14px 14px; text-decoration: none; container-type: inline-size; cursor: grab; user-select: none; -webkit-user-select: none; -webkit-user-drag: none; touch-action: pan-y; transition: translate 0.2s cubic-bezier(0.2, 1.6, 0.4, 1), scale 0.15s; }
+.bx { position: relative; z-index: 2; width: calc(var(--bw) * 100%); height: calc(var(--h) * 1vw); display: flex; flex-direction: column; padding: 12px 14px 14px; text-decoration: none; container-type: inline-size; cursor: grab; user-select: none; -webkit-user-select: none; -webkit-user-drag: none; touch-action: pan-y; transition: translate 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); }
 .bx::after { content: ""; position: absolute; left: 100%; top: 0; bottom: 0; width: 10px; background: var(--c); filter: brightness(0.62); clip-path: polygon(0 0, 100% 10px, 100% 100%, 0 100%); }
 .bx.edge { outline: 2px solid var(--ink); outline-offset: -2px; }
 .bx.edge::after { background: #b9b6ae; filter: none; }
 .bx:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
-.bx:not(.is-loose):active { scale: 1.04; }
 .bx-name { align-self: flex-start; margin-bottom: 10px; padding-bottom: 0.06em; font-weight: 600; font-size: min(calc(100cqw / (var(--len) * 0.58)), 70px); line-height: 0.9; letter-spacing: -0.055em; white-space: nowrap; pointer-events: none; }
 .bx-pic { position: relative; flex: 1; min-height: 0; overflow: hidden; background: #111; pointer-events: none; }
 .bx-pic img { object-fit: cover; object-position: top; }

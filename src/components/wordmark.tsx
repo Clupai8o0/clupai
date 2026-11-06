@@ -4,6 +4,8 @@ type Glyph = { w: number; top: number; bottom: number; d: string };
 
 const G = GLYPHS as Record<string, Glyph>;
 const WORD = [..."clupai"];
+// Where "ai" starts, for the blue accent.
+const AI = WORD.length - 2;
 
 function layOut()
 {
@@ -20,8 +22,8 @@ function layOut()
   return { letters, dotX, width: x - SPACE };
 }
 
-// The small logotype, for the nav and the footer.
-export function Mark({ height, className }: { height: number; className?: string })
+// The small logotype. With accent, "ai" and the dot are blue, as in the header, the footer and the emails.
+export function Mark({ height, className, accent = false }: { height: number; className?: string; accent?: boolean })
 {
   const { letters, dotX, width } = layOut();
   const top = TITTLE.y - TITTLE.size / 2 - 2;
@@ -35,10 +37,10 @@ export function Mark({ height, className }: { height: number; className?: string
       width={width * u}
       aria-hidden="true"
     >
-      {letters.map((l) => (
-        <path key={l.key} transform={`translate(${l.x} 0)`} d={l.d} fill="currentColor" />
+      {letters.map((l, i) => (
+        <path key={l.key} transform={`translate(${l.x} 0)`} d={l.d} fill={accent && i >= AI ? "var(--blue)" : "currentColor"} />
       ))}
-      <circle cx={dotX} cy={TITTLE.y} r={TITTLE.size / 2} fill="currentColor" />
+      <circle cx={dotX} cy={TITTLE.y} r={TITTLE.size / 2} fill={accent ? "var(--blue)" : "currentColor"} />
     </svg>
   );
 }
