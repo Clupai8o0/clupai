@@ -270,6 +270,8 @@ export function boot(pathname)
   if (!core) {
     core = createCore();
   }
+  // Shifter only lives on the home page. Hidden now, not after this route's code and fonts have loaded.
+  core.dot.hide(pathname !== "/");
   const main = document.querySelector("main");
   let scope = null;
   let stopped = false;
@@ -320,6 +322,7 @@ export function boot(pathname)
   function failed()
   {
     end();
+    core.dot.hide(true);
     document.documentElement.classList.remove("m");
   }
 
@@ -353,6 +356,7 @@ export function boot(pathname)
       delete main.dataset.ready;
     }
     core.dot.park(core.rest);
+    core.dot.hide(true);
     core.lenis.scrollTo(0, { immediate: true, force: true });
     core.lenis.start();
   };
