@@ -100,7 +100,15 @@ export function init(scope)
   }, { rootMargin: "120px 0px" });
   rows.forEach((row) => io.observe(row.el));
 
+  // Fixed 60 Hz steps from the real time passed, so a 120 Hz screen doesn't run the boxes at double speed.
+  let owed = 0;
   scope.ticker((time, dt) => {
+    owed = Math.min(owed + dt, STEP * 3);
+    const steps = Math.floor(owed / STEP);
+    owed -= steps * STEP;
+    if (!steps) {
+      return;
+    }
     rows.forEach((row) => {
       if (!row.seen || row.paused) {
         return;
@@ -109,7 +117,6 @@ export function init(scope)
       if (!moving.length) {
         return;
       }
-      const steps = dt > 24 ? 2 : 1;
       for (let i = 0; i < steps; i += 1) {
         Engine.update(row.eng, STEP);
       }
@@ -130,6 +137,20 @@ export function init(scope)
     }
   }
 
+  function up()
+  {
+    if (!drag) {
+      return;
+    }
+    const { b, moved } = drag;
+    drag = null;
+    if (moved) {
+      setTimeout(() => {
+        delete b.el.dataset.dragged;
+      }, 60);
+    }
+  }
+
   // Drag sideways to tip a box. A small wobble before that is still a click.
   let drag = null;
   rows.forEach((row) => {
@@ -147,6 +168,11 @@ export function init(scope)
     if (!drag) {
       return;
     }
+    // Let go outside the window: the mouse comes back with no button down.
+    if (e.pointerType === "mouse" && !(e.buttons & 1)) {
+      up();
+      return;
+    }
     const { b } = drag;
     if (!drag.moved) {
       const dx = Math.abs(e.clientX - drag.x0);
@@ -154,7 +180,6 @@ export function init(scope)
         return;
       }
       drag.moved = true;
-      drag.last = e.clientX;
       // The click that ends a drag is swallowed by boot.js, so letting go doesn't open the product.
       b.el.dataset.dragged = "1";
       loosen(b);
@@ -166,20 +191,9 @@ export function init(scope)
     Body.applyForce(b.body, { x: b.body.position.x, y: b.body.position.y - b.h * 0.4 }, { x: d * 0.0009 * b.body.mass * 0.05, y: 0 });
   }, { passive: true });
 
-  const up = () => {
-    if (!drag) {
-      return;
-    }
-    const { b, moved } = drag;
-    drag = null;
-    if (moved) {
-      setTimeout(() => {
-        delete b.el.dataset.dragged;
-      }, 60);
-    }
-  };
   scope.on(window, "pointerup", up);
   scope.on(window, "pointercancel", up);
+  scope.on(window, "blur", up);
 
   function settle(b)
   {

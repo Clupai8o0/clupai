@@ -23,7 +23,7 @@ html.m .how-m { display: inline; }
 .bx.edge { outline: 2px solid var(--ink); outline-offset: -2px; }
 .bx.edge::after { background: #b9b6ae; filter: none; }
 .bx:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
-.bx:active { scale: 1.04; }
+.bx:not(.is-loose):active { scale: 1.04; }
 .bx-name { align-self: flex-start; margin-bottom: 10px; padding-bottom: 0.06em; font-weight: 600; font-size: min(calc(100cqw / (var(--len) * 0.58)), 70px); line-height: 0.9; letter-spacing: -0.055em; white-space: nowrap; pointer-events: none; }
 .bx-pic { position: relative; flex: 1; min-height: 0; overflow: hidden; background: #111; pointer-events: none; }
 .bx-pic img { object-fit: cover; object-position: top; }

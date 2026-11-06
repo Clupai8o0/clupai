@@ -509,8 +509,14 @@ export function makeDot()
   let lastScroll = scrollY;
   let scrollV = 0;
   gsap.ticker.add((time, ms) => {
-    // Hidden, it does nothing: no style writes and no reads every frame.
+    // Hidden, it skips the per-frame work. It still keeps up with the scroll, and a throw still lands,
+    // so it doesn't come back staring up or frozen mid-air.
     if (away) {
+      lastScroll = scrollY;
+      scrollV = 0;
+      if (mode === "air") {
+        stepAir(Math.min(ms, 40) / 1000);
+      }
       return;
     }
     const dt = Math.min(ms, 40) / 1000;
