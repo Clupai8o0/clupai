@@ -1,4 +1,4 @@
-import { GLYPHS, SPACE, TITTLE } from "@/motion/glyphs";
+import { GLYPHS, SHIFTER, SPACE, TITTLE } from "@/motion/glyphs";
 
 type Glyph = { w: number; top: number; bottom: number; d: string };
 
@@ -69,6 +69,7 @@ export function StaticWord({ className, fill }: { className?: string; fill?: str
             {letters.map((l) => (
               <path key={l.key} transform={`translate(${l.x} 0)`} d={l.d} />
             ))}
+            {!SHIFTER && <circle cx={dotX} cy={TITTLE.y} r={TITTLE.size / 2} />}
           </clipPath>
           <image
             href={fill}
@@ -81,8 +82,9 @@ export function StaticWord({ className, fill }: { className?: string; fill?: str
           />
         </>
       )}
-      <circle cx={dotX} cy={feet - S / 2} r={S / 2} fill="#ffe100" />
-      {[-1, 1].map((side) => {
+      {!SHIFTER && <circle cx={dotX} cy={TITTLE.y} r={TITTLE.size / 2} fill="currentColor" />}
+      {SHIFTER && <circle cx={dotX} cy={feet - S / 2} r={S / 2} fill="#ffe100" />}
+      {SHIFTER && [-1, 1].map((side) => {
         const cx = eyesX + side * (eyeGap + eyeW) / 2;
         return (
           <rect

@@ -3,6 +3,7 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
+import { SHIFTER } from "./glyphs";
 import { makeDot } from "./kit";
 
 let core = null;
@@ -271,7 +272,7 @@ export function boot(pathname)
     core = createCore();
   }
   // Shifter only lives on the home page. Hidden now, not after this route's code and fonts have loaded.
-  core.dot.hide(pathname !== "/");
+  core.dot.hide(!SHIFTER || pathname !== "/");
   const main = document.querySelector("main");
   let scope = null;
   let stopped = false;
@@ -292,7 +293,7 @@ export function boot(pathname)
     const mine = makeScope();
     scope = mine;
     core.dot.park(core.rest);
-    core.dot.hide(pathname !== "/");
+    core.dot.hide(!SHIFTER || pathname !== "/");
     mine.run(() => {
       route.init(mine, core);
     });

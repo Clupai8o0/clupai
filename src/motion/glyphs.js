@@ -15,3 +15,11 @@ export const SPACE = 6;
 
 // The real dot on Inter Tight's i: 27.26 wide, its centre 26.87 above the x-height.
 export const TITTLE = { size: 27.26, y: -26.87 };
+
+// Shifter, the mascot that stands on the i. Off for now: the i gets its real dot back instead.
+export const SHIFTER = false;
+
+// The real dot, in the i's own units, as a path so it can join the i's outline.
+const R = TITTLE.size / 2;
+const CX = GLYPHS.i.w / 2;
+export const DOT_D = `M${CX - R} ${TITTLE.y}A${R} ${R} 0 1 0 ${CX + R} ${TITTLE.y}A${R} ${R} 0 1 0 ${CX - R} ${TITTLE.y}Z`;

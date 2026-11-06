@@ -2,7 +2,7 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Matter from "matter-js";
-import { GLYPHS, SPACE, TITTLE } from "./glyphs";
+import { DOT_D, GLYPHS, SHIFTER, SPACE, TITTLE } from "./glyphs";
 import { BLUE, INK, YELLOW, clamp, glyphBody, glyphEl, grabbable, isPhone, makeWorld, navFloor, placeShape, sized } from "./kit";
 import { buildHow } from "./tower";
 import { scramble, seeded, splitLetters } from "./text";
@@ -105,7 +105,9 @@ function buildStage(scope, dot, phone)
   const y0 = sh - below - (phone ? PHONE_LABEL : 0) - W.bottom * s0;
 
   const wordEl = qs("#wordmark");
-  const holePaths = W.letters.map((l) => `<g transform="translate(${l.x} ${l.y})"><path d="${GLYPHS[l.ch].d}"/></g>`).join("");
+  // With Shifter off, the i's real dot is part of its hole, so the picture shows through it too.
+  const holeD = (ch) => (ch === "i" && !SHIFTER ? GLYPHS.i.d + DOT_D : GLYPHS[ch].d);
+  const holePaths = W.letters.map((l) => `<g transform="translate(${l.x} ${l.y})"><path d="${holeD(l.ch)}"/></g>`).join("");
   wordEl.innerHTML = `<svg width="${sw}" height="${sh}" viewBox="0 0 ${sw} ${sh}" aria-hidden="true"><defs>`
     + `<mask id="word-holes" maskUnits="userSpaceOnUse" x="0" y="0" width="${sw}" height="${sh}">`
     + `<rect width="${sw}" height="${sh}" fill="#fff"/><g class="holes" fill="#000">${holePaths}</g></mask></defs>`
@@ -652,7 +654,22 @@ function buildEnd(scope, phone)
   });
   // The dot's place on the i is a real thing to land on.
   const eTittle = Math.max(TITTLE.size * eu * 1.15, 40);
-  endWorld.solid(Bodies.circle(endI.x, endI.top - 14 * eu - eTittle / 2, eTittle / 2, { isStatic: true }));
+  if (SHIFTER) {
+    endWorld.solid(Bodies.circle(endI.x, endI.top - 14 * eu - eTittle / 2, eTittle / 2, { isStatic: true }));
+  } else {
+    // No mascot: the i has its real dot, drawn like the letters and just as solid.
+    const r = (TITTLE.size / 2) * eu;
+    const cy = endI.top + TITTLE.y * eu;
+    const dotEl = document.createElement("div");
+    dotEl.className = "blk";
+    dotEl.dataset.l = "dot";
+    dotEl.style.width = `${2 * r}px`;
+    dotEl.style.height = `${2 * r}px`;
+    dotEl.innerHTML = '<svg viewBox="0 0 2 2" width="100%" height="100%" aria-hidden="true"><circle cx="1" cy="1" r="1" fill="currentColor"/></svg>';
+    dotEl.style.transform = `translate(${endI.x - r}px, ${cy - r}px)`;
+    endWord.appendChild(dotEl);
+    endWorld.solid(Bodies.circle(endI.x, cy, r, { isStatic: true }));
+  }
 
   const rnd = seeded(7);
   let pileOn = false;
@@ -833,7 +850,7 @@ export function init(scope, core)
   dot.park(null);
   const stage = buildStage(scope, dot, phone);
   // Its first ever arrival is from above the i. Coming back from another page, it jumps across from where it is.
-  if (dot.state.y < 0) {
+  if (SHIFTER && dot.state.y < 0) {
     dot.state.size = stage.tittle;
     dot.state.x = stage.onI().x;
     dot.state.y = -80;
@@ -846,5 +863,7 @@ export function init(scope, core)
   buildBoard(scope, phone);
   buildReveals(scope);
   const end = buildEnd(scope, phone);
-  buildPerches(scope, dot, phone, { stage, promiseTl, howTl, toys, end, rest: core.rest });
+  if (SHIFTER) {
+    buildPerches(scope, dot, phone, { stage, promiseTl, howTl, toys, end, rest: core.rest });
+  }
 }
