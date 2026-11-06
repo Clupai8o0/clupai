@@ -48,7 +48,8 @@ export function Mark({ height, className }: { height: number; className?: string
 export function StaticWord({ className, fill }: { className?: string; fill?: string })
 {
   const { letters, dotX, width } = layOut();
-  const top = G.l.top;
+  // With Shifter off the i's dot is part of the word, so the picture has to reach the top of it.
+  const top = SHIFTER ? G.l.top : Math.min(G.l.top, TITTLE.y - TITTLE.size / 2);
   const bottom = G.p.bottom;
   const S = TITTLE.size * 1.15;
   const feet = -14;
@@ -63,6 +64,7 @@ export function StaticWord({ className, fill }: { className?: string; fill?: str
       {letters.map((l) => (
         <path key={l.key} transform={`translate(${l.x} 0)`} d={l.d} fill="currentColor" />
       ))}
+      {!SHIFTER && <circle cx={dotX} cy={TITTLE.y} r={TITTLE.size / 2} fill="currentColor" />}
       {fill && (
         <>
           <clipPath id="static-word-fill">
@@ -82,7 +84,6 @@ export function StaticWord({ className, fill }: { className?: string; fill?: str
           />
         </>
       )}
-      {!SHIFTER && <circle cx={dotX} cy={TITTLE.y} r={TITTLE.size / 2} fill="currentColor" />}
       {SHIFTER && <circle cx={dotX} cy={feet - S / 2} r={S / 2} fill="#ffe100" />}
       {SHIFTER && [-1, 1].map((side) => {
         const cx = eyesX + side * (eyeGap + eyeW) / 2;
