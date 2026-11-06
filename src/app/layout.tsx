@@ -16,7 +16,7 @@ const inter = Inter_Tight({
 });
 
 const DESCRIPTION =
-  "We build and launch first versions for non-technical founders in Australia. Fixed price, fixed date, and the code is yours.";
+  "Clupai is a development agency in Melbourne. We build first versions of apps and platforms for founders, with a fixed price and a launch date in the contract.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://clupai.com"),

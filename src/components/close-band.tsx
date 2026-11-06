@@ -10,8 +10,8 @@ export default function CloseBand({ title, tone = "tone-ink", perch }: { title: 
       </h2>
       <div className="band-row">
         <p className="g-lead">
-          Free. 2 minutes. Eight questions, and you get a score, your top three risks, and one thing to do about each
-          this week.
+          The Build Risk Check is free and takes two minutes. Answer eight questions and see the three biggest risks to
+          your build.
         </p>
         <Link className="btn js-start" href="/start" data-curtain="#ffe100" data-perch={perch ?? ""} data-perch-x="0.84" data-perch-at="0.96" data-perch-side="left" data-perch-wide>
           Start a project

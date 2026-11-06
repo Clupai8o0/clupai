@@ -5,7 +5,7 @@ import "./start.css";
 export const metadata: Metadata = {
   title: "Build Risk Check",
   description:
-    "Eight questions, two minutes. You get a score, your top three risks, and one thing to do about each this week.",
+    "Answer eight questions in about two minutes and get a risk score for your build, plus its three biggest risks and what to do about each this week.",
   alternates: { canonical: "/start" },
 };
 

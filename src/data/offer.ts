@@ -2,22 +2,22 @@
 export const QUESTIONS = [
   {
     q: "Aren’t you too small for this?",
-    a: "We’re small on purpose. The person on your call scopes your build, then builds it or directs the build. If we ever vanished, the code is already in your GitHub, so you’d lose a developer and keep the product. No client has used this guarantee yet.",
+    a: "Small means the person on your first call is the one who scopes your build, then builds it or runs the build. And if we disappeared tomorrow, your code is already in your GitHub. You’d need a new developer, but you’d still have the product.",
   },
   {
     q: "Aren’t you a student?",
-    a: "Samridh is. Final year of computer science at Deakin, finishing June 2027. Hoddle went live during semester, and GovChat was a GovHack 2025 winner. Judge us on the software you can click and the date in the contract.",
+    a: "Samridh is, in the final year of computer science at Deakin, finishing June 2027. Hoddle went live mid-semester and you can use it today. GovChat was a GovHack 2025 winner. Your date still goes in the contract.",
   },
   {
     q: "Isn’t AI code junk?",
-    a: "Unreviewed AI code often is. We use AI because it’s why we’re fast, and a developer tests and signs off every change. Pay any developer you trust to read the code. It’s yours to show them.",
+    a: "Unreviewed AI code often is. We use AI to go faster, and a developer tests and signs off every change before it reaches you. Want a second opinion? Pay any developer you trust to read it. The code is yours to show them.",
   },
   {
     q: "I’m not technical. How will I know it’s working?",
-    a: "You click it. The second payment only comes after a working version you’ve used yourself. As Tas at King Double Glazing put it: “I felt in control the whole way through.”",
+    a: "You use it. We only ask for the second payment after you’ve clicked through a working version yourself. Tas at King Double Glazing said: “I felt in control the whole way through.”",
   },
   {
     q: "Who owns the code?",
-    a: "You do, once it’s paid for, and the contract says so. It sits in your GitHub from day one, with hosting and domain in your name. We’ll talk about keeping it running once you’re live.",
+    a: "You do, once it’s paid for, and the contract says so. It sits in your GitHub from day one, with hosting and the domain in your name. Once you’re live, we can talk about keeping it running.",
   },
 ];

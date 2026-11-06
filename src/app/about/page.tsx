@@ -8,7 +8,7 @@ import "../inner.css";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Why Clupai sells a date instead of hours, who runs it, and how your build stays in the hands of the person who scoped it.",
+    "Why Clupai sells you a launch date, who Samridh Limbu is, and why the person who scopes your build stays on it until it’s live.",
   alternates: { canonical: "/about" },
 };
 
@@ -21,8 +21,8 @@ export default function AboutPage()
           Why we sell a date.
         </h1>
         <p className="g-state">
-          When you buy hours, the longer it takes, the more they earn. The only person who loses money when your launch
-          slips is you. So we sell a date.
+          Pay a developer by the hour and every week of delay earns them more. When your launch slips, you’re the only
+          one losing money. Our price is tied to a date in the contract instead.
         </p>
       </header>
 
@@ -35,8 +35,8 @@ export default function AboutPage()
             Samridh Limbu, founder.
           </h2>
           <p className="g-lead" data-rise>
-            I’m in my final year of computer science at Deakin, finishing in June 2027. I built Hoddle during semester:
-            six weeks, one developer, and second place at Study Melbourne Leadership 4Impact.
+            I’m in my final year of computer science at Deakin, finishing in June 2027. I built Hoddle during semester as
+            its only developer. It took six weeks and came second at Study Melbourne Leadership 4Impact.
           </p>
           <p className="g-lead" data-rise="0.1">
             GovChat, one of our own products, was a GovHack 2025 winner. You’ll meet me on the call, and I’ll scope your
@@ -56,8 +56,8 @@ export default function AboutPage()
             goes back to selling.
           </p>
           <p className="g-lead" data-rise="0.1">
-            We add developers as each job needs them, and we only run as many builds as we can keep dates on. AI is why
-            we’re fast. A developer still tests and signs off every change.
+            We add developers as each job needs them, and we only run as many builds as we can keep dates on. We use AI to
+            work faster, and a developer still tests and signs off every change.
           </p>
         </div>
       </section>

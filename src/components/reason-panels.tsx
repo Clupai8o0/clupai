@@ -7,16 +7,16 @@ import { useState, type ReactNode } from "react";
 const PANELS: { tab: string; title: string; body: ReactNode; tone: string; src: string; alt: string; face?: boolean }[] = [
   {
     tab: "The date",
-    title: "A date in writing, with our money on it.",
-    body: "Miss it and everything unpaid is cancelled. We finish the build for free.",
+    title: "The date is in writing, and our money is on it.",
+    body: "If we miss it, whatever you haven’t paid is cancelled and we finish the build for free.",
     tone: "tone-ink",
     src: "/work/kdg/new/hero.webp",
     alt: "The King Double Glazing home page, built for a client.",
   },
   {
     tab: "The person",
-    title: "The same person, scope to launch.",
-    body: "The person who sells it scopes it, then builds it or directs the build.",
+    title: "One person from scope to launch.",
+    body: "Whoever sells you the build scopes it too, then builds it or directs the build until it’s live.",
     tone: "tone-red",
     src: "/sam.jpeg",
     alt: "Samridh Limbu, founder of Clupai.",
@@ -24,7 +24,7 @@ const PANELS: { tab: string; title: string; body: ReactNode; tone: string; src: 
   },
   {
     tab: "The code",
-    title: "Your code, from day one.",
+    title: "The code is yours from day one.",
     body: "It sits in your GitHub while we work. Hosting and domain go in your name.",
     tone: "tone-blue",
     src: "/products/cstack/cover.webp",
@@ -35,7 +35,7 @@ const PANELS: { tab: string; title: string; body: ReactNode; tone: string; src: 
     title: "Software you can click today.",
     body: (
       <>
-        Don’t take our word for it. Open{" "}
+        Open{" "}
         <Link className="ln-u" href="/work/hoddle-melbourne">
           Hoddle
         </Link>{" "}
@@ -43,7 +43,7 @@ const PANELS: { tab: string; title: string; body: ReactNode; tone: string; src: 
         <Link className="ln-u" href="/work/king-double-glazing">
           King Double Glazing’s price tool
         </Link>{" "}
-        and use them.
+        and try them yourself.
       </>
     ),
     tone: "tone-paper",

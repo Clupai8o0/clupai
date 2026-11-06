@@ -9,7 +9,7 @@ import "./products.css";
 export const metadata: Metadata = {
   title: "Products",
   description:
-    "Software we made for ourselves: what’s out now, and what’s still in the works. Built the same way we build for founders.",
+    "Software we make for ourselves, the same way we build for founders. See what’s out now and what’s still in the works.",
   alternates: { canonical: "/products" },
 };
 
@@ -90,7 +90,7 @@ export default function ProductsPage()
               </span>
               <span className="how-p">Tap a slot. Top row is out. The rest are coming.</span>
             </p>
-            <p className="how-plain">Software we made for ourselves. The top row is out. The rest are coming.</p>
+            <p className="how-plain">Software we made for ourselves. The top row is out now, and the rest are coming.</p>
           </header>
           <div className="glass">
             <div className="rows" aria-hidden="true">

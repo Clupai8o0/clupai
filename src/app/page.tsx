@@ -41,7 +41,7 @@ const FILLS = [
 
 const STATUS_ICON: Record<string, string> = { Live: "st-live", Released: "st-rel", "In the works": "st-wip" };
 
-const RISK_CHECK = "Eight questions, two minutes. You get a score, your top three risks, and one thing to do about each this week.";
+const RISK_CHECK = "Eight questions, about two minutes. You get a risk score and your three biggest risks, each with one thing to do this week.";
 
 export default function HomePage()
 {
@@ -52,14 +52,14 @@ export default function HomePage()
         <div className="hero-top">
           <h1>
             <span className="ln">
-              <span>We build and launch</span>
+              <span>Clupai builds software</span>
             </span>{" "}
             <span className="ln">
-              <span>software for founders.</span>
+              <span>by a date we both sign.</span>
             </span>
           </h1>
           <div className="hero-sub">
-            <p>A development agency in Melbourne. Your software, live by the date we agree, or you stop paying.</p>
+            <p>We’re a development agency in Melbourne that builds first versions for founders. If we miss the launch date, you stop paying.</p>
             <Link className="btn js-start" href="/start" data-curtain="#ffe100">
               Start a project
             </Link>
@@ -119,7 +119,7 @@ export default function HomePage()
           </div>
           <div className="kd-side">
             <p className="fact">
-              <span>Google’s desktop score</span>A new brand, a new site and an instant price tool, in five weeks. Live.
+              <span>Google’s desktop score</span>We made the brand, the site and an instant price calculator in five weeks. It’s live.
             </p>
             <blockquote className="quote">
               “The calculator came out exactly how I had it in my head.”
@@ -162,7 +162,7 @@ export default function HomePage()
           </span>
         </p>
         <div className="promise-end">
-          <span>In writing, in the contract. Here’s how it works.</span>
+          <span>It’s a clause in the contract, and it works like this.</span>
         </div>
       </section>
 
@@ -225,7 +225,7 @@ export default function HomePage()
           </div>
         </div>
         <div className="founder-copy">
-          <p className="founder-q">“I take your first call, scope your build, and put my name on the date.”</p>
+          <p className="founder-q">“I take your first call and scope your build. The date has my name on it.”</p>
           <p className="founder-meta">
             <b>Samridh Limbu, founder</b>
             Melbourne, Australia

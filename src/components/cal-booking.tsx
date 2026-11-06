@@ -217,7 +217,7 @@ export default function CalBooking({ prefill = {} }: { prefill?: BookingPrefill 
 
       {prefill.name || prefill.email ? (
         <p className="bk-note t-small">
-          Your details are filled in{prefill.name ? `, ${prefill.name.split(" ")[0]}` : ""}. Just pick a time.
+          Your details are filled in{prefill.name ? `, ${prefill.name.split(" ")[0]}` : ""}. Pick a time.
         </p>
       ) : null}
 

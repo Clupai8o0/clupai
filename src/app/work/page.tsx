@@ -9,7 +9,7 @@ import "../inner.css";
 export const metadata: Metadata = {
   title: "Work",
   description:
-    "Software for clients and for our own ventures, each one with its dates and our part in it. Click any of it.",
+    "Software we’ve built for clients and for our own ventures, with the dates and what our part was. Most of it you can click today.",
   alternates: { canonical: "/work" },
 };
 
@@ -20,7 +20,7 @@ const CHAPTERS = ["hoddle-melbourne", "king-double-glazing", "krishnaveni-school
 const SMALL = earlierCases.filter((c) => !CHAPTERS.includes(c));
 
 const LINES: Record<string, string> = {
-  "hoddle-melbourne": "Six weeks. Then pitch day. It held.",
+  "hoddle-melbourne": "Six weeks, then pitch day. It held.",
   "king-double-glazing": "75 to 99. Yes, I checked.",
   "krishnaveni-school": "Staff run this one. No emails to us.",
 };

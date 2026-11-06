@@ -10,14 +10,14 @@ import "../inner.css";
 export const metadata: Metadata = {
   title: "How it works",
   description:
-    "Scope, sign, click, live. How a fixed date build runs, when each payment is due, and what happens if we miss the date.",
+    "How a Clupai build runs from scope to launch, when each payment is due, and what happens if we miss the date.",
   alternates: { canonical: "/how-it-works" },
 };
 
 const CONDITIONS = [
-  { tone: "tone-ink", text: "A signed scope." },
-  { tone: "tone-yellow", text: "Replies from you within 48 hours." },
-  { tone: "tone-paper", text: "Any change to the scope resets the date and price, in writing." },
+  { tone: "tone-ink", text: "You’ve signed the scope." },
+  { tone: "tone-yellow", text: "You answer us within 48 hours." },
+  { tone: "tone-paper", text: "If the scope changes, we agree a new date and price in writing." },
 ];
 
 export default function HowItWorksPage()
@@ -29,7 +29,7 @@ export default function HowItWorksPage()
         <h1 className="g-huge" data-squash>
           How it works.
         </h1>
-        <p className="g-state">Four steps, three payments and a date in writing. If we miss it, you stop paying.</p>
+        <p className="g-state">A build takes four steps and you pay in three parts. The launch date goes in the contract, and if we miss it, you stop paying.</p>
       </header>
 
       <h2 className="sr-only">The four steps and the payments</h2>
@@ -42,8 +42,8 @@ export default function HowItWorksPage()
           The guarantee has three conditions.
         </h2>
         <p className="g-state" data-rise>
-          Miss the date and everything unpaid is cancelled. We finish it free, you keep what’s built, and money already
-          paid stays paid.
+          If we miss the date, whatever you haven’t paid is cancelled. We still finish the build for free and you keep
+          all of it. Money you’ve already paid isn’t refunded.
         </p>
         <div className="hiw-conds">
           {CONDITIONS.map((c, i) => (

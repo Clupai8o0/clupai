@@ -6,27 +6,27 @@ export default function HowTower()
         <div className="how-l">
           <article className="st st1">
             <h3>Scope</h3>
-            <p>Scoping comes first and takes one to two weeks. It’s paid, and it comes off the build. You get a written scope, a clickable prototype, and a fixed price and date. They’re yours to keep, even if you go elsewhere.</p>
+            <p>First we scope it, over one to two weeks. You pay for scoping, and we take that off the build price. You leave with a written scope, a prototype you can click, and a fixed price and date. Keep them even if you build with someone else.</p>
           </article>
           <article className="st st2 pre">
             <h3>Sign</h3>
-            <p>You have a scope, a prototype, a price and a date. You sign and pay 50%. Your code sits in your GitHub from day one.</p>
+            <p>Happy with the scope? Sign and pay 50%. From that day the code lives in your own GitHub.</p>
           </article>
           <article className="st st3 pre">
             <h3>Click</h3>
-            <p>First working version. You click it before you pay the next 30%.</p>
+            <p>We send you the first working version. You use it, then pay the next 30%.</p>
           </article>
           <article className="st st4 pre">
             <h3>Live</h3>
-            <p>Live, by the date we agreed. That’s when the last 20% is due.</p>
+            <p>It goes live on the agreed date, and the last 20% is due then.</p>
           </article>
           <article className="st st5 pre">
             <h3>Miss the date?</h3>
-            <p className="big">Everything unpaid is cancelled. We finish it free, you keep what’s built, and money already paid stays paid.</p>
+            <p className="big">Whatever you haven’t paid is cancelled, and we finish the build for free. What you’ve already paid isn’t refunded.</p>
             <ul>
-              <li>It needs a signed scope.</li>
-              <li>It needs replies from you within 48 hours.</li>
-              <li>Any change to the scope resets the date and price, in writing.</li>
+              <li>You’ve signed the scope.</li>
+              <li>You reply to us within 48 hours.</li>
+              <li>Scope changes get a new date and price, agreed in writing.</li>
             </ul>
             <p className="small">No client has used this guarantee yet.</p>
           </article>

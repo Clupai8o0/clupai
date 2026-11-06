@@ -89,7 +89,7 @@ export const cases: CaseStudy[] = [
     name: "King Double Glazing",
     group: "client",
     role: "Built for a client",
-    line: "A new brand, a new site and an instant price tool for a Melbourne glazier.",
+    line: "A new brand and website for a Melbourne glazier, built around a tool that shows customers a price straight away.",
     when: "2026",
     took: "Five weeks",
     status: "Live",
@@ -106,7 +106,7 @@ export const cases: CaseStudy[] = [
     ],
     problem: [
       "Every enquiry landed on the owner’s phone, including people only shopping for a number.",
-      "The old site was slow and the brand felt dated. Fixing it meant a clean restart under a new name.",
+      "The old site was slow and the brand felt dated, so the business started again under a new name.",
     ],
     built: [
       {
@@ -114,8 +114,8 @@ export const cases: CaseStudy[] = [
         body: "Customers enter their window sizes and see a price range before giving any contact details. People who get in touch already know the number.",
       },
       {
-        title: "Quotes that confirm themselves",
-        body: "A customer clicks a link in an email before the lead reaches the owner, which filters out junk before anyone has to deal with it.",
+        title: "Quotes confirmed by email",
+        body: "A customer has to click a link in an email before the lead reaches the owner. Junk enquiries stop there.",
       },
       {
         title: "Five pages, one job",
@@ -123,7 +123,7 @@ export const cases: CaseStudy[] = [
       },
       {
         title: "Editable without us",
-        body: "The owner changes pages through a visual editor, with no developer involved.",
+        body: "The owner changes pages in a visual editor and doesn’t need a developer to do it.",
       },
     ],
     testimonial: {
@@ -277,8 +277,8 @@ export const cases: CaseStudy[] = [
         body: "All the tools read the same rules, and a mistake one of them makes becomes a rule for the others.",
       },
       {
-        title: "No two editors on one file",
-        body: "Each tool claims the files it’s working on, so another session can’t write over them.",
+        title: "Each tool claims its files",
+        body: "A tool claims a file before it edits it, so another session can’t write over its work.",
       },
     ],
     media: [],
@@ -336,7 +336,7 @@ export const cases: CaseStudy[] = [
       { k: "Our part", v: "Co-founder, and we built the store" },
       { k: "Ran", v: "February to October 2026" },
     ],
-    problem: ["We sold custom NFC keychains and needed a store that felt as considered as the product."],
+    problem: ["We sold custom NFC keychains and needed a store that looked as good as the keychains."],
     built: [
       {
         title: "A store on Shopify’s engine",

@@ -196,8 +196,8 @@ function Flow({ restore }: { restore: boolean })
         <div key={step} className={`f-body f-live${picked === null ? "" : " is-leaving"}`}>
           {step === 0 ? (
             <p className="f-intro">
-              Eight questions, two minutes. You get a score, your top three risks, and one thing to do about each this
-              week.
+              It takes about two minutes. At the end you get a score out of 100 and your three biggest risks, each with
+              something to do this week.
             </p>
           ) : null}
           <h1 ref={headingRef} className="f-q" tabIndex={-1}>
@@ -231,8 +231,8 @@ function NoScriptCheck()
     <form className="f-body f-plain" action="/start/result" method="get">
       <h1 className="f-q">Build Risk Check</h1>
       <p className="f-intro">
-        Eight questions, two minutes. You get a score, your top three risks, and one thing to do about each this week.
-        Nothing gets emailed from this version, so bookmark your result.
+        All eight questions are on this page. Answer them to get a score and your three biggest risks, each with
+        something to do this week. This version can’t email you a copy, so bookmark your result.
       </p>
       {questions.map((q, n) => (
         <fieldset key={q.id} className="f-set">
