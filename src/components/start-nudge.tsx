@@ -79,6 +79,7 @@ export default function StartNudge()
     return () => window.removeEventListener("keydown", onKey);
   }, [shown]);
 
+  // Closing and answering both put it away for the visit, so going back from /start doesn't bring it back.
   function close()
   {
     remember();
@@ -102,7 +103,7 @@ export default function StartNudge()
       <p className="nudge-sub">Pick one to start.</p>
       <div className="nudge-a">
         {first.answers.map((a, i) => (
-          <Link key={a.key} href={`/start?what=${a.key}`} data-curtain={COLOURS[i % COLOURS.length]} onClick={remember} style={{ "--c": COLOURS[i % COLOURS.length] } as React.CSSProperties}>
+          <Link key={a.key} href={`/start?what=${a.key}`} data-curtain={COLOURS[i % COLOURS.length]} onClick={close} style={{ "--c": COLOURS[i % COLOURS.length] } as React.CSSProperties}>
             <i aria-hidden="true" />
             <span>{a.label}</span>
             <b aria-hidden="true">→</b>

@@ -43,6 +43,31 @@ export function init(scope)
 
   const blocks = [];
   const later = (seconds, fn) => gsap.delayedCall(seconds, scope.wrap(fn));
+
+  // A tall stack creeps in a physics engine and slowly tips over by itself. So once a block has sat still for a
+  // moment it's fixed in place. Only the result page's knock frees them again.
+  let locking = true;
+  Events.on(world.engine, "afterUpdate", () => {
+    if (!locking) {
+      return;
+    }
+    blocks.forEach((bl) => {
+      const body = bl.item.body;
+      if (body.isStatic) {
+        return;
+      }
+      bl.still = body.speed < 0.08 && body.angularSpeed < 0.002 ? (bl.still || 0) + 1 : 0;
+      if (bl.still > 18) {
+        Body.setStatic(body, true);
+      }
+    });
+  });
+  const unlock = () => {
+    locking = false;
+    blocks.forEach((bl) => {
+      Body.setStatic(bl.item.body, false);
+    });
+  };
   const FIRM = { restitution: 0, friction: 0.8, frictionStatic: 1.2, frictionAir: 0.02, slop: 0.01, density: 0.002, sleepThreshold: 30 };
 
   // Every block lands level. How steady an answer is shows in the block's width and how far off centre it sits,
@@ -78,12 +103,17 @@ export function init(scope)
     }
     // Off centre, but always over the block below, so the tower leans and never falls on its own.
     const below = blocks.length ? blocks[blocks.length - 1] : null;
+    // A wide block can't sit on a small one: the tower narrows where an answer was risky and widens again slowly.
+    if (below) {
+      w = Math.min(w, below.w * 1.4);
+    }
     const base = below ? below.item.body.position.x : W / 2;
     const reach = below ? below.w * 0.15 : W;
     const x = clamp(base + side * clamp(W * off, 0, reach), w / 2 + 2, W - w / 2 - 2);
     // A short drop onto the top of the stack: placed, not thrown from the top of the screen.
+    // Measured from the highest block, even one still falling, so blocks added quickly never start inside each other.
     const top = blocks.reduce((y, it) => Math.min(y, it.item.body.bounds.min.y), H);
-    const y = Math.max(-h, top - h0 * 2.4 - h / 2);
+    const y = top - h0 * 2.4 - h / 2;
     const b = Bodies.rectangle(x, y, w, h, FIRM);
     towerEl.appendChild(el);
     gsap.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "power2.out" });
@@ -128,6 +158,7 @@ export function init(scope)
         const force = value < 45 ? 0.05 : 0.012;
         for (let i = 0; i < (value < 45 ? 2 : 1); i += 1) {
           later(i * 0.3, () => {
+            unlock();
             world.items.forEach((it) => {
               const high = 1 - it.body.position.y / H;
               Sleeping.set(it.body, false);
