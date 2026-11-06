@@ -707,125 +707,22 @@ function buildEnd(scope, phone)
 // ---------------------------------------------------------------- where the mascot goes as you scroll
 function buildPerches(scope, dot, phone, parts)
 {
-  const { stage, promiseTl, howTl, toys, end, rest } = parts;
+  const { stage, end, rest } = parts;
   const { tl, onI, tittle, lineSide } = stage;
   const roam = phone ? 44 : 72;
   const unitY = (t) => {
     const st = tl.scrollTrigger;
     return st.start + (st.end - st.start) * (t / tl.duration());
   };
-  const hAt = (t) => howTl.scrollTrigger.start + (howTl.scrollTrigger.end - howTl.scrollTrigger.start) * (t / howTl.duration());
-  const atop = (sel, fx = 0.5, dy = 0) => {
-    const el = qs(sel);
-    return () => {
-      const r = el.getBoundingClientRect();
-      return { x: r.left + r.width * fx, y: r.top + dy };
-    };
-  };
-  const inView = (fn, s = roam) => {
-    const at = () => {
-      const p = fn();
-      return { x: clamp(p.x, s / 2 + 8, vw() - s / 2 - 8), y: clamp(p.y, navFloor(s), vh() - 6) };
-    };
-    at.raw = fn;
-    return at;
-  };
-  const pageTop = (sel) => {
-    const el = qs(sel);
+  const endTop = (() => {
+    const el = qs("#close-end");
     return () => el.getBoundingClientRect().top + scrollY;
-  };
-  const askTop = pageTop("#ask");
-  const boardTop = pageTop("#board");
-  const founderTop = pageTop("#founder");
-  const faqTop = pageTop("#faq");
-  const closeTop = pageTop("#close");
-  const endTop = pageTop("#close-end");
-  const chipStop = qs("#chip-stop");
-  const promiseWords = atop("#promise-t", 0.84, -4);
-  const redToy = toys.toys[2];
-  // A chapter wiping in is a floor. Its edge lifts the mascot off the chapter going away,
-  // and it stands on that edge until its own spot is uncovered, so it never hangs in the air.
-  const chK = qs("#ch-kdg");
-  const chS = qs("#ch-school");
-  const kdgEdge = () => {
-    const r = chK.getBoundingClientRect();
-    const m = /inset\(([\d.]+)%/.exec(chK.style.clipPath);
-    return r.top + r.height * (m ? parseFloat(m[1]) / 100 : 0);
-  };
-  const schoolCircle = () => {
-    const r = chS.getBoundingClientRect();
-    const m = /circle\(([\d.]+)%/.exec(chS.style.clipPath);
-    return { cx: r.left + r.width * 0.7, cy: r.bottom, rad: ((m ? parseFloat(m[1]) : 145) / 100) * Math.hypot(r.width, r.height) / Math.SQRT2 };
-  };
-  const arcY = (c, x) => c.cy - Math.sqrt(Math.max(0, c.rad * c.rad - (x - c.cx) ** 2));
-  const schoolEdge = (x) => {
-    const c = schoolCircle();
-    return Math.abs(x - c.cx) < c.rad ? arcY(c, x) : Infinity;
-  };
-  const liftedBy = (edge, fn) => () => {
-    const p = fn();
-    return { x: p.x, y: Math.min(p.y, edge(p.x)) };
-  };
-  const heldBy = (edge, fn) => () => {
-    const p = fn();
-    return { x: p.x, y: Math.max(p.y, edge(p.x)) };
-  };
-  // On the circle it rides the curve, as close to its spot as the circle reaches so far.
-  const onCircle = (fn) => () => {
-    const p = fn();
-    const c = schoolCircle();
-    const x = clamp(p.x, c.cx - c.rad * 0.85, c.cx + c.rad * 0.85);
-    const y = arcY(c, x);
-    return { x, y: x === p.x ? Math.max(p.y, y) : y };
-  };
-  const kdgSpot = inView(liftedBy(schoolEdge, heldBy(kdgEdge, atop("#kd-num", 0.92, 6))));
-  const schoolSpot = inView(onCircle(phone ? atop("#sc-pic", 0.84, 0) : atop(".sc-copy .quote", 0.8, -6)));
+  })();
+  // It has two places, both the dot of an i: the word at the top and the word at the end.
+  // In between it jumps off the bottom of the screen and keeps out of the way.
   const PERCH = [
     { id: "hero", y: () => -1, at: onI, size: tittle, colour: [YELLOW, INK], line: "Scroll down. I brought receipts.", side: lineSide, mood: "", theme: "ink" },
-    { id: "full", y: () => unitY(0.35), at: () => ({ x: vw() - roam, y: vh() - 10 }), colour: [YELLOW, INK], line: "These are all live. Go and check.", side: "left", mood: "smug" },
-    { id: "hoddle", y: () => unitY(2.5), at: inView(liftedBy(kdgEdge, phone ? atop("#win-hoddle", 0.88, 2) : atop(".hd-name", 0.09, 16))), colour: [YELLOW, INK], line: "The cake. We’ll take it.", side: phone ? "left" : "right", mood: "smug" },
-    // At each wipe the incoming edge carries it up, then it hops across without a word. The line comes once the chapter is in.
-    { id: "kdg-in", y: () => unitY(3.9), at: kdgSpot, colour: [INK, YELLOW], side: "left", mood: "smug" },
-    { id: "kdg", y: () => unitY(4.4), at: kdgSpot, colour: [INK, YELLOW], line: "75 to 99. You’re welcome.", side: "left", mood: "smug" },
-    { id: "school-in", y: () => unitY(5.55), at: schoolSpot, colour: [YELLOW, INK], side: phone ? "left" : "right", mood: "" },
-    { id: "school", y: () => unitY(5.95), at: schoolSpot, colour: [YELLOW, INK], line: "Yes, that’s a real quote.", side: phone ? "left" : "right", mood: "" },
-    {
-      id: "promise",
-      y: () => promiseTl.scrollTrigger.start + vh() * 0.92,
-      at: inView(() => {
-        if (phone) {
-          return promiseWords();
-        }
-        const r = chipStop.getBoundingClientRect();
-        return { x: r.right + roam * 0.75, y: r.bottom - 4 };
-      }),
-      colour: [YELLOW, INK],
-      line: "It’s in the contract. Read it.",
-      side: phone ? "left" : "right",
-      mood: "smug",
-    },
-    { id: "how", y: () => howTl.scrollTrigger.start - vh() * 0.2, at: inView(atop(".tw-pad", 0.5, 1)), colour: [BLUE, INK], line: "Watch where your money goes.", side: "left", mood: "", theme: "ink" },
-    { id: "how50", y: () => hAt(1.08), at: inView(atop(".tw-50", 0.5, 1)), colour: [BLUE, INK], side: "left", mood: "" },
-    { id: "how30", y: () => hAt(1.93), at: inView(atop(".tw-30", 0.5, 1)), colour: [BLUE, INK], side: "left", mood: "" },
-    { id: "how20", y: () => hAt(2.76), at: inView(atop(".tw-30", 0.93, 1)), colour: [BLUE, INK], side: "left", mood: "smug" },
-    { id: "miss", y: () => hAt(3.52), at: inView(atop("#miss", 0.5, 2)), colour: [YELLOW, INK], line: "Press it. Go on.", side: "left", mood: "smug" },
-    {
-      id: "ask",
-      y: () => askTop() - vh() * 0.25,
-      at: inView(() => {
-        const r = toys.ask.getBoundingClientRect();
-        const b = redToy.body;
-        return { x: r.left + b.position.x, y: r.top + b.bounds.min.y + 2 };
-      }),
-      colour: [YELLOW, INK],
-      line: "Pick the closest one.",
-      side: "right",
-      mood: "",
-    },
-    { id: "board", y: () => boardTop() - vh() * 0.3, at: inView(atop("#board-h", phone ? 0.86 : 0.62, phone ? -4 : 6)), colour: [YELLOW, INK], line: "We list the unfinished ones too.", side: phone ? "left" : "right", mood: "" },
-    { id: "founder", y: () => founderTop() - vh() * 0.3, at: inView(atop("#founder-pic", phone ? 0.9 : 0.5, phone ? 46 : 2)), colour: [INK, YELLOW], line: "That’s Samridh. Your first call.", side: phone ? "left" : "right", mood: "" },
-    { id: "faq", y: () => faqTop() - vh() * 0.3, at: inView(atop("#faq-h", phone ? 0.9 : 0.2, 2)), colour: [YELLOW, INK], line: "Ask the awkward one.", side: phone ? "left" : "right", mood: "smug" },
-    { id: "close", y: () => closeTop() - vh() * 0.3, at: inView(atop("#close-t", phone ? 0.8 : 0.56, 4)), colour: [BLUE, INK], line: "Two minutes. I’ll wait.", side: phone ? "left" : "right", mood: "smug", theme: "ink" },
+    { id: "away", y: () => unitY(0.2), at: () => ({ x: vw() - roam, y: vh() + roam * 2 }), colour: [YELLOW, INK], side: "left", mood: "" },
     {
       id: "end",
       y: () => endTop() - vh() * 0.35,
