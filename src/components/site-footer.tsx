@@ -1,10 +1,16 @@
 import Link from "next/link";
+import { Logo } from "@/components/logo";
+import { Mark } from "@/components/wordmark";
 
 export default function SiteFooter()
 {
   return (
     <footer className="site-ft">
       <p className="site-ft-place">
+        <Link className="site-ft-logo" href="/" aria-label="Clupai home">
+          <Logo size={26} />
+          <Mark height={22} />
+        </Link>
         Melbourne, Australia · <a href="mailto:hello@clupai.com">hello@clupai.com</a>
       </p>
       <nav className="site-ft-links" aria-label="Footer">

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { Logo } from "@/components/logo";
 import { Mark } from "@/components/wordmark";
 
 const PICTURES = ["scaffold", "blocks", "desk"];
@@ -9,7 +10,8 @@ export function FunnelTop({ label, children }: { label: string; children?: React
   return (
     <header className="f-top">
       <Link className="f-logo" href="/" aria-label="Clupai home">
-        <Mark height={30} />
+        <Logo size={34} className="nav-tile" />
+        <Mark height={28} />
       </Link>
       <p className="f-count">{label}</p>
       <div className="f-acts">

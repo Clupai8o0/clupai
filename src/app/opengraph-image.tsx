@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { C, STAR } from "@/components/logo";
 
 export const runtime = "edge";
 export const alt = "Clupai. Your software live by the date we agree, or you stop paying.";
@@ -21,25 +22,13 @@ export default function Image()
           justifyContent: "space-between",
         }}
       >
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-          <div style={{ display: "flex", fontSize: 44, fontWeight: 600, letterSpacing: "-0.05em" }}>clupai</div>
-          <div
-            style={{
-              width: 112,
-              height: 112,
-              borderRadius: 56,
-              background: "#070707",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: 10,
-              paddingLeft: 16,
-              paddingBottom: 25,
-            }}
-          >
-            <div style={{ width: 10, height: 28, borderRadius: 5, background: "#ffe100", transform: "rotate(11deg)" }} />
-            <div style={{ width: 10, height: 28, borderRadius: 5, background: "#ffe100", transform: "rotate(11deg)" }} />
-          </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 26 }}>
+          <svg width="112" height="112" viewBox="0 0 100 100">
+            <rect x="2" y="2" width="96" height="96" rx="22.5" fill="#050505" />
+            <path d={C} fill="#f5f5f6" />
+            <path d={STAR} fill="#4da3ff" />
+          </svg>
+          <div style={{ display: "flex", fontSize: 64, fontWeight: 600, letterSpacing: "-0.05em" }}>clupai</div>
         </div>
         <div style={{ display: "flex", fontSize: 96, fontWeight: 600, letterSpacing: "-0.05em", lineHeight: 0.96 }}>
           Your software live by the date we agree, or you stop paying.

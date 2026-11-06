@@ -68,10 +68,8 @@ html:has(.fun) .nav {
 }
 
 .f-logo {
-  display: block;
   justify-self: start;
   color: var(--paper);
-  line-height: 0;
 }
 
 .f-count {
