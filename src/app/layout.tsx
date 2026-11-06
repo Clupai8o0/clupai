@@ -7,7 +7,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import SiteHeader from "@/components/site-header";
 import SiteFooter from "@/components/site-footer";
 import SiteMotion from "@/components/site-motion";
-import { Mark } from "@/components/wordmark";
+import { STAR } from "@/components/logo";
 
 const inter = Inter_Tight({
   subsets: ["latin"],
@@ -74,6 +74,10 @@ const MOTION_ON = `(function(){try{var d=document.documentElement;if(matchMedia(
 // Marks each picture once it has arrived, so globals.css can show a placeholder until then on a slow connection.
 // Until React has hydrated, they wait in a queue: an attribute React didn't render would be a hydration mismatch.
 // site-motion.tsx empties the queue once hydrated.
+// Runs the loader's count: creeps towards 92 while the page loads, then runs to 100 once boot.js says it's ready
+// (html.m-in). Writes a string for the count's ::after, because Safari won't redraw a CSS counter as it animates.
+const LOADER_COUNT = `(function(){var d=document.documentElement;if(!d.classList.contains("m"))return;var t0=performance.now(),v=0,a=0,s=0,shown=-1;function k(){var c=d.classList;if(c.contains("m-done")||!c.contains("m")){d.style.removeProperty("--load");return}var t=performance.now();if(c.contains("m-in")){if(!a){a=t;s=v}var y=Math.min((t-a)/280,1);v=s+(100-s)*y}else{var x=Math.min((t-t0)/9000,1);v=92*(1-Math.pow(1-x,3))}var n=Math.round(v);if(n!==shown){shown=n;d.style.setProperty("--load",'"'+n+'"')}requestAnimationFrame(k)}k()})()`;
+
 const IMG_WAIT = `(function(){var q=[];window.__imgQ=q;function m(e){var t=e.target;if(!t||t.tagName!=="IMG")return;if(window.__imgQ)window.__imgQ.push(t);else t.setAttribute("data-loaded","")}document.addEventListener("load",m,true);document.addEventListener("error",m,true)})()`;
 
 export default function RootLayout({
@@ -87,6 +91,7 @@ export default function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: STRIP_PREFILL }} />
         <script dangerouslySetInnerHTML={{ __html: MOTION_ON }} />
+        <script dangerouslySetInnerHTML={{ __html: LOADER_COUNT }} />
         <script dangerouslySetInnerHTML={{ __html: IMG_WAIT }} />
       </head>
       <body>
@@ -114,12 +119,10 @@ fbq('track','PageView');`}
         )}
         {/* First load only, and only with motion on: covers the page until boot.js has staged it. */}
         <div className="loader" aria-hidden="true">
-          <Mark height={64} className="loader-mark" />
-          <i className="loader-bar" />
-          <p className="loader-line">
-            <span>Built by a date we both sign.</span>
-            <span>Still loading the work.</span>
-          </p>
+          <svg className="loader-star" viewBox="62.47 31.94 20 20">
+            <path d={STAR} />
+          </svg>
+          <span className="loader-count" />
         </div>
         <a className="skip" href="#main">
           Skip to content
