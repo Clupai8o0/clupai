@@ -23,11 +23,10 @@ body:has(.pg.tone-navy) .nav { --nav: var(--navy); --navf: var(--paper); }
 body:has(.pg.tone-ink) .nav { --nav: var(--ink); --navf: var(--paper); }
 body:has(.pg.tone-paper) .nav { --nav: var(--paper); --navf: var(--ink); }
 body:has(.pg) .nav { background: var(--nav, var(--ink)); color: var(--navf, var(--paper)); }
-/* The "ai" in the logo: a deeper blue on light bars, and the words' colour where blue would vanish or clash. */
+/* The "ai" in the logo is always blue: the brand blue on dark and red bars, a deeper blue on light and blue ones. */
 body:has(.pg.tone-yellow) .nav,
-body:has(.pg.tone-paper) .nav { --mark-ai: var(--blue-deep); }
-body:has(.pg.tone-blue) .nav,
-body:has(.pg.tone-red) .nav { --mark-ai: currentColor; }
+body:has(.pg.tone-paper) .nav,
+body:has(.pg.tone-blue) .nav { --mark-ai: var(--blue-deep); }
 /* Here --nav is the bar and --navf the words, so the button swaps them or it disappears into the bar. */
 body:has(.pg) .nav .btn { background: var(--navf, var(--paper)); color: var(--nav, var(--ink)); }
 @media (hover: hover) {

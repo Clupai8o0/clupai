@@ -15,14 +15,11 @@ const vh = () => innerHeight;
 const widthOf = (word) => [...word].reduce((sum, ch) => sum + GLYPHS[ch].w, 0);
 const grabbing = (on) => document.documentElement.classList.toggle("is-grabbing", on);
 
-// The logo's "ai" on a bar of colour bg (#rrggbb): blue on dark, a deeper blue on light, plain on red where blue clashes.
+// The logo's "ai" on a bar of colour bg (#rrggbb): always blue, the brand blue on dark and red, a deeper blue on light.
 function markAi(bg)
 {
   const n = parseInt(bg.slice(1), 16);
   const [r, g, b] = [n >> 16, (n >> 8) & 255, n & 255];
-  if (r > 150 && g < 80 && b < 80) {
-    return "currentColor";
-  }
   return 0.2126 * r + 0.7152 * g + 0.0722 * b > 140 ? "var(--blue-deep)" : "var(--blue)";
 }
 
