@@ -106,7 +106,7 @@ export const products: Product[] = [
   },
   {
     slug: "flowerpress",
-    tone: "tone-red",
+    tone: "tone-green",
     name: "Flowerpress",
     line: "A free journal for Android. It opens on a blank page, and every note you finish grows into a plant in your garden.",
     status: "released",

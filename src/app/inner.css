@@ -7,6 +7,7 @@
 .tone-yellow { --c: var(--yellow); --f: var(--ink); --hi: var(--red); }
 .tone-red { --c: var(--red); --f: #fff; --hi: var(--yellow); }
 .tone-navy { --c: var(--navy); --f: var(--paper); --hi: var(--yellow); }
+.tone-green { --c: var(--green); --f: var(--paper); --hi: var(--yellow); }
 
 [class*="tone-"] {
   --btn-bg: var(--f);
@@ -20,6 +21,7 @@ body:has(.pg.tone-blue) .nav { --nav: var(--blue); --navf: var(--ink); }
 body:has(.pg.tone-yellow) .nav { --nav: var(--yellow); --navf: var(--ink); }
 body:has(.pg.tone-red) .nav { --nav: var(--red); --navf: #fff; }
 body:has(.pg.tone-navy) .nav { --nav: var(--navy); --navf: var(--paper); }
+body:has(.pg.tone-green) .nav { --nav: var(--green); --navf: var(--paper); }
 body:has(.pg.tone-ink) .nav { --nav: var(--ink); --navf: var(--paper); }
 body:has(.pg.tone-paper) .nav { --nav: var(--paper); --navf: var(--ink); }
 body:has(.pg) .nav { background: var(--nav, var(--ink)); color: var(--navf, var(--paper)); }

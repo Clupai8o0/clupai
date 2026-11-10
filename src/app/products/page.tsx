@@ -33,6 +33,7 @@ const CURTAIN: Record<string, string> = {
   "tone-yellow": "#ffe100",
   "tone-paper": "#f3f1ec",
   "tone-navy": "#06183a",
+  "tone-green": "#3f6b3e",
   "tone-ink": "#070707",
 };
 
