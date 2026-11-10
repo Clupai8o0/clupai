@@ -151,7 +151,7 @@ function buildStage(scope, dot, phone)
   place();
 
   // The letters rise into place one by one, solid, with no stretch and no bounce.
-  gsap.from(letterEls, { y: 70, opacity: 0, duration: 0.8, delay: 0.2, stagger: 0.06, ease: "power4.out" });
+  gsap.from(letterEls, { y: 70, opacity: 0, duration: 0.8, delay: 0.2 + (scope.lead || 0), stagger: 0.06, ease: "power4.out" });
 
   // The mascot stands on the i, wherever the word has grown to.
   const I = W.letters[5];
@@ -210,7 +210,7 @@ function buildStage(scope, dot, phone)
   };
   showFill(0);
   // The label comes in once the letters have opened. Its children, so the scroll timeline keeps the label itself.
-  gsap.from(now.children, { autoAlpha: 0, y: 12, duration: 0.6, stagger: 0.06, delay: 0.75, ease: "power3.out" });
+  gsap.from(now.children, { autoAlpha: 0, y: 12, duration: 0.6, stagger: 0.06, delay: 0.75 + (scope.lead || 0), ease: "power3.out" });
   // A slow change, not a flicker. Once you scroll it holds on the first app, which is the chapter coming up.
   let cutLock = false;
   gsap.to({}, {

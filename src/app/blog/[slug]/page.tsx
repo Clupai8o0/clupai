@@ -74,7 +74,7 @@ function renderBlock(block: PostBlock, index: number): ReactNode
       );
     case "image":
       return (
-        <figure key={index} className="post-body-fig" data-rise>
+        <figure key={index} className="post-body-fig" data-reveal>
           <Image
             src={block.src}
             alt={block.alt}
@@ -145,7 +145,7 @@ export default async function BlogPostPage({ params }: Props)
         </h1>
         <p className="g-state">{post.line}</p>
         {post.cover ? (
-          <figure className="post-cover" data-rise>
+          <figure className="post-cover" data-reveal>
             <Image
               src={post.cover.src}
               alt={post.cover.alt}

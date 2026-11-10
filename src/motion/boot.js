@@ -72,17 +72,27 @@ function makeScope()
   return scope;
 }
 
+// Columns of colour. Between pages they rise from the bottom one after another, then peel off the top the same way.
+const BAND = { in: 0.5, out: 0.75, gap: 0.04, ease: "power4.inOut" };
+
 function makeCurtain()
 {
   const el = document.createElement("div");
   el.id = "curtain";
   el.setAttribute("aria-hidden", "true");
+  const bands = Array.from({ length: 5 }, () => {
+    const b = document.createElement("div");
+    b.className = "cb";
+    el.appendChild(b);
+    return b;
+  });
   // The first-load loader's star. It turns on the curtain when the next page is slow to arrive.
   const star = document.querySelector(".loader-star");
   if (star) {
     el.appendChild(star.cloneNode(true));
   }
   document.body.appendChild(el);
+  gsap.set(bands, { yPercent: 100 });
   let safety = null;
   // One tween at a time. Killing it also drops its onComplete, so a cancelled link never navigates late.
   let anim = null;
@@ -90,6 +100,8 @@ function makeCurtain()
   let up = false;
   // A link is waiting for the cover to finish before it navigates.
   let leaving = false;
+  // The columns in use: three on a phone, five wider than that.
+  let live = bands;
 
   function stop()
   {
@@ -110,11 +122,33 @@ function makeCurtain()
 
   function cover(colour)
   {
+    // Columns already part way across stay where they are, so a quick second change never jumps.
+    const settled = !up && !anim;
     stop();
     up = true;
     el.classList.remove("is-slow");
-    el.style.background = colour;
+    el.style.pointerEvents = "";
+    const n = innerWidth < 720 ? 3 : 5;
+    live = bands.slice(0, n);
+    bands.forEach((b, i) => {
+      b.style.display = i < n ? "" : "none";
+      b.style.left = `${(i * 100) / n}%`;
+      // A pixel over, so no seam of the page shows between two columns.
+      b.style.width = `calc(${100 / n}% + 1px)`;
+      b.style.background = colour;
+    });
+    if (settled) {
+      gsap.set(live, { yPercent: 100 });
+    }
+    gsap.set(el, { autoAlpha: 1 });
     guard();
+  }
+
+  // The columns rise from the bottom, left to right.
+  function rise(onComplete)
+  {
+    el.style.clipPath = "none";
+    return gsap.to(live, { yPercent: 0, duration: BAND.in, ease: BAND.ease, stagger: BAND.gap, onComplete });
   }
 
   function go(done)
@@ -133,11 +167,12 @@ function makeCurtain()
 
   const curtain = {
     leaving: () => leaving,
+    isUp: () => up,
     // Grows from a rectangle to the whole screen, then calls done.
     over(rect, colour, done)
     {
       cover(colour);
-      gsap.set(el, { autoAlpha: 1 });
+      gsap.set(live, { yPercent: 0 });
       const c = { t: rect.top, r: innerWidth - rect.right, b: innerHeight - rect.bottom, l: rect.left };
       const paint = () => {
         el.style.clipPath = `inset(${c.t}px ${c.r}px ${c.b}px ${c.l}px)`;
@@ -145,12 +180,11 @@ function makeCurtain()
       paint();
       anim = gsap.to(c, { t: 0, r: 0, b: 0, l: 0, duration: 0.72, ease: "expo.inOut", onUpdate: paint, onComplete: go(done) });
     },
-    // Any other link: the page fades to the page colour, then done. The next page fades in once it's staged.
+    // Any other link: the columns rise over the page, then done. They peel off once the next page is staged.
     fade(colour, done)
     {
       cover(colour);
-      el.style.clipPath = "none";
-      anim = gsap.to(el, { autoAlpha: 1, duration: 0.22, ease: "power2.out", onComplete: go(done) });
+      anim = rise(go(done));
     },
     // A page that is taking a while (a back or forward, a slow connection): cover it and turn the star.
     // A cover that is already coming up, and the link waiting on it, are left alone.
@@ -158,8 +192,7 @@ function makeCurtain()
     {
       if (!up) {
         cover(colour);
-        el.style.clipPath = "none";
-        anim = gsap.to(el, { autoAlpha: 1, duration: 0.2, ease: "power2.out" });
+        anim = rise();
       }
       el.classList.add("is-slow");
       guard();
@@ -176,13 +209,19 @@ function makeCurtain()
       stop();
       up = false;
       leaving = false;
-      anim = gsap.to(el, {
-        autoAlpha: 0,
-        duration: 0.36,
-        ease: "power2.out",
+      // The page underneath is live again as soon as the columns start to go.
+      el.style.pointerEvents = "none";
+      el.classList.remove("is-slow");
+      anim = gsap.to(live, {
+        yPercent: -100,
+        duration: BAND.out,
+        ease: BAND.ease,
+        stagger: BAND.gap,
         onComplete: () => {
           anim = null;
-          el.classList.remove("is-slow");
+          gsap.set(el, { autoAlpha: 0 });
+          gsap.set(bands, { yPercent: 100 });
+          el.style.clipPath = "none";
         },
       });
     },
@@ -190,10 +229,10 @@ function makeCurtain()
   return curtain;
 }
 
-// Paper, like the first-load loader, for a curtain that should read as the page and not as a colour.
+// Ink, the darkest colour on the site, for the columns between pages.
 function pageColour()
 {
-  return getComputedStyle(document.documentElement).getPropertyValue("--paper").trim() || "#f3f1ec";
+  return getComputedStyle(document.documentElement).getPropertyValue("--ink").trim() || "#070707";
 }
 
 // A link that goes to another page of this site, in this tab, through the router.
@@ -330,7 +369,7 @@ function createCore()
       });
       return;
     }
-    // Any other page here fades out first, so the next one never cuts in half-built.
+    // Any other page here is covered first, so the next one never cuts in half-built.
     if (isPageLink(a)) {
       e.preventDefault();
       e.stopPropagation();
@@ -419,6 +458,8 @@ export function boot(pathname)
     }
     const mine = makeScope();
     scope = mine;
+    // Arriving under the columns: the intro waits until they start to clear, so it's seen and not wasted under them.
+    mine.lead = core.curtain.isUp() ? 0.3 : 0;
     core.dot.park(core.rest);
     core.dot.hide(!SHIFTER || pathname !== "/");
     // The film grain on soft pictures only moves while you can see it, so it isn't repainting all page long.

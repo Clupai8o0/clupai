@@ -54,7 +54,7 @@ html.lenis body {
 }
 
 /* Until motion is ready, what it's going to reveal stays hidden. Only under html.m, so a plain page never hides a word. */
-html.m main:not([data-ready]) :is(.pre, [data-squash], [data-squash] ~ *, [data-letters], [data-rise]) {
+html.m main:not([data-ready]) :is(.pre, :has(> [data-squash]) > *, [data-letters], [data-rise], [data-reveal]) {
   visibility: hidden;
 }
 
@@ -963,18 +963,28 @@ html.m .nav[data-over="true"] .nav-link {
   }
 }
 
-/* The curtain: a button grows into the next page. Under the mascot, so it can ride along. */
+/* The curtain: columns that rise between pages, or a button that grows into the next page.
+   Under the mascot, so it can ride along. */
 #curtain {
   position: fixed;
   z-index: 90;
   inset: 0;
   visibility: hidden;
   opacity: 0;
+  overflow: hidden;
   /* While it's up, a click can't reach the page under it. Hidden, it takes no clicks at all. */
+
+  & .cb {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    will-change: transform;
+  }
 
   /* The first load's star, cloned in by boot.js. Shows only when the next page is slow. */
   & .loader-star {
     position: absolute;
+    z-index: 1;
     inset: 0;
     width: clamp(56px, 7vw, 88px);
     margin: auto;

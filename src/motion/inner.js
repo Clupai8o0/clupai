@@ -22,30 +22,73 @@ function initLetters(scope)
   });
 }
 
-// A page's big heading: its letters rise into place and settle, with no bounce and no change of shape, and
-// whatever follows it in the same block comes up just after, so the head arrives as one piece.
-// CSS hides all of it until motion is ready, so the text is never shown and then snatched away. data-squash
+// A picture, a film or a data-reveal block. In a page's head it's uncovered, not faded.
+const isMedia = (el) => el.matches("[data-reveal], figure, picture, img, video");
+
+// Sits in a heading's head, so that head's entrance runs it.
+const inHead = (el) => Boolean(el.parentElement && el.parentElement.querySelector(":scope > [data-squash]"));
+
+// A picture is uncovered from the bottom up while the image inside settles from a slight zoom.
+// Adds both to tl at the given time.
+function uncover(tl, el, at)
+{
+  tl.set(el, { autoAlpha: 1 }, at);
+  tl.fromTo(el, { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 1.4, ease: "power4.inOut" }, at);
+  const pic = el.querySelector("img, video");
+  if (pic) {
+    tl.fromTo(pic, { scale: 1.18, yPercent: 6 }, { scale: 1, yPercent: 0, duration: 1.9, ease: "expo.out" }, at);
+  }
+}
+
+// A page's big heading and the head it sits in, as one staged entrance:
+//   1. whatever sits above the heading (a date, a label) lifts in,
+//   2. the heading's letters rise out of their masks, one after another,
+//   3. the lines under it lift in, one after another,
+//   4. a picture is uncovered from the bottom up.
+// CSS hides the whole head until motion is ready, so nothing is shown and then snatched away. data-squash
 function initSquash(scope)
 {
+  const lead = scope.lead || 0;
   qa("[data-squash]").forEach((el) => {
     const lc = letterDrop(scope, el);
-    const rest = [];
-    for (let n = el.nextElementSibling; n; n = n.nextElementSibling) {
-      rest.push(n);
-    }
+    const kids = el.parentElement ? [...el.parentElement.children] : [el];
+    const at = kids.indexOf(el);
+    const above = kids.slice(0, at);
+    const below = kids.slice(at + 1).filter((n) => !isMedia(n));
+    const media = kids.slice(at + 1).filter(isMedia);
     const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: "top 90%", once: true } });
-    tl.fromTo(lc, { y: "0.32em", opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "expo.out", stagger: 0.018 });
-    if (rest.length) {
-      tl.fromTo(rest, { y: 18, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.9, ease: "expo.out", stagger: 0.08 }, 0.25);
+    if (above.length) {
+      tl.fromTo(above, { y: 16, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 1, ease: "expo.out", stagger: 0.08 }, lead);
     }
+    // A long heading keeps the same pace: the wave across all its letters never takes longer than 0.6 s.
+    const each = Math.min(0.016, 0.6 / Math.max(1, lc.length));
+    tl.fromTo(lc, { yPercent: 115 }, { yPercent: 0, duration: 1.15, ease: "expo.out", stagger: each }, lead + 0.08);
+    if (below.length) {
+      tl.fromTo(below, { y: 28, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 1.2, ease: "expo.out", stagger: 0.1 }, lead + 0.4);
+    }
+    media.forEach((m, i) => uncover(tl, m, lead + 0.5 + i * 0.12));
   });
 }
 
-// data-rise: comes up and fades in. data-rise="0.2" delays it.
+// data-rise: comes up and fades in. data-rise="0.2" delays it. In a heading's head, the head runs it.
 function initRise()
 {
   qa("[data-rise]").forEach((el) => {
+    if (inHead(el)) {
+      return;
+    }
     gsap.from(el, { y: 30, autoAlpha: 0, duration: 1, delay: Number(el.dataset.rise) || 0, ease: "expo.out", scrollTrigger: { trigger: el, start: "top 88%", once: true } });
+  });
+}
+
+// data-reveal: a picture uncovered from the bottom up as it comes into view. In a heading's head, the head runs it.
+function initReveal()
+{
+  qa("[data-reveal]").forEach((el) => {
+    if (inHead(el)) {
+      return;
+    }
+    uncover(gsap.timeline({ scrollTrigger: { trigger: el, start: "top 85%", once: true } }), el, 0);
   });
 }
 
@@ -118,6 +161,7 @@ export function init(scope)
   initLetters(scope);
   initSquash(scope);
   initRise();
+  initReveal();
   initParallax();
   initWipes(scope);
   initFall();
