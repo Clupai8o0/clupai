@@ -48,7 +48,7 @@ export default async function CasePage({ params }: Props)
   const tone = caseTone(item.slug);
 
   return (
-    <div className={`pg ${tone} case${item.status === "In the works" && !item.clear ? " is-wip" : ""}`}>
+    <div className={`pg ${tone} case${item.status === "In the works" && !item.clear ? " is-wip" : ""}${item.clear ? " is-clear" : ""}`}>
       <header className="case-head">
         <h1 className="fit-name" style={{ "--len": item.name.length } as React.CSSProperties} data-squash>
           {item.name}

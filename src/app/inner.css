@@ -272,3 +272,6 @@ body:has(.pg) .nav .btn { background: var(--navf, var(--paper)); color: var(--na
 /* A product still being built: the case shows no sharp screens. */
 .is-wip .case-fig img, .is-wip .cg-item img, .is-wip video, .wip-next img { filter: blur(14px) saturate(0.8); transform: scale(1.14); }
 .is-wip .cg-lightbox img { filter: blur(14px) saturate(0.8); }
+/* Charts and diagrams: show the whole picture, never crop it. */
+.is-clear .case-fig, .is-clear .cg-item { background: #f3f1ec; }
+.is-clear .case-fig img, .is-clear .cg-item img { object-fit: contain; object-position: center; }
