@@ -277,7 +277,7 @@ export const posts: Post[] = [
         type: "image",
         src: "/products/cstack/cost.webp",
         alt: "Bar chart of cost per task: US$0.33 at low effort, US$0.42 at medium, US$0.53 at high and US$0.90 at the highest.",
-        caption: "Same model, four effort settings. Every setting fixed every planted bug.",
+        caption: "Same model, four effort settings. Low effort still got 96 to 100% of the answers right.",
       },
       {
         type: "p",

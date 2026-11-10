@@ -590,8 +590,8 @@ export const cases: CaseStudy[] = [
       role: "India",
     },
     media: [
-      { src: "/work/krishnaveni/mobile.webp", type: "image", label: "On a phone" },
       { src: "/work/krishnaveni/early-te-news.webp", type: "image", label: "The 2025 version, in three languages" },
+      { src: "/work/krishnaveni/mobile.webp", type: "image", label: "On a phone" },
       { src: "/work/krishnaveni/contact.webp", type: "image", label: "Contact page" },
     ],
     stack: "Next.js, Sanity",
