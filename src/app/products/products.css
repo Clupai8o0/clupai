@@ -62,7 +62,8 @@ html.m .how-m { display: inline; }
   .col { flex: 1 1 50%; }
   .bay { height: 262px; }
   .bx { width: calc(var(--bw) * 100%); height: var(--hp); padding: 9px 10px 10px; }
-  .col:only-child .bx, .col:last-child:nth-child(odd) .bx { width: calc(var(--bw) * 50%); }
+  /* An odd box out keeps a half-width spot, so it doesn't stretch along a whole shelf. */
+  .col:last-child:nth-child(odd) { flex-grow: 0; }
   .tk { padding: 8px 6% 0; margin-bottom: 16px; font-size: 13px; }
   .tk b { font-size: 15px; }
   .tape { height: 26px; line-height: 26px; font-size: 11px; }
