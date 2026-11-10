@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter_Tight } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
@@ -16,6 +16,11 @@ const inter = Inter_Tight({
   variable: "--font-inter",
   display: "swap",
 });
+
+// The browser bar takes the brand blue, not whatever colour the page happens to start with.
+export const viewport: Viewport = {
+  themeColor: "#4da3ff",
+};
 
 const DESCRIPTION =
   "clupai is a development agency in Melbourne. We build first versions of apps and platforms for founders, with a fixed price and a launch date in the contract.";
