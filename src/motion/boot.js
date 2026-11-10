@@ -84,6 +84,20 @@ function makeCurtain()
   }
   document.body.appendChild(el);
   let safety = null;
+  // One tween at a time. Killing it also drops its onComplete, so a cancelled link never navigates late.
+  let anim = null;
+  // Covering, or on its way to covering.
+  let up = false;
+  // A link is waiting for the cover to finish before it navigates.
+  let leaving = false;
+
+  function stop()
+  {
+    if (anim) {
+      anim.kill();
+      anim = null;
+    }
+  }
 
   // If the next page never arrives, don't leave the screen covered. boot gives up on a page sooner than this.
   function guard()
@@ -94,38 +108,54 @@ function makeCurtain()
     safety = gsap.delayedCall(9, () => curtain.out());
   }
 
+  function cover(colour)
+  {
+    stop();
+    up = true;
+    el.classList.remove("is-slow");
+    el.style.background = colour;
+    guard();
+  }
+
+  function go(done)
+  {
+    leaving = true;
+    return () => {
+      leaving = false;
+      anim = null;
+      done();
+    };
+  }
+
   const curtain = {
+    leaving: () => leaving,
     // Grows from a rectangle to the whole screen, then calls done.
     over(rect, colour, done)
     {
-      gsap.killTweensOf(el);
-      el.style.background = colour;
+      cover(colour);
       gsap.set(el, { autoAlpha: 1 });
       const c = { t: rect.top, r: innerWidth - rect.right, b: innerHeight - rect.bottom, l: rect.left };
       const paint = () => {
         el.style.clipPath = `inset(${c.t}px ${c.r}px ${c.b}px ${c.l}px)`;
       };
       paint();
-      gsap.to(c, { t: 0, r: 0, b: 0, l: 0, duration: 0.72, ease: "expo.inOut", onUpdate: paint, onComplete: done });
-      guard();
+      anim = gsap.to(c, { t: 0, r: 0, b: 0, l: 0, duration: 0.72, ease: "expo.inOut", onUpdate: paint, onComplete: go(done) });
     },
     // Any other link: the page fades to the page colour, then done. The next page fades in once it's staged.
     fade(colour, done)
     {
-      gsap.killTweensOf(el);
-      el.style.background = colour;
+      cover(colour);
       el.style.clipPath = "none";
-      gsap.to(el, { autoAlpha: 1, duration: 0.22, ease: "power2.out", onComplete: done });
-      guard();
+      anim = gsap.to(el, { autoAlpha: 1, duration: 0.22, ease: "power2.out", onComplete: go(done) });
     },
     // A page that is taking a while (a back or forward, a slow connection): cover it and turn the star.
+    // A cover that is already coming up, and the link waiting on it, are left alone.
     wait(colour)
     {
-      if (gsap.getProperty(el, "autoAlpha") < 1 || gsap.isTweening(el)) {
-        gsap.killTweensOf(el);
-        el.style.background = colour;
+      if (!up) {
+        cover(colour);
         el.style.clipPath = "none";
-        gsap.to(el, { autoAlpha: 1, duration: 0.2, ease: "power2.out" });
+        anim = gsap.to(el, { autoAlpha: 1, duration: 0.2, ease: "power2.out" });
       }
       el.classList.add("is-slow");
       guard();
@@ -136,14 +166,21 @@ function makeCurtain()
         safety.kill();
         safety = null;
       }
-      if (gsap.getProperty(el, "autoAlpha") > 0) {
-        gsap.to(el, {
-          autoAlpha: 0,
-          duration: 0.36,
-          ease: "power2.out",
-          onComplete: () => el.classList.remove("is-slow"),
-        });
+      if (!up) {
+        return;
       }
+      stop();
+      up = false;
+      leaving = false;
+      anim = gsap.to(el, {
+        autoAlpha: 0,
+        duration: 0.36,
+        ease: "power2.out",
+        onComplete: () => {
+          anim = null;
+          el.classList.remove("is-slow");
+        },
+      });
     },
   };
   return curtain;
@@ -259,6 +296,12 @@ function createCore()
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button) {
       return;
     }
+    // A link is already on its way out: one page at a time.
+    if (curtain.leaving()) {
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
     // Same-page anchors go through smooth scroll, which knows about the pinned sections.
     const href = a.getAttribute("href") || "";
     const hash = href.startsWith("#") ? href : href.startsWith("/#") && location.pathname === "/" ? href.slice(1) : null;
@@ -349,7 +392,7 @@ export function boot(pathname)
   // (globals.css). Slow to stage: the curtain covers it and turns the star. Never staged: the plain page shows.
   const later = document.documentElement.classList.contains("m-in");
   const slowCall = later ? setTimeout(() => {
-    if (!stopped && !staged()) {
+    if (!stopped && !staged() && document.documentElement.classList.contains("m")) {
       core.curtain.wait(pageColour());
     }
   }, 400) : null;
@@ -410,6 +453,7 @@ export function boot(pathname)
   {
     end();
     core.dot.hide(true);
+    clearTimeout(slowCall);
     document.documentElement.classList.remove("m");
     core.curtain.out();
   }
