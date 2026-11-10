@@ -55,13 +55,25 @@ export const products: Product[] = [
     image: { src: "/products/cstack/cover.webp", alt: "The cstack README." },
   },
   {
+    slug: "nomnom",
+    tone: "tone-yellow",
+    name: "nomnom",
+    line: "A calorie tracker you fill in by sending Claude a photo of your meal.",
+    status: "released",
+    badge: "Built for us, sign-up off",
+    since: "Live since Aug 2026",
+    link: { href: "https://nomnom.clupai.com", label: "See nomnom" },
+    caseSlug: "nomnom",
+    image: { src: "/work/nomnom/hero.webp", alt: "nomnom’s Today page." },
+  },
+  {
     slug: "kairos",
     tone: "tone-navy",
     name: "Kairos",
-    line: "Paste your notes and it books the tasks into your calendar.",
+    line: "Books your tasks into the next two weeks and learns how long they really take.",
     status: "in-work",
     badge: "Rebuilding now",
-    since: "Started Apr 2026, rebuilt from Oct 2026",
+    since: "Started Mar 2026, rebuilt from Oct 2026",
     caseSlug: "kairos",
     image: { src: "/products/kairos/week.webp", alt: "Kairos’s week view." },
   },
@@ -74,17 +86,19 @@ export const products: Product[] = [
     badge: "Waitlist open",
     since: "Started Aug 2026",
     link: { href: "https://morgue.clupai.com", label: "Join the waitlist" },
+    caseSlug: "morgue",
     image: { src: "/products/morgue/desktop.webp", alt: "The morgue home page." },
   },
   {
     slug: "glow-up",
     tone: "tone-yellow",
     name: "Glow Up",
-    line: "A co-op health game. A household logs meals and habits by chat and levels up together.",
+    line: "A health game for a household. You log meals, weight and workouts by chatting with Claude or ChatGPT.",
     status: "in-work",
     badge: "Private for now",
-    since: "Started Nov 2026, no public screens yet",
-    poster: "Level up as a household.",
+    since: "Started Nov 2026",
+    caseSlug: "glow-up",
+    image: { src: "/work/glow-up/hero.webp", alt: "Glow Up’s Today screen, in a design preview." },
   },
   {
     slug: "yap",
@@ -95,6 +109,17 @@ export const products: Product[] = [
     badge: "Working name",
     since: "Started Nov 2026, no public screens yet",
     poster: "Write, and a garden grows.",
+  },
+  {
+    slug: "visatrack",
+    tone: "tone-blue",
+    name: "VisaTrack",
+    line: "A work-hours tracker for international students in Australia, with one answer: how many more hours you can work.",
+    status: "in-work",
+    badge: "Not released",
+    since: "Built Jul 2026, waiting on a legal review",
+    caseSlug: "visatrack",
+    image: { src: "/work/visatrack/dashboard.webp", alt: "VisaTrack’s Today card." },
   },
   {
     slug: "govchat",
@@ -109,7 +134,7 @@ export const products: Product[] = [
   },
 ];
 
-/** Products with a page of their own. Glow Up and Yap have nothing public to show yet. */
+/** Products with a page of their own. Yap has nothing public to show yet. */
 export const withPage = products.filter((p) => !p.poster);
 
 export function productBySlug(slug: string): Product | undefined

@@ -23,11 +23,12 @@ const ANSWERS = [
 const BOARD = [
   { name: "Hoddle Melbourne", what: "A mentoring platform for international students", part: "Co-founder and CTO", when: "Apr 2026", status: "Live", img: "/work/hoddle/new/home.webp", href: "/work/hoddle-melbourne" },
   { name: "King Double Glazing", what: "A brand, a site and an instant price tool", part: "Built for a client", when: "2026", status: "Live", img: "/work/kdg/new/hero.webp", href: "/work/king-double-glazing" },
-  { name: "Krishnaveni School", what: "A school website its staff run themselves", part: "Built for a client", when: "2026", status: "Live", img: "/work/krishnaveni/homepage.webp", href: "/work/krishnaveni-school" },
+  { name: "Krishnaveni School", what: "A school website its staff run themselves", part: "Built for a client", when: "2026", status: "Live", img: "/work/krishnaveni/homepage-blurred.webp", href: "/work/krishnaveni-school" },
   { name: "Tempo", what: "Log your workouts and see your progress", part: "Our own product", when: "Aug 2026", status: "Released", img: "/products/tempo/dashboard.webp", href: "/work/tempo" },
+  { name: "nomnom", what: "Log a meal by sending Claude a photo", part: "Our own product", when: "Aug 2026", status: "Released", img: "/work/nomnom/hero.webp", href: "/work/nomnom" },
   { name: "cstack", what: "Keeps AI coding tools from clashing", part: "Our own product", when: "Sep 2026", status: "Released", img: "/products/cstack/cover.webp", href: "/work/cstack" },
   { name: "Acknowledgement Force", what: "Blocks your Mac until you read your own rules", part: "Our own product", when: "May 2026", status: "Released", img: "/products/force/preview.webp", href: "/work/acknowledgement-force" },
-  { name: "Kairos", what: "Paste your notes and it books your tasks", part: "Our own product", when: "Rebuilding", status: "In the works", img: "/products/kairos/week.webp", href: "/work/kairos" },
+  { name: "Kairos", what: "Books your tasks and learns how long they take", part: "Our own product", when: "Rebuilding", status: "In the works", img: "/products/kairos/week.webp", href: "/work/kairos" },
   { name: "morgue", what: "Web animations your AI tools can rebuild", part: "Our own product", when: "Waitlist", status: "In the works", img: "/products/morgue/desktop.webp", href: "/products/morgue" },
   { name: "GovChat", what: "Find Australian government data in plain English", part: "Our own product", when: "Demo offline", status: "In the works", img: "/products/govchat/trust.webp", href: "/work/govchat" },
 ];
@@ -158,7 +159,7 @@ export default function HomePage()
 
         <div className="ch ch-school pre" id="ch-school">
           <div className="sc-pic" id="sc-pic">
-            <Image src="/work/krishnaveni/homepage.webp" alt="The Krishnaveni School home page." fill sizes="(max-width: 720px) 100vw, 58vw" />
+            <Image src="/work/krishnaveni/homepage-blurred.webp" alt="The Krishnaveni School home page." fill sizes="(max-width: 720px) 100vw, 58vw" />
           </div>
           <h2 className="ch-name sc-name">Krishnaveni School</h2>
           <div className="sc-copy">

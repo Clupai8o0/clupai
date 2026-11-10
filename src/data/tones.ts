@@ -10,6 +10,10 @@ const CASE_TONES: Record<string, string> = {
   kairos: "tone-navy",
   tapcraft: "tone-yellow",
   nmmun: "tone-blue",
+  nomnom: "tone-blue",
+  "glow-up": "tone-yellow",
+  morgue: "tone-ink",
+  visatrack: "tone-red",
 };
 
 export function caseTone(slug: string): string

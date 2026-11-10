@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { cases } from "@/data/cases";
+import { posts } from "@/data/posts";
 import { withPage } from "@/data/products";
 
 const BASE_URL = "https://clupai.com";
@@ -10,6 +11,7 @@ const PAGES: { path: string; priority: number }[] = [
   { path: "/work", priority: 0.8 },
   { path: "/products", priority: 0.8 },
   { path: "/how-it-works", priority: 0.8 },
+  { path: "/blog", priority: 0.6 },
   { path: "/about", priority: 0.7 },
   { path: "/contact", priority: 0.5 },
   { path: "/privacy", priority: 0.2 },
@@ -23,5 +25,10 @@ export default function sitemap(): MetadataRoute.Sitemap
     ...PAGES.map(({ path, priority }) => ({ url: `${BASE_URL}${path}`, lastModified, priority })),
     ...cases.map((c) => ({ url: `${BASE_URL}/work/${c.slug}`, lastModified, priority: 0.7 })),
     ...withPage.map((p) => ({ url: `${BASE_URL}/products/${p.slug}`, lastModified, priority: 0.6 })),
+    ...posts.map((p) => ({
+      url: `${BASE_URL}/blog/${p.slug}`,
+      lastModified: new Date(p.date),
+      priority: 0.5,
+    })),
   ];
 }

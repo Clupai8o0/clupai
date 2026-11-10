@@ -48,6 +48,7 @@ export const cases: CaseStudy[] = [
       { k: "Took", v: "Six weeks, one developer" },
       { k: "Result", v: "Live, and 2nd at Study Melbourne Leadership 4Impact" },
       { k: "Our part", v: "Co-founder and CTO, so this one is our own venture" },
+      { k: "Now", v: "hoddle.org runs the April build. Our October rebuild is finished and not live yet" },
     ],
     problem: [
       "First-year international students land in Melbourne without the networks local students grow up with. Marking, housing, part-time work and visa paperwork all get learned the hard way.",
@@ -79,8 +80,9 @@ export const cases: CaseStudy[] = [
     },
     media: [
       { src: "/work/hoddle/loop.mp4", type: "video", label: "Signing up as a student", poster: "/work/hoddle/poster.jpg" },
-      { src: "/work/hoddle/new/phone-home.webp", type: "image", label: "On a phone" },
-      { src: "/work/hoddle/new/matching.webp", type: "image", label: "Mentors picked for a student" },
+      { src: "/work/hoddle/new/matching.webp", type: "image", label: "Mentors picked for a student, in the October rebuild" },
+      { src: "/work/hoddle/new/phone-home.webp", type: "image", label: "On a phone, in the October rebuild" },
+      { src: "/work/hoddle/new/forum-thread.webp", type: "image", label: "Two mentors answer a forum question, in the October rebuild" },
     ],
     stack: "Next.js, Supabase, Tailwind",
   },
@@ -101,7 +103,7 @@ export const cases: CaseStudy[] = [
     clip: { src: "/work/kdg/loop.mp4", poster: "/work/kdg/poster.jpg" },
     facts: [
       { k: "Took", v: "Five weeks" },
-      { k: "Speed", v: "Google’s desktop score went from 75 to 99" },
+      { k: "Speed", v: "Google’s speed test: 99 on desktop, 95 on a phone (Oct 2026)" },
       { k: "Our part", v: "Brand, site, price tool and quote emails" },
     ],
     problem: [
@@ -111,11 +113,11 @@ export const cases: CaseStudy[] = [
     built: [
       {
         title: "A price before a phone call",
-        body: "Customers enter their window sizes and see a price range before giving any contact details. People who get in touch already know the number.",
+        body: "Customers pick a glass, enter their window sizes and see one price before giving any contact details. People who get in touch already know the number.",
       },
       {
-        title: "Quotes confirmed by email",
-        body: "A customer has to click a link in an email before the lead reaches the owner. Junk enquiries stop there.",
+        title: "The owner checks every quote",
+        body: "A sent quote waits for the owner, who confirms it with one click. Only then is it emailed to the customer. The server also works the price out again, so an edited page can’t send in a cheaper one.",
       },
       {
         title: "Five pages, one job",
@@ -123,7 +125,7 @@ export const cases: CaseStudy[] = [
       },
       {
         title: "Editable without us",
-        body: "The owner changes pages in a visual editor and doesn’t need a developer to do it.",
+        body: "The owner changes pages and prices in a visual editor and doesn’t need a developer to do it.",
       },
     ],
     testimonial: {
@@ -136,6 +138,7 @@ export const cases: CaseStudy[] = [
       { src: "/work/kdg/loop.mp4", type: "video", label: "Getting a price", poster: "/work/kdg/poster.jpg" },
       { src: "/work/kdg/new/hero.webp", type: "image", label: "Home page" },
       { src: "/work/kdg/new/estimate-windows-mobile.webp", type: "image", label: "The price tool on a phone" },
+      { src: "/work/kdg/new/estimate-quote.webp", type: "image", label: "The quote a customer sees, prices blurred" },
       { src: "/work/kdg/gallery.webp", type: "image", label: "Gallery" },
     ],
     stack: "Next.js, TinaCMS, Postgres, Resend",
@@ -155,7 +158,7 @@ export const cases: CaseStudy[] = [
     },
     facts: [
       { k: "Live since", v: "August 2026" },
-      { k: "Library", v: "800+ exercises" },
+      { k: "Library", v: "873 exercises, from an open dataset" },
       { k: "Checks", v: "353 automated tests on the API" },
     ],
     problem: [
@@ -168,7 +171,7 @@ export const cases: CaseStudy[] = [
       },
       {
         title: "Written once",
-        body: "Every feature lives in one shared layer, and the tests fail if the app and the Claude tools ever disagree.",
+        body: "Every feature lives in one shared layer that the app and the Claude tools both call. Tests check that the main Claude tools return exactly what the app does.",
       },
       {
         title: "Still being finished",
@@ -176,8 +179,9 @@ export const cases: CaseStudy[] = [
       },
     ],
     media: [
+      { src: "/products/tempo/connector.webp", type: "image", label: "Adding Tempo to Claude, from Settings" },
       { src: "/products/tempo/session.webp", type: "image", label: "Logging a set" },
-      { src: "/products/tempo/log-mobile.webp", type: "image", label: "On a phone" },
+      { src: "/products/tempo/log-mobile.webp", type: "image", label: "On a phone. The Upcoming card is from planning screens that aren’t live yet" },
     ],
     stack: "Next.js, FastAPI, Postgres",
   },
@@ -196,7 +200,7 @@ export const cases: CaseStudy[] = [
     facts: [
       { k: "Award", v: "A GovHack 2025 winner" },
       { k: "Covers", v: "2,016 government datasets" },
-      { k: "Team", v: "Built for GovHack, with one other contributor on the API" },
+      { k: "Team", v: "A GovHack team project. We wrote the frontend and about half of the API" },
       { k: "Now", v: "The live demo is offline until we repair its search" },
     ],
     problem: [
@@ -211,8 +215,15 @@ export const cases: CaseStudy[] = [
         title: "A first go at a trust score",
         body: "Answers carry a score for how much to rely on them. It’s an early version, and we say so.",
       },
+      {
+        title: "Measured, then improved",
+        body: "In October 2026 we wrote 40 test questions. A test copy with better search found the right dataset first for 28 of them, up from 21. That copy isn’t live yet.",
+      },
     ],
-    media: [{ src: "/products/govchat/trust.webp", type: "image", label: "An answer with its sources" }],
+    media: [
+      { src: "/products/govchat/trust.webp", type: "image", label: "An answer with its sources and trust score" },
+      { src: "/products/govchat/audit.webp", type: "image", label: "The record kept for every answer" },
+    ],
     stack: "Next.js, FastAPI, ChromaDB",
   },
   {
@@ -244,11 +255,15 @@ export const cases: CaseStudy[] = [
       },
       {
         title: "Rewritten properly",
-        body: "The first version was a web app in a wrapper. We rebuilt it as a native Mac app so it’s small and quick to open.",
+        body: "The first version was a web app in a wrapper. We rebuilt it as a native Mac app so it’s small and quick to open: about 3 MB, down from about 30.",
       },
     ],
-    media: [{ src: "/products/force/demo.mp4", type: "video", label: "The daily screen", poster: "/products/force/demo-poster.webp" }],
-    stack: "Swift, SwiftUI, Supabase",
+    media: [
+      { src: "/products/force/demo.mp4", type: "video", label: "The daily screen", poster: "/products/force/demo-poster.webp" },
+      { src: "/products/force/desktop.webp", type: "image", label: "force.clupai.com" },
+      { src: "/products/force/mobile.webp", type: "image", label: "force.clupai.com on a phone" },
+    ],
+    stack: "Swift, SwiftUI, Next.js, Supabase",
   },
   {
     slug: "cstack",
@@ -266,7 +281,7 @@ export const cases: CaseStudy[] = [
     facts: [
       { k: "For", v: "Developers, and it’s how we run our own builds" },
       { k: "Works with", v: "Six AI coding tools" },
-      { k: "Cost", v: "US$0.33 a task against US$0.90, in our own benchmarks" },
+      { k: "Cost", v: "US$0.33 a task at low effort against US$0.90 at the highest, in our own benchmark (Sep 2026)" },
     ],
     problem: [
       "Run a few AI coding tools on one project and they overwrite each other’s work, repeat each other’s mistakes and burn money.",
@@ -278,18 +293,22 @@ export const cases: CaseStudy[] = [
       },
       {
         title: "Each tool claims its files",
-        body: "A tool claims a file before it edits it, so another session can’t write over its work.",
+        body: "A tool claims each file it edits. Another session in the same copy of the code is blocked from that file until the first one hands over.",
       },
     ],
-    media: [],
+    media: [
+      { src: "/products/cstack/layer.webp", type: "image", label: "Diagram: one set of rules, shared by six tools" },
+      { src: "/products/cstack/claims.webp", type: "image", label: "Diagram: the second session waits for a handover" },
+    ],
+    stack: "Python, Shell",
   },
   {
     slug: "kairos",
     name: "Kairos",
     group: "product",
     role: "Our own product",
-    line: "Paste your notes and it books the tasks into your calendar.",
-    when: "Apr 2026 → now",
+    line: "Books your tasks into the next two weeks and learns how long they really take.",
+    when: "Mar 2026 → now",
     status: "In the works",
     picture: {
       src: "/products/kairos/week.webp",
@@ -298,7 +317,7 @@ export const cases: CaseStudy[] = [
     facts: [
       { k: "Plans", v: "The next 14 days, around fixed events" },
       { k: "Checks", v: "306 automated tests" },
-      { k: "Now", v: "A full rebuild, started October 2026" },
+      { k: "Now", v: "A rebuild from October 2026. It runs locally and isn’t live yet" },
     ],
     problem: [
       "To-do lists don’t know how long anything takes or when you’re free, so the list just grows.",
@@ -306,18 +325,203 @@ export const cases: CaseStudy[] = [
     built: [
       {
         title: "Plain rules do the planning",
-        body: "Ordinary code decides what goes where. The AI suggests how long things take and drafts goals, and nothing changes until you accept it.",
+        body: "Ordinary code decides what goes where. The AI suggests how long things take and drafts goals for you to confirm. Moving work to another day always waits for your OK.",
       },
       {
         title: "It learns how long you take",
-        body: "When a block ends, it asks how it went. After a few answers it suggests planning that kind of task longer or shorter.",
+        body: "When a block of half an hour or more ends, it asks how it went. After a few answers it suggests planning that kind of task longer or shorter.",
       },
     ],
     media: [
-      { src: "/work/kairos/kairos-demo.mp4", type: "video", label: "A walkthrough of an earlier build", poster: "/products/kairos/week.webp" },
-      { src: "/products/kairos/today.webp", type: "image", label: "Today" },
+      { src: "/work/kairos/kairos-demo.mp4", type: "video", label: "A walkthrough of an earlier build", poster: "/work/kairos/kairos-demo-poster.webp" },
+      { src: "/products/kairos/today.webp", type: "image", label: "Today, in the October rebuild" },
+      { src: "/products/kairos/goal.webp", type: "image", label: "A goal and the sessions booked for it" },
+      { src: "/products/kairos/quickadd-mobile.webp", type: "image", label: "Adding a task on a phone" },
     ],
     stack: "Next.js, Vercel AI SDK, Google Calendar",
+  },
+  {
+    slug: "nomnom",
+    name: "nomnom",
+    group: "product",
+    role: "Our own product",
+    line: "A calorie tracker you fill in by sending Claude a photo of your meal.",
+    when: "Aug 2026",
+    status: "Released",
+    url: { href: "https://nomnom.clupai.com", label: "nomnom.clupai.com" },
+    picture: {
+      src: "/work/nomnom/hero.webp",
+      alt: "nomnom’s Today page: 527 kcal logged, 1,773 left of 2,300, with protein, carbs and fat below.",
+    },
+    facts: [
+      { k: "Live since", v: "August 2026" },
+      { k: "Food data", v: "8,114 foods from the USDA’s database" },
+      { k: "Built for", v: "Ourselves. Sign-up is off" },
+    ],
+    problem: [
+      "We weren’t going to type four foods into a form three times a day. We wanted to log a meal by sending a photo of it.",
+      "AI can read a photo of a plate. We didn’t want it making up the calorie numbers.",
+    ],
+    built: [
+      {
+        title: "The AI names the food. Code does the maths.",
+        body: "Claude says what’s on the plate and how much of it. The calories come from a copy of the USDA food database, and ordinary code turns each portion into grams and then into calories.",
+      },
+      {
+        title: "No guessing when it can’t tell",
+        body: "If a portion can’t be turned into a weight, nothing is counted. The item goes on a review list and counts as zero until you fix it.",
+      },
+      {
+        title: "Past days stay put",
+        body: "Each entry keeps its own numbers, so updating the food database never changes a day you’ve already logged.",
+      },
+      {
+        title: "Next: two weeks of real use",
+        body: "The Claude connection isn’t on a phone yet. Before we write more code, we’ll use it for a fortnight to see if logging by photo sticks.",
+      },
+    ],
+    media: [
+      { src: "/work/nomnom/review-wide.webp", type: "image", label: "A slice of pizza with no weight counts zero until it’s fixed" },
+      { src: "/work/nomnom/demo.mp4", type: "video", label: "Fixing a portion on a phone", poster: "/work/nomnom/demo-poster.webp" },
+      { src: "/work/nomnom/today.webp", type: "image", label: "The day’s total and where each entry came from" },
+    ],
+    stack: "Next.js, tRPC, Prisma, Postgres, MCP",
+  },
+  {
+    slug: "glow-up",
+    name: "Glow Up",
+    group: "product",
+    role: "Our own product",
+    line: "A health game for a household. You log meals, weight and workouts by chatting with Claude or ChatGPT.",
+    when: "Nov 2026 → now",
+    status: "In the works",
+    picture: {
+      src: "/work/glow-up/hero.webp",
+      alt: "Glow Up’s Today screen in a design preview: Level 7, 12 days in a row, a trail through painted hills, and dinner as the next thing to log.",
+    },
+    facts: [
+      { k: "Started", v: "November 2026" },
+      { k: "Checks", v: "144 automated tests" },
+      { k: "Now", v: "Sign-in is live. Logging and the phone app aren’t public yet" },
+    ],
+    problem: [
+      "Our bet: tracking apps feel like a chore and get dropped, but sending a chat message is easy, and logging next to someone at home may keep you at it.",
+    ],
+    built: [
+      {
+        title: "Log by chatting",
+        body: "Tell Claude or ChatGPT what you ate, weighed or did, and it saves it to Glow Up. Both chats go through one set of rules, and a test checks they agree.",
+      },
+      {
+        title: "One login for the household",
+        body: "The chat signs in for the household, not for one person, and is told to ask who’s speaking before it logs anything. It can’t reach any other household.",
+      },
+      {
+        title: "No meal photos kept",
+        body: "A chat can read a photo of a meal, but Glow Up stores only the text and a calorie guess. If a chat sends the photo itself, Glow Up refuses it.",
+      },
+      {
+        title: "The game comes next",
+        body: "Levels and rewards run only in a design preview so far, with a made-up household. They aren’t connected to real logs yet.",
+      },
+    ],
+    media: [
+      { src: "/work/glow-up/log.webp", type: "image", label: "Logging dinner: type it like a text, or pick a recent meal" },
+      { src: "/work/glow-up/demo.mp4", type: "video", label: "Logging dinner in the design preview", poster: "/work/glow-up/demo-poster.webp" },
+      { src: "/work/glow-up/shop.webp", type: "image", label: "The shared shopping list, with sample prices" },
+      { src: "/work/glow-up/reward.webp", type: "image", label: "A level-up reward, in the design preview only" },
+    ],
+    stack: "Next.js, Better Auth, Drizzle, Postgres, MCP",
+  },
+  {
+    slug: "morgue",
+    name: "morgue",
+    group: "product",
+    role: "Our own product",
+    line: "A library of web animations your AI coding tools can watch and rebuild.",
+    when: "Aug 2026 → now",
+    status: "In the works",
+    url: { href: "https://morgue.clupai.com", label: "morgue.clupai.com" },
+    picture: {
+      src: "/products/morgue/desktop.webp",
+      alt: "The morgue home page: “Give your AI taste.”",
+    },
+    facts: [
+      { k: "Started", v: "August 2026" },
+      { k: "Now", v: "Waitlist open" },
+      { k: "For", v: "Developers who build with AI coding tools" },
+    ],
+    problem: [
+      "AI coding tools build screens from words and, at best, a screenshot. A screenshot can’t show how something moves, so the motion gets lost.",
+      "We also had nowhere to keep the effects we liked, with the code and a note on how each one works.",
+    ],
+    built: [
+      {
+        title: "A video of every effect",
+        body: "morgue plays each animation on a controlled clock and records it. Two recordings of our test effects came out identical, frame for frame.",
+      },
+      {
+        title: "Built around the browser’s limits",
+        body: "In Chrome, only 16 of 40 live 3D scenes on one page keep running. So the library plays videos, and only one effect at a time runs live.",
+      },
+      {
+        title: "Private files stay private",
+        body: "Private videos sit in storage with no public access and are only served through signed links. Locking the app isn’t enough if the file behind it is open to anyone with the address.",
+      },
+      {
+        title: "Ready for your AI tool",
+        body: "Each effect exports as one bundle: its code, what it depends on, its licence, and a list of demo-only parts the AI shouldn’t copy.",
+      },
+    ],
+    media: [],
+    stack: "Next.js, Playwright, ffmpeg, Postgres, Cloudflare R2",
+  },
+  {
+    slug: "visatrack",
+    name: "VisaTrack",
+    group: "product",
+    role: "Our own product",
+    line: "A work-hours tracker for international students in Australia, with one answer: how many more hours you can work.",
+    when: "Jul 2026",
+    status: "In the works",
+    picture: {
+      src: "/work/visatrack/dashboard.webp",
+      alt: "VisaTrack’s Today card: within your limit, you can work 17 hours more, 31 of 48 hours used from 2 to 15 November.",
+    },
+    clip: { src: "/work/visatrack/demo.mp4", poster: "/work/visatrack/demo-poster.webp" },
+    facts: [
+      { k: "Built", v: "In one week, July 2026" },
+      { k: "Checks", v: "458 automated tests on the API" },
+      { k: "Now", v: "Not released. It waits on a review by a registered migration agent" },
+    ],
+    problem: [
+      "Student visa holders may work up to 48 hours a fortnight while their course is in session. The rule defines a fortnight as 14 days starting on a Monday, and doesn’t say which Monday.",
+      "Count in pairs of weeks, 1 and 2, then 3 and 4, and weeks 2 and 3 never get checked together.",
+    ],
+    built: [
+      {
+        title: "A window for every Monday",
+        body: "We read the rule as a new 14-day window every Monday, so each day sits in two windows. The app shows whichever one has less room left.",
+      },
+      {
+        title: "It says when it doesn’t know",
+        body: "Without the student’s term dates and breaks, it can’t tell which days are capped. So it says it doesn’t know, instead of showing a green tick.",
+      },
+      {
+        title: "The rules in one place",
+        body: "The limit is worked out in one place, and a test fails if other backend code tries to work it out. The legal claims sit in one file that quotes the regulation.",
+      },
+      {
+        title: "A prototype, not advice",
+        body: "It isn’t migration advice. Its release checklist starts with a review by a registered migration agent and a fresh check of the rules.",
+      },
+    ],
+    media: [
+      { src: "/work/visatrack/demo.mp4", type: "video", label: "Checking whether a shift fits", poster: "/work/visatrack/demo-poster.webp" },
+      { src: "/work/visatrack/shifts-week.webp", type: "image", label: "A week of made-up casual shifts" },
+      { src: "/work/visatrack/dashboard-mobile.webp", type: "image", label: "The same answer on a phone" },
+    ],
+    stack: "Next.js, FastAPI, PostgreSQL",
   },
   {
     slug: "tapcraft",
@@ -326,7 +530,7 @@ export const cases: CaseStudy[] = [
     role: "Co-founder",
     line: "A store for 3D-printed NFC keychains.",
     when: "Feb 2026 → Oct 2026",
-    status: "Business ended, store still up",
+    status: "Our part ended Oct 2026, store still up",
     url: { href: "https://tapcraft.shop", label: "tapcraft.shop" },
     picture: {
       src: "/work/tapcraft/new/desktop.webp",
@@ -334,16 +538,18 @@ export const cases: CaseStudy[] = [
     },
     facts: [
       { k: "Our part", v: "Co-founder, and we built the store" },
-      { k: "Ran", v: "February to October 2026" },
+      { k: "Co-founder", v: "February to October 2026" },
     ],
     problem: ["We sold custom NFC keychains and needed a store that looked as good as the keychains."],
     built: [
       {
         title: "A store on Shopify’s engine",
-        body: "A custom storefront with Shopify handling cart and payment underneath.",
+        body: "A custom storefront with Shopify handling cart and payment underneath. Affiliate links carry through to checkout.",
       },
     ],
-    media: [],
+    media: [
+      { src: "/work/tapcraft/new/configurator.webp", type: "image", label: "A 3D keychain designer from the starter code, kept off the live store" },
+    ],
     stack: "Next.js, Shopify",
   },
   {
@@ -352,21 +558,25 @@ export const cases: CaseStudy[] = [
     group: "earlier",
     role: "Website for a client",
     line: "A school website its staff can run on their own.",
-    when: "2026",
+    when: "2025 → 2026",
     status: "Live",
     picture: {
-      src: "/work/krishnaveni/homepage.webp",
-      alt: "The Krishnaveni School home page.",
+      src: "/work/krishnaveni/homepage-blurred.webp",
+      alt: "The Krishnaveni School home page, with the photo blurred.",
     },
     facts: [
       { k: "Before", v: "Every change meant emailing a developer" },
-      { k: "After", v: "Staff manage pages, posts and facilities themselves" },
+      { k: "After", v: "Staff post updates and manage facilities themselves" },
     ],
     problem: ["The school ran on a static site. A new gallery post or an announcement needed a developer."],
     built: [
       {
         title: "Handover built in",
         body: "Staff edit through a content system set up so they can’t break the layout by accident.",
+      },
+      {
+        title: "Only what they can keep up",
+        body: "The 2025 version had every page in English, Hindi and Telugu. No one at the school could keep the other two up to date, so the 2026 rebuild kept English only.",
       },
     ],
     testimonial: {
@@ -376,7 +586,7 @@ export const cases: CaseStudy[] = [
       role: "India",
     },
     media: [
-      { src: "/work/krishnaveni/mobile.webp", type: "image", label: "On a phone" },
+      { src: "/work/krishnaveni/early-te-news.webp", type: "image", label: "The 2025 version, in three languages" },
       { src: "/work/krishnaveni/contact.webp", type: "image", label: "Contact page" },
     ],
     stack: "Next.js, Sanity",
@@ -386,22 +596,22 @@ export const cases: CaseStudy[] = [
     name: "NMMUN",
     group: "earlier",
     role: "Website for a school conference",
-    line: "A conference site for a Model UN in New Delhi, with registration and schedules.",
-    when: "2023",
-    status: "Ran for two conferences",
+    line: "A conference site for a school Model UN in Bahrain, with councils, schedules and links to register.",
+    when: "Feb 2024 → Nov 2024",
+    status: "Handed over, Nov 2024 build still live",
     picture: {
-      src: "/work/nmmun/homepage.webp",
-      alt: "The NMMUN conference home page.",
+      src: "/work/nmmun/home-countdown.webp",
+      alt: "The NMMUN 2024-25 home page with a countdown and a Register button, over a blurred photo.",
     },
     facts: [
       { k: "Before", v: "No proper conference website" },
-      { k: "After", v: "Used across two years of the conference" },
+      { k: "After", v: "The next student team ran the November 2024 conference on it, 500+ participants by the school’s count" },
     ],
     problem: ["The conference needed committee pages, schedules and registration, polished enough to send to other schools."],
     built: [
       {
         title: "Built for the next team",
-        body: "Content sits in plain data files, so next year’s organisers could take it over. They did.",
+        body: "Content sits in plain data files, so next year’s organisers could take it over. They did: 101 of their 105 changes left the site’s shared components alone.",
       },
     ],
     testimonial: {
@@ -410,7 +620,10 @@ export const cases: CaseStudy[] = [
       name: "Head Organiser",
       role: "NMMUN",
     },
-    media: [{ src: "/work/nmmun/mobile.webp", type: "image", label: "On a phone" }],
+    media: [
+      { src: "/work/nmmun/councils-grid.webp", type: "image", label: "All 14 councils, from one data file" },
+      { src: "/work/nmmun/phone-home.webp", type: "image", label: "On a phone, photos blurred" },
+    ],
   },
 ];
 
