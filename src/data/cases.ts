@@ -245,7 +245,11 @@ export const cases: CaseStudy[] = [
         body: "We built it natively for Android, in Kotlin, instead of with a cross-platform toolkit. For a journal, how quickly the page appears is the product.",
       },
     ],
-    media: [],
+    media: [
+      { src: "/products/flowerpress/flowerpress-three.webp", type: "image", label: "Opening, writing, and the month’s garden. Made-up notes on a test phone" },
+      { src: "/products/flowerpress/flowerpress-write.webp", type: "image", label: "A new note. The vine grows as you write" },
+      { src: "/products/flowerpress/flowerpress-garden.webp", type: "image", label: "A plant for each day you wrote; a mark where a freeze kept the streak" },
+    ],
     stack: "Kotlin, Jetpack Compose, Next.js, Postgres",
   },
   {

@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { CSSProperties } from "react";
+import { CaseGallery } from "@/components/case-gallery";
 import { caseBySlug } from "@/data/cases";
 import { productBySlug, withPage } from "@/data/products";
 import "../../inner.css";
@@ -100,6 +101,9 @@ export default async function ProductPage({ params }: Props)
               </div>
             ))}
           </div>
+          {(out || p.clear) && study.media.length > 0 ? (
+            <CaseGallery media={study.media} client={p.name} />
+          ) : null}
           <dl className="case-facts">
             {study.facts.map((f) => (
               <div key={f.k}>
