@@ -77,10 +77,24 @@ function makeCurtain()
   const el = document.createElement("div");
   el.id = "curtain";
   el.setAttribute("aria-hidden", "true");
+  // The first-load loader's star. It turns on the curtain when the next page is slow to arrive.
+  const star = document.querySelector(".loader-star");
+  if (star) {
+    el.appendChild(star.cloneNode(true));
+  }
   document.body.appendChild(el);
   let safety = null;
 
-  return {
+  // If the next page never arrives, don't leave the screen covered. boot gives up on a page sooner than this.
+  function guard()
+  {
+    if (safety) {
+      safety.kill();
+    }
+    safety = gsap.delayedCall(9, () => curtain.out());
+  }
+
+  const curtain = {
     // Grows from a rectangle to the whole screen, then calls done.
     over(rect, colour, done)
     {
@@ -93,11 +107,28 @@ function makeCurtain()
       };
       paint();
       gsap.to(c, { t: 0, r: 0, b: 0, l: 0, duration: 0.72, ease: "expo.inOut", onUpdate: paint, onComplete: done });
-      if (safety) {
-        safety.kill();
+      guard();
+    },
+    // Any other link: the page fades to the page colour, then done. The next page fades in once it's staged.
+    fade(colour, done)
+    {
+      gsap.killTweensOf(el);
+      el.style.background = colour;
+      el.style.clipPath = "none";
+      gsap.to(el, { autoAlpha: 1, duration: 0.22, ease: "power2.out", onComplete: done });
+      guard();
+    },
+    // A page that is taking a while (a back or forward, a slow connection): cover it and turn the star.
+    wait(colour)
+    {
+      if (gsap.getProperty(el, "autoAlpha") < 1 || gsap.isTweening(el)) {
+        gsap.killTweensOf(el);
+        el.style.background = colour;
+        el.style.clipPath = "none";
+        gsap.to(el, { autoAlpha: 1, duration: 0.2, ease: "power2.out" });
       }
-      // If the next page never arrives, don't leave the screen covered.
-      safety = gsap.delayedCall(5, () => this.out());
+      el.classList.add("is-slow");
+      guard();
     },
     out()
     {
@@ -106,10 +137,38 @@ function makeCurtain()
         safety = null;
       }
       if (gsap.getProperty(el, "autoAlpha") > 0) {
-        gsap.to(el, { autoAlpha: 0, duration: 0.36, ease: "power2.out" });
+        gsap.to(el, {
+          autoAlpha: 0,
+          duration: 0.36,
+          ease: "power2.out",
+          onComplete: () => el.classList.remove("is-slow"),
+        });
       }
     },
   };
+  return curtain;
+}
+
+// Paper, like the first-load loader, for a curtain that should read as the page and not as a colour.
+function pageColour()
+{
+  return getComputedStyle(document.documentElement).getPropertyValue("--paper").trim() || "#f3f1ec";
+}
+
+// A link that goes to another page of this site, in this tab, through the router.
+function isPageLink(a)
+{
+  if ((a.target && a.target !== "_self") || a.hasAttribute("download")) {
+    return false;
+  }
+  let url;
+  try {
+    url = new URL(a.href, location.href);
+  } catch {
+    return false;
+  }
+  // A file (a PDF, an image) isn't a page.
+  return url.origin === location.origin && url.pathname !== location.pathname && !/\.[a-z0-9]+$/i.test(url.pathname);
 }
 
 function restSpot(dot)
@@ -221,6 +280,17 @@ function createCore()
         a.click();
         passing = false;
       });
+      return;
+    }
+    // Any other page here fades out first, so the next one never cuts in half-built.
+    if (isPageLink(a)) {
+      e.preventDefault();
+      e.stopPropagation();
+      curtain.fade(pageColour(), () => {
+        passing = true;
+        a.click();
+        passing = false;
+      });
     }
   }, true);
 
@@ -274,6 +344,20 @@ export function boot(pathname)
   let resizeCall = null;
   let width = innerWidth;
   let latest = 0;
+  const staged = () => Boolean(main && main.dataset.ready);
+  // Coming from another page (the first load has its own loader). Until this one is staged it's hidden
+  // (globals.css). Slow to stage: the curtain covers it and turns the star. Never staged: the plain page shows.
+  const later = document.documentElement.classList.contains("m-in");
+  const slowCall = later ? setTimeout(() => {
+    if (!stopped && !staged()) {
+      core.curtain.wait(pageColour());
+    }
+  }, 400) : null;
+  const giveUp = later ? setTimeout(() => {
+    if (!stopped && !staged()) {
+      failed();
+    }
+  }, 8000) : null;
 
   async function start()
   {
@@ -327,6 +411,7 @@ export function boot(pathname)
     end();
     core.dot.hide(true);
     document.documentElement.classList.remove("m");
+    core.curtain.out();
   }
 
   // Only a real width change rebuilds: a phone's address bar changes the height all the time.
@@ -354,6 +439,8 @@ export function boot(pathname)
     if (resizeCall) {
       clearTimeout(resizeCall);
     }
+    clearTimeout(slowCall);
+    clearTimeout(giveUp);
     end();
     if (main) {
       delete main.dataset.ready;

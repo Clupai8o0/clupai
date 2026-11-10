@@ -971,6 +971,31 @@ html.m .nav[data-over="true"] .nav-link {
   visibility: hidden;
   opacity: 0;
   pointer-events: none;
+
+  /* The first load's star, cloned in by boot.js. Shows only when the next page is slow. */
+  & .loader-star {
+    position: absolute;
+    inset: 0;
+    width: clamp(56px, 7vw, 88px);
+    margin: auto;
+    opacity: 0;
+    transition: opacity 0.3s ease-out;
+    animation: loader-turn 3s infinite;
+  }
+
+  &.is-slow .loader-star {
+    opacity: 1;
+  }
+}
+
+/* Between pages (after the first load): the next page stays hidden until its motion has staged it, then fades in.
+   Only under html.m, so if motion gives up the plain page shows. */
+html.m.m-in main:not([data-ready]) {
+  opacity: 0;
+}
+
+html.m.m-in main[data-ready] {
+  transition: opacity 0.3s ease-out;
 }
 
 /* LEGACY round 2, remove in piece C */
