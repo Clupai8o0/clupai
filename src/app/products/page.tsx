@@ -21,7 +21,8 @@ const SIZE: Record<string, [number, number, number]> = {
   kairos: [0.9, 22.2, 220],
   morgue: [0.8, 24, 240],
   "glow-up": [0.88, 20.8, 240],
-  yap: [0.76, 24, 240],
+  flowerpress: [0.76, 24, 240],
+  clearroll: [0.84, 22.2, 230],
   govchat: [0.9, 22.2, 220],
 };
 
@@ -71,7 +72,7 @@ function BoxInner({ p }: { p: Product })
 function Box({ p }: { p: Product })
 {
   const cls = `bx ${p.tone} ${p.tone === "tone-paper" ? "edge" : ""} ${p.status === "released" ? "" : "wip"} ${p.image ? "" : "post"}`;
-  // Glow Up and Yap have no page yet, so their boxes are just boxes.
+  // A product with nothing public to show yet has no page, so its box is just a box.
   if (p.poster) {
     return (
       <div className={cls} style={boxStyle(p)}>

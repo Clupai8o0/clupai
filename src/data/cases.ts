@@ -270,12 +270,12 @@ export const cases: CaseStudy[] = [
     group: "product",
     role: "Our own product",
     line: "Keeps several AI coding tools from clashing, and cuts what they cost to run.",
-    when: "Sep 2026",
-    status: "Released",
+    when: "Sep 2026 → now",
+    status: "In the works",
     url: { href: "https://github.com/Clupai8o0/cstack", label: "github.com/Clupai8o0/cstack" },
     picture: {
       src: "/products/cstack/cover.webp",
-      alt: "The cstack README: one rules, hooks and skills layer for AI coding tools.",
+      alt: "Six AI coding tools, Claude Code, Codex, OpenCode, DeepSeek, Kimi and Grok Build, all reading one set of rules.",
     },
     facts: [
       { k: "For", v: "Developers, and it’s how we run our own builds" },
@@ -296,8 +296,9 @@ export const cases: CaseStudy[] = [
       },
     ],
     media: [
-      { src: "/products/cstack/layer.webp", type: "image", label: "Diagram: one set of rules, shared by six tools" },
-      { src: "/products/cstack/claims.webp", type: "image", label: "Diagram: the second session waits for a handover" },
+      { src: "/products/cstack/cost.webp", type: "image", label: "Cost per task at four effort settings: US$0.33 at low, US$0.90 at the highest" },
+      { src: "/products/cstack/claims.webp", type: "image", label: "Two tools, one file: the second waits for a handover" },
+      { src: "/products/cstack/lessons.webp", type: "image", label: "124 rules written after real mistakes, 18 Sep to 7 Nov 2026" },
     ],
     stack: "Python, Shell",
   },
@@ -309,6 +310,7 @@ export const cases: CaseStudy[] = [
     line: "Books your tasks into the next two weeks and learns how long they really take.",
     when: "Mar 2026 → now",
     status: "In the works",
+    url: { href: "https://kairos.clupai.com", label: "kairos.clupai.com" },
     picture: {
       src: "/products/kairos/week.webp",
       alt: "Kairos’s week view, with tasks booked into a calendar.",

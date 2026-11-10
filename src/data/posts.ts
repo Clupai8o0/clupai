@@ -216,7 +216,7 @@ export const posts: Post[] = [
     caseSlug: "cstack",
     cover: {
       src: "/products/cstack/cover.webp",
-      alt: "The cstack README: one rules, hooks and skills layer for Claude Code, Codex, OpenCode, DeepSeek, Kimi and Grok Build.",
+      alt: "Six AI coding tools, Claude Code, Codex, OpenCode, DeepSeek, Kimi and Grok Build, all reading one set of rules.",
     },
     body: [
       {
@@ -240,6 +240,11 @@ export const posts: Post[] = [
       {
         type: "p",
         text: "Before a session edits a file, it claims it. If a second session tries to edit the same file in the same copy of the project, the second one is blocked. The two swap one handoff message covering what’s done and what’s left, and the one with less done steps back.",
+      },
+      {
+        type: "image",
+        src: "/products/cstack/claims.webp",
+        alt: "Diagram: tool A claims a file, tool B is blocked from it, A hands over, then B is allowed to edit it.",
       },
       { type: "h2", text: "A second model reviews every change" },
       {
@@ -267,6 +272,12 @@ export const posts: Post[] = [
           { k: "Tasks with a right answer", v: "96 to 100% at low, 100% at the highest" },
           { k: "Writing, out of 10", v: "8.0 at low, 6.8 at the highest" },
         ],
+      },
+      {
+        type: "image",
+        src: "/products/cstack/cost.webp",
+        alt: "Bar chart of cost per task: US$0.33 at low effort, US$0.42 at medium, US$0.53 at high and US$0.90 at the highest.",
+        caption: "Same model, four effort settings. Every setting fixed every planted bug.",
       },
       {
         type: "p",

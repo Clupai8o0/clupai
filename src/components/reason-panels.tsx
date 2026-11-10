@@ -27,7 +27,7 @@ const PANELS: { tab: string; title: string; body: ReactNode; tone: string; src: 
     title: "The code is yours from day one.",
     body: "It sits in your GitHub while we work. Hosting and domain go in your name.",
     tone: "tone-blue",
-    src: "/products/cstack/cover.webp",
+    src: "/products/cstack/readme.webp",
     alt: "The cstack README, one of our own products.",
   },
   {

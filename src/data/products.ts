@@ -47,12 +47,12 @@ export const products: Product[] = [
     tone: "tone-paper",
     name: "cstack",
     line: "Keeps several AI coding tools from clashing, and cuts what they cost to run.",
-    status: "released",
+    status: "in-work",
     badge: "Open source, for developers",
-    since: "Released Sep 2026",
+    since: "First version out Sep 2026, still in development",
     link: { href: "https://github.com/Clupai8o0/cstack", label: "See it on GitHub" },
     caseSlug: "cstack",
-    image: { src: "/products/cstack/cover.webp", alt: "The cstack README." },
+    image: { src: "/products/cstack/cover.webp", alt: "Six AI coding tools, Claude Code, Codex, OpenCode, DeepSeek, Kimi and Grok Build, all reading one set of rules." },
   },
   {
     slug: "nomnom",
@@ -74,6 +74,7 @@ export const products: Product[] = [
     status: "in-work",
     badge: "Rebuilding now",
     since: "Started Mar 2026, rebuilt from Oct 2026",
+    link: { href: "https://kairos.clupai.com", label: "Join the beta" },
     caseSlug: "kairos",
     image: { src: "/products/kairos/week.webp", alt: "Kairos’s week view." },
   },
@@ -101,14 +102,25 @@ export const products: Product[] = [
     image: { src: "/work/glow-up/hero.webp", alt: "Glow Up’s Today screen, in a design preview." },
   },
   {
-    slug: "yap",
+    slug: "flowerpress",
     tone: "tone-red",
-    name: "Yap",
-    line: "An Android journal that opens straight into a new note and grows a garden as you write.",
+    name: "Flowerpress",
+    line: "A free journal for Android. It opens on a blank page, and every note you finish grows into a plant in your garden.",
     status: "in-work",
-    badge: "Working name",
+    badge: "Waitlist open",
+    since: "Started Nov 2026, not out yet",
+    link: { href: "https://flowerpress.clupai.com", label: "Join the waitlist" },
+    image: { src: "/products/flowerpress/desktop.webp", alt: "The Flowerpress home page: “Every note gets pressed into a flower.”" },
+  },
+  {
+    slug: "clearroll",
+    tone: "tone-yellow",
+    name: "Clearroll",
+    line: "An Android app for clearing out your phone’s photos: swipe through them to clean, sort and remove duplicates, fast.",
+    status: "in-work",
+    badge: "Early build",
     since: "Started Nov 2026, no public screens yet",
-    poster: "Write, and a garden grows.",
+    poster: "Swipe, and the clutter goes.",
   },
   {
     slug: "visatrack",
@@ -134,7 +146,7 @@ export const products: Product[] = [
   },
 ];
 
-/** Products with a page of their own. Yap has nothing public to show yet. */
+/** Products with a page of their own. Clearroll has nothing public to show yet. */
 export const withPage = products.filter((p) => !p.poster);
 
 export function productBySlug(slug: string): Product | undefined
