@@ -129,6 +129,12 @@ fbq('track','PageView');`}
             <path d={STAR} />
           </svg>
           <span className="loader-count" />
+          {/* Only seen on a slow load: each line waits its turn in globals.css, and a fast load lifts before the first. */}
+          <span className="loader-say">
+            <span>Still with you.</span>
+            <span>Big pictures on the way.</span>
+            <span>Slow connection? Nearly there.</span>
+          </span>
         </div>
         <a className="skip" href="#main">
           Skip to content

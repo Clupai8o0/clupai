@@ -100,6 +100,48 @@ html.m:not(.m-done) .loader {
   }
 }
 
+/* When the load runs long, the loader talks: one line at a time under the star, the last one stays.
+   CSS timers, so they start with the loader and need no script. It gives up at 14s anyway. */
+.loader-say {
+  position: absolute;
+  inset-inline: 0;
+  top: calc(50% + clamp(36px, 4.5vw, 56px) + 28px);
+  display: grid;
+  justify-items: center;
+  font-size: clamp(15px, 1.3vw, 18px);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: color-mix(in srgb, var(--ink) 72%, transparent);
+
+  & > span {
+    grid-area: 1 / 1;
+    padding-inline: 24px;
+    text-align: center;
+    animation: loader-line 3.5s ease-out 3s both;
+  }
+
+  & > span:nth-child(2) {
+    animation-delay: 6.5s;
+  }
+
+  & > span:nth-child(3) {
+    animation-name: loader-line-stay;
+    animation-duration: 0.5s;
+    animation-delay: 10s;
+  }
+}
+
+@keyframes loader-line {
+  0% { opacity: 0; translate: 0 8px; }
+  12%, 88% { opacity: 1; translate: 0 0; }
+  100% { opacity: 0; translate: 0 -4px; }
+}
+
+@keyframes loader-line-stay {
+  from { opacity: 0; translate: 0 8px; }
+  to { opacity: 1; translate: 0 0; }
+}
+
 html.m.m-in:not(.m-done) .loader {
   clip-path: inset(0 0 100% 0);
   transition: clip-path 0.75s cubic-bezier(0.76, 0, 0.24, 1) 0.3s;
