@@ -28,15 +28,24 @@ const isMedia = (el) => el.matches("[data-reveal], figure, picture, img, video")
 // Sits in a heading's head, so that head's entrance runs it.
 const inHead = (el) => Boolean(el.parentElement && el.parentElement.querySelector(":scope > [data-squash]"));
 
+// A layer laid over the head (a faint picture behind the heading). It fades up to its own opacity, never past it.
+const isLayer = (el) => /^(absolute|fixed)$/.test(getComputedStyle(el).position);
+
 // A picture is uncovered from the bottom up while the image inside settles from a slight zoom.
-// Adds both to tl at the given time.
+// A figure with a caption: only the picture is uncovered, with no zoom (the figure doesn't clip, so a zoomed
+// picture would sit over the caption), and the caption lifts in after it. Adds it all to tl at the given time.
 function uncover(tl, el, at)
 {
   tl.set(el, { autoAlpha: 1 }, at);
-  tl.fromTo(el, { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 1.4, ease: "power4.inOut" }, at);
   const pic = el.querySelector("img, video");
-  if (pic) {
+  const caption = el.querySelector(":scope > figcaption");
+  const box = caption && pic ? pic : el;
+  tl.fromTo(box, { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 1.4, ease: "power4.inOut" }, at);
+  if (pic && box !== pic) {
     tl.fromTo(pic, { scale: 1.18, yPercent: 6 }, { scale: 1, yPercent: 0, duration: 1.9, ease: "expo.out" }, at);
+  }
+  if (caption) {
+    tl.fromTo(caption, { y: 12, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 1, ease: "expo.out" }, at + 0.7);
   }
 }
 
@@ -53,10 +62,15 @@ function initSquash(scope)
     const lc = letterDrop(scope, el);
     const kids = el.parentElement ? [...el.parentElement.children] : [el];
     const at = kids.indexOf(el);
-    const above = kids.slice(0, at);
-    const below = kids.slice(at + 1).filter((n) => !isMedia(n));
-    const media = kids.slice(at + 1).filter(isMedia);
+    const layers = kids.filter((n) => n !== el && isLayer(n));
+    const above = kids.slice(0, at).filter((n) => !layers.includes(n));
+    const after = kids.slice(at + 1).filter((n) => !layers.includes(n));
+    const below = after.filter((n) => !isMedia(n));
+    const media = after.filter(isMedia);
     const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: "top 90%", once: true } });
+    if (layers.length) {
+      tl.from(layers, { autoAlpha: 0, duration: 1.6, ease: "power2.out" }, lead);
+    }
     if (above.length) {
       tl.fromTo(above, { y: 16, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 1, ease: "expo.out", stagger: 0.08 }, lead);
     }

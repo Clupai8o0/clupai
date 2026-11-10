@@ -458,8 +458,9 @@ export function boot(pathname)
     }
     const mine = makeScope();
     scope = mine;
-    // Arriving under the columns: the intro waits until they start to clear, so it's seen and not wasted under them.
-    mine.lead = core.curtain.isUp() ? 0.3 : 0;
+    // Arriving under the columns: they leave upward, so the top of the page clears last. The intro waits for
+    // that, so it is seen and not spent under them.
+    mine.lead = core.curtain.isUp() ? 0.6 : 0;
     core.dot.park(core.rest);
     core.dot.hide(!SHIFTER || pathname !== "/");
     // The film grain on soft pictures only moves while you can see it, so it isn't repainting all page long.
@@ -473,7 +474,16 @@ export function boot(pathname)
     });
     ScrollTrigger.refresh();
     if (main) {
+      // Under the columns the page is already hidden, so it's shown at once: a fade would let the background
+      // flash through as they lift.
+      if (mine.lead) {
+        main.style.transition = "none";
+      }
       main.dataset.ready = "1";
+      if (mine.lead) {
+        void main.offsetHeight;
+        main.style.transition = "";
+      }
     }
     window.__mOk = true;
     liftLoader();
