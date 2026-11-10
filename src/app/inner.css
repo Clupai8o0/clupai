@@ -98,6 +98,9 @@ body:has(.pg) .nav .btn { background: var(--navf, var(--paper)); color: var(--na
 .own-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; }
 .own { display: flex; flex-direction: column; min-height: 300px; padding: 16px; grid-column: span 2; transition: transform 0.25s cubic-bezier(0.2, 1.6, 0.4, 1); }
 .own-0, .own-1 { grid-column: span 3; }
+/* Rows after the first hold three tiles. A last row of one or two tiles stretches to fill it. */
+.own:last-child:nth-child(3n) { grid-column: 1 / -1; }
+.own:nth-last-child(2):nth-child(3n + 3), .own:last-child:nth-child(3n + 4) { grid-column: span 3; }
 .work-own .own.tone-paper { --c: var(--yellow); }
 .own-name { font-size: clamp(36px, 3.2vw, 60px); line-height: 0.92; letter-spacing: -0.055em; font-weight: 600; margin-bottom: 14px; }
 .own-line { font-size: 19px; line-height: 1.15; font-weight: 500; max-width: 22em; }

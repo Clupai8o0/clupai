@@ -148,7 +148,7 @@ export default function HomePage()
           </div>
           <div className="kd-side">
             <p className="fact">
-              <span>Google’s desktop score</span>We made the brand, the site and an instant price calculator in five weeks. It’s live.
+              <span>Google’s desktop score</span>We made the brand, the site and an instant price calculator. It’s live.
             </p>
             <blockquote className="quote">
               “The calculator came out exactly how I had it in my head.”

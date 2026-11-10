@@ -93,7 +93,7 @@ export const products: Product[] = [
     slug: "glow-up",
     tone: "tone-yellow",
     name: "Glow Up",
-    line: "A health game for a household. You log meals, weight and workouts by chatting with Claude or ChatGPT.",
+    line: "A health game for a household. The plan: log meals, weight and workouts by chatting with Claude or ChatGPT.",
     status: "in-work",
     badge: "Private for now",
     since: "Started Nov 2026",

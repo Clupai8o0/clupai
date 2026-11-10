@@ -81,7 +81,7 @@ function renderBlock(block: PostBlock, index: number): ReactNode
             width={1600}
             height={1000}
             style={{ width: "100%", height: "auto" }}
-            sizes="(max-width: 899px) 100vw, 68ch"
+            sizes="(max-width: 899px) 100vw, 840px"
           />
           {block.caption ? <figcaption>{block.caption}</figcaption> : null}
         </figure>

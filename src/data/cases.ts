@@ -92,8 +92,7 @@ export const cases: CaseStudy[] = [
     group: "client",
     role: "Built for a client",
     line: "A new brand and website for a Melbourne glazier, built around a tool that shows customers a price straight away.",
-    when: "2026",
-    took: "Five weeks",
+    when: "Apr 2026 → Jul 2026",
     status: "Live",
     url: { href: "https://kingdoubleglazing.com.au", label: "kingdoubleglazing.com.au" },
     picture: {
@@ -102,7 +101,7 @@ export const cases: CaseStudy[] = [
     },
     clip: { src: "/work/kdg/loop.mp4", poster: "/work/kdg/poster.jpg" },
     facts: [
-      { k: "Took", v: "Five weeks" },
+      { k: "Built", v: "April to July 2026" },
       { k: "Speed", v: "Google’s speed test: 99 on desktop, 95 on a phone (Oct 2026)" },
       { k: "Our part", v: "Brand, site, price tool and quote emails" },
     ],
@@ -117,11 +116,11 @@ export const cases: CaseStudy[] = [
       },
       {
         title: "The owner checks every quote",
-        body: "A sent quote waits for the owner, who confirms it with one click. Only then is it emailed to the customer. The server also works the price out again, so an edited page can’t send in a cheaper one.",
+        body: "A sent quote waits for the owner, who confirms it with one click. Only then is it emailed to the customer. The server also works the price out again and rejects a quote more than 5% away from its own total.",
       },
       {
         title: "Five pages, one job",
-        body: "The first plan was 27 pages. We cut it to five, all pointing at the price tool.",
+        body: "The first plan was a large search site, with a page for each suburb and a blog. We cut it to five pages, plus the price tool and a warranty page, and every page points at the tool.",
       },
       {
         title: "Editable without us",
@@ -179,7 +178,7 @@ export const cases: CaseStudy[] = [
       },
     ],
     media: [
-      { src: "/products/tempo/connector.webp", type: "image", label: "Adding Tempo to Claude, from Settings" },
+      { src: "/products/tempo/connector.webp", type: "image", label: "Adding Tempo to Claude, from Settings. Taken on a test copy, so its address is blurred" },
       { src: "/products/tempo/session.webp", type: "image", label: "Logging a set" },
       { src: "/products/tempo/log-mobile.webp", type: "image", label: "On a phone. The Upcoming card is from planning screens that aren’t live yet" },
     ],
@@ -392,7 +391,7 @@ export const cases: CaseStudy[] = [
     name: "Glow Up",
     group: "product",
     role: "Our own product",
-    line: "A health game for a household. You log meals, weight and workouts by chatting with Claude or ChatGPT.",
+    line: "A health game for a household. The plan: log meals, weight and workouts by chatting with Claude or ChatGPT.",
     when: "Nov 2026 → now",
     status: "In the works",
     picture: {
@@ -410,7 +409,7 @@ export const cases: CaseStudy[] = [
     built: [
       {
         title: "Log by chatting",
-        body: "Tell Claude or ChatGPT what you ate, weighed or did, and it saves it to Glow Up. Both chats go through one set of rules, and a test checks they agree.",
+        body: "You tell Claude or ChatGPT what you ate, weighed or did, and it saves it to Glow Up. Both chats go through one set of rules, and a test checks they agree. So far this runs on a preview copy, and no real chat has connected yet.",
       },
       {
         title: "One login for the household",

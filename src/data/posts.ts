@@ -413,7 +413,7 @@ export const posts: Post[] = [
       { type: "h2", text: "Real screens on made-up data" },
       {
         type: "p",
-        text: "The pictures are the software. Where a project allows it, we run a copy of its real code on our own machine, fill it with made-up accounts and data, and take the screens from that. On King Double Glazing the window sizes are made up and the prices are blurred. Hoddle’s mentors are demo accounts.",
+        text: "The pictures are the software. Where a project allows it, we run a copy of its real code on our own machine, fill it with made-up accounts and data, and take the screens from that. In King Double Glazing’s screenshots the window sizes are made up and the prices are blurred. Hoddle’s mentors are demo accounts.",
       },
       {
         type: "p",
@@ -421,7 +421,7 @@ export const posts: Post[] = [
       },
       {
         type: "p",
-        text: "We also say when a screen or a feature isn’t the live version. Kairos’s video is labelled as an earlier build. Tempo’s case says its planning screens on the web aren’t done yet. When we rebuilt this site, we took off all 22 illustrations it used to carry, so a picture on a case study shows the product itself.",
+        text: "We also say when a screen or a feature isn’t the live version. Kairos’s video is labelled as an earlier build. Tempo’s case says its planning screens on the web aren’t done yet. When we rebuilt this site, we took off all 22 illustrations it used to carry, so a picture on a case study shows the product itself, or says it’s a diagram.",
       },
       { type: "h2", text: "Numbers we dropped" },
       {
