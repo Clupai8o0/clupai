@@ -158,7 +158,7 @@ function pageColour()
 // A link that goes to another page of this site, in this tab, through the router.
 function isPageLink(a)
 {
-  if ((a.target && a.target !== "_self") || a.hasAttribute("download")) {
+  if (!(a instanceof HTMLAnchorElement) || (a.target && a.target !== "_self") || a.hasAttribute("download")) {
     return false;
   }
   let url;
