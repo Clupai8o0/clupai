@@ -74,7 +74,7 @@ html.m:not(.m-done) .loader {
   color: var(--ink);
   clip-path: inset(0 0 0 0);
   /* If motion never says it's ready, the page isn't held behind this for ever. */
-  animation: loader-give-up 0.4s ease-out 14s forwards;
+  animation: loader-give-up 0.4s ease-out 22s forwards;
 }
 
 .loader-star {
@@ -100,8 +100,9 @@ html.m:not(.m-done) .loader {
   }
 }
 
-/* When the load runs long, the loader talks: one line at a time under the star, the last one stays.
-   CSS timers, so they start with the loader and need no script. It gives up at 14s anyway. */
+/* When the load runs long, the loader talks: one line at a time under the star.
+   3 s and 6.5 s are plain; 10 s and 13 s are quips; 16 s says what to try, and stays until the loader gives up.
+   The quips and the nudge are picked per visit by LOADER_SAY in layout.tsx. CSS timers, so a fast load lifts first. */
 .loader-say {
   position: absolute;
   inset-inline: 0;
@@ -125,9 +126,31 @@ html.m:not(.m-done) .loader {
   }
 
   & > span:nth-child(3) {
+    animation-duration: 3s;
+    animation-delay: 10s;
+  }
+
+  & > span:nth-child(4) {
+    animation-duration: 3s;
+    animation-delay: 13s;
+  }
+
+  & > span:nth-child(5) {
     animation-name: loader-line-stay;
     animation-duration: 0.5s;
-    animation-delay: 10s;
+    animation-delay: 16s;
+  }
+
+  & .say-quip-1::after {
+    content: var(--say-quip-1, "Okay, this is odd for us.");
+  }
+
+  & .say-quip-2::after {
+    content: var(--say-quip-2, "Even we think this is slow.");
+  }
+
+  & .say-nudge::after {
+    content: var(--say-nudge, "Refresh the page. Can't hurt.");
   }
 }
 

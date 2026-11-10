@@ -84,6 +84,26 @@ const MOTION_ON = `(function(){try{var d=document.documentElement;if(matchMedia(
 // (html.m-in). Writes a string for the count's ::after, because Safari won't redraw a CSS counter as it animates.
 const LOADER_COUNT = `(function(){var d=document.documentElement;if(!d.classList.contains("m"))return;var t0=performance.now(),v=0,a=0,s=0,shown=-1;function k(){var c=d.classList;if(c.contains("m-done")||!c.contains("m")){d.style.removeProperty("--load");return}var t=performance.now();if(c.contains("m-in")){if(!a){a=t;s=v}var y=Math.min((t-a)/280,1);v=s+(100-s)*y}else{var x=Math.min((t-t0)/9000,1);v=92*(1-Math.pow(1-x,3))}var n=Math.round(v);if(n!==shown){shown=n;d.style.setProperty("--load",'"'+n+'"')}requestAnimationFrame(k)}k()})()`;
 
+// What the loader says when a first load runs long (timing in globals.css, .loader-say).
+// Each visit picks two different QUIPS (10 s, 13 s) and one NUDGE (16 s, stays until the loader gives up at 22 s).
+// Written by Grok 4.7 at Sam's ask (10 Nov 2026), picked by Claude.
+const QUIPS = [
+  "Okay, this is odd for us.",
+  "Awkward, from a company that builds software.",
+  "Us or the internet. Flip a coin.",
+  "Even we think this is slow.",
+  "If this is us, that's embarrassing.",
+  "We didn't plan on a wait this long.",
+];
+const NUDGES = [
+  "Refresh the page. Can't hurt.",
+  "One refresh. See if the page gives in.",
+  "Wi-Fi or mobile data. Try the other.",
+];
+
+// Writes the picks as CSS strings on <html>, like the count, so the server-rendered loader never changes.
+const LOADER_SAY = `(function(){var q=${JSON.stringify(QUIPS)},n=${JSON.stringify(NUDGES)},s=document.documentElement.style;function r(a){return Math.floor(Math.random()*a.length)}var i=r(q),j=(i+1+Math.floor(Math.random()*(q.length-1)))%q.length;s.setProperty("--say-quip-1",JSON.stringify(q[i]));s.setProperty("--say-quip-2",JSON.stringify(q[j]));s.setProperty("--say-nudge",JSON.stringify(n[r(n)]))})()`;
+
 const IMG_WAIT = `(function(){var q=[];window.__imgQ=q;function m(e){var t=e.target;if(!t||t.tagName!=="IMG")return;if(window.__imgQ)window.__imgQ.push(t);else t.setAttribute("data-loaded","")}document.addEventListener("load",m,true);document.addEventListener("error",m,true)})()`;
 
 export default function RootLayout({
@@ -98,6 +118,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: STRIP_PREFILL }} />
         <script dangerouslySetInnerHTML={{ __html: MOTION_ON }} />
         <script dangerouslySetInnerHTML={{ __html: LOADER_COUNT }} />
+        <script dangerouslySetInnerHTML={{ __html: LOADER_SAY }} />
         <script dangerouslySetInnerHTML={{ __html: IMG_WAIT }} />
       </head>
       <body>
@@ -129,11 +150,13 @@ fbq('track','PageView');`}
             <path d={STAR} />
           </svg>
           <span className="loader-count" />
-          {/* Only seen on a slow load: each line waits its turn in globals.css, and a fast load lifts before the first. */}
+          {/* Only seen on a slow load: each line waits its turn in globals.css, and a fast load lifts before the first. Quip text comes from LOADER_SAY. */}
           <span className="loader-say">
             <span>Still with you.</span>
             <span>Big pictures on the way.</span>
-            <span>Slow connection? Nearly there.</span>
+            <span className="say-quip-1" />
+            <span className="say-quip-2" />
+            <span className="say-nudge" />
           </span>
         </div>
         <a className="skip" href="#main">
