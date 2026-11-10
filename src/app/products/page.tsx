@@ -117,9 +117,14 @@ function Shelf({ items, bay, children }: { items: Product[]; bay: number; childr
 
 const tallest = (items: Product[]) => Math.max(...items.map((p) => (SIZE[p.slug] ?? [0, 24])[1]));
 
-// The in-the-works boxes sit on lower shelves, five to a shelf, so none of them gets squeezed thin.
+// The in-the-works boxes sit on lower shelves, at most five to a shelf, so none of them gets squeezed thin.
+// Shelves are filled as evenly as they can be, shorter ones first, so a phone's odd box out lands at the very end.
 const PER_SHELF = 5;
-const lower = Array.from({ length: Math.ceil(inWork.length / PER_SHELF) }, (_, i) => inWork.slice(i * PER_SHELF, (i + 1) * PER_SHELF));
+const shelves = Math.ceil(inWork.length / PER_SHELF);
+const lower = Array.from({ length: shelves }, (_, i) => {
+  const from = Math.floor((i * inWork.length) / shelves);
+  return inWork.slice(from, Math.floor(((i + 1) * inWork.length) / shelves));
+});
 
 export default function ProductsPage()
 {
