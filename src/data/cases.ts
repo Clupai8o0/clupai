@@ -560,8 +560,8 @@ export const cases: CaseStudy[] = [
     when: "2025 → 2026",
     status: "Live",
     picture: {
-      src: "/work/krishnaveni/homepage-blurred.webp",
-      alt: "The Krishnaveni School home page, with the photo blurred.",
+      src: "/work/krishnaveni/homepage.webp",
+      alt: "The Krishnaveni School home page.",
     },
     facts: [
       { k: "Before", v: "Every change meant emailing a developer" },
@@ -585,6 +585,7 @@ export const cases: CaseStudy[] = [
       role: "India",
     },
     media: [
+      { src: "/work/krishnaveni/mobile.webp", type: "image", label: "On a phone" },
       { src: "/work/krishnaveni/early-te-news.webp", type: "image", label: "The 2025 version, in three languages" },
       { src: "/work/krishnaveni/contact.webp", type: "image", label: "Contact page" },
     ],

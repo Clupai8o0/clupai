@@ -24,7 +24,7 @@ function markAi(bg)
 }
 
 const TILES = [
-  "/work/kdg/new/hero.webp", "/work/hoddle/new/home.webp", "/work/krishnaveni/homepage-blurred.webp", "/products/tempo/dashboard.webp",
+  "/work/kdg/new/hero.webp", "/work/hoddle/new/home.webp", "/work/krishnaveni/homepage.webp", "/products/tempo/dashboard.webp",
   "/products/tempo/session.webp", "/work/kdg/gallery.webp", "/work/nmmun/home-countdown.webp", "/work/hoddle/new/matching.webp",
   "/work/tapcraft/new/desktop.webp", "/work/krishnaveni/contact.webp", "/products/cstack/cover.webp", "/products/force/preview.webp",
   "/work/kdg/new/estimate-options.webp", "/products/force/desktop.webp",
