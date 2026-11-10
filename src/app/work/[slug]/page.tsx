@@ -48,7 +48,7 @@ export default async function CasePage({ params }: Props)
   const tone = caseTone(item.slug);
 
   return (
-    <div className={`pg ${tone} case${item.status === "In the works" ? " is-wip" : ""}`}>
+    <div className={`pg ${tone} case${item.status === "In the works" && !item.clear ? " is-wip" : ""}`}>
       <header className="case-head">
         <h1 className="fit-name" style={{ "--len": item.name.length } as React.CSSProperties} data-squash>
           {item.name}
@@ -145,7 +145,7 @@ export default async function CasePage({ params }: Props)
             All work
           </Link>
         </div>
-        <Link className={`case-next-pic${next.status === "In the works" ? " wip-next" : ""}`} href={`/work/${next.slug}`} tabIndex={-1} aria-hidden="true">
+        <Link className={`case-next-pic${next.status === "In the works" && !next.clear ? " wip-next" : ""}`} href={`/work/${next.slug}`} tabIndex={-1} aria-hidden="true">
           <Image src={next.picture.src} alt="" fill sizes="(max-width: 720px) 100vw, 50vw" />
         </Link>
       </section>

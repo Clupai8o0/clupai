@@ -79,10 +79,10 @@ export default async function ProductPage({ params }: Props)
         </div>
         {p.image ? (
           <div
-            className={`prod-pic ${out ? "" : "blurred"}`}
+            className={`prod-pic ${out || p.clear ? "" : "blurred"}`}
           >
             <Image src={p.image.src} alt={p.image.alt} fill sizes="(max-width: 720px) 100vw, 62vw" loading="eager" />
-            {out ? null : <span className="prod-tag">Blurred. Still being built.</span>}
+            {out || p.clear ? null : <span className="prod-tag">Blurred. Still being built.</span>}
           </div>
         ) : null}
       </div>

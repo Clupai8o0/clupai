@@ -13,6 +13,8 @@ export type Product = {
   image?: { src: string; alt: string };
   /** Large line for a product with no public screens to show. */
   poster?: string;
+  /** Show its picture sharp even while it’s in the works: a diagram, not an unfinished screen. */
+  clear?: boolean;
   /** Its colour class: tone-blue, tone-red and so on, in inner.css. */
   tone: string;
 };
@@ -50,6 +52,7 @@ export const products: Product[] = [
     status: "in-work",
     badge: "Open source, for developers",
     since: "First version out Sep 2026, still in development",
+    clear: true,
     link: { href: "https://github.com/Clupai8o0/cstack", label: "See it on GitHub" },
     caseSlug: "cstack",
     image: { src: "/products/cstack/cover.webp", alt: "Six AI coding tools, Claude Code, Codex, OpenCode, DeepSeek, Kimi and Grok Build, all reading one set of rules." },

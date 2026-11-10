@@ -71,7 +71,7 @@ function BoxInner({ p }: { p: Product })
 
 function Box({ p }: { p: Product })
 {
-  const cls = `bx ${p.tone} ${p.tone === "tone-paper" ? "edge" : ""} ${p.status === "released" ? "" : "wip"} ${p.image ? "" : "post"}`;
+  const cls = `bx ${p.tone} ${p.tone === "tone-paper" ? "edge" : ""} ${p.status === "released" || p.clear ? "" : "wip"} ${p.image ? "" : "post"}`;
   // A product with nothing public to show yet has no page, so its box is just a box.
   if (p.poster) {
     return (

@@ -600,7 +600,7 @@ function buildBoard(scope, phone)
   rows.forEach((row) => {
     scope.on(row, "mouseenter", () => {
       peekImg.src = url(row);
-      peekImg.classList.toggle("is-wip", row.dataset.status === "In the works");
+      peekImg.classList.toggle("is-wip", row.dataset.status === "In the works" && !("clear" in row.dataset));
       gsap.to(peek, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.45, ease: "expo.out", overwrite: "auto" });
     });
     scope.on(row, "mouseleave", () => {

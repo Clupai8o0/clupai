@@ -26,7 +26,7 @@ const BOARD = [
   { name: "Krishnaveni School", what: "A school website its staff run themselves", part: "Built for a client", when: "2026", status: "Live", img: "/work/krishnaveni/homepage.webp", href: "/work/krishnaveni-school" },
   { name: "Tempo", what: "Log your workouts and see your progress", part: "Our own product", when: "Aug 2026", status: "Released", img: "/products/tempo/dashboard.webp", href: "/work/tempo" },
   { name: "nomnom", what: "Log a meal by sending Claude a photo", part: "Our own product", when: "Aug 2026", status: "In the works", img: "/work/nomnom/hero.webp", href: "/work/nomnom" },
-  { name: "cstack", what: "Keeps AI coding tools from clashing", part: "Our own product", when: "Sep 2026", status: "In the works", img: "/products/cstack/cover.webp", href: "/work/cstack" },
+  { name: "cstack", what: "Keeps AI coding tools from clashing", part: "Our own product", when: "Sep 2026", status: "In the works", clear: true, img: "/products/cstack/cover.webp", href: "/work/cstack" },
   { name: "Acknowledgement Force", what: "Blocks your Mac until you read your own rules", part: "Our own product", when: "Jan 2026", status: "In the works", img: "/products/force/preview.webp", href: "/work/acknowledgement-force" },
   { name: "Kairos", what: "Books your tasks and learns how long they take", part: "Our own product", when: "Rebuilding", status: "In the works", img: "/products/kairos/week.webp", href: "/work/kairos" },
   { name: "morgue", what: "Web animations your AI tools can rebuild", part: "Our own product", when: "Waitlist", status: "In the works", img: "/products/morgue/desktop.webp", href: "/products/morgue" },
@@ -238,6 +238,7 @@ export default function HomePage()
               href={r.href}
               data-img={r.img}
               data-status={r.status}
+              data-clear={"clear" in r && r.clear ? "" : undefined}
               style={{ "--fill": FILLS[i % 4]![0], "--on": FILLS[i % 4]![1] } as CSSProperties}
             >
               <span className="r-name js-scr">{r.name}</span>

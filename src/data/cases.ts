@@ -17,6 +17,8 @@ export type CaseStudy = {
   when: string;
   took?: string;
   status: string;
+  /** Show its pictures sharp even while it’s in the works: charts and diagrams, not unfinished screens. */
+  clear?: boolean;
   url?: { href: string; label: string };
   picture: { src: string; alt: string };
   clip?: { src: string; poster: string };
@@ -272,6 +274,7 @@ export const cases: CaseStudy[] = [
     line: "Keeps several AI coding tools from clashing, and cuts what they cost to run.",
     when: "Sep 2026 → now",
     status: "In the works",
+    clear: true,
     url: { href: "https://github.com/Clupai8o0/cstack", label: "github.com/Clupai8o0/cstack" },
     picture: {
       src: "/products/cstack/cover.webp",
