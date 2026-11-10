@@ -4,6 +4,7 @@ const CASE_TONES: Record<string, string> = {
   "king-double-glazing": "tone-yellow",
   "krishnaveni-school": "tone-red",
   tempo: "tone-blue",
+  flowerpress: "tone-red",
   govchat: "tone-paper",
   "acknowledgement-force": "tone-red",
   cstack: "tone-ink",

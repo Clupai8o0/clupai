@@ -113,6 +113,7 @@ export const products: Product[] = [
     badge: "Waitlist open",
     since: "Ready Nov 2026, waitlist open",
     link: { href: "https://flowerpress.clupai.com", label: "Join the waitlist" },
+    caseSlug: "flowerpress",
     image: { src: "/products/flowerpress/desktop.webp", alt: "The Flowerpress home page: “Every note gets pressed into a flower.”" },
   },
   {

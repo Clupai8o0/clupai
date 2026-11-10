@@ -160,15 +160,29 @@ export const cases: CaseStudy[] = [
     facts: [
       { k: "Live since", v: "August 2026" },
       { k: "Library", v: "873 exercises, from an open dataset" },
+      { k: "Claude tools", v: "40, from finding an exercise to undoing a set" },
       { k: "Checks", v: "353 automated tests on the API" },
     ],
     problem: [
+      "Every new Claude chat started from nothing. Last week’s training was gone by the next conversation.",
       "Workout apps keep your history inside their own screens. An AI assistant can’t read it, and can’t log a set for you.",
     ],
     built: [
       {
         title: "One log, two ways in",
-        body: "The web app and Claude read and write the same training history, so a set logged in chat shows up in the browser.",
+        body: "The web app and Claude read and write the same training history. Tell Claude “log today’s push session, 3×5 bench at 80 kg” and it’s in the browser when you open it.",
+      },
+      {
+        title: "40 tools for Claude",
+        body: "Claude can find exercises, log and edit sets, plan a session and tick it off, and read your progress. You add Tempo as a connector in Claude’s settings and sign in with Google to let it in.",
+      },
+      {
+        title: "Made for the gym floor",
+        body: "Your last set fills in the next one, a rest timer starts on every save, and personal records are spotted as you log. It installs on a phone, and sets logged with no signal are sent once you’re back online.",
+      },
+      {
+        title: "Safe to hand to an AI",
+        body: "Claude only ever sees the account that approved it. Deletes can be undone, and a request sent twice can’t log the same set twice.",
       },
       {
         title: "Written once",
@@ -185,6 +199,54 @@ export const cases: CaseStudy[] = [
       { src: "/products/tempo/log-mobile.webp", type: "image", label: "On a phone. The Upcoming card is from planning screens that aren’t live yet" },
     ],
     stack: "Next.js, FastAPI, Postgres",
+  },
+  {
+    slug: "flowerpress",
+    name: "Flowerpress",
+    group: "product",
+    role: "Our own product",
+    line: "A free journal for Android. It opens on a blank page, and every note you finish grows into a plant in your garden.",
+    when: "Nov 2026 → now",
+    status: "Waitlist open",
+    url: { href: "https://flowerpress.clupai.com", label: "flowerpress.clupai.com" },
+    picture: {
+      src: "/products/flowerpress/desktop.webp",
+      alt: "The Flowerpress home page: “Every note gets pressed into a flower.”",
+    },
+    facts: [
+      { k: "Started", v: "2 November 2026. The waitlist page went live four days later" },
+      { k: "Price", v: "Free, with no account needed" },
+      { k: "Runs on", v: "Android 9 or newer" },
+      { k: "Now", v: "Waitlist open. The Play Store release is next" },
+    ],
+    problem: [
+      "Journaling often takes too many steps before the first word. Every step is a chance to close the app and not write at all.",
+      "Rewards help a habit stick, but they shouldn’t turn into guilt the day you miss one.",
+    ],
+    built: [
+      {
+        title: "Opens on a blank page",
+        body: "Every time you open it, a new note is waiting. Come back within five minutes and you carry on the same note. It saves as you type, and empty notes are thrown away.",
+      },
+      {
+        title: "Every note grows something",
+        body: "Finish a note and a plant grows in your garden, from five kinds. A long note grows a vine that blooms at 1,000 words. The garden follows the seasons, and a year view shows them all.",
+      },
+      {
+        title: "No guilt",
+        body: "Nothing in the garden dies on a missed day. Streaks come with two freezes, so a day or two off doesn’t reset them.",
+      },
+      {
+        title: "Your notes stay on your phone",
+        body: "Notes are kept on the phone, with no account. Markdown, screenshots and files on a note, search, a month calendar and daily reminders are all built in.",
+      },
+      {
+        title: "Fast to open, on purpose",
+        body: "We built it natively for Android, in Kotlin, instead of with a cross-platform toolkit. For a journal, how quickly the page appears is the product.",
+      },
+    ],
+    media: [],
+    stack: "Kotlin, Jetpack Compose, Next.js, Postgres",
   },
   {
     slug: "govchat",
