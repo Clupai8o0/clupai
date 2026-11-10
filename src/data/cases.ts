@@ -231,8 +231,8 @@ export const cases: CaseStudy[] = [
     group: "product",
     role: "Our own product",
     line: "Blocks your Mac until you read your own rules and name what matters today.",
-    when: "Jan 2026 → May 2026",
-    status: "Released",
+    when: "Jan 2026 → now",
+    status: "In the works",
     url: { href: "https://force.clupai.com", label: "force.clupai.com" },
     picture: {
       src: "/products/force/desktop.webp",
@@ -345,8 +345,8 @@ export const cases: CaseStudy[] = [
     group: "product",
     role: "Our own product",
     line: "A calorie tracker you fill in by sending Claude a photo of your meal.",
-    when: "Aug 2026",
-    status: "Released",
+    when: "Aug 2026 → now",
+    status: "In the works",
     url: { href: "https://nomnom.clupai.com", label: "nomnom.clupai.com" },
     picture: {
       src: "/work/nomnom/hero.webp",
