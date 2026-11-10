@@ -117,6 +117,10 @@ function Shelf({ items, bay, children }: { items: Product[]; bay: number; childr
 
 const tallest = (items: Product[]) => Math.max(...items.map((p) => (SIZE[p.slug] ?? [0, 24])[1]));
 
+// The in-the-works boxes sit on lower shelves, five to a shelf, so none of them gets squeezed thin.
+const PER_SHELF = 5;
+const lower = Array.from({ length: Math.ceil(inWork.length / PER_SHELF) }, (_, i) => inWork.slice(i * PER_SHELF, (i + 1) * PER_SHELF));
+
 export default function ProductsPage()
 {
   return (
@@ -159,7 +163,9 @@ export default function ProductsPage()
           <h2 id="wip-h">In the works</h2>
           <small>Taped up. Being built.</small>
         </div>
-        <Shelf items={inWork} bay={tallest(inWork)} />
+        {lower.map((row) => (
+          <Shelf key={row[0]!.slug} items={row} bay={tallest(row)} />
+        ))}
       </section>
 
       <section className="end tone-ink" aria-labelledby="end-h">
