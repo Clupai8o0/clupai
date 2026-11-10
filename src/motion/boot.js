@@ -124,6 +124,10 @@ function makeCurtain()
       leaving = false;
       anim = null;
       done();
+      // Motion gave up while this was covering: no page will boot to lift it, so lift it now.
+      if (!document.documentElement.classList.contains("m")) {
+        curtain.out();
+      }
     };
   }
 
@@ -293,7 +297,8 @@ function createCore()
       e.stopPropagation();
       return;
     }
-    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button) {
+    // Once motion has given up, links are plain links: no page would boot to lift a curtain.
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button || !document.documentElement.classList.contains("m")) {
       return;
     }
     // A link is already on its way out: one page at a time.
@@ -454,8 +459,12 @@ export function boot(pathname)
     end();
     core.dot.hide(true);
     clearTimeout(slowCall);
+    clearTimeout(giveUp);
     document.documentElement.classList.remove("m");
-    core.curtain.out();
+    // A link mid-fade still goes. Its cover comes off once it has (curtain's go()).
+    if (!core.curtain.leaving()) {
+      core.curtain.out();
+    }
   }
 
   // Only a real width change rebuilds: a phone's address bar changes the height all the time.
