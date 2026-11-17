@@ -33,6 +33,18 @@ export const products: Product[] = [
     image: { src: "/products/tempo/dashboard.webp", alt: "Tempo’s dashboard." },
   },
   {
+    slug: "slowsky",
+    tone: "tone-navy",
+    name: "Slowsky",
+    line: "Pick a patch of sky and watch it change, in real pictures from a NASA space telescope.",
+    status: "released",
+    badge: "Free, open source",
+    since: "Live since Nov 2026",
+    link: { href: "https://slowsky.clupai.com", label: "Open Slowsky" },
+    caseSlug: "slowsky",
+    image: { src: "/work/slowsky/hero.webp", alt: "Slowsky showing Barnard’s Star in a NASA SPHEREx picture." },
+  },
+  {
     slug: "acknowledgement-force",
     tone: "tone-red",
     name: "Acknowledgement Force",

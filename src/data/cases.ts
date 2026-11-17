@@ -253,6 +253,62 @@ export const cases: CaseStudy[] = [
     stack: "Kotlin, Jetpack Compose, Next.js, Postgres",
   },
   {
+    slug: "slowsky",
+    name: "Slowsky",
+    group: "product",
+    role: "Our own product",
+    line: "Pick a patch of sky and watch it change, in real pictures from a NASA space telescope.",
+    when: "Nov 2026",
+    took: "One weekend",
+    status: "Live",
+    url: { href: "https://slowsky.clupai.com", label: "slowsky.clupai.com" },
+    picture: {
+      src: "/work/slowsky/hero.webp",
+      alt: "Slowsky showing Barnard’s Star in a SPHEREx picture from 30 August 2025, with rings around known stars and notes on the target.",
+    },
+    facts: [
+      { k: "Built", v: "In one weekend, 14 and 15 November 2026, for the NASA Space Apps Challenge" },
+      { k: "Data", v: "Real pictures from NASA’s SPHEREx space telescope, read from NASA’s public archive" },
+      { k: "Sources", v: "147 claims on the page and in its notes, each matched to a source" },
+      { k: "Now", v: "Live and open source. Entered in the challenge; results aren’t out yet" },
+    ],
+    problem: [
+      "NASA’s SPHEREx telescope photographs the whole sky in infrared light, again and again, and the pictures are public. Seeing how one spot changed still means finding the right files, picking pictures taken in the same colour of light and lining them up.",
+      "The challenge was about the search for a ninth planet. Published searches have already ruled out most of where it could be, and a weekend’s tool won’t find it. We didn’t want a page that hinted it could.",
+    ],
+    built: [
+      {
+        title: "Only the parts it needs",
+        body: "The pictures sit in NASA’s public cloud storage. The page reads only the parts of each file that cover what you’re looking at, never the whole file.",
+      },
+      {
+        title: "Like for like",
+        body: "SPHEREx sees a slightly different colour at each spot on its camera. For each visit, the page keeps the one picture closest to the colour you picked, so the dates compare fairly.",
+      },
+      {
+        title: "A quick first look",
+        body: "Reading the archive live takes 20 to 45 seconds. So the five featured targets open from a small saved copy of real pictures, and one press switches to the live archive.",
+      },
+      {
+        title: "Every claim has a source",
+        body: "Each fact on the page and in its notes is matched to a NASA page, a paper or the data itself. A spot that changes between dates is called a candidate, never a discovery.",
+      },
+      {
+        title: "An AI note on a short lead",
+        body: "An optional note written by Claude describes what the page measured. A checker keeps only sentences from a fixed list, filled in with the page’s own numbers, and drops the rest.",
+      },
+    ],
+    media: [
+      { src: "/work/slowsky/rw-aurigae.webp", type: "image", label: "RW Aurigae, a star that changes its brightness, with notes on what to look for" },
+      { src: "/work/slowsky/brightness-curve.webp", type: "image", label: "RW Aurigae’s brightness on three dates, measured against two nearby stars" },
+      { src: "/work/slowsky/subtract.webp", type: "image", label: "One date taken from another: blue is more light earlier, orange more light later" },
+      { src: "/work/slowsky/comet-co2.webp", type: "image", label: "Comet 3I/ATLAS in twelve colours, brightest where the SPHEREx team reports carbon dioxide" },
+      { src: "/work/slowsky/guide.webp", type: "image", label: "A plain-language guide to every control" },
+      { src: "/work/slowsky/phone.webp", type: "image", label: "The same page on a phone" },
+    ],
+    stack: "TypeScript, Vite, Vercel, Claude API",
+  },
+  {
     slug: "govchat",
     name: "GovChat",
     group: "product",

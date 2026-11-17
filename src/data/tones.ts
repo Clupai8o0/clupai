@@ -15,6 +15,7 @@ const CASE_TONES: Record<string, string> = {
   "glow-up": "tone-yellow",
   morgue: "tone-ink",
   visatrack: "tone-red",
+  slowsky: "tone-navy",
 };
 
 export function caseTone(slug: string): string

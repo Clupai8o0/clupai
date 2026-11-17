@@ -27,6 +27,97 @@ export type Post = {
 
 export const posts: Post[] = [
   {
+    slug: "every-claim-needs-a-source",
+    title: "Every claim needs a source: keeping AI honest on a NASA data app",
+    line: "We built Slowsky on real NASA data in a weekend, with AI tools writing and reviewing code. How we tied every number and sentence on it to a source.",
+    date: "2026-11-18",
+    tone: "tone-navy",
+    caseSlug: "slowsky",
+    cover: {
+      src: "/work/slowsky/hero.webp",
+      alt: "Slowsky showing Barnard’s Star in a SPHEREx picture from 30 August 2025, with rings around known stars and notes on the target.",
+    },
+    body: [
+      {
+        type: "p",
+        text: "In November 2026 we entered the NASA Space Apps Challenge with Slowsky, a web page that shows how a patch of sky looked on each visit by NASA’s SPHEREx space telescope, in date order, so you can watch it change. We built it in one weekend, with AI tools writing and reviewing the code.",
+      },
+      {
+        type: "p",
+        text: "A page like that carries a particular risk. People read the numbers on a page of NASA data as facts, and AI tools write confident sentences whether or not the data backs them. This post covers four things we did about it. They apply to any product where AI helps write what your customers read.",
+      },
+      {
+        type: "facts",
+        items: [
+          { k: "Built", v: "One weekend, 14 and 15 November 2026" },
+          { k: "Claims with a source", v: "147" },
+          { k: "AI tools", v: "Claude, Codex, Gemini and Grok, each named in the project’s notes" },
+        ],
+      },
+      { type: "h2", text: "A source for every claim" },
+      {
+        type: "p",
+        text: "Slowsky’s code comes with a list of 147 claims, taken from its pages, its target notes and its project notes. Each one is matched to where it comes from: a NASA page, a published paper or the data itself.",
+      },
+      {
+        type: "p",
+        text: "One AI model checked the list with the sources open. A model from a different company then read the claims with no web access and flagged what looked wrong, and each flag was checked against a source page or the code before anything changed. Two more models each opened the sources for 15 claims themselves. Claims they found only partly supported were reworded or given a second source.",
+      },
+      {
+        type: "p",
+        text: "All of those checks were done by AI tools. No person has gone through the list line by line, and the list says so at the top, where a reader will see it.",
+      },
+      { type: "h2", text: "Words that don’t claim too much" },
+      {
+        type: "p",
+        text: "The challenge was about the search for a ninth planet, often called Planet Nine. The easy pitch is a tool that hunts for it. Slowsky isn’t one, and the page says so. Published searches have already ruled out about 78% of where it could be. By a rough comparison, what’s left is fainter than SPHEREx can reach, even after its full two-year survey.",
+      },
+      {
+        type: "p",
+        text: "So when Slowsky finds a spot that changed between two dates, it calls it a candidate, never a discovery. A change can be noise, a satellite trail or a camera artefact, and the page can’t tell those apart from a real change in the sky. It says that too.",
+      },
+      {
+        type: "image",
+        src: "/work/slowsky/subtract.webp",
+        alt: "Slowsky’s Subtract view for RW Aurigae: one date taken from another, with blue for more light earlier and orange for more light later, beside a brightness chart and a note on what it can’t tell you.",
+        caption: "One date taken from another. The note in the middle says what the picture can’t tell you.",
+      },
+      { type: "h2", text: "A checker on the AI’s writing" },
+      {
+        type: "p",
+        text: "Slowsky can write a short note about what it measured, using Claude, Anthropic’s AI model. Left alone, a model can add a number nobody measured or a conclusion the data doesn’t support.",
+      },
+      {
+        type: "p",
+        text: "So the note goes through a checker before anyone sees it. The checker keeps only sentences that match a fixed list of sentence forms, filled in with the page’s own measurements, and drops everything else. It’s a filter, not a proof: it checks the note against what the page measured, not whether the measurements are right.",
+      },
+      { type: "h2", text: "When we overruled our reviewers, we said so" },
+      {
+        type: "p",
+        text: "Our code went to AI reviewers from different companies. On one feature, we went against them. A small neural network puts a hint under each candidate change: does it look most like a moving spot, a spot whose light went up or down, a camera or processing effect, or plain noise? It was trained only on made-up changes, and in tests it labelled just 55% of the faint made-up movers as moving.",
+      },
+      {
+        type: "p",
+        text: "Two reviews said its hints could mislead and advised against showing them. We showed them anyway, so a visitor can see the hint and judge it. Every hint carries the label “Not a verdict”, and the project’s notes explain why it may be wrong.",
+      },
+      { type: "h2", text: "What to ask when AI writes what your customers read" },
+      {
+        type: "list",
+        items: [
+          "Where does each number and fact come from, and is that written down?",
+          "Who checked it: a person, an AI tool, or both? Does the product say which?",
+          "What stops the AI from adding a sentence nobody checked?",
+          "Where does the product say what it can’t do?",
+        ],
+      },
+      {
+        type: "p",
+        text: "Slowsky is live and its code is open, so you can check our answers to all four yourself.",
+      },
+      { type: "link", href: "/work/slowsky", label: "Read the Slowsky case study" },
+    ],
+  },
+  {
     slug: "a-pitch-day-that-wouldnt-move",
     title: "Building to a pitch day that wouldn’t move",
     line: "What a fixed pitch date made us do on Hoddle: a small first build, a link for every change, and access rules from the first table.",
