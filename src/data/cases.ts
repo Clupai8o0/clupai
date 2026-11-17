@@ -270,7 +270,7 @@ export const cases: CaseStudy[] = [
       { k: "Built", v: "In one weekend, 14 and 15 November 2026, for the NASA Space Apps Challenge" },
       { k: "Data", v: "Real pictures from NASA’s SPHEREx space telescope, read from NASA’s public archive" },
       { k: "Sources", v: "147 claims on the page and in its notes, each matched to a source" },
-      { k: "Now", v: "Live and open source. Entered in the challenge; results aren’t out yet" },
+      { k: "Now", v: "Live and open source. Entered in the challenge on 15 Nov 2026" },
     ],
     problem: [
       "NASA’s SPHEREx telescope photographs the whole sky in infrared light, again and again, and the pictures are public. Seeing how one spot changed still means finding the right files, picking pictures taken in the same colour of light and lining them up.",
@@ -283,7 +283,7 @@ export const cases: CaseStudy[] = [
       },
       {
         title: "Like for like",
-        body: "SPHEREx sees a slightly different colour at each spot on its camera. For each visit, the page keeps the one picture closest to the colour you picked, so the dates compare fairly.",
+        body: "SPHEREx sees a slightly different colour at each spot on its camera. For each visit, the page keeps the one picture closest to the colour you picked, and leaves the visit out if none is close enough, so the dates compare fairly.",
       },
       {
         title: "A quick first look",
@@ -291,7 +291,7 @@ export const cases: CaseStudy[] = [
       },
       {
         title: "Every claim has a source",
-        body: "Each fact on the page and in its notes is matched to a NASA page, a paper or the data itself. A spot that changes between dates is called a candidate, never a discovery.",
+        body: "The facts on the page and in its notes are listed with where each comes from: a NASA page, a paper, the data or the app’s own code. A spot that changes between dates is called a candidate, never a discovery.",
       },
       {
         title: "An AI note on a short lead",

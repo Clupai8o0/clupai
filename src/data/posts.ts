@@ -40,7 +40,7 @@ export const posts: Post[] = [
     body: [
       {
         type: "p",
-        text: "In November 2026 we entered the NASA Space Apps Challenge with Slowsky, a web page that shows how a patch of sky looked on each visit by NASA’s SPHEREx space telescope, in date order, so you can watch it change. We built it in one weekend, with AI tools writing and reviewing the code.",
+        text: "In November 2026 we entered the NASA Space Apps Challenge with Slowsky, a web page that shows a patch of sky on visit after visit by NASA’s SPHEREx space telescope, in date order, so you can watch it change. We built it in one weekend, with AI tools writing and reviewing the code.",
       },
       {
         type: "p",
@@ -57,7 +57,7 @@ export const posts: Post[] = [
       { type: "h2", text: "A source for every claim" },
       {
         type: "p",
-        text: "Slowsky’s code comes with a list of 147 claims, taken from its pages, its target notes and its project notes. Each one is matched to where it comes from: a NASA page, a published paper or the data itself.",
+        text: "Slowsky’s code comes with a list of 147 claims, taken from its pages, its target notes and its project notes. Each one is matched to where it comes from: a NASA page, a published paper, the data itself or the app’s own code. A separate list names the few that rest on our own choices or couldn’t be confirmed.",
       },
       {
         type: "p",
@@ -70,7 +70,7 @@ export const posts: Post[] = [
       { type: "h2", text: "Words that don’t claim too much" },
       {
         type: "p",
-        text: "The challenge was about the search for a ninth planet, often called Planet Nine. The easy pitch is a tool that hunts for it. Slowsky isn’t one, and the page says so. Published searches have already ruled out about 78% of where it could be. By a rough comparison, what’s left is fainter than SPHEREx can reach, even after its full two-year survey.",
+        text: "The challenge was about the search for a ninth planet, often called Planet Nine. The easy pitch is a tool that hunts for it. Slowsky isn’t one, and the page says so. Published searches have already ruled out about 78% of where it could be, and what’s left would be around magnitude 22 in visible light. SPHEREx’s published depth, after its full two-year survey, is 19.5 to 19.9 in infrared light, and a bigger number means fainter. Those are different kinds of light, so the comparison is rough, and the page says so.",
       },
       {
         type: "p",
@@ -89,12 +89,12 @@ export const posts: Post[] = [
       },
       {
         type: "p",
-        text: "So the note goes through a checker before anyone sees it. The checker keeps only sentences that match a fixed list of sentence forms, filled in with the page’s own measurements, and drops everything else. It’s a filter, not a proof: it checks the note against what the page measured, not whether the measurements are right.",
+        text: "So the note goes through a checker before anyone sees it. The checker keeps only sentences that match a fixed list of sentence forms, filled in from a fact sheet of the page’s own measurements, and drops everything else. It’s a filter, not a proof: it checks the note against that sheet, not whether the measurements on it are right.",
       },
       { type: "h2", text: "When we overruled our reviewers, we said so" },
       {
         type: "p",
-        text: "Our code went to AI reviewers from different companies. On one feature, we went against them. A small neural network puts a hint under each candidate change: does it look most like a moving spot, a spot whose light went up or down, a camera or processing effect, or plain noise? It was trained only on made-up changes, and in tests it labelled just 55% of the faint made-up movers as moving.",
+        text: "Our code went to AI reviewers from different companies. On one feature, we went against them. On a live view, a small neural network puts a hint under each candidate change: does it look most like a moving spot, a spot whose light went up or down, a camera or processing effect, or plain noise? Often it gives no hint at all. It was trained only on made-up changes, and in tests it labelled just 55% of made-up movers 3 to 5 times brighter than the noise as moving.",
       },
       {
         type: "p",
