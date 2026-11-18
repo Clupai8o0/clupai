@@ -59,7 +59,7 @@ body:has(.pg) .nav .btn { background: var(--navf, var(--paper)); color: var(--na
 .g-big { font-size: clamp(42px, 6.6vw, 120px); line-height: 0.94; letter-spacing: -0.055em; font-weight: 600; text-wrap: balance; }
 .g-state { font-size: clamp(25px, 3vw, 52px); line-height: 1.04; letter-spacing: -0.035em; font-weight: 500; text-wrap: pretty; }
 .g-lead { font-size: clamp(18px, 1.5vw, 25px); line-height: 1.24; letter-spacing: -0.015em; font-weight: 500; text-wrap: pretty; }
-.fit-name { font-size: min(calc(92vw / (var(--len) * 0.5)), 25vw); line-height: 0.88; letter-spacing: -0.06em; font-weight: 600; white-space: nowrap; }
+.fit-name { margin-bottom: 0.08em; font-size: min(calc(92vw / (var(--len) * 0.5)), 25vw); line-height: 0.88; letter-spacing: -0.06em; font-weight: 600; white-space: nowrap; }
 .chap-meta { font-size: 16px; font-weight: 500; line-height: 1.2; }
 .ln-u { display: inline-block; font-weight: 600; text-decoration: underline !important; text-underline-offset: 0.18em; text-decoration-thickness: 2px; }
 .row-links { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px; margin-top: 28px; }

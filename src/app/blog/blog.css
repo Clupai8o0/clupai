@@ -1,7 +1,20 @@
 /* Blog index and post pages. Spacing and type follow inner.css; no rules between entries. */
 
 .blog-head {
+  position: relative;
+  overflow: hidden;
   padding: 10vh var(--pad) 10vh;
+}
+
+.blog-head > * {
+  position: relative;
+}
+
+/* A faint wall of notes behind the heading, so the head isn't an empty black block. */
+.blog-soft {
+  position: absolute !important;
+  inset: 0;
+  opacity: 0.3;
 }
 
 .blog-head .g-state {

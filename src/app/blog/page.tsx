@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import CloseBand from "@/components/close-band";
+import Soft from "@/components/soft";
 import { caseBySlug } from "@/data/cases";
 import { readingMinutes, sortedPosts } from "@/data/posts";
 import "../inner.css";
@@ -47,6 +48,7 @@ export default function BlogPage()
   return (
     <div className="pg tone-ink blog">
       <header className="blog-head">
+        <Soft name="notes" className="blog-soft" />
         <h1 className="g-huge" data-squash>
           What we learn building.
         </h1>

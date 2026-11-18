@@ -5,6 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import { SHIFTER } from "./glyphs";
 import { makeDot } from "./kit";
+import { makePeeker } from "./peeker";
 import { loadRoute } from "./routes";
 
 let core = null;
@@ -275,7 +276,15 @@ function createCore()
   const dot = makeDot();
   gsap.ticker.add(dot.keepVisible);
   const curtain = makeCurtain();
-  const made = { lenis, dot, curtain, rest: restSpot(dot) };
+  const peeker = makePeeker();
+  const made = { lenis, dot, curtain, peeker, rest: restSpot(dot) };
+
+  // Back or forward to another page ducks at once. Within one page (a hash) nothing boots to bring it back up.
+  addEventListener("popstate", () => {
+    if (location.pathname !== made.path) {
+      peeker.duck(() => {});
+    }
+  });
 
   // Other code talks to the mascot through events on window, so nothing else has to load it.
   const events = {
@@ -341,7 +350,7 @@ function createCore()
       return;
     }
     // A link is already on its way out: one page at a time.
-    if (curtain.leaving()) {
+    if (curtain.leaving() || peeker.ducking()) {
       e.preventDefault();
       e.stopPropagation();
       return;
@@ -362,10 +371,12 @@ function createCore()
     if (a.dataset.curtain) {
       e.preventDefault();
       e.stopPropagation();
-      curtain.over(a.getBoundingClientRect(), a.dataset.curtain, () => {
-        passing = true;
-        a.click();
-        passing = false;
+      peeker.duck(() => {
+        curtain.over(a.getBoundingClientRect(), a.dataset.curtain, () => {
+          passing = true;
+          a.click();
+          passing = false;
+        });
       });
       return;
     }
@@ -373,10 +384,12 @@ function createCore()
     if (isPageLink(a)) {
       e.preventDefault();
       e.stopPropagation();
-      curtain.fade(pageColour(), () => {
-        passing = true;
-        a.click();
-        passing = false;
+      peeker.duck(() => {
+        curtain.fade(pageColour(), () => {
+          passing = true;
+          a.click();
+          passing = false;
+        });
       });
     }
   }, true);
@@ -423,6 +436,8 @@ export function boot(pathname)
   if (!core) {
     core = createCore();
   }
+  core.path = pathname;
+  core.peeker.form(pathname.startsWith("/start"));
   // Shifter only lives on the home page. Hidden now, not after this route's code and fonts have loaded.
   core.dot.hide(!SHIFTER || pathname !== "/");
   const main = document.querySelector("main");
@@ -488,6 +503,7 @@ export function boot(pathname)
     window.__mOk = true;
     liftLoader();
     core.curtain.out();
+    core.peeker.rise(mine.lead > 0 ? 1100 : 400);
     if (location.hash) {
       const target = hashTarget(location.hash);
       if (target) {
@@ -509,6 +525,7 @@ export function boot(pathname)
   {
     end();
     core.dot.hide(true);
+    core.peeker.hide(true);
     clearTimeout(slowCall);
     clearTimeout(giveUp);
     document.documentElement.classList.remove("m");
@@ -548,6 +565,10 @@ export function boot(pathname)
     end();
     if (main) {
       delete main.dataset.ready;
+    }
+    // A page change that didn't come from a click (a form sending you on) still ducks the corner blob.
+    if (!core.peeker.ducking()) {
+      core.peeker.duck(() => {});
     }
     core.dot.park(core.rest);
     core.dot.hide(true);

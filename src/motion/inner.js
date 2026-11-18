@@ -8,9 +8,15 @@ const qa = (s, r = document) => [...r.querySelectorAll(s)];
 function letterDrop(scope, el)
 {
   const restore = splitLetters(el);
-  scope.cleanup(restore);
+  scope.cleanup(() => {
+    restore();
+    el.classList.remove("lt-out");
+  });
   return el.querySelectorAll(".lc");
 }
+
+// Once the letters are up, nothing needs hiding, so the masks stop clipping (a y's tail shows in full).
+const lettersOut = (el) => () => el.classList.add("lt-out");
 
 // A line of letters comes up out of a mask. data-letters
 function initLetters(scope)
@@ -18,7 +24,7 @@ function initLetters(scope)
   qa("[data-letters]").forEach((el) => {
     const lc = letterDrop(scope, el);
     gsap.set(lc, { yPercent: 130 });
-    gsap.to(lc, { yPercent: 0, duration: 0.9, stagger: 0.02, ease: "expo.out", scrollTrigger: { trigger: el, start: "top 86%", once: true } });
+    gsap.to(lc, { yPercent: 0, duration: 0.9, stagger: 0.02, ease: "expo.out", onComplete: lettersOut(el), scrollTrigger: { trigger: el, start: "top 86%", once: true } });
   });
 }
 
@@ -76,7 +82,7 @@ function initSquash(scope)
     }
     // A long heading keeps the same pace: the wave across all its letters never takes longer than 0.6 s.
     const each = Math.min(0.016, 0.6 / Math.max(1, lc.length));
-    tl.fromTo(lc, { yPercent: 115 }, { yPercent: 0, duration: 1.15, ease: "expo.out", stagger: each }, lead + 0.08);
+    tl.fromTo(lc, { yPercent: 115 }, { yPercent: 0, duration: 1.15, ease: "expo.out", stagger: each, onComplete: lettersOut(el) }, lead + 0.08);
     if (below.length) {
       tl.fromTo(below, { y: 28, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 1.2, ease: "expo.out", stagger: 0.1 }, lead + 0.4);
     }
